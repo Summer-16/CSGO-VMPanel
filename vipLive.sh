@@ -47,7 +47,7 @@ curl -X POST \
     "description": "Main Server machine\n"
   }]
 }'
-# Another php script to send all table data on discord server
+# Another php script to send all table data on discord server (edit path according to your user)
 echo "Sending vip details on discord"
 /usr/bin/php /home/user/Scripts/VIP_Script/vipstatus/sendvip_discord_log.php
 
