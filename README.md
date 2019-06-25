@@ -17,5 +17,5 @@ Things which this Script can do for you are:
  - Just edit all the details in vipLive.sh (paths to your simpleadmin.ini, mysql info and discord wenhook. Please look into comments and properly add paths)
  - add your sql details in vipstatus/config.php also
  - In the end add the Script inti cron to run hourly or whatever time you prefer, you can also customize the discord script time according to you as per your liking. 
- - [Table example and eample of entries in table for script to work properly]() 
+ - [Table example and eample of entries in table for script to work properly](https://github.com/Summer-16/CSGO-VIP-management-system/blob/master/Table_example.png) 
 
