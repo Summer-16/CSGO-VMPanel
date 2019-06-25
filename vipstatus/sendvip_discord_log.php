@@ -8,10 +8,10 @@ if (!$conn) {
 die ('Failed to connect to MySQL: ' . mysqli_connect_error());	
 }
 //here retakevip is a table in which vip's of retake server are stored, modify below queries according to your no of servers
-$sql = 'SELECT * FROM retakevip'; 
-$sql2 = 'SELECT * FROM awpvip';
-$sql3 = 'SELECT * FROM arenavip';
-$sql4 = 'SELECT * FROM executevip';
+$sql = 'SELECT * FROM retake_vip'; 
+$sql2 = 'SELECT * FROM awp_vip';
+$sql3 = 'SELECT * FROM arena_vip';
+$sql4 = 'SELECT * FROM execute_vip';
 $query = mysqli_query($conn, $sql);
 $query2 = mysqli_query($conn, $sql2);
 $query3 = mysqli_query($conn, $sql3);
