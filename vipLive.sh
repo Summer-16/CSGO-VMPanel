@@ -49,5 +49,5 @@ curl -X POST \
 }'
 # Another php script to send all table data on discord server
 echo "Sending vip details on discord"
-/usr/bin/php /home/gg/Scripts/VIP_Script/vipstatus/sendvip_discord_log.php
+/usr/bin/php /home/user/Scripts/VIP_Script/vipstatus/sendvip_discord_log.php
 
