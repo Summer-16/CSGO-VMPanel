@@ -8,7 +8,7 @@ Things which this Script can do for you are:
 
 # TO Do!
  - Optimize the Script a bit with sql variables
-  - Add a Webpanel for VIP adding. 
+  - Work on Panel to make it easy for everyone to setup and more generalize. 
     (I already have a webpanel working for this but its not coded for public use most things are hardcoded , so i need to remake it for general use. If anyone wants to make and contribute the panel then you are welcome plz contact me)
   - Combine everything into a node app (Need some time for this as panel will be a dependency)
 
