@@ -1,0 +1,249 @@
+	html {
+		height: 100%;
+		overflow: visible;
+	}
+
+	html {
+		background: #2c2b2b;
+	}
+
+	a.logout {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		border-radius: 5px;
+		text-decoration: none;
+		border: 1px solid red;
+		color: red;
+		padding: 10px 15px;
+	}
+
+	h1 {
+		color: #fff;
+		text-align: center;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	input[type], select {
+		width: 100%;
+		background-color: grey;
+		padding: 12px 20px;
+		margin: 8px 0;
+		display: inline-block;
+		border: 1px solid grey;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	input[type]:focus {
+		border: 1px solid red;
+		outline: none;
+	}
+
+	::placeholder {
+		color: #bebebe;
+	}
+
+	input[type=submit] {
+		width: 100%;
+		background-color: red;
+		color: white;
+		padding: 14px 20px;
+		margin: 8px 0;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	input[type=submit]:hover {
+		background-color: grey;
+	}
+
+	.formlayout {
+		background-color: rgba(50, 100, 100, 0.3);
+		color: white;
+	}
+
+	.subheader {
+		text-align: center;
+		font-weight: bold;
+		color: red;
+	}
+
+	.formcolumn {
+		margin-top: 10px;
+		float: left;
+		padding: 5px;
+		height: 100%;
+	}
+
+	.main {
+		float: left;
+		width: 100%;
+		background-color: black;
+		padding: 10px;
+		margin-bottom: 20px;
+		border-radius: 4px;
+	}
+
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.formcolumn.one {
+		width: 50%;
+		color: white;
+		padding-left: 80px;
+		padding-right: 80px;
+	}
+
+	.formcolumn.two {
+		width: 50%;
+		color: white;
+		padding-left: 80px;
+		padding-right: 80px;
+	}
+
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.column {
+		float: left;
+		padding: 5px;
+		height: 100%;
+	}
+
+	.column.three {
+		width: 50%;
+	}
+
+	.column.four {
+		width: 50%;
+	}
+
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.column.five {
+		width: 50%;
+	}
+
+	.column.six {
+		width: 50%;
+	}
+
+	.column.seven {
+		width: 50%;
+	}
+
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.tabletitle {
+		color: #fff;
+		text-align: center;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		overflow: hidden;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		border-radius: 12px;
+	}
+
+	th, td {
+		padding: 10px;
+		background-color: rgba(255, 255, 255, 0.2);
+		color: #fff;
+		font-size: 12px;
+	}
+
+	th {
+		text-align: left;
+	}
+
+	thead th {
+		background-color: black;
+	}
+
+	tbody tr:hover {
+		background-color: rgba(255, 255, 255, 0.3);
+	}
+
+	tbody td {
+		position: relative;
+	}
+
+	tbody td:hover:before {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: -9999px;
+		bottom: -9999px;
+		background-color: rgba(255, 255, 255, 0.2);
+		z-index: -1;
+	}
+
+	@media (max-width: 1500px) {
+		.centerupper {
+			width: 95%;
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.centerupper {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.form-inline input {
+			margin: 10px 0;
+		}
+		.formcolumn.one {
+			width: 100%;
+			padding-left: 30px;
+			padding-right: 30px;
+		}
+		.formcolumn.two {
+			margin-top: 50px;
+			width: 100%;
+			padding-left: 30px;
+			padding-right: 30px;
+		}
+		.column.three {
+			width: 100%;
+		}
+		.column.four {
+			width: 100%;
+		}
+		.column.five {
+			width: 100%;
+		}
+		.column.six {
+			width: 100%;
+		}
+		.column.seven {
+			width: 100%;
+		}
+		th, td {
+			padding: 7px;
+			font-size: 10px;
+		}
+	}
