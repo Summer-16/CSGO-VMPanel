@@ -1,0 +1,84 @@
+<!-- 
+/* Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* Vip-Management-System-By-SUMMER_SOLDIER. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<%
+function EpocToDate(utcSeconds){
+  var d = new Date(0);
+  d.setUTCSeconds(utcSeconds)
+  return d 
+}
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./css/project.css" rel="stylesheet">
+  <title>GG VIP Panel</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <div class="header">
+    <a href="ganggaming.in" class="logo">GanGGaminG</a>
+    <div class="header-right">
+      <a href="/">Home</a>
+      <a href="/form">Admin Section</a>
+      <a href="https://github.com/Summer-16" target="_blank">About Creator</a>
+    </div>
+  </div>
+  <h1>GanGGaminG VIP Status</h1>
+  <% if(vipData) {%>
+  <% for(let i=0; i < vipData.length; i++) { %>
+  <div class="column table">
+    <div class="tabletitle"><%=vipData[i].name.toUpperCase()%></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Steam ID</th>
+          <th>Name</th>
+          <th>Expire Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(vipData[i].data) {%>
+        <% for(let j=0; j < vipData[i].data.length; j++) { %>
+        <tr>
+          <td><%=vipData[i].data[j].authId%></td>
+          <td><%=vipData[i].data[j].name%></td>
+          <td><%=EpocToDate(vipData[i].data[j].expireStamp)%></td>
+        </tr>
+        <%}}%>
+      </tbody>
+    </table>
+  </div>
+  <%}}%>
+  <div class="footer">
+    <p>
+      <a href="https://github.com/Summer-16" class="subheader">
+        <div class="subheader">Made by Summer Soldier</div>
+      </a>
+    </p>
+  </div>
+</body>
+
+</html>

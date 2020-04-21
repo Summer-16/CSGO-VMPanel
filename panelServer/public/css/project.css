@@ -1,3 +1,23 @@
+
+/* Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* Vip-Management-System-By-SUMMER_SOLDIER. If not, see http://www.gnu.org/licenses/.
+*/
+
 	html {
 		height: 100%;
 		overflow: visible;
@@ -121,11 +141,7 @@
 		height: 100%;
 	}
 
-	.column.three {
-		width: 50%;
-	}
-
-	.column.four {
+	.column.table {
 		width: 50%;
 	}
 
@@ -133,18 +149,6 @@
 		content: "";
 		display: table;
 		clear: both;
-	}
-
-	.column.five {
-		width: 50%;
-	}
-
-	.column.six {
-		width: 50%;
-	}
-
-	.column.seven {
-		width: 50%;
 	}
 
 	.row:after {
@@ -247,3 +251,44 @@
 			font-size: 10px;
 		}
 	}
+
+	.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: black;
+   color: red;
+   text-align: center;
+}
+
+.header {
+  overflow: hidden;
+  background-color:black;
+  color:red;
+  padding: 0px 0px;
+}
+
+.header a {
+  float: left;
+  color: red;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+  font-size: 15px; 
+  line-height: 25px;
+}
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header a:hover {
+  background-color:red;
+  color:black;
+}
+
+.header-right {
+  float: right;
+}

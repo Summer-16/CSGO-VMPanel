@@ -1,0 +1,100 @@
+<!-- 
+/* Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* Vip-Management-System-By-SUMMER_SOLDIER. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./css/project.css" rel="stylesheet">
+  <title>GG VIP Panel</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <div class="header">
+    <a href="ganggaming.in" class="logo">GanGGaminG</a>
+    <div class="header-right">
+      <a href="/">Home</a>
+      <a href="/form">Admin Section</a>
+      <a href="https://github.com/Summer-16" target="_blank">About Creator</a>
+    </div>
+  </div>
+  <h1>VIP Management Panel</h1>
+  <div class="main">
+    <div class="formcolumn one">
+      <div class="subheader">ADD A NEW VIP</div>
+      <form action="/addvip" method="post">
+        <br>
+        <label>Steam ID</label>
+        <br>
+        <input class="input" name="steamId" type="text" placeholder="enter steam id"><br>
+        <label>Name</label>
+        <br>
+        <input class="input" name="name" type="text" placeholder="enter name">
+        <label>Days</label>
+        <br>
+        <input class="input" name="day" type="text" placeholder="number of days">
+        <label>Server</label>
+        <select name="server">
+          <% if(serverList) {%>
+          <% for(let i=0; i < serverList.length; i++) { %>
+          <option><%=serverList[i]%></option>
+          <%}}%>
+        </select>
+        <label>Your Key</label>
+        <input class="input" name="secKey" type="text" placeholder="enter key"><br>
+        <input class="submit" name="submit" type="submit" value="insert">
+      </form>
+    </div>
+
+    <div class="formcolumn two">
+      <div class="subheader">UPDATE AN OLD VIP </div>
+      <form action="/addvip" method="post">
+        <br>
+        <label>Steam ID</label>
+        <input class="input" name="steamId" type="text"
+          placeholder="id should match with table [example &#34;steam:x:y:111&#34;]">
+        <label>Days to add</label>
+        <input class="input" name="day" type="text" placeholder="number of days">
+        <label>Server</label>
+        <select name="server">
+          <% if(serverList) {%>
+          <% for(let i=0; i < serverList.length; i++) { %>
+          <option><%=serverList[i]%></option>
+          <%}}%>
+        </select>
+        <label>Your Key</label>
+        <input class="input" name="secKey" type="text" placeholder="enter key"><br>
+        <input class="submit" name="submit" type="submit" value="update">
+      </form>
+    </div>
+  </div>
+  <div class="footer">
+    <p>
+      <a href="https://github.com/Summer-16" class="subheader">
+        <div class="subheader">Made by Summer Soldier</div>
+      </a>
+    </p>
+  </div>
+</body>
+
+</html>

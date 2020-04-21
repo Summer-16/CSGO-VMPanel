@@ -1,0 +1,16 @@
+{
+  "db": {
+    "db_host": "your db host",
+    "db_port": 3306,
+    "db_user": "your db username",
+    "db_password": "your db user's password",
+    "db_name": "dbname"
+  },
+  "servers": [
+    "make an array of server's here same as tables in db",
+    "ser1",
+    "ser2"
+  ],
+  "webhook": "your discord webhook url",
+  "secretKey": "your secret key to authenticate vip add/update"
+}

@@ -1,0 +1,69 @@
+/* Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of Vip-Management-System-By-SUMMER_SOLDIER
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* Vip-Management-System-By-SUMMER_SOLDIER is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* Vip-Management-System-By-SUMMER_SOLDIER. If not, see http://www.gnu.org/licenses/.
+*/
+
+'use strict';
+
+var pool = require('./connection');
+const mysql = require('mysql');
+
+/**
+ * Executes SQL query and returns data.
+ * @constructor
+ * @param {string} queryText - SQL query string
+ * @param {boolean} singleRecord - single record
+ */
+const query = function (queryText, singleRecord) {
+    return new Promise(function (resolve, reject) {
+        pool.query(queryText, function (err, results, fields) {
+            // Error
+            if (err) return reject(err);
+
+            if (Array.isArray(results)) {
+                let finalResults = [];
+                const resultsLength = results.length;
+                for (let index = 0; index < resultsLength; index++) {
+                    finalResults.push({ ...results[index] });
+                }
+                // For single record
+                if (typeof (singleRecord) == "boolean" && singleRecord) return resolve(finalResults[0]);
+                // For multiple records
+                return resolve(finalResults);
+            }
+
+            // if results is output of insert
+            return resolve(results);
+        });
+    });
+};
+
+/**
+ * shim for formating the query
+ */
+var queryFormat = mysql.format;
+
+/**
+ * escaping the data
+ */
+var dataEscape = mysql.escape;
+
+module.exports = {
+    query,
+    queryFormat,
+    dataEscape
+};

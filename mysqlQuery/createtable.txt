@@ -1,0 +1,13 @@
+CREATE TABLE `tablename_here`
+(
+  `authId` varchar
+(50) NOT NULL,
+  `flag` varchar
+(45) DEFAULT '"0:a"',
+  `name` varchar
+(45) NOT NULL,
+  `expireStamp` int
+(20) NOT NULL,
+  PRIMARY KEY
+(`authId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

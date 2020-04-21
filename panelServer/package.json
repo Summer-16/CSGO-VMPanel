@@ -1,0 +1,23 @@
+{
+  "name": "Vip-Management-System-By-SUMMER_SOLDIER",
+  "version": "1.0.0",
+  "description": "Nodejs server (backend) for php application ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql"
+  ],
+  "author": "Shivam Parashar",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1",
+    "node-cron": "^2.0.3",
+    "request": "^2.88.2"
+  }
+}

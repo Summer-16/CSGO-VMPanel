@@ -1,21 +1,19 @@
-# Vip Management System
-This is small automation Script for the CSGO Server managers.
-Things which this Script can do for you are:
- - Add Vips into server's admins_simple.ini directly from SQL DB
- - Delete Old Vips automatically once their 30 days are done based on timestamp, if current users timestamp is older then       current time that means it's vip is expired.
- - Send Update Message on your discord server.
- - Send all VIP List from all servers to your discord server.
+# CSGO Vip Management System
+This system makes the adding of vip in csgo community server's super easy, all you gotta do is add them from panel and forget system will automatically add them in server from db and delete them when their subscription expires and it comes with a handy webpanel.
 
-# TO Do!
- - Optimize the Script a bit with sql variables
-  - Work on Panel to make it easy for everyone to setup and more generalize. 
-    (I already have a webpanel working for this but its not coded for public use most things are hardcoded , so i need to remake it for general use. If anyone wants to make and contribute the panel then you are welcome plz contact me)
-  - Combine everything into a node app (Need some time for this as panel will be a dependency)
+## Nodejs Server
+- It is main server to manage and maintain everything, from database to vip addition , deletion and notification.
+- You will get a webpanel with forms to add new vip and update/extend time for old vip and A home page with listing of all vips server wise with their vip subscription details.
+- Panel will automatically delete the expired vips from database (no worries of managing time for vip anymore)
+- Everyday Panel will send the latest vip list to your discord server.
+ 
+## Server Script
+- A bash Script need to be added with csgo servers , and it will fetch all the vips from db and add them to server's simple_admin.ini 
+- this script must be added in cron
 
-### Setup Instructions
- - Some basic knowlege of linux and Scripting is required.
- - Just edit all the details in vipLive.sh (paths to your simpleadmin.ini, mysql info and discord webhook. Please look into comments and properly add paths)
- - add your sql details in vipstatus/config.php also
- - In the end add the Script into cron to run hourly or whatever time you prefer, you can also customize the discord script time according to you as per your liking. 
- - [Table example and eample of entries in table for script to work properly](https://github.com/Summer-16/CSGO-VIP-management-system/blob/master/Table_example.png) 
+## Step-by-Step install Instructions
+- Coming in few days 
 
+## Future features 
+- Login for admin (instead of secure key)
+- Delete option from panel
