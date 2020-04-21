@@ -55,7 +55,7 @@ function EpocToDate(utcSeconds) {
 function sendMessage(message) {
   var options = {
     'method': 'POST',
-    'url': 'https://discordapp.com/api/webhooks/573445824965509121/Nd-eeX35tRWPtCdJzGgV7AC79fzsQMOZauxkJLJkk79ChCqYZMgqwCctwaek_XtvKa4k',
+    'url': webhook,
     'headers': {
       'Content-Type': 'application/json',
       'Cookie': '__cfduid=d49450082a303e89b0cf1067962ca64721587413688; __cfruid=175ad1a6c7ccdf59e3cb0ee9eded81889f66399d-1587413688'
