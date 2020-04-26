@@ -1,28 +1,27 @@
-/* Vip-Management-System-By-SUMMER_SOLDIER
+/* VMP-by-Summer-Soldier
 *
 * Copyright (C) 2020 SUMMER SOLDIER
 *
-* This file is part of Vip-Management-System-By-SUMMER_SOLDIER
+* This file is part of VMP-by-Summer-Soldier
 *
-* Vip-Management-System-By-SUMMER_SOLDIER is free software: you can redistribute it and/or modify it
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
 * under the terms of the GNU General Public License as published by the Free
 * Software Foundation, either version 3 of the License, or (at your option)
 * any later version.
 *
-* Vip-Management-System-By-SUMMER_SOLDIER is distributed in the hope that it will be useful, but WITHOUT
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
 * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License along with
-* Vip-Management-System-By-SUMMER_SOLDIER. If not, see http://www.gnu.org/licenses/.
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
 "use strict";
 
-var db = require('../db/db_bridege');
+var db = require('../db/db_bridge');
 const config = require('../config/config.json')
 const serverList = config.servers;
-const secretkey = config.secretKey;
 
 /**
  *   vipDataModel Model
@@ -60,7 +59,7 @@ var vipDataModel = {
     return new Promise(async (resolve, reject) => {
       try {
         // validation
-        if (dataObj.secKey !== secretkey) return reject("Unauth Access");
+        if (!dataObj.secKey) return reject("Unauth Access");
 
         const query = db.queryFormat(`INSERT INTO ${dataObj.server} (authId, name, expireStamp) VALUES (?,?,?)`, [dataObj.steamId, dataObj.name, dataObj.day]);
         console.log("qury--->", query)

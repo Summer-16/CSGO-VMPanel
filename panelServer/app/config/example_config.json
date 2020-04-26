@@ -11,6 +11,9 @@
     "ser1",
     "ser2"
   ],
+  "usersTable": "tbl_users",
   "webhook": "your discord webhook url",
-  "secretKey": "your secret key to authenticate vip add/update"
+  "jwt": {
+    "key": "add some random generated string here min 32length"
+  }
 }
