@@ -12,6 +12,11 @@ This system makes the adding of vip in csgo community server's super easy, all y
 - A bash Script need to be added with csgo servers , and it will fetch all the vips from db and add them to server's simple_admin.ini 
 - this script must be added in cron
 
+## Webpanel Screenshots
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP1_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP2_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP3_SS.png)
+
 ## Step-by-Step install Instructions
 ### Setting Up the mysql databse first
 - Query to create tables for server
