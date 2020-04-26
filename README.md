@@ -82,3 +82,4 @@ sudo forever-service install vmpService --script server.js
 
 ## Future features 
 - Delete option from panel
+- Manage panel admin section
