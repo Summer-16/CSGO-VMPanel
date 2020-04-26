@@ -45,6 +45,7 @@ INSERT INTO `GGVIPlist`.`tbl_users` (`username`, `password`, `sec_key`) VALUES (
 ```
 
 ### Setting Up the node server
+- Install nodejs first if not installed https://nodejs.org/en/download/
 - Inside your prefered directory open the linux terminal.
 - run the following commands
 ```bash
