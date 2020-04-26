@@ -49,11 +49,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// cron.schedule('*0 */12 * * *', async () => {
-//   console.log("Cron running-->")
-//   await vipModel.deleteOldVip()
-//   sendMessageOnDiscord()
-// });
+cron.schedule('0 */12 * * *', async () => {
+  console.log("Cron running-->")
+  await vipModel.deleteOldVip()
+  sendMessageOnDiscord()
+});
 
 // middleware to make 'user' available to all templates
 app.use(function (req, res, next) {

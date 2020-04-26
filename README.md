@@ -67,7 +67,7 @@ npm install -g forever
 npm install -g forever-service
 sudo forever-service install vmpService --script server.js
 ```
-- Once done you will get info on your terminal how to start, stop and restart the service using systemctl which indicate the successfull execution of command.
+- Once done you will get info on your terminal how to start, stop and restart the service using your OS service manaher which indicate the successfull execution of command.
 - At this point you are good to go and add the bash file in all your servers.
 
 ### Adding bash file in servers
