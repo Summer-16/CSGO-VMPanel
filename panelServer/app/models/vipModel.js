@@ -62,7 +62,6 @@ var vipDataModel = {
         if (!dataObj.secKey) return reject("Unauth Access");
 
         const query = db.queryFormat(`INSERT INTO ${dataObj.server} (authId, name, expireStamp) VALUES (?,?,?)`, [dataObj.steamId, dataObj.name, dataObj.day]);
-        console.log("qury--->", query)
         const queryRes = await db.query(query);
         if (!queryRes) {
           return reject("error in insertion");
@@ -83,10 +82,11 @@ var vipDataModel = {
     return new Promise(async (resolve, reject) => {
       try {
         // validation
-        if (dataObj.secKey !== secretkey) return reject("Unauth Access");
+        if (!dataObj.secKey) return reject("Unauth Access");
+
+        console.log("dataObj in updateVIPData->", dataObj)
 
         const query = db.queryFormat(`UPDATE ${dataObj.server} SET expireStamp = expireStamp+${dataObj.day} WHERE authId=?`, [dataObj.steamId]);
-        console.log("qury--->", query)
         const queryRes = await db.query(query);
         if (!queryRes) {
           return reject("error in update");

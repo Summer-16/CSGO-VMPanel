@@ -38,14 +38,19 @@
       <form action="/addvip" method="post">
         <br>
         <label>Steam ID</label>
+        <span>
+          <a href="https://steamid.io/" target="_blank" class="subheader">
+            Id Finder
+          </a>
+        </span>
         <br>
-        <input class="input" name="steamId" type="text" placeholder="enter steam id"><br>
+        <input class="input" name="steamId" type="text" placeholder="Enter Steam Id example ( STEAM_0:0:00000000 )"><br>
         <label>Name</label>
         <br>
-        <input class="input" name="name" type="text" placeholder="enter name">
+        <input class="input" name="name" type="text" placeholder="Enter Name">
         <label>Days</label>
         <br>
-        <input class="input" name="day" type="number" placeholder="number of days">
+        <input class="input" name="day" type="number" placeholder="Enter Number of Days">
         <label>Server</label>
         <select name="server">
           <% if(serverList) {%>
@@ -54,7 +59,7 @@
           <%}}%>
         </select>
         <label>Your Key</label>
-        <input class="input" name="secKey" type="text" placeholder="enter key"><br>
+        <input class="input" name="secKey" type="text" placeholder="Enter Key"><br>
         <input class="submit" name="submit" type="submit" value="insert">
       </form>
     </div>
@@ -65,9 +70,9 @@
         <br>
         <label>Steam ID</label>
         <input class="input" name="steamId" type="text"
-          placeholder="id should match with table [example &#34;steam:x:y:111&#34;]">
+          placeholder="Enter Steam Id example ( STEAM_0:0:00000000 ), Should match with table">
         <label>Days to add</label>
-        <input class="input" name="day" type="number" placeholder="number of days">
+        <input class="input" name="day" type="number" placeholder="Enter Number of Days to Extend">
         <label>Server</label>
         <select name="server">
           <% if(serverList) {%>
@@ -76,7 +81,7 @@
           <%}}%>
         </select>
         <label>Your Key</label>
-        <input class="input" name="secKey" type="text" placeholder="enter key"><br>
+        <input class="input" name="secKey" type="text" placeholder="Enter Key"><br>
         <input class="submit" name="submit" type="submit" value="update">
       </form>
     </div>

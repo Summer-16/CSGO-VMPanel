@@ -1,4 +1,5 @@
 # CSGO Vip Management System
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/Shivam169)
 This system makes the adding of vip in csgo community server's super easy, all you gotta do is add them from panel and forget system will automatically add them in server from db and delete them when their subscription expires and it comes with a handy webpanel.
 
 ## Nodejs Server

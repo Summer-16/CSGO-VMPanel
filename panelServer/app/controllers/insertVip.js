@@ -29,10 +29,10 @@ const { getVipsDataFunc } = require("./vipController.js")
 exports.form = async (req, res) => {
   try {
     //let result = await getVipsDataFunc(req.body);
-    res.render('insert', { "serverList": serverList, "vipData": "" });
+    res.render('insert', { "serverList": serverList, "vipData": null });
   } catch (error) {
-    console.log(error)
-    res.render('404')
+    console.log("error in getVipsData->", error)
+    res.render('insert', { "serverList": null, "vipData": null });
   }
 }
 
@@ -66,6 +66,8 @@ const insertVipDataFunc = (reqBody, username) => {
           }
         } else if (reqBody.submit === "update") {
           reqBody.day = Math.floor(reqBody.day * 86400)
+          reqBody.steamId = '"' + reqBody.steamId + '"'
+
           let updateRes = await vipModel.updateVIPData(reqBody)
           if (updateRes) {
             resolve(updateRes)

@@ -26,8 +26,8 @@ exports.getVipsData = async (req, res) => {
     let result = await getVipsDataFunc(req.body);
     res.render('index', { vipData: result });
   } catch (error) {
-    console.log(error)
-    res.render('404')
+    console.log("error in getVipsData->", error)
+    res.render('index', { vipData: null });
   }
 }
 
