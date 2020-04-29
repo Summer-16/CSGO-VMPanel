@@ -1,0 +1,75 @@
+<!-- 
+/* VMP-by-Summer-Soldier
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of VMP-by-Summer-Soldier
+*
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<%
+function EpocToDate(utcSeconds) {
+  let d = new Date(0);
+  d.setUTCSeconds(utcSeconds)
+
+  let dd = d.getDate();
+  let mm = d.getMonth() + 1;
+  let yyyy = d.getFullYear();
+  return dd + '-' + mm + '-' + yyyy;
+}
+%>
+
+<%- include('Header.ejs') %>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <% if(vipData) {%>
+      <% for(let i=0; i < vipData.length; i++) { %>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title "><%=vipData[i].name.toUpperCase()%></h4>
+            <p class="card-category">Total Vip:<%=vipData[i].data.length%> </p>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>Steam ID</th>
+                  <th>Name</th>
+                  <th>Subscription End Date</th>
+                </thead>
+                <tbody>
+                  <% if(vipData[i].data) {%>
+                  <% for(let j=0; j < vipData[i].data.length; j++) { %>
+                  <tr>
+                    <td><%=vipData[i].data[j].authId?((vipData[i].data[j].authId).replace('/"/g', "")):"NA"%></td>
+                    <td><%=vipData[i].data[j].name?vipData[i].data[j].name.replace("//",""):"NA"%></td>
+                    <td><%=vipData[i].data[j].expireStamp?EpocToDate(vipData[i].data[j].expireStamp):"NA"%></td>
+                  </tr>
+                  <%}}%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%}}%>
+    </div>
+  </div>
+</div>
+
+
+<%- include('Footer.ejs') %>

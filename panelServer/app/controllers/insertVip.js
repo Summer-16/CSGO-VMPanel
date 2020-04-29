@@ -29,10 +29,10 @@ const { getVipsDataFunc } = require("./vipController.js")
 exports.form = async (req, res) => {
   try {
     //let result = await getVipsDataFunc(req.body);
-    res.render('insert', { "serverList": serverList, "vipData": null });
+    res.render('ManageVIP', { "serverList": serverList, "vipData": null });
   } catch (error) {
     console.log("error in getVipsData->", error)
-    res.render('insert', { "serverList": null, "vipData": null });
+    res.render('ManageVIP', { "serverList": null, "vipData": null });
   }
 }
 
@@ -41,10 +41,16 @@ exports.form = async (req, res) => {
 exports.insertVipData = async (req, res) => {
   try {
     let result = await insertVipDataFunc(req.body, req.session.username);
-    res.render('success', { result: JSON.stringify(result) });
+    res.json({
+      success: true,
+      data: { "res": result, "message": req.body.submit == "insert" ? "New VIP added Successfully" : "VIP Updated Successfully" }
+    });
   } catch (error) {
-    console.log(error)
-    res.render('unauth', { "error": error })
+    console.log("error in add/update vip->", error)
+    res.json({
+      success: false,
+      data: { "error": error }
+    });
   }
 }
 
@@ -80,7 +86,7 @@ const insertVipDataFunc = (reqBody, username) => {
       }
     } catch (error) {
       console.log("error in insertVipDataFunc->", error)
-      reject(error)
+      reject(error + ", Please try again")
     }
   });
 }

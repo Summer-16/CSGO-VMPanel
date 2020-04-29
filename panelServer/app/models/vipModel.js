@@ -84,8 +84,6 @@ var vipDataModel = {
         // validation
         if (!dataObj.secKey) return reject("Unauth Access");
 
-        console.log("dataObj in updateVIPData->", dataObj)
-
         const query = db.queryFormat(`UPDATE ${dataObj.server} SET expireStamp = expireStamp+${dataObj.day} WHERE authId=?`, [dataObj.steamId]);
         const queryRes = await db.query(query);
         if (!queryRes) {

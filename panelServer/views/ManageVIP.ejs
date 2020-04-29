@@ -1,0 +1,191 @@
+<!-- 
+/* VMP-by-Summer-Soldier
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of VMP-by-Summer-Soldier
+*
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<%- include('Header.ejs') %>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Add VIP</h4>
+            <p class="card-category">Form to add a new VIP in Server</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Steam ID</label>
+                    <input id="steamId_add" type="text" class="form-control">
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter User Name</label>
+                    <input id="name_add" type="text" class="form-control">
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Days to ADD</label>
+                    <input id="day_add" type="number" class="form-control">
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Select Server</label>
+                    <select class="form-control" id="server_add">
+                      <% if(serverList) {%>
+                      <% for(let i=0; i < serverList.length; i++) { %>
+                      <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
+                      <%}}%>
+                    </select>
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Your Key</label>
+                    <input id="secKey_add" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <button type="button" onclick="addNewVIPajax()" class="btn btn-danger pull-right">ADD VIP</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Update VIP</h4>
+            <p class="card-category">Form to Extend days for an old VIP</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Steam ID</label>
+                    <input id="steamId_update" type="text" class="form-control">
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Days to Extend</label>
+                    <input id="day_update" type="number" class="form-control">
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Select Server</label>
+                    <select class="form-control" id="server_update">
+                      <% if(serverList) {%>
+                      <% for(let i=0; i < serverList.length; i++) { %>
+                      <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
+                      <%}}%>
+                    </select>
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Your Key</label>
+                    <input id="secKey_update" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <button type="button" onclick="updateOldVIPajax()" class="btn btn-danger pull-right">UPDATE VIP</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%- include('Footer.ejs') %>
+
+<script>
+  function addNewVIPajax() {
+    fetch('/addvip', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "steamId": $('#steamId_add').val(),
+        "name": $('#name_add').val(),
+        "day": $('#day_add').val(),
+        "server": $('#server_add').val(),
+        "secKey": $('#secKey_add').val(),
+        "submit": "insert"
+      })
+    })
+      .then((res) => { return res.json(); })
+      .then((response) => {
+
+        showNotif(response)
+      })
+      .catch();
+  }
+
+  function updateOldVIPajax() {
+    fetch('/addvip', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "steamId": $('#steamId_update').val(),
+        "day": $('#day_update').val(),
+        "server": $('#server_update').val(),
+        "secKey": $('#secKey_update').val(),
+        "submit": "update"
+      })
+    })
+      .then((res) => { return res.json(); })
+      .then((response) => {
+
+        showNotif(response)
+      })
+      .catch();
+  }
+
+  function showNotif(response) {
+    if (response.success == true) {
+      $.notify({
+        icon: "add_alert",
+        message: response.data.message
+      }, {
+        type: "success",
+        timer: 3000,
+        placement: {
+          from: "top",
+          align: "right"
+        }
+      });
+    } else {
+      $.notify({
+        icon: "add_alert",
+        message: response.data.error
+      }, {
+        type: "warning",
+        timer: 3000,
+        placement: {
+          from: "top",
+          align: "right"
+        }
+      });
+    }
+
+  }
+</script>

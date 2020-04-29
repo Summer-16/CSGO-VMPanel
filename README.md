@@ -1,4 +1,4 @@
-# CSGO Vip Management System
+# CSGO Vip Management Panel
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/Shivam169)  
 This system makes the adding of vip in csgo community server's super easy, all you gotta do is add them from panel and forget system will automatically add them in server from db and delete them when their subscription expires and it comes with a handy webpanel.
 
@@ -14,9 +14,8 @@ This system makes the adding of vip in csgo community server's super easy, all y
 - this script must be added in cron
 
 ## Webpanel Screenshots
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP1_SS.png)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP2_SS.png)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP3_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP1_SS.png) ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP2_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP3_SS.png) ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP4_SS.png)
 
 ## Step-by-Step install Instructions
 ### Setting Up the mysql databse first

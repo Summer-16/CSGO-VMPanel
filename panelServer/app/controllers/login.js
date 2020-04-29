@@ -27,10 +27,10 @@ const jwtSecretKey = config.jwt.key;
 
 exports.loginPage = async (req, res) => {
   try {
-    res.render('login', { "error": null });
+    res.render('Login', { "error": null });
   } catch (error) {
-    console.log(error)
-    res.render('404')
+    console.log("error in login-->", error)
+    res.render('Login', { "error": error });
   }
 }
 
@@ -44,7 +44,6 @@ exports.authUserLogin = async (req, res) => {
     // For the given username fetch user from DB
     let userData = await userModel.getuserDataByUsername(username)
 
-
     if (username && password) {
       if (username === userData.username && password === userData.password) {
         let token = jwt.sign({ username: username },
@@ -56,17 +55,15 @@ exports.authUserLogin = async (req, res) => {
         // return the JWT token for the future API calls
         req.session.token = token;
         req.session.username = userData.username;
-        res.redirect('/form')
-
+        res.redirect('/managevip')
       } else {
-        res.render('login', { "error": 'Incorrect username or password' })
+        res.render('Login', { "error": 'Incorrect username or password' })
       }
     } else {
-      res.render('login', { "error": 'Authentication failed! Please check the request' })
+      res.render('Login', { "error": 'Authentication failed! Please check the request' })
     }
-
   } catch (error) {
-    console.log(error)
-    res.render('login', { "error": error })
+    console.log("error in authUserLogin-->", error)
+    res.render('Login', { "error": error })
   }
 }

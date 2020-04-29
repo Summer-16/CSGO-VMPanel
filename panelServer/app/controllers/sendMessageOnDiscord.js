@@ -49,7 +49,7 @@ function EpocToDate(utcSeconds) {
   let dd = d.getDate();
   let mm = d.getMonth() + 1;
   let yyyy = d.getFullYear();
-  return mm + '-' + dd + '-' + yyyy;
+  return dd + '-' + mm + '-' + yyyy;
 }
 
 function sendMessage(message) {

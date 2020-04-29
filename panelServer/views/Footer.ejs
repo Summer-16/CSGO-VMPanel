@@ -18,30 +18,32 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */ -->
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./css/style.css" rel="stylesheet">
-  <title>VMP-SS</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-</head>
-
-<body>
-  <%- include('header.ejs') %>
-  <h1>Operattion Success</h1>
-  <div class="main">
-    <div class="subheader"><%=result%></div>
+<footer class="footer">
+  <div class="container-fluid">
+    <nav class="float-left">
+      <ul>
+        <li>
+          VMP (CSGO-VIP Managemnt Panel)
+        </li>
+      </ul>
+    </nav>
+    <div class="copyright float-right" id="date">
+      , made with <i class="material-icons danger-link">favorite</i> by
+      <a href="https://github.com/Summer-16" target="_blank" rel="noopener noreferrer">Summer Soldier</a> for a better
+      web.
+    </div>
   </div>
-  <%- include('footer.ejs') %>
+</footer>
+
+</div>
+</div>
+
 </body>
 
 </html>
 
 <script>
-  window.setTimeout(function () {
-    window.location.href = "/form";
-  }, 5000);
+  const x = new Date().getFullYear();
+  let date = document.getElementById('date');
+  date.innerHTML = '&copy; ' + x + date.innerHTML;
 </script>

@@ -32,14 +32,14 @@ let checkToken = (req, res, next) => {
 
     jwt.verify(token, jwtSecretKey, (err, decoded) => {
       if (err) {
-        return res.render('login', { "error": "Unauthorized Access, If you are an Admin try logging in" })
+        return res.render('Login', { "error": "Unauthorized Access, If you are an Admin try logging in" })
       } else {
         req.decoded = decoded;
         next();
       }
     });
   } else {
-    return res.render('login', { "error": "Unauthorized Access, If you are an Admin try logging in" })
+    return res.render('Login', { "error": "Unauthorized Access, If you are an Admin try logging in" })
   }
 };
 

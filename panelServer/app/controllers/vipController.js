@@ -24,10 +24,10 @@ const vipModel = require("../models/vipModel.js");
 exports.getVipsData = async (req, res) => {
   try {
     let result = await getVipsDataFunc(req.body);
-    res.render('index', { vipData: result });
+    res.render('Dashboard', { vipData: result });
   } catch (error) {
     console.log("error in getVipsData->", error)
-    res.render('index', { vipData: null });
+    res.render('Dashboard', { vipData: null });
   }
 }
 

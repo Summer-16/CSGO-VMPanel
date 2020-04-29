@@ -18,75 +18,56 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */ -->
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./css/style.css" rel="stylesheet">
-  <title>VMP-SS</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-</head>
-
-<body>
-  <%- include('header.ejs') %>
-  <h1 class="subheaderLogin">VIP Management Panel</h1>
-  <div class="main">
-    <div class="formcolumn one">
-      <div class="subheader">ADD A NEW VIP</div>
-      <form action="/addvip" method="post">
-        <br>
-        <label>Steam ID</label>
-        <span>( Help:
-          <a href="https://steamid.io/" target="_blank" class="subheader" rel="noopener noreferrer">
-            Id Finder
-          </a> )
-        </span>
-        <br>
-        <input class="input" name="steamId" type="text" placeholder="Enter Steam Id example ( STEAM_0:0:00000000 )"><br>
-        <label>Name</label>
-        <br>
-        <input class="input" name="name" type="text" placeholder="Enter Name">
-        <label>Days</label>
-        <br>
-        <input class="input" name="day" type="number" placeholder="Enter Number of Days">
-        <label>Server</label>
-        <select name="server">
-          <% if(serverList) {%>
-          <% for(let i=0; i < serverList.length; i++) { %>
-          <option><%=serverList[i]%></option>
-          <%}}%>
-        </select>
-        <label>Your Key</label>
-        <input class="input" name="secKey" type="text" placeholder="Enter Key"><br>
-        <input class="submit" name="submit" type="submit" value="insert">
-      </form>
-    </div>
-
-    <div class="formcolumn two">
-      <div class="subheader">UPDATE AN OLD VIP </div>
-      <form action="/addvip" method="post">
-        <br>
-        <label>Steam ID</label>
-        <input class="input" name="steamId" type="text"
-          placeholder="Enter Steam Id example ( STEAM_0:0:00000000 ), Should match with table">
-        <label>Days to add</label>
-        <input class="input" name="day" type="number" placeholder="Enter Number of Days to Extend">
-        <label>Server</label>
-        <select name="server">
-          <% if(serverList) {%>
-          <% for(let i=0; i < serverList.length; i++) { %>
-          <option><%=serverList[i]%></option>
-          <%}}%>
-        </select>
-        <label>Your Key</label>
-        <input class="input" name="secKey" type="text" placeholder="Enter Key"><br>
-        <input class="submit" name="submit" type="submit" value="update">
-      </form>
-    </div>
+<%- include('header.ejs') %>
+<h1 class="subheaderLogin">VIP Management Panel</h1>
+<div class="main col-md-12 row">
+  <div class="col-md-6 ml-10 mr-10">
+    <div class="subheader">ADD A NEW VIP</div>
+    <form action="/addvip" method="post">
+      <label>Steam ID</label>
+      <span>( Help:
+        <a href="https://steamid.io/" target="_blank" class="subheader" rel="noopener noreferrer">
+          Id Finder
+        </a> )
+      </span>
+      <input class="input" name="steamId" type="text" placeholder="Enter Steam Id example ( STEAM_0:0:00000000 )">
+      <label>Name</label>
+      <input class="input" name="name" type="text" placeholder="Enter Name">
+      <label>Days</label>
+      <input class="input" name="day" type="number" placeholder="Enter Number of Days">
+      <label>Server</label>
+      <select name="server">
+        <% if(serverList) {%>
+        <% for(let i=0; i < serverList.length; i++) { %>
+        <option><%=serverList[i]%></option>
+        <%}}%>
+      </select>
+      <label>Your Key</label>
+      <input class="input" name="secKey" type="text" placeholder="Enter Key"><br>
+      <input class="submit" name="submit" type="submit" value="insert">
+    </form>
   </div>
-  <%- include('footer.ejs') %>
-</body>
 
-</html>
+  <div class="col-md-6 ml-10 mr-10">
+    <div class="subheader">UPDATE AN OLD VIP </div>
+    <form action="/addvip" method="post">
+      <label>Steam ID</label>
+      <input class="input" name="steamId" type="text"
+        placeholder="Enter Steam Id example ( STEAM_0:0:00000000 ), Should match with table">
+      <label>Days to add</label>
+      <input class="input" name="day" type="number" placeholder="Enter Number of Days to Extend">
+      <label>Server</label>
+      <select name="server">
+        <% if(serverList) {%>
+        <% for(let i=0; i < serverList.length; i++) { %>
+        <option><%=serverList[i]%></option>
+        <%}}%>
+      </select>
+      <label>Your Key</label>
+      <input class="input" name="secKey" type="text" placeholder="Enter Key"><br>
+      <input class="submit" name="submit" type="submit" value="update">
+    </form>
+  </div>
+</div>
+<%- include('footer.ejs') %>

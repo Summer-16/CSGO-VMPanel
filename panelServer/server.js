@@ -58,6 +58,8 @@ cron.schedule('0 */12 * * *', async () => {
 // middleware to make 'user' available to all templates
 app.use(function (req, res, next) {
   res.locals.sessionToken = req.session.token;
+  res.locals.adminName = req.session.username
+  res.locals.currentURL = req.originalUrl;
   next();
 });
 

@@ -28,7 +28,7 @@ module.exports = app => {
 
   //Public Router
   app.get("/", getVipsData);
-  app.get("/vip", getVipsData);
+  app.get("/dashboard", getVipsData);
 
   //Private Router only for Admins
   //Login and logiut
@@ -40,8 +40,12 @@ module.exports = app => {
   });
 
   //Vip insertion or update
-  app.get("/form", middleware.checkToken, form);
+  app.get("/managevip", middleware.checkToken, form);
   app.post("/addvip", middleware.checkToken, insertVipData);
+
+  app.get('/aboutcreator', function (req, res) {
+    res.render('AboutCreator');
+  });
 
   //404
   app.get('*', function (req, res) {
