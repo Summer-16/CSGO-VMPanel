@@ -14,8 +14,8 @@ This system makes the adding of vip in csgo community server's super easy, all y
 - this script must be added in cron
 
 ## Webpanel Screenshots
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP1_SS.png) ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP2_SS.png)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP3_SS.png) ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP4_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP1_SS.png)![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP2_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP3_SS.png)![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP4_SS.png)
 
 ## Step-by-Step install Instructions
 ### Setting Up the mysql databse first
