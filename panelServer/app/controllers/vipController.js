@@ -43,5 +43,36 @@ const getVipsDataFunc = (reqBody) => {
   });
 }
 
-
 exports.getVipsDataFunc = getVipsDataFunc;
+
+//-----------------------------------------------------------------------
+
+exports.getVipsDataSingleServer = async (req, res) => {
+  try {
+    let result = await getVipsDataSingleServerFunc(req.body);
+    res.json({
+      success: true,
+      data: { "res": result, "message": "VIP Listing loaded for " + req.body.server.toUpperCase() }
+    });
+  } catch (error) {
+    console.log("error in getVipsDataSingleServer->", error)
+    res.json({
+      success: false,
+      data: { "error": error }
+    });
+  }
+}
+
+const getVipsDataSingleServerFunc = (reqBody) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await vipModel.getsingleServerData(reqBody.server)
+      resolve(data)
+    } catch (error) {
+      console.log("error in getVipsDataSingleServerFunc->", error)
+      reject(error)
+    }
+  });
+}
+
+exports.getVipsDataSingleServerFunc = getVipsDataSingleServerFunc;

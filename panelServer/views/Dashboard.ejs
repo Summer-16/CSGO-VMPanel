@@ -37,11 +37,11 @@ function EpocToDate(utcSeconds) {
     <div class="row">
       <% if(vipData) {%>
       <% for(let i=0; i < vipData.length; i++) { %>
-      <div class="col-md-12">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title "><%=vipData[i].name.toUpperCase()%></h4>
-            <p class="card-category">Total Vip:<%=vipData[i].data.length%> </p>
+            <h4 class="card-title "><%=vipData[i].servername.toUpperCase()+' - '+vipData[i].type %></h4>
+            <p class="card-category">Total <%=vipData[i].type+':'+vipData[i].data.length%> </p>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -55,7 +55,9 @@ function EpocToDate(utcSeconds) {
                   <% if(vipData[i].data) {%>
                   <% for(let j=0; j < vipData[i].data.length; j++) { %>
                   <tr>
-                    <td><%=vipData[i].data[j].authId?((vipData[i].data[j].authId).replace('/"/g', "")):"NA"%></td>
+                    <td>
+                      <%=vipData[i].data[j].authId?((vipData[i].data[j].authId).replace('"','').replace('"','')):"NA"%>
+                    </td>
                     <td><%=vipData[i].data[j].name?vipData[i].data[j].name.replace("//",""):"NA"%></td>
                     <td><%=vipData[i].data[j].expireStamp?EpocToDate(vipData[i].data[j].expireStamp):"NA"%></td>
                   </tr>

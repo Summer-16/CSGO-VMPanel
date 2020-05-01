@@ -30,7 +30,7 @@ function sendMessageOnDiscord() {
       for (let i = 0; i < data.length; i++) {
         messageString += "**#Vip Details of " + data[i].name.toUpperCase() + " Server**\n"
         for (let j = 0; j < data[i].data.length; j++) {
-          messageString += "-> " + data[i].data[j].authId.replace('/"/g', "") + "  :- " + data[i].data[j].name.replace("//", "") + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***\n"
+          messageString += "-> " + data[i].data[j].authId.replace('"', '').replace('"', '') + "  :- " + data[i].data[j].name.replace("//", "") + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***\n"
         }
         messageString += "\n"
       }

@@ -22,8 +22,9 @@
 module.exports = app => {
 
   const middleware = require('../utils/middleWare/middleware.js');
-  const { getVipsData } = require("../controllers/vipController.js");
+  const { getVipsData, getVipsDataSingleServer } = require("../controllers/vipController.js");
   const { insertVipData, form } = require("../controllers/insertVip.js");
+  const { deleteVipData } = require("../controllers/deleteVip.js");
   const { loginPage, authUserLogin } = require("../controllers/login.js");
 
   //Public Router
@@ -39,9 +40,15 @@ module.exports = app => {
     res.redirect('/');
   });
 
+  //Vip fetch
+  app.post("/getvipdatasingleserver", middleware.checkToken, getVipsDataSingleServer);
+
   //Vip insertion or update
   app.get("/managevip", middleware.checkToken, form);
   app.post("/addvip", middleware.checkToken, insertVipData);
+
+  //Vip delete
+  app.post("/deletevip", middleware.checkToken, deleteVipData);
 
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');

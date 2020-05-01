@@ -22090,5 +22090,19 @@ select:-webkit-autofill:focus
     -webkit-text-fill-color:#fff;
 }
 
-
+.modal-header.danger {
+  color: white;
+  background-color: #d22824;
+  border-color: #d22824;
+}
+.modal-body.primary {
+  color: white;
+  background-color: #202940;
+  border-color: #202940;
+}
+.modal-footer.primary {
+  color: white;
+  background-color: #202940;
+  border-color: #202940;
+}
 /*# sourceMappingURL=dashboard-free.css.map */

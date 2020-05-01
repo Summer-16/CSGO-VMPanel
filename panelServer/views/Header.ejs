@@ -26,10 +26,10 @@ switch (route) {
     heading = "Dashboard";
     break;
   case "/managevip":
-    heading = "Manage VIP (Add or Update)";
+    heading = "Manage VIP (Add , Update or Delete)";
     break;
   case "/aboutcreator":
-    heading = "About the Creator of VMP";
+    heading = "About the Creator of VMPanel";
     break;
   case "/login":
     heading = "Admin Login";
@@ -84,17 +84,19 @@ return heading
               <p>Dashboard</p>
             </a>
           </li>
+          <%if(sessionToken){%>
           <li class="nav-item <%= (currentURL=='/managevip'?'active':'') %>">
             <a class="nav-link" href="/managevip">
               <i class="material-icons">people</i>
               <p>Manage VIP</p>
             </a>
           </li>
+          <%}%> 
           <li class="nav-item <%= (currentURL=='/aboutcreator'?'active':'') %>">
-            <a class="nav-link" href="/aboutcreator">
-              <i class="material-icons">person</i>
-              <p>About Creator</p>
-            </a>
+          <a class="nav-link" href="/aboutcreator">
+            <i class="material-icons">person</i>
+            <p>About Creator</p>
+          </a>
           </li>
           <%if(sessionToken){%>
           <li class="nav-item <%= (currentURL=='/logout'?'active':'') %>">

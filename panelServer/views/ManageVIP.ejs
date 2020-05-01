@@ -35,19 +35,20 @@
                 <div class="col-md-12">
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter Steam ID</label>
-                    <input id="steamId_add" type="text" class="form-control">
+                    <input id="steamId_add" type="text" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter User Name</label>
-                    <input id="name_add" type="text" class="form-control">
+                    <input id="name_add" type="text" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter Days to ADD</label>
-                    <input id="day_add" type="number" class="form-control">
+                    <input id="day_add" type="number" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Select Server</label>
-                    <select class="form-control" id="server_add">
+                    <select class="form-control" id="server_add" required>
+                      <option value="" selected>Select Server</option>
                       <% if(serverList) {%>
                       <% for(let i=0; i < serverList.length; i++) { %>
                       <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
@@ -56,11 +57,11 @@
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter Your Key</label>
-                    <input id="secKey_add" type="text" class="form-control">
+                    <input id="secKey_add" type="password" class="form-control" required>
                   </div>
                 </div>
               </div>
-              <button type="button" onclick="addNewVIPajax()" class="btn btn-danger pull-right">ADD VIP</button>
+              <button type="button" onclick="addNewVIPajax()" class="btn btn-success pull-right">ADD VIP</button>
               <div class="clearfix"></div>
             </form>
           </div>
@@ -78,15 +79,16 @@
                 <div class="col-md-12">
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter Steam ID</label>
-                    <input id="steamId_update" type="text" class="form-control">
+                    <input id="steamId_update" type="text" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter Days to Extend</label>
-                    <input id="day_update" type="number" class="form-control">
+                    <input id="day_update" type="number" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Select Server</label>
-                    <select class="form-control" id="server_update">
+                    <select class="form-control" id="server_update" required>
+                      <option value="" selected>Select Server</option>
                       <% if(serverList) {%>
                       <% for(let i=0; i < serverList.length; i++) { %>
                       <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
@@ -95,13 +97,55 @@
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter Your Key</label>
-                    <input id="secKey_update" type="text" class="form-control">
+                    <input id="secKey_update" type="password" class="form-control" required>
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating"></label>
+                    <input type="text" class="form-control" disabled>
                   </div>
                 </div>
               </div>
-              <button type="button" onclick="updateOldVIPajax()" class="btn btn-danger pull-right">UPDATE VIP</button>
+              <button type="button" onclick="updateOldVIPajax()" class="btn btn-success pull-right">UPDATE VIP</button>
               <div class="clearfix"></div>
             </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">View and Manage VIP</h4>
+            <p class="card-category">Select a server to view the list</p>
+          </div>
+          <div class="card-body">
+            <form class="col-md-4">
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating">Select Server</label>
+                <select class="form-control" id="server_update"
+                  onchange="getTableListing(this.options[this.selectedIndex].value)">
+                  <option value="" selected>Select Server</option>
+                  <% if(serverList) {%>
+                  <% for(let i=0; i < serverList.length; i++) { %>
+                  <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
+                  <%}}%>
+                </select>
+              </div>
+            </form>
+            <hr />
+            <div class="table-responsive">
+              <table class="table" id="manageVipTable">
+                <thead class=" text-primary">
+                  <th>Steam ID</th>
+                  <th>Name</th>
+                  <th>Flags</th>
+                  <th>Subscription End Date</th>
+                  <th>Actions</th>
+                </thead>
+                <tbody id="manageVipTableBody">
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -112,80 +156,4 @@
 
 <%- include('Footer.ejs') %>
 
-<script>
-  function addNewVIPajax() {
-    fetch('/addvip', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "steamId": $('#steamId_add').val(),
-        "name": $('#name_add').val(),
-        "day": $('#day_add').val(),
-        "server": $('#server_add').val(),
-        "secKey": $('#secKey_add').val(),
-        "submit": "insert"
-      })
-    })
-      .then((res) => { return res.json(); })
-      .then((response) => {
-
-        showNotif(response)
-      })
-      .catch();
-  }
-
-  function updateOldVIPajax() {
-    fetch('/addvip', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "steamId": $('#steamId_update').val(),
-        "day": $('#day_update').val(),
-        "server": $('#server_update').val(),
-        "secKey": $('#secKey_update').val(),
-        "submit": "update"
-      })
-    })
-      .then((res) => { return res.json(); })
-      .then((response) => {
-
-        showNotif(response)
-      })
-      .catch();
-  }
-
-  function showNotif(response) {
-    if (response.success == true) {
-      $.notify({
-        icon: "add_alert",
-        message: response.data.message
-      }, {
-        type: "success",
-        timer: 3000,
-        placement: {
-          from: "top",
-          align: "right"
-        }
-      });
-    } else {
-      $.notify({
-        icon: "add_alert",
-        message: response.data.error
-      }, {
-        type: "warning",
-        timer: 3000,
-        placement: {
-          from: "top",
-          align: "right"
-        }
-      });
-    }
-
-  }
-</script>
+<script src="./js/ManageVIP.js"></script>

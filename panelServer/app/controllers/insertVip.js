@@ -66,6 +66,8 @@ const insertVipDataFunc = (reqBody, username) => {
           reqBody.day = epoctillExpirey(reqBody.day)
           reqBody.name = "//" + reqBody.name
           reqBody.steamId = '"' + reqBody.steamId + '"'
+          reqBody.flag = '"' + '0:a' + '"'
+
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
             resolve(insertRes)
@@ -73,16 +75,17 @@ const insertVipDataFunc = (reqBody, username) => {
         } else if (reqBody.submit === "update") {
           reqBody.day = Math.floor(reqBody.day * 86400)
           reqBody.steamId = '"' + reqBody.steamId + '"'
+          reqBody.flag = '"' + '0:a' + '"'
 
           let updateRes = await vipModel.updateVIPData(reqBody)
           if (updateRes) {
             resolve(updateRes)
           }
         } else {
-          reject("Unauthorized Access")
+          reject("Something Went Wrong")
         }
       } else {
-        reject("Unauthorized Access")
+        reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
       console.log("error in insertVipDataFunc->", error)
