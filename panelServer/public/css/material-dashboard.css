@@ -22105,4 +22105,27 @@ select:-webkit-autofill:focus
   background-color: #202940;
   border-color: #202940;
 }
+
+
+/*
+ *  STYLE 4
+ */
+
+#style-4::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #202940;
+}
+
+#style-4::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #202940;
+}
+
+#style-4::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+	border: 2px solid #555555;
+}
 /*# sourceMappingURL=dashboard-free.css.map */

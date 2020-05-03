@@ -12,6 +12,10 @@
     "ser2"
   ],
   "usersTable": "tbl_users",
+  "scheduleConfig": {
+    "delete": "12",
+    "notif": "24"
+  },
   "webhook": "your discord webhook url",
   "jwt": {
     "key": "add some random generated string here min 32length"

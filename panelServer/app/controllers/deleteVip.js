@@ -45,7 +45,6 @@ const deleteVipDataFunc = (reqBody, username) => {
       let userData = await userModel.getuserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        console.log("reqBody in delete vip->", reqBody)
         reqBody.primaryKey = '"' + reqBody.primaryKey + '"'
         let deleteRes = await vipModel.deleteVipByAdmin(reqBody)
         if (deleteRes) {

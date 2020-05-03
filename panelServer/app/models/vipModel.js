@@ -65,12 +65,19 @@ var vipDataModel = {
   /**
  * get single server listing
  */
-  getsingleServerData: function (server) {
+  getsingleServerData: function (server, type) {
     return new Promise(async (resolve, reject) => {
       try {
         if (!server) return reject("Server is not Provided");
+        if (!type) return reject("User type is not Provided");
 
-        let query = db.queryFormat(`SELECT * FROM ${server}`);
+        let query
+        if (type === "vip") {
+          query = db.queryFormat(`SELECT * FROM ${server} WHERE flag = '"0:a"'`);
+        } else if (type === "admin") {
+          query = db.queryFormat(`SELECT * FROM ${server} WHERE flag <> '"0:a"'`);
+        }
+
         let queryRes = await db.query(query);
         if (!queryRes) {
           return reject("No Data Found");
@@ -139,7 +146,7 @@ var vipDataModel = {
         let currentEpoc = Math.floor(Date.now() / 1000)
 
         for (let i = 0; i < serverList.length; i++) {
-          let query = db.queryFormat(`DELETE FROM ${serverList[i]} where expireStamp < ${currentEpoc}`);
+          let query = db.queryFormat(`DELETE FROM ${serverList[i]} where expireStamp < ${currentEpoc} AND flag = '"0:a"' `);
           let queryRes = await db.query(query);
           if (!queryRes) {
             return reject("Error in delete");
@@ -165,9 +172,7 @@ var vipDataModel = {
         if (!dataObj.secKey) return reject("Unauth Access, Key Missing");
 
         let query = db.queryFormat(`DELETE FROM ${dataObj.tableName} where authId = '${dataObj.primaryKey}'`);
-        console.log("query in deleteVipByAdmin->", query)
         let queryRes = await db.query(query);
-        console.log("queryRes in deleteVipByAdmin->", queryRes)
         if (!queryRes) {
           return reject("Error in delete");
         }

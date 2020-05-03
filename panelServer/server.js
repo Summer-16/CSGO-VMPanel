@@ -17,6 +17,8 @@
  * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
  */
 
+const config = require('./app/config/config.json')
+const scheduleConfig = config.scheduleConfig;
 const express = require("express");
 const bodyParser = require("body-parser");
 const vipModel = require("./app/models/vipModel.js");
@@ -49,9 +51,13 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-cron.schedule('0 */12 * * *', async () => {
-  console.log("Cron running-->")
+cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
+  console.log("****Schedule call Deleting old VIP****")
   await vipModel.deleteOldVip()
+});
+
+cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
+  console.log("****Schedule call Sending Notification on Discord****")
   sendMessageOnDiscord()
 });
 

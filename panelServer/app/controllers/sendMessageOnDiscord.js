@@ -28,11 +28,13 @@ function sendMessageOnDiscord() {
       let data = await vipModel.getallServerData()
       let messageString = "Hey here is the latest Vip List of GanGGaminG Server\n\n"
       for (let i = 0; i < data.length; i++) {
-        messageString += "**#Vip Details of " + data[i].name.toUpperCase() + " Server**\n"
-        for (let j = 0; j < data[i].data.length; j++) {
-          messageString += "-> " + data[i].data[j].authId.replace('"', '').replace('"', '') + "  :- " + data[i].data[j].name.replace("//", "") + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***\n"
+        if (data[i].type === 'VIPs') {
+          messageString += "**#" + data[i].type + " of " + data[i].servername.toUpperCase() + " Server**\n"
+          for (let j = 0; j < data[i].data.length; j++) {
+            messageString += "-> " + data[i].data[j].authId.replace('"', '').replace('"', '') + "  :- " + data[i].data[j].name.replace("//", "") + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***\n"
+          }
+          messageString += "\n"
         }
-        messageString += "\n"
       }
       sendMessage(messageString)
     } catch (error) {

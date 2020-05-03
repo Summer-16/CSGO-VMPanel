@@ -55,7 +55,7 @@ exports.authUserLogin = async (req, res) => {
         // return the JWT token for the future API calls
         req.session.token = token;
         req.session.username = userData.username;
-        res.redirect('/managevip')
+        res.redirect('/dashboard')
       } else {
         res.render('Login', { "error": 'Incorrect username or password' })
       }

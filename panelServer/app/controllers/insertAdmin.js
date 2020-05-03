@@ -20,30 +20,30 @@
 "use strict";
 const config = require('../config/config.json')
 const serverList = config.servers;
-const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
+const vipModel = require("../models/vipModel.js");
 
 // -----------------------------------------------------------------------------------------
 
-exports.formVIP = async (req, res) => {
+exports.formAdmin = async (req, res) => {
   try {
-    res.render('ManageVIP', { "serverList": serverList });
+    res.render('ManageAdmin', { "serverList": serverList });
   } catch (error) {
-    res.render('ManageVIP', { "serverList": null });
+    res.render('ManageAdmin', { "serverList": null });
   }
 }
 
 // -----------------------------------------------------------------------------------------
 
-exports.insertVipData = async (req, res) => {
+exports.insertAdminData = async (req, res) => {
   try {
-    let result = await insertVipDataFunc(req.body, req.session.username);
+    let result = await insertAdminDataFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": req.body.submit == "insert" ? "New VIP added Successfully" : "VIP Updated Successfully" }
+      data: { "res": result, "message": "New Admin added Successfully" }
     });
   } catch (error) {
-    console.log("error in add/update vip->", error)
+    console.log("error in add Admin->", error)
     res.json({
       success: false,
       data: { "error": error }
@@ -51,52 +51,36 @@ exports.insertVipData = async (req, res) => {
   }
 }
 
-const insertVipDataFunc = (reqBody, username) => {
+const insertAdminDataFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
       let userData = await userModel.getuserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        reqBody.day = reqBody.day / 1
         if (reqBody.submit === "insert") {
-          reqBody.day = epoctillExpirey(reqBody.day)
+          console.log("reqBody in insertAdminDataFunc->", reqBody)
           reqBody.name = "//" + reqBody.name
           reqBody.steamId = '"' + reqBody.steamId + '"'
-          reqBody.flag = '"' + '0:a' + '"'
+          reqBody.flag = '"' + reqBody.flag + '"'
+          reqBody.day = 0
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
             resolve(insertRes)
           }
-        } else if (reqBody.submit === "update") {
-          reqBody.day = Math.floor(reqBody.day * 86400)
-          reqBody.steamId = '"' + reqBody.steamId + '"'
-          reqBody.flag = '"' + '0:a' + '"'
-
-          let updateRes = await vipModel.updateVIPData(reqBody)
-          if (updateRes) {
-            resolve(updateRes)
-          }
-        } else {
-          reject("Something Went Wrong")
         }
+
       } else {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in insertVipDataFunc->", error)
+      console.log("error in insertAdminDataFunc->", error)
       reject(error + ", Please try again")
     }
   });
 }
 
-function epoctillExpirey(days) {
-  let currentEpoc = Math.floor(Date.now() / 1000)
-  let daysinSec = Math.floor(days * 86400)
-  return (currentEpoc + daysinSec)
-}
-
 // -----------------------------------------------------------------------------------------
 
-exports.insertVipDataFunc = insertVipDataFunc;
+exports.insertAdminDataFunc = insertAdminDataFunc;

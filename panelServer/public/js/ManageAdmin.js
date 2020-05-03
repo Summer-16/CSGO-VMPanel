@@ -17,8 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-function addNewVIPajax() {
-  fetch('/addvip', {
+function addNewAdminajax() {
+  fetch('/addadmin', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -27,7 +27,7 @@ function addNewVIPajax() {
     body: JSON.stringify({
       "steamId": $('#steamId_add').val(),
       "name": $('#name_add').val(),
-      "day": $('#day_add').val(),
+      "flag": $('#flag_add').val(),
       "server": $('#server_add').val(),
       "secKey": $('#secKey_add').val(),
       "submit": "insert"
@@ -36,35 +36,12 @@ function addNewVIPajax() {
     .then((res) => { return res.json(); })
     .then((response) => {
       showNotif(response)
-      if (response.success == true) { getVIPTableListing($('#server_add').val()) }
+      if (response.success == true) { getAdminTableListing($('#server_add').val()) }
     })
     .catch();
 }
 
-function updateOldVIPajax() {
-  fetch('/addvip', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "steamId": $('#steamId_update').val(),
-      "day": $('#day_update').val(),
-      "server": $('#server_update').val(),
-      "secKey": $('#secKey_update').val(),
-      "submit": "update"
-    })
-  })
-    .then((res) => { return res.json(); })
-    .then((response) => {
-      showNotif(response)
-      if (response.success == true) { getVIPTableListing($('#server_update').val()) }
-    })
-    .catch();
-}
-
-function deleteVIPajax(tableName, primaryKey) {
+function deleteAdminajax(tableName, primaryKey) {
 
   let htmlString = `<p>Please Confirm delete dperation, Enter your Secret key and press yes</p>
                     <form>
@@ -91,16 +68,16 @@ function deleteVIPajax(tableName, primaryKey) {
         .then((res) => { return res.json(); })
         .then((response) => {
           showNotif(response)
-          if (response.success == true) { getVIPTableListing(tableName) }
+          if (response.success == true) { getAdminTableListing(tableName) }
         })
         .catch();
     }
   })
 }
 
-function getVIPTableListing(value) {
+function getAdminTableListing(value) {
   if (value) {
-    fetch('/getvipdatasingleserver', {
+    fetch('/getadmindatasingleserver', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -119,8 +96,7 @@ function getVIPTableListing(value) {
                         <td>${dataArray[i].authId ? dataArray[i].authId.replace('"', '').replace('"', '') : 'NA'}</td>
                         <td>${dataArray[i].name ? dataArray[i].name.replace("//", "") : 'NA'}</td>
                         <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
-                        <td>${dataArray[i].expireStamp ? EpocToDate(dataArray[i].expireStamp) : 'NA'}</td>
-                        <td> <button class="btn btn-danger" onclick="deleteVIPajax('${value}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
+                        <td> <button class="btn btn-danger" onclick="deleteAdminajax('${value}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
         }
         document.getElementById("manageVipTableBody").innerHTML = htmlString
@@ -129,14 +105,4 @@ function getVIPTableListing(value) {
       })
       .catch();
   }
-}
-
-function EpocToDate(utcSeconds) {
-  let d = new Date(0);
-  d.setUTCSeconds(utcSeconds)
-
-  let dd = d.getDate();
-  let mm = d.getMonth() + 1;
-  let yyyy = d.getFullYear();
-  return dd + '-' + mm + '-' + yyyy;
 }

@@ -66,7 +66,7 @@ exports.getVipsDataSingleServer = async (req, res) => {
 const getVipsDataSingleServerFunc = (reqBody) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await vipModel.getsingleServerData(reqBody.server)
+      let data = await vipModel.getsingleServerData(reqBody.server, "vip")
       resolve(data)
     } catch (error) {
       console.log("error in getVipsDataSingleServerFunc->", error)
@@ -76,3 +76,35 @@ const getVipsDataSingleServerFunc = (reqBody) => {
 }
 
 exports.getVipsDataSingleServerFunc = getVipsDataSingleServerFunc;
+
+//-----------------------------------------------------------------------
+
+exports.getAdminsDataSingleServer = async (req, res) => {
+  try {
+    let result = await getAdminsDataSingleServerFunc(req.body);
+    res.json({
+      success: true,
+      data: { "res": result, "message": "Admins Listing loaded for " + req.body.server.toUpperCase() }
+    });
+  } catch (error) {
+    console.log("error in getAdminsDataSingleServerFunc->", error)
+    res.json({
+      success: false,
+      data: { "error": error }
+    });
+  }
+}
+
+const getAdminsDataSingleServerFunc = (reqBody) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await vipModel.getsingleServerData(reqBody.server, "admin")
+      resolve(data)
+    } catch (error) {
+      console.log("error in getAdminsDataSingleServerFunc->", error)
+      reject(error)
+    }
+  });
+}
+
+exports.getAdminsDataSingleServerFunc = getAdminsDataSingleServerFunc;

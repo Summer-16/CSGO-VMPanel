@@ -123,7 +123,7 @@
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Select Server</label>
                 <select class="form-control" id="server_update"
-                  onchange="getTableListing(this.options[this.selectedIndex].value)">
+                  onchange="getVIPTableListing(this.options[this.selectedIndex].value)">
                   <option value="" selected>Select Server</option>
                   <% if(serverList) {%>
                   <% for(let i=0; i < serverList.length; i++) { %>
@@ -157,3 +157,5 @@
 <%- include('Footer.ejs') %>
 
 <script src="./js/ManageVIP.js"></script>
+<script src="./js/customConfirm.js"></script>
+<script src="./js/notifications.js"></script>
