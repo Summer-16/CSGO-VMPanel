@@ -43,7 +43,6 @@ exports.authUserLogin = async (req, res) => {
     let password = req.body.password;
     // For the given username fetch user from DB
     let userData = await userModel.getuserDataByUsername(username)
-
     if (username && password) {
       if (username === userData.username && password === userData.password) {
         let token = jwt.sign({ username: username },
@@ -55,6 +54,8 @@ exports.authUserLogin = async (req, res) => {
         // return the JWT token for the future API calls
         req.session.token = token;
         req.session.username = userData.username;
+        req.session.sec_key = userData.sec_key;
+        req.session.user_type = userData.user_type;
         res.redirect('/dashboard')
       } else {
         res.render('Login', { "error": 'Incorrect username or password' })

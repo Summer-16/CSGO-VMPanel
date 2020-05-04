@@ -27,6 +27,8 @@ module.exports = app => {
   const { insertAdminData, formAdmin } = require("../controllers/insertAdmin.js");
   const { deleteVipData } = require("../controllers/deleteVip.js");
   const { loginPage, authUserLogin } = require("../controllers/login.js");
+  const { PanelSettings } = require("../controllers/panelSettings.js")
+  const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
 
   //Public Router
   app.get("/", getVipsData);
@@ -58,9 +60,16 @@ module.exports = app => {
   app.get("/manageadmin", middleware.checkToken, formAdmin);
   app.post("/addadmin", middleware.checkToken, insertAdminData);
 
-  app.get('/panelsetting', function (req, res) {
-    res.render('PanelSetting');
-  });
+  //Panel Settings page
+  app.get('/panelsetting', middleware.checkToken, PanelSettings);
+
+  //admin Fetch
+  app.get("/getpaneladminslist", middleware.checkToken, getPanelAdminsList);
+
+  //Admin insertion 
+  app.post("/addpaneladmin", middleware.checkToken, addPanelAdmin);
+  app.post("/updatepaneladmin", middleware.checkToken, addPanelAdmin);
+  app.post("/deletepaneladmin", middleware.checkToken, deletePanelAdmin);
 
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');

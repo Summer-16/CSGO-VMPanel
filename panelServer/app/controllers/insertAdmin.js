@@ -37,6 +37,7 @@ exports.formAdmin = async (req, res) => {
 
 exports.insertAdminData = async (req, res) => {
   try {
+    req.body.secKey = req.session.sec_key
     let result = await insertAdminDataFunc(req.body, req.session.username);
     res.json({
       success: true,
@@ -59,7 +60,6 @@ const insertAdminDataFunc = (reqBody, username) => {
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "insert") {
-          console.log("reqBody in insertAdminDataFunc->", reqBody)
           reqBody.name = "//" + reqBody.name
           reqBody.steamId = '"' + reqBody.steamId + '"'
           reqBody.flag = '"' + reqBody.flag + '"'
@@ -70,7 +70,6 @@ const insertAdminDataFunc = (reqBody, username) => {
             resolve(insertRes)
           }
         }
-
       } else {
         reject("Unauthorized Access, Key Missing")
       }

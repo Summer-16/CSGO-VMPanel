@@ -29,7 +29,6 @@ function addNewAdminajax() {
       "name": $('#name_add').val(),
       "flag": $('#flag_add').val(),
       "server": $('#server_add').val(),
-      "secKey": $('#secKey_add').val(),
       "submit": "insert"
     })
   })
@@ -43,12 +42,7 @@ function addNewAdminajax() {
 
 function deleteAdminajax(tableName, primaryKey) {
 
-  let htmlString = `<p>Please Confirm delete dperation, Enter your Secret key and press yes</p>
-                    <form>
-                    <div class="form-group bmd-form-group">
-                    <input id="secKey_delete" type="password" class="form-control" required>
-                    </div>
-                    </form>`
+  let htmlString = `<p>You Sure !<br>Please Confirm delete Operation for Steam Id: ${primaryKey}`
 
   custom_confirm(htmlString, (response) => {
 
@@ -61,8 +55,7 @@ function deleteAdminajax(tableName, primaryKey) {
         },
         body: JSON.stringify({
           "tableName": tableName,
-          "primaryKey": primaryKey,
-          "secKey": $('#secKey_delete').val()
+          "primaryKey": primaryKey
         })
       })
         .then((res) => { return res.json(); })

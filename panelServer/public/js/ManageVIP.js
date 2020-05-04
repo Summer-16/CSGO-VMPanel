@@ -29,7 +29,6 @@ function addNewVIPajax() {
       "name": $('#name_add').val(),
       "day": $('#day_add').val(),
       "server": $('#server_add').val(),
-      "secKey": $('#secKey_add').val(),
       "submit": "insert"
     })
   })
@@ -52,7 +51,6 @@ function updateOldVIPajax() {
       "steamId": $('#steamId_update').val(),
       "day": $('#day_update').val(),
       "server": $('#server_update').val(),
-      "secKey": $('#secKey_update').val(),
       "submit": "update"
     })
   })
@@ -66,12 +64,7 @@ function updateOldVIPajax() {
 
 function deleteVIPajax(tableName, primaryKey) {
 
-  let htmlString = `<p>Please Confirm delete dperation, Enter your Secret key and press yes</p>
-                    <form>
-                    <div class="form-group bmd-form-group">
-                    <input id="secKey_delete" type="password" class="form-control" required>
-                    </div>
-                    </form>`
+  let htmlString = `<p>You Sure !<br>Please Confirm delete Operation for Steam Id: ${primaryKey}`
 
   custom_confirm(htmlString, (response) => {
 
@@ -85,7 +78,6 @@ function deleteVIPajax(tableName, primaryKey) {
         body: JSON.stringify({
           "tableName": tableName,
           "primaryKey": primaryKey,
-          "secKey": $('#secKey_delete').val()
         })
       })
         .then((res) => { return res.json(); })

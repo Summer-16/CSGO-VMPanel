@@ -22,6 +22,7 @@ const scheduleConfig = config.scheduleConfig;
 const express = require("express");
 const bodyParser = require("body-parser");
 const vipModel = require("./app/models/vipModel.js");
+const userModel = require("./app/models/userModel.js");
 const cron = require('node-cron');
 const session = require('express-session');
 const { sendMessageOnDiscord } = require("./app/controllers/sendMessageOnDiscord.js");
@@ -61,11 +62,15 @@ cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
   sendMessageOnDiscord()
 });
 
+//create user table if dont exists
+userModel.createTheTableIfNotExists()
+
 // middleware to make 'user' available to all templates
 app.use(function (req, res, next) {
   res.locals.sessionToken = req.session.token;
-  res.locals.adminName = req.session.username
+  res.locals.adminName = req.session.username;
   res.locals.currentURL = req.originalUrl;
+  res.locals.adminType = req.session.user_type;
   next();
 });
 

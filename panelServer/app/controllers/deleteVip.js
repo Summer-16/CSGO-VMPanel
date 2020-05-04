@@ -25,6 +25,7 @@ const userModel = require("../models/userModel.js");
 
 exports.deleteVipData = async (req, res) => {
   try {
+    req.body.secKey = req.session.sec_key
     let result = await deleteVipDataFunc(req.body, req.session.username);
     res.json({
       success: true,

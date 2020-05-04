@@ -171,7 +171,7 @@ var vipDataModel = {
 
         if (!dataObj.secKey) return reject("Unauth Access, Key Missing");
 
-        let query = db.queryFormat(`DELETE FROM ${dataObj.tableName} where authId = '${dataObj.primaryKey}'`);
+        let query = db.queryFormat(`DELETE FROM ${dataObj.tableName} where authId = ? `, [dataObj.primaryKey]);
         let queryRes = await db.query(query);
         if (!queryRes) {
           return reject("Error in delete");

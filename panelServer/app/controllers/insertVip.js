@@ -37,6 +37,7 @@ exports.formVIP = async (req, res) => {
 
 exports.insertVipData = async (req, res) => {
   try {
+    req.body.secKey = req.session.sec_key
     let result = await insertVipDataFunc(req.body, req.session.username);
     res.json({
       success: true,
