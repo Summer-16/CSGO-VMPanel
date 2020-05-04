@@ -1,6 +1,9 @@
 # CSGO Vip Management Panel
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/Shivam169)  
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/Shivam169)  
+
 This system makes the adding of VIP in CSGO community server's super easy, all you gotta do is add them from the panel and forget system will automatically add them in server from DB and delete them when their subscription expires and it comes with a handy web panel.
+
+If you wants to use the panel and have no idea how to install through below Instruction, Contact me on Discord: Summer_Soldier#5591
 
 ## Nodejs Server
 - It is the main server to manage and maintain everything, from the database to VIP addition, deletion and notification.

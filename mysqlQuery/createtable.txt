@@ -1,3 +1,22 @@
+/* VMP-by-Summer-Soldier
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of VMP-by-Summer-Soldier
+*
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
+*/
+
 - Query to create tables for server
 ```mysql
 CREATE TABLE `tablename_here`
@@ -15,9 +34,10 @@ CREATE TABLE `tbl_users` (
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   `sec_key` varchar(45) NOT NULL,
+  `user_type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
 ```
 - Query to insert and admin 
 ```mysql
-INSERT INTO `GGVIPlist`.`tbl_users` (`username`, `password`, `sec_key`) VALUES ('your_admin_name_here', 'your_Admin_pass_here', 'your_admin_auth_key_here');
+INSERT INTO `GGVIPlist`.`tbl_users` (`username`, `password`, `sec_key`, `user_type`) VALUES ('your_admin_name_here', 'your_Admin_pass_here', 'your_admin_auth_key_here','1 for superuser, 0 for normal');
