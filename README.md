@@ -21,6 +21,7 @@ If you wants to use the panel and have no idea how to install through below Inst
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP2_SS.png)
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP3_SS.png)
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP4_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP5_SS.png)
 
 ## Change in v1.2
 - New UI
