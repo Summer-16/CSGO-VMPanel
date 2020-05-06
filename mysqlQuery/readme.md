@@ -1,21 +1,3 @@
-/* VMP-by-Summer-Soldier
-*
-* Copyright (C) 2020 SUMMER SOLDIER
-*
-* This file is part of VMP-by-Summer-Soldier
-*
-* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
-* under the terms of the GNU General Public License as published by the Free
-* Software Foundation, either version 3 of the License, or (at your option)
-* any later version.
-*
-* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
-* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License along with
-* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
-*/
 
 - Query to create tables for server
 ```mysql
@@ -24,9 +6,16 @@ CREATE TABLE `tablename_here`
   `flag` varchar(45) DEFAULT '"0:a"',
   `name` varchar(45) NOT NULL,
   `expireStamp` int(20) NOT NULL,
+  `created_at` DATETIME NOT NULL,
   PRIMARY KEY (`authId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```
+- Query to update server table
+```mysql
+ALTER TABLE `GGVIPlist`.`mumbaiRetake` 
+ADD COLUMN `created_at` DATETIME NOT NULL AFTER `expireStamp`;
+```
+
 - Query to create user table
 ```mysql
 CREATE TABLE `tbl_users` (

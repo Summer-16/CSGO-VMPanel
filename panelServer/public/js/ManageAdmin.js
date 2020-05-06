@@ -18,6 +18,12 @@
 */
 
 function addNewAdminajax() {
+
+  let serverArray = []
+  $("input:checkbox[name=server_add]:checked").each(function () {
+    serverArray.push($(this).val());
+  });
+
   fetch('/addadmin', {
     method: 'POST',
     headers: {
@@ -28,14 +34,14 @@ function addNewAdminajax() {
       "steamId": $('#steamId_add').val(),
       "name": $('#name_add').val(),
       "flag": $('#flag_add').val(),
-      "server": $('#server_add').val(),
+      "server": serverArray,
       "submit": "insert"
     })
   })
     .then((res) => { return res.json(); })
     .then((response) => {
       showNotif(response)
-      if (response.success == true) { getAdminTableListing($('#server_add').val()) }
+      if (response.success == true) { getAdminTableListing(serverArray[0]) }
     })
     .catch();
 }

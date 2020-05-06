@@ -29,7 +29,7 @@
             <h4 class="card-title">Add Admin</h4>
             <p class="card-category">Form to add a new Admin in Server</p>
           </div>
-          <div class="card-body" style="height:320px;">
+          <div class="card-body" style="height:360px;">
             <form>
               <div class="row">
                 <div class="col-md-12">
@@ -46,14 +46,19 @@
                     <input id="flag_add" type="text" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Select Server</label>
-                    <select class="form-control" id="server_add" required>
-                      <option value="" selected>Select Server</option>
+                    <label class="">Select Servers to add in</label>
+                    <div class="col-md-12 row">
                       <% if(serverList) {%>
                       <% for(let i=0; i < serverList.length; i++) { %>
-                      <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
+                      <div class="col-md-3">
+                        <input class="form-check-input" type="checkbox" name="server_add" value="<%=serverList[i]%>"
+                          id="<%='server_add'+i%>">
+                        <label class="form-check-label" for="<%='server_add'+i%>">
+                          <%=serverList[i].toUpperCase()%>
+                        </label>
+                      </div>
                       <%}}%>
-                    </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -63,14 +68,13 @@
           </div>
         </div>
       </div>
-
       <div class="col-md-6">
         <div class="card">
           <div class="card-header card-header-danger">
             <h4 class="card-title">Help</h4>
             <p class="card-category">Use below details for generating admin flag and level</p>
           </div>
-          <div class="card-body row" style="height:320px;overflow: auto;" id="style-4">
+          <div class="card-body row" style="height:360px;overflow: auto;" id="style-4">
             <div class="col-md-6">
               Flag Format : "immunity level:flag"
               <br><br>
@@ -91,180 +95,114 @@
                   </thead>
                   <tbody>
                     <tr class="">
-                      <td>Name
-                      </td>
-                      <td>Flag
-                      </td>
-                      <td>Purpose
-                      </td>
+                      <td>Name</td>
+                      <td>Flag</td>
+                      <td>Purpose</td>
                     </tr>
                     <tr class="">
-                      <td>reservation
-                      </td>
-                      <td>a
-                      </td>
-                      <td>Reserved slot access.
-                      </td>
+                      <td>reservation</td>
+                      <td>a</td>
+                      <td>Reserved slot access.</td>
                     </tr>
                     <tr class="">
-                      <td>generic
-                      </td>
-                      <td>b
-                      </td>
-                      <td>Generic admin; required for admins.
-                      </td>
+                      <td>generic</td>
+                      <td>b</td>
+                      <td>Generic admin; required for admins.</td>
                     </tr>
                     <tr class="">
-                      <td>kick
-                      </td>
-                      <td>c
-                      </td>
-                      <td>Kick other players.
-                      </td>
+                      <td>kick</td>
+                      <td>c</td>
+                      <td>Kick other players.</td>
                     </tr>
                     <tr class="">
-                      <td>ban
-                      </td>
-                      <td>d
-                      </td>
-                      <td>Ban other players.
-                      </td>
+                      <td>ban</td>
+                      <td>d</td>
+                      <td>Ban other players.</td>
                     </tr>
                     <tr class="">
-                      <td>unban
-                      </td>
-                      <td>e
-                      </td>
-                      <td>Remove bans.
-                      </td>
+                      <td>unban</td>
+                      <td>e</td>
+                      <td>Remove bans.</td>
                     </tr>
                     <tr class="">
-                      <td>slay
-                      </td>
-                      <td>f
-                      </td>
-                      <td>Slay/harm other players.
-                      </td>
+                      <td>slay</td>
+                      <td>f</td>
+                      <td>Slay/harm other players.</td>
                     </tr>
                     <tr class="">
-                      <td>changemap
-                      </td>
-                      <td>g
-                      </td>
-                      <td>Change the map or major gameplay features.
-                      </td>
+                      <td>changemap</td>
+                      <td>g</td>
+                      <td>Change the map or major gameplay features.</td>
                     </tr>
                     <tr class="">
-                      <td>cvar
-                      </td>
-                      <td>h
-                      </td>
-                      <td>Change most cvars.
-                      </td>
+                      <td>cvar</td>
+                      <td>h</td>
+                      <td>Change most cvars.</td>
                     </tr>
                     <tr class="">
-                      <td>config
-                      </td>
-                      <td>i
-                      </td>
-                      <td>Execute config files.
-                      </td>
+                      <td>config</td>
+                      <td>i</td>
+                      <td>Execute config files.</td>
                     </tr>
                     <tr class="">
-                      <td>chat
-                      </td>
-                      <td>j
-                      </td>
-                      <td>Special chat privileges.
-                      </td>
+                      <td>chat</td>
+                      <td>j</td>
+                      <td>Special chat privileges.</td>
                     </tr>
                     <tr class="">
-                      <td>vote
-                      </td>
-                      <td>k
-                      </td>
-                      <td>Start or create votes.
-                      </td>
+                      <td>vote</td>
+                      <td>k</td>
+                      <td>Start or create votes.</td>
                     </tr>
                     <tr class="">
-                      <td>password
-                      </td>
-                      <td>l
-                      </td>
-                      <td>Set a password on the server.
-                      </td>
+                      <td>password</td>
+                      <td>l</td>
+                      <td>Set a password on the server.</td>
                     </tr>
                     <tr class="">
-                      <td>rcon
-                      </td>
-                      <td>m
-                      </td>
-                      <td>Use RCON commands.
-                      </td>
+                      <td>rcon</td>
+                      <td>m</td>
+                      <td>Use RCON commands.</td>
                     </tr>
                     <tr class="">
-                      <td>cheats
-                      </td>
-                      <td>n
-                      </td>
-                      <td>Change sv_cheats or use cheating commands.
-                      </td>
+                      <td>cheats</td>
+                      <td>n</td>
+                      <td>Change sv_cheats or use cheating commands.</td>
                     </tr>
                     <tr class="">
-                      <td>root
-                      </td>
-                      <td>z
-                      </td>
-                      <td>Magically enables all flags and ignores immunity values.
-                      </td>
+                      <td>root</td>
+                      <td>z</td>
+                      <td>Magically enables all flags and ignores immunity values.</td>
                     </tr>
                     <tr class="">
-                      <td>custom1
-                      </td>
-                      <td>o
-                      </td>
-                      <td>Custom Group 1.
-                      </td>
+                      <td>custom1</td>
+                      <td>o</td>
+                      <td>Custom Group 1.</td>
                     </tr>
                     <tr class="">
-                      <td>custom2
-                      </td>
-                      <td>p
-                      </td>
-                      <td>Custom Group 2.
-                      </td>
+                      <td>custom2</td>
+                      <td>p</td>
+                      <td>Custom Group 2.</td>
                     </tr>
                     <tr class="">
-                      <td>custom3
-                      </td>
-                      <td>q
-                      </td>
-                      <td>Custom Group 3.
-                      </td>
+                      <td>custom3</td>
+                      <td>q</td>
+                      <td>Custom Group 3.</td>
                     </tr>
                     <tr class="">
-                      <td>custom4
-                      </td>
-                      <td>r
-                      </td>
-                      <td>Custom Group 4.
-                      </td>
+                      <td>custom4</td>
+                      <td>r</td>
+                      <td>Custom Group 4.</td>
                     </tr>
                     <tr class="">
-                      <td>custom5
-                      </td>
-                      <td>s
-                      </td>
-                      <td>Custom Group 5.
-                      </td>
+                      <td>custom5</td>
+                      <td>s</td>
+                      <td>Custom Group 5.</td>
                     </tr>
                     <tr class="">
-                      <td>custom6
-                      </td>
-                      <td>t
-                      </td>
-                      <td>Custom Group 6.
-                      </td>
+                      <td>custom6</td>
+                      <td>t</td>
+                      <td>Custom Group 6.</td>
                     </tr>
                   </tbody>
                 </table>
@@ -273,8 +211,6 @@
           </div>
         </div>
       </div>
-
-
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">

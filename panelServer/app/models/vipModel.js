@@ -37,7 +37,7 @@ var vipDataModel = {
         let finalResult = []
 
         for (let i = 0; i < serverList.length; i++) {
-          let query = db.queryFormat(`SELECT authId,name,expireStamp FROM ${serverList[i]} WHERE flag = '"0:a"'`);
+          let query = db.queryFormat(`SELECT authId,name,expireStamp,created_at FROM ${serverList[i]} WHERE flag = '"0:a"'`);
           let queryRes = await db.query(query);
           if (!queryRes) {
             return reject("No Data Found");
@@ -99,13 +99,15 @@ var vipDataModel = {
         // validation
         if (!dataObj.secKey) return reject("Unauth Access, Key Missing");
 
-        const query = db.queryFormat(`INSERT INTO ${dataObj.server} (authId, flag, name, expireStamp) VALUES (?,?,?,?)`, [dataObj.steamId, dataObj.flag, dataObj.name, dataObj.day]);
-        const queryRes = await db.query(query);
-        if (!queryRes) {
-          return reject("error in insertion");
+        let currentDateTime = new Date()
+        for (let i = 0; i < dataObj.server.length; i++) {
+          const query = db.queryFormat(`INSERT INTO ${dataObj.server[i]} (authId, flag, name, created_at, expireStamp) VALUES (?, ?, ?, ?, ?)`, [dataObj.steamId, dataObj.flag, dataObj.name, currentDateTime, dataObj.day]);
+          const queryRes = await db.query(query);
+          if (!queryRes) {
+            return reject("error in insertion");
+          }
         }
-        return resolve(queryRes);
-
+        return resolve(true);
       } catch (error) {
         console.log("error in insertVIPData->", error)
         reject(error)
@@ -122,13 +124,14 @@ var vipDataModel = {
         // validation
         if (!dataObj.secKey) return reject("Unauth Access, Key Missing");
 
-        const query = db.queryFormat(`UPDATE ${dataObj.server} SET expireStamp = expireStamp+${dataObj.day} WHERE authId=?`, [dataObj.steamId]);
-        const queryRes = await db.query(query);
-        if (!queryRes) {
-          return reject("error in update");
+        for (let i = 0; i < dataObj.server.length; i++) {
+          const query = db.queryFormat(`UPDATE ${dataObj.server[i]} SET expireStamp = expireStamp+${dataObj.day} WHERE authId=?`, [dataObj.steamId]);
+          const queryRes = await db.query(query);
+          if (!queryRes) {
+            return reject("error in update");
+          }
         }
-        return resolve(queryRes);
-
+        return resolve(true);
       } catch (error) {
         console.log("error in updateVIPData->", error)
         reject(error)

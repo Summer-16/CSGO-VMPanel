@@ -22,12 +22,29 @@
 function EpocToDate(utcSeconds) {
   let d = new Date(0);
   d.setUTCSeconds(utcSeconds)
-
   let dd = d.getDate();
   let mm = d.getMonth() + 1;
   let yyyy = d.getFullYear();
   return dd + '-' + mm + '-' + yyyy;
 }
+
+function dateFormatter(date) {
+  let d = new Date(date);
+  let dd = d.getDate();
+  let mm = d.getMonth() + 1;
+  let yyyy = d.getFullYear();
+  return dd + '-' + mm + '-' + yyyy;
+}
+
+function remainingDays(startDate,endEpoc){
+const date1 = new Date(startDate);
+const date2 = new Date(0);
+date2.setUTCSeconds(endEpoc)
+const diffTime = Math.abs(date2 - date1);
+const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+return diffDays
+}
+
 %>
 
 <%- include('Header.ejs') %>
@@ -49,7 +66,9 @@ function EpocToDate(utcSeconds) {
                 <thead class=" text-primary">
                   <th>Steam ID</th>
                   <th>Name</th>
-                  <th>Subscription End Date</th>
+                  <th>Sub. Start Date</th>
+                  <th>Sub. End Date</th>
+                  <th>Days Left</th>
                 </thead>
                 <tbody>
                   <% if(vipData[i].data) {%>
@@ -59,7 +78,11 @@ function EpocToDate(utcSeconds) {
                       <%=vipData[i].data[j].authId?((vipData[i].data[j].authId).replace('"','').replace('"','')):"NA"%>
                     </td>
                     <td><%=vipData[i].data[j].name?vipData[i].data[j].name.replace("//",""):"NA"%></td>
+                    <td><%=vipData[i].data[j].created_at?dateFormatter(vipData[i].data[j].created_at):"NA"%></td>
                     <td><%=vipData[i].data[j].expireStamp?EpocToDate(vipData[i].data[j].expireStamp):"NA"%></td>
+                    <td>
+                      <%=vipData[i].data[j].expireStamp?remainingDays(vipData[i].data[j].created_at,vipData[i].data[j].expireStamp):"NA"%>
+                    </td>
                   </tr>
                   <%}}%>
                 </tbody>

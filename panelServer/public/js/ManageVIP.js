@@ -18,6 +18,12 @@
 */
 
 function addNewVIPajax() {
+
+  let serverArray = []
+  $("input:checkbox[name=server_add]:checked").each(function () {
+    serverArray.push($(this).val());
+  });
+
   fetch('/addvip', {
     method: 'POST',
     headers: {
@@ -28,19 +34,25 @@ function addNewVIPajax() {
       "steamId": $('#steamId_add').val(),
       "name": $('#name_add').val(),
       "day": $('#day_add').val(),
-      "server": $('#server_add').val(),
+      "server": serverArray,
       "submit": "insert"
     })
   })
     .then((res) => { return res.json(); })
     .then((response) => {
       showNotif(response)
-      if (response.success == true) { getVIPTableListing($('#server_add').val()) }
+      if (response.success == true) { getVIPTableListing(serverArray[0]) }
     })
     .catch();
 }
 
 function updateOldVIPajax() {
+
+  let serverArray = []
+  $("input:checkbox[name=server_update]:checked").each(function () {
+    serverArray.push($(this).val());
+  });
+
   fetch('/addvip', {
     method: 'POST',
     headers: {
@@ -50,14 +62,14 @@ function updateOldVIPajax() {
     body: JSON.stringify({
       "steamId": $('#steamId_update').val(),
       "day": $('#day_update').val(),
-      "server": $('#server_update').val(),
+      "server": serverArray,
       "submit": "update"
     })
   })
     .then((res) => { return res.json(); })
     .then((response) => {
       showNotif(response)
-      if (response.success == true) { getVIPTableListing($('#server_update').val()) }
+      if (response.success == true) { getVIPTableListing(serverArray[0]) }
     })
     .catch();
 }
@@ -111,7 +123,9 @@ function getVIPTableListing(value) {
                         <td>${dataArray[i].authId ? dataArray[i].authId.replace('"', '').replace('"', '') : 'NA'}</td>
                         <td>${dataArray[i].name ? dataArray[i].name.replace("//", "") : 'NA'}</td>
                         <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
+                        <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
                         <td>${dataArray[i].expireStamp ? EpocToDate(dataArray[i].expireStamp) : 'NA'}</td>
+                        <td>${dataArray[i].expireStamp ? remainingDays(dataArray[i].created_at, dataArray[i].expireStamp) : 'NA'}</td>
                         <td> <button class="btn btn-danger" onclick="deleteVIPajax('${value}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
         }
@@ -126,9 +140,25 @@ function getVIPTableListing(value) {
 function EpocToDate(utcSeconds) {
   let d = new Date(0);
   d.setUTCSeconds(utcSeconds)
-
   let dd = d.getDate();
   let mm = d.getMonth() + 1;
   let yyyy = d.getFullYear();
   return dd + '-' + mm + '-' + yyyy;
+}
+
+function dateFormatter(date) {
+  let d = new Date(date);
+  let dd = d.getDate();
+  let mm = d.getMonth() + 1;
+  let yyyy = d.getFullYear();
+  return dd + '-' + mm + '-' + yyyy;
+}
+
+function remainingDays(startDate, endEpoc) {
+  const date1 = new Date(startDate);
+  const date2 = new Date(0);
+  date2.setUTCSeconds(endEpoc)
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays
 }

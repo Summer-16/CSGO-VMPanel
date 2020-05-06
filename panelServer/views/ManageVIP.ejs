@@ -46,14 +46,19 @@
                     <input id="day_add" type="number" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Select Server</label>
-                    <select class="form-control" id="server_add" required>
-                      <option value="" selected>Select Server</option>
+                    <label class="">Select Servers to add in</label>
+                    <div class="col-md-12 row">
                       <% if(serverList) {%>
                       <% for(let i=0; i < serverList.length; i++) { %>
-                      <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
+                      <div class="col-md-3">
+                        <input class="form-check-input" type="checkbox" name="server_add" value="<%=serverList[i]%>"
+                          id="<%='server_add'+i%>">
+                        <label class="form-check-label" for="<%='server_add'+i%>">
+                          <%=serverList[i].toUpperCase()%>
+                        </label>
+                      </div>
                       <%}}%>
-                    </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -82,14 +87,19 @@
                     <input id="day_update" type="number" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Select Server</label>
-                    <select class="form-control" id="server_update" required>
-                      <option value="" selected>Select Server</option>
+                    <label class="">Select Servers to add in</label>
+                    <div class="col-md-12 row">
                       <% if(serverList) {%>
                       <% for(let i=0; i < serverList.length; i++) { %>
-                      <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
+                      <div class="col-md-3">
+                        <input class="form-check-input" type="checkbox" name="server_update" value="<%=serverList[i]%>"
+                          id="<%='server_update'+i%>">
+                        <label class="form-check-label" for="<%='server_update'+i%>">
+                          <%=serverList[i].toUpperCase()%>
+                        </label>
+                      </div>
                       <%}}%>
-                    </select>
+                    </div>
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating"></label>
@@ -131,7 +141,9 @@
                   <th>Steam ID</th>
                   <th>Name</th>
                   <th>Flags</th>
-                  <th>Subscription End Date</th>
+                  <th>Sub. Start Date</th>
+                  <th>Sub. End Date</th>
+                  <th>Days Left</th>
                   <th>Actions</th>
                 </thead>
                 <tbody id="manageVipTableBody">
