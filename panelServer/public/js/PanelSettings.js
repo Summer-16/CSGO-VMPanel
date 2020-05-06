@@ -37,7 +37,7 @@ function addNewPAdminajax() {
         showNotif(response)
         if (response.success == true) { fetchPAdminajax() }
       })
-      .catch();
+      .catch(error => console.log('error', error));
   }
 }
 
@@ -60,7 +60,7 @@ function updateOldPAdminajax() {
         showNotif(response)
         if (response.success == true) { fetchPAdminajax() }
       })
-      .catch();
+      .catch(error => console.log('error', error));
   }
 }
 
@@ -82,7 +82,7 @@ function deletePAdminajax() {
         showNotif(response)
         if (response.success == true) { fetchPAdminajax() }
       })
-      .catch();
+      .catch(error => console.log('error', error));
   }
 }
 
@@ -114,7 +114,7 @@ function fetchPAdminajax() {
           }
         }
       })
-      .catch();
+      .catch(error => console.log('error', error));
   }
 }
 

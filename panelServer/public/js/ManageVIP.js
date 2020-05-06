@@ -43,7 +43,7 @@ function addNewVIPajax() {
       showNotif(response)
       if (response.success == true) { getVIPTableListing(serverArray[0]) }
     })
-    .catch();
+    .catch(error => console.log('error', error));
 }
 
 function updateOldVIPajax() {
@@ -71,7 +71,7 @@ function updateOldVIPajax() {
       showNotif(response)
       if (response.success == true) { getVIPTableListing(serverArray[0]) }
     })
-    .catch();
+    .catch(error => console.log('error', error));
 }
 
 function deleteVIPajax(tableName, primaryKey) {
@@ -97,7 +97,7 @@ function deleteVIPajax(tableName, primaryKey) {
           showNotif(response)
           if (response.success == true) { getVIPTableListing(tableName) }
         })
-        .catch();
+        .catch(error => console.log('error', error));
     }
   })
 }
@@ -133,7 +133,7 @@ function getVIPTableListing(value) {
 
         showNotif(response)
       })
-      .catch();
+      .catch(error => console.log('error', error));
   }
 }
 

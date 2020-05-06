@@ -57,7 +57,7 @@ cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
   await vipModel.deleteOldVip()
 });
 
-cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
+cron.schedule(`0 */${scheduleConfig.notif} * * *`, async () => {
   console.log("****Schedule call Sending Notification on Discord****")
   sendMessageOnDiscord()
 });

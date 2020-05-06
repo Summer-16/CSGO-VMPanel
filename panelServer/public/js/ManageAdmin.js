@@ -43,7 +43,7 @@ function addNewAdminajax() {
       showNotif(response)
       if (response.success == true) { getAdminTableListing(serverArray[0]) }
     })
-    .catch();
+    .catch(error => console.log('error', error));
 }
 
 function deleteAdminajax(tableName, primaryKey) {
@@ -69,7 +69,7 @@ function deleteAdminajax(tableName, primaryKey) {
           showNotif(response)
           if (response.success == true) { getAdminTableListing(tableName) }
         })
-        .catch();
+        .catch(error => console.log('error', error));
     }
   })
 }
@@ -102,6 +102,6 @@ function getAdminTableListing(value) {
 
         showNotif(response)
       })
-      .catch();
+      .catch(error => console.log('error', error));
   }
 }
