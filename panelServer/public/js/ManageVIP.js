@@ -19,10 +19,18 @@
 
 function addNewVIPajax() {
 
+  let flagString = '"' + ($('#immunity_vip').val() / 1) + ':'
   let serverArray = []
+
+  $("input:checkbox[name=vip_flags]:checked").each(function () {
+    flagString += $(this).val();
+  });
+
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
   });
+
+  flagString += '"';
 
   fetch('/addvip', {
     method: 'POST',
@@ -34,6 +42,7 @@ function addNewVIPajax() {
       "steamId": $('#steamId_add').val(),
       "name": $('#name_add').val(),
       "day": $('#day_add').val(),
+      "flag": flagString,
       "server": serverArray,
       "submit": "insert"
     })
@@ -162,3 +171,12 @@ function remainingDays(startDate, endEpoc) {
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays
 }
+
+$(document).ready(function () {
+  $(window).keydown(function (event) {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});

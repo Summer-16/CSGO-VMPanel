@@ -1,14 +1,14 @@
 
 - Query to create tables for server
 ```mysql
-CREATE TABLE `tablename_here`
-(`authId` varchar(50) NOT NULL,
-  `flag` varchar(45) DEFAULT '"0:a"',
-  `name` varchar(45) NOT NULL,
+CREATE TABLE `table_name_here` (
+  `authId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `flag` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT '"0:a"',
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `expireStamp` int(20) NOT NULL,
-  `created_at` DATETIME NOT NULL,
+  `created_at` datetime NOT NULL,
   PRIMARY KEY (`authId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 - Query to update server table
 ```mysql
@@ -20,12 +20,12 @@ ADD COLUMN `created_at` DATETIME NOT NULL AFTER `expireStamp`;
 ```mysql
 CREATE TABLE `tbl_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `sec_key` varchar(45) NOT NULL,
+  `username` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sec_key` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 - Query to insert and admin 
 ```mysql

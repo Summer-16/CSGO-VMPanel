@@ -54,6 +54,7 @@ return diffDays
     <div class="row">
       <% if(vipData) {%>
       <% for(let i=0; i < vipData.length; i++) { %>
+      <% if((vipData[i].type==="VIPs") || (vipData[i].type==="ADMINs" && adminsOn=="true")) {%>
       <div class="col-md-6">
         <div class="card">
           <div class="card-header card-header-danger">
@@ -91,7 +92,7 @@ return diffDays
           </div>
         </div>
       </div>
-      <%}}%>
+      <%}}}%>
     </div>
   </div>
 </div>

@@ -19,5 +19,8 @@
   "webhook": "your discord webhook url",
   "jwt": {
     "key": "add some random generated string here min 32length"
+  },
+  "panelConf": {
+    "showAdminsinDashboard": "true"
   }
 }

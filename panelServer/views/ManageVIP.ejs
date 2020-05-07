@@ -44,9 +44,56 @@
                     <label class="bmd-label-floating">Enter User Name</label>
                     <input id="name_add" type="text" class="form-control" required>
                   </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="">Add VIP Flags and Immunity</label>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Immunity</label>
+                        <input id="immunity_vip" type="number" class="form-control" value="0" required>
+                      </div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group row">
+                        <div class="col-md-12 row">
+                          <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="a" id="aFlag"
+                              checked>
+                            <label class="form-check-label" for="aFlag">a (reservation)</label>
+                          </div>
+                          <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="o" id="oFlag">
+                            <label class="form-check-label" for="oFlag">o (custom1)</label>
+                          </div>
+                          <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="p" id="pFlag">
+                            <label class="form-check-label" for="pFlag">p (custom2)</label>
+                          </div>
+                          <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="q" id="qFlag">
+                            <label class="form-check-label" for="qFlag">q (custom3)</label>
+                          </div>
+                          <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="r" id="rFlag">
+                            <label class="form-check-label" for="rFlag">r (custom4)</label>
+                          </div>
+                          <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="s" id="sFlag">
+                            <label class="form-check-label" for="sFlag">s (custom5)</label>
+                          </div>
+                          <div class="col-md-3">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="t" id="tFlag">
+                            <label class="form-check-label" for="tFlag">t (custom6)</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">Enter Days to ADD</label>
-                    <input id="day_add" type="number" class="form-control" required>
+                    <input id="day_add" type="number" class="form-control" value="30" required>
                   </div>
                   <div class="form-group bmd-form-group">
                     <label class="">Select Servers to add in</label>
@@ -90,7 +137,7 @@
                     <input id="day_update" type="number" class="form-control" required>
                   </div>
                   <div class="form-group bmd-form-group">
-                    <label class="">Select Servers to add in</label>
+                    <label class="">Select Servers to update in</label>
                     <div class="col-md-12 row">
                       <% if(serverList) {%>
                       <% for(let i=0; i < serverList.length; i++) { %>

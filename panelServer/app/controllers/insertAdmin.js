@@ -60,10 +60,16 @@ const insertAdminDataFunc = (reqBody, username) => {
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "insert") {
-          reqBody.name = "//" + reqBody.name
-          reqBody.steamId = '"' + reqBody.steamId + '"'
-          reqBody.flag = '"' + reqBody.flag + '"'
-          reqBody.day = 0
+
+          //validations
+          if (!reqBody.steamId) return reject("Operation Fail!, Steam Id Missing");
+          if (!reqBody.name) return reject("Operation Fail!, Name Missing");
+          if (!reqBody.flag) return reject("Operation Fail!, Flags Missing");
+          if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
+
+          reqBody.name = "//" + reqBody.name;
+          reqBody.steamId = '"' + reqBody.steamId + '"';
+          reqBody.day = 0;
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {

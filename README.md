@@ -3,7 +3,9 @@
 
 This system makes the adding of VIP in CSGO community server's super easy, all you gotta do is add them from the panel and forget system will automatically add them in server from DB and delete them when their subscription expires and it comes with a handy web panel.
 
-If you wants to use the panel and have no idea how to install through below Instruction, Contact me on Discord: Summer_Soldier#5591
+Project's Discord Server: https://discord.gg/HcCFa8q
+
+If you wants to use the panel and have no idea how to install through below Instruction, Contact me on Discord: Summer_Soldier#5591 or get help on discord server.
 
 ## Nodejs Server
 - It is the main server to manage and maintain everything, from the database to VIP addition, deletion and notification.
@@ -32,13 +34,14 @@ If you wants to use the panel and have no idea how to install through below Inst
 ### Setting Up the mysql databse first
 - Query to create tables for server
 ```mysql
-CREATE TABLE `tablename_here`
-(`authId` varchar(50) NOT NULL,
-  `flag` varchar(45) DEFAULT '"0:a"',
-  `name` varchar(45) NOT NULL,
-  `expireStamp` int(20) NOT NULL,
-  PRIMARY KEY (`authId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `table_name_here` (
+  `authId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `flag` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT '"0:a"',
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expireStamp` int(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`authId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
 ### Setting Up the node server

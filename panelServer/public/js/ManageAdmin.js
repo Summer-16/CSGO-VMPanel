@@ -19,10 +19,18 @@
 
 function addNewAdminajax() {
 
+  let flagString = '"' + ($('#immunity_admin').val() / 1) + ':'
   let serverArray = []
+
+  $("input:checkbox[name=admin_flags]:checked").each(function () {
+    flagString += $(this).val();
+  });
+
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
   });
+
+  flagString += '"';
 
   fetch('/addadmin', {
     method: 'POST',
@@ -33,7 +41,7 @@ function addNewAdminajax() {
     body: JSON.stringify({
       "steamId": $('#steamId_add').val(),
       "name": $('#name_add').val(),
-      "flag": $('#flag_add').val(),
+      "flag": flagString,
       "server": serverArray,
       "submit": "insert"
     })
@@ -105,3 +113,12 @@ function getAdminTableListing(value) {
       .catch(error => console.log('error', error));
   }
 }
+
+$(document).ready(function () {
+  $(window).keydown(function (event) {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});

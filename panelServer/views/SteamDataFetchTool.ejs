@@ -28,7 +28,7 @@
       <h3 class="card-title" id="display_steamId">User's Steam Id</h3>
     </div>
     <div class="card-footer">
-      <form class="col-md-12" method="post" action="/authuser">
+      <form class="col-md-12">
         <div class="row">
           <div class="col-md-10">
             <div class="form-group bmd-form-group">
@@ -38,8 +38,8 @@
           </div>
           <div class="col-md-2">
             <div class="form-group bmd-form-group">
-              <button type="button" class="btn btn-success pull-right"
-                onclick="profileUrlToDataFetcher($('#steam_URL').val())">Fetch Data</button>
+              <button type="button" onclick="profileUrlToDataFetcher($('#steam_URL').val())"
+                class="btn btn-success pull-right">Fetch Data</button>
             </div>
           </div>
         </div>

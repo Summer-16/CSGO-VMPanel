@@ -61,19 +61,31 @@ const insertVipDataFunc = (reqBody, username) => {
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         reqBody.day = reqBody.day / 1
         if (reqBody.submit === "insert") {
-          reqBody.day = epoctillExpirey(reqBody.day)
-          reqBody.name = "//" + reqBody.name
-          reqBody.steamId = '"' + reqBody.steamId + '"'
-          reqBody.flag = '"' + '0:a' + '"'
+
+          //validations
+          if (!reqBody.steamId) return reject("Operation Fail!, Steam Id Missing");
+          if (!reqBody.name) return reject("Operation Fail!, Name Missing");
+          if (!reqBody.flag) return reject("Operation Fail!, Flags Missing");
+          if (!reqBody.day) return reject("Operation Fail!, No of Days Missing");
+          if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
+
+          reqBody.day = epoctillExpirey(reqBody.day);
+          reqBody.name = "//" + reqBody.name;
+          reqBody.steamId = '"' + reqBody.steamId + '"';
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
             resolve(insertRes)
           }
         } else if (reqBody.submit === "update") {
-          reqBody.day = Math.floor(reqBody.day * 86400)
-          reqBody.steamId = '"' + reqBody.steamId + '"'
-          reqBody.flag = '"' + '0:a' + '"'
+
+          //validations
+          if (!reqBody.steamId) return reject("Operation Fail!, Steam Id Missing");
+          if (!reqBody.day) return reject("Operation Fail!, No of Days Missing");
+          if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
+
+          reqBody.day = Math.floor(reqBody.day * 86400);
+          reqBody.steamId = '"' + reqBody.steamId + '"';
 
           let updateRes = await vipModel.updateVIPData(reqBody)
           if (updateRes) {

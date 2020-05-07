@@ -37,18 +37,17 @@ var userDataModel = {
 
         let query = db.queryFormat(`CREATE TABLE IF NOT EXISTS ${table} (
                                     id int(11) NOT NULL AUTO_INCREMENT,
-                                    username varchar(45) NOT NULL,
-                                    password varchar(45) NOT NULL,
-                                    sec_key varchar(45) NOT NULL,
+                                    username varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                    password varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                    sec_key varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
                                     user_type int(11) NOT NULL,
-                                    PRIMARY KEY (id)
-                                  )
+                                    PRIMARY KEY(id)
+                                  ) ENGINE = InnoDB AUTO_INCREMENT = 8 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci
                                   AS SELECT "admin" AS username, "password" AS password, "001122" AS sec_key, 1 as user_type`);
         let queryRes = await db.query(query, true);
         if (!queryRes) {
-          return reject("Error in creating table");
+          return reject("Error in creating user table");
         }
-
         return resolve(true);
       } catch (error) {
         console.log("error in createTheTableIfNotExists->", error)

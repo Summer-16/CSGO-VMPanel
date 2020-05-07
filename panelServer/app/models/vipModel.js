@@ -98,6 +98,7 @@ var vipDataModel = {
       try {
         // validation
         if (!dataObj.secKey) return reject("Unauth Access, Key Missing");
+        if (dataObj.server.length == 0) return reject("Operation Fail!, No Server was selected");
 
         let currentDateTime = new Date()
         for (let i = 0; i < dataObj.server.length; i++) {
@@ -123,6 +124,7 @@ var vipDataModel = {
       try {
         // validation
         if (!dataObj.secKey) return reject("Unauth Access, Key Missing");
+        if (dataObj.server.length == 0) return reject("Operation Fail!, No Server was selected");
 
         for (let i = 0; i < dataObj.server.length; i++) {
           const query = db.queryFormat(`UPDATE ${dataObj.server[i]} SET expireStamp = expireStamp+${dataObj.day} WHERE authId=?`, [dataObj.steamId]);
