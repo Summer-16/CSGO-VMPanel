@@ -7,6 +7,7 @@ CREATE TABLE `table_name_here` (
   `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `expireStamp` int(20) NOT NULL,
   `created_at` datetime NOT NULL,
+  `type` int(20) NOT NULL,
   PRIMARY KEY (`authId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```

@@ -72,6 +72,7 @@ const insertVipDataFunc = (reqBody, username) => {
           reqBody.day = epoctillExpirey(reqBody.day);
           reqBody.name = "//" + reqBody.name;
           reqBody.steamId = '"' + reqBody.steamId + '"';
+          reqBody.userType = 0;
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {

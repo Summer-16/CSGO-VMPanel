@@ -37,23 +37,30 @@ var vipDataModel = {
         let finalResult = []
 
         for (let i = 0; i < serverList.length; i++) {
-          let query = db.queryFormat(`SELECT authId,name,expireStamp,created_at FROM ${serverList[i]} WHERE flag = '"0:a"'`);
+          let query = db.queryFormat(`SELECT authId,
+                                             name,
+                                             expireStamp,
+                                             created_at,
+                                             type 
+                                      FROM ${serverList[i]} WHERE type = 0`);
           let queryRes = await db.query(query);
           if (!queryRes) {
             return reject("No Data Found");
           }
           finalResult.push({ "servername": serverList[i], "type": "VIPs", "data": queryRes })
 
-          query = db.queryFormat(`SELECT authId,name,expireStamp FROM ${serverList[i]} WHERE flag <> '"0:a"'`);
+          query = db.queryFormat(`SELECT authId,
+                                         name,
+                                         expireStamp,
+                                         created_at,
+                                         type 
+                                  FROM ${serverList[i]} WHERE type = 1`);
           queryRes = await db.query(query);
           if (!queryRes) {
             return reject("No Data Found");
           }
           finalResult.push({ "servername": serverList[i], "type": "ADMINs", "data": queryRes })
         }
-
-        // console.log("finalResult in getallTableData->", finalResult)
-
         return resolve(finalResult);
       } catch (error) {
         console.log("error in getallTableData->", error)
@@ -73,11 +80,10 @@ var vipDataModel = {
 
         let query
         if (type === "vip") {
-          query = db.queryFormat(`SELECT * FROM ${server} WHERE flag = '"0:a"'`);
+          query = db.queryFormat(`SELECT * FROM ${server} WHERE type = 0`);
         } else if (type === "admin") {
-          query = db.queryFormat(`SELECT * FROM ${server} WHERE flag <> '"0:a"'`);
+          query = db.queryFormat(`SELECT * FROM ${server} WHERE type = 1`);
         }
-
         let queryRes = await db.query(query);
         if (!queryRes) {
           return reject("No Data Found");
@@ -102,7 +108,13 @@ var vipDataModel = {
 
         let currentDateTime = new Date()
         for (let i = 0; i < dataObj.server.length; i++) {
-          const query = db.queryFormat(`INSERT INTO ${dataObj.server[i]} (authId, flag, name, created_at, expireStamp) VALUES (?, ?, ?, ?, ?)`, [dataObj.steamId, dataObj.flag, dataObj.name, currentDateTime, dataObj.day]);
+          const query = db.queryFormat(`INSERT INTO ${dataObj.server[i]} 
+                                        (authId,
+                                        flag,
+                                        name,
+                                        created_at,
+                                        expireStamp,
+                                        type) VALUES (?, ?, ?, ?, ?, ?)`, [dataObj.steamId, dataObj.flag, dataObj.name, currentDateTime, dataObj.day, dataObj.userType]);
           const queryRes = await db.query(query);
           if (!queryRes) {
             return reject("error in insertion");
@@ -151,14 +163,13 @@ var vipDataModel = {
         let currentEpoc = Math.floor(Date.now() / 1000)
 
         for (let i = 0; i < serverList.length; i++) {
-          let query = db.queryFormat(`DELETE FROM ${serverList[i]} where expireStamp < ${currentEpoc} AND flag = '"0:a"' `);
+          let query = db.queryFormat(`DELETE FROM ${serverList[i]} where expireStamp < ${currentEpoc} AND type = 0 `);
           let queryRes = await db.query(query);
           if (!queryRes) {
             return reject("Error in delete");
           }
         }
         return resolve(true);
-
       } catch (error) {
         console.log("error in updateVIPData->", error)
         reject(error)

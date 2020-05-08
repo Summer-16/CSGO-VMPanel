@@ -19,11 +19,7 @@ If you wants to use the panel and have no idea how to install through below Inst
 - this script must be added in cron
 
 ## Webpanel Screenshots
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP1_SS.png)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP2_SS.png)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP3_SS.png)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP4_SS.png)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP5_SS.png)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
 
 ## Change in v1.2
 - New UI
@@ -31,6 +27,9 @@ If you wants to use the panel and have no idea how to install through below Inst
 - Panel admins/user management
 
 ## Step-by-Step install Instructions for New Installation (if you are upgrading from old version check upgrade instructions)
+Always install the latest released version and follow the instructions available inside the readme of downloaded release.
+I dont recommend installing under-development builds as they may have errors. 
+
 ### Setting Up the mysql databse first
 - Query to create tables for server
 ```mysql
@@ -40,6 +39,7 @@ CREATE TABLE `table_name_here` (
   `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `expireStamp` int(20) NOT NULL,
   `created_at` datetime NOT NULL,
+  `type` int(20) NOT NULL,
   PRIMARY KEY (`authId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```

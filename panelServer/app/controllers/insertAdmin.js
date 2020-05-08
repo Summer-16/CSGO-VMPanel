@@ -70,6 +70,7 @@ const insertAdminDataFunc = (reqBody, username) => {
           reqBody.name = "//" + reqBody.name;
           reqBody.steamId = '"' + reqBody.steamId + '"';
           reqBody.day = 0;
+          reqBody.userType = 1;
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
