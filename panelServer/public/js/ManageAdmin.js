@@ -83,6 +83,9 @@ function deleteAdminajax(tableName, primaryKey) {
 }
 
 function getAdminTableListing(value) {
+
+  $("#manageCardTitle").text("View and Manage Admin of " + value.toUpperCase());
+
   if (value) {
     fetch('/getadmindatasingleserver', {
       method: 'POST',

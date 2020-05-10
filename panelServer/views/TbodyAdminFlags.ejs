@@ -1,0 +1,379 @@
+<!-- 
+/* VMP-by-Summer-Soldier
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of VMP-by-Summer-Soldier
+*
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<tbody>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="a">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>reservation</td>
+    <td>a</td>
+    <td>Reserved slot access.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="b">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>generic</td>
+    <td>b</td>
+    <td>Generic admin; required for admins.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="c">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>kick</td>
+    <td>c</td>
+    <td>Kick other players.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="d">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>ban</td>
+    <td>d</td>
+    <td>Ban other players.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="e">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>unban</td>
+    <td>e</td>
+    <td>Remove bans.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="f">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>slay</td>
+    <td>f</td>
+    <td>Slay/harm other players.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="g">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>changemap</td>
+    <td>g</td>
+    <td>Change the map or major gameplay features.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="h">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>cvar</td>
+    <td>h</td>
+    <td>Change most cvars.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="i">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>config</td>
+    <td>i</td>
+    <td>Execute config files.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="j">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>chat</td>
+    <td>j</td>
+    <td>Special chat privileges.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="k">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>vote</td>
+    <td>k</td>
+    <td>Start or create votes.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="l">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>password</td>
+    <td>l</td>
+    <td>Set a password on the server.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="m">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>rcon</td>
+    <td>m</td>
+    <td>Use RCON commands.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="n">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>cheats</td>
+    <td>n</td>
+    <td>Change sv_cheats or use cheating commands.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="z">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>root</td>
+    <td>z</td>
+    <td>Magically enables all flags and ignores immunity values.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="o">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>custom1</td>
+    <td>o</td>
+    <td>Custom Group 1.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="p">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>custom2</td>
+    <td>p</td>
+    <td>Custom Group 2.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="q">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>custom3</td>
+    <td>q</td>
+    <td>Custom Group 3.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="r">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>custom4</td>
+    <td>r</td>
+    <td>Custom Group 4.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="s">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>custom5</td>
+    <td>s</td>
+    <td>Custom Group 5.</td>
+  </tr>
+  <tr class="">
+    <td>
+      <div class="col-md-12">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="admin_flags" value="t">
+            <span class="form-check-sign">
+              <span class="check"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>custom6</td>
+    <td>t</td>
+    <td>Custom Group 6.</td>
+  </tr>
+</tbody>

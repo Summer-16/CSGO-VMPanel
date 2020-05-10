@@ -113,6 +113,9 @@ function deleteVIPajax(tableName, primaryKey) {
 
 function getVIPTableListing(value) {
   if (value) {
+
+    $("#manageCardTitle").text("View and Manage VIP of " + value.toUpperCase());
+
     fetch('/getvipdatasingleserver', {
       method: 'POST',
       headers: {
