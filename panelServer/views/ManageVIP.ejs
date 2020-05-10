@@ -171,19 +171,21 @@
             <p class="card-category">Select a server to view the list</p>
           </div>
           <div class="card-body">
-            <form class="col-md-4">
-              <div class="form-group bmd-form-group">
-                <label class="bmd-label-floating">Select Server</label>
-                <select class="form-control" id="server_update"
-                  onchange="getVIPTableListing(this.options[this.selectedIndex].value)">
-                  <option value="" selected>Select Server</option>
+            <div class="col-md-4">
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown button
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <% if(serverList) {%>
                   <% for(let i=0; i < serverList.length; i++) { %>
-                  <option value="<%=serverList[i]%>"><%=serverList[i].toUpperCase()%></option>
+                  <a class="dropdown-item" href="javascript:void(0)"
+                    onclick="getVIPTableListing('<%=serverList[i]%>')"><%=serverList[i].toUpperCase()%></a>
                   <%}}%>
-                </select>
+                </div>
               </div>
-            </form>
+            </div>
             <hr />
             <div class="table-responsive">
               <table class="table" id="manageVipTable">
