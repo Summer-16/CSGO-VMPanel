@@ -75,8 +75,8 @@ return heading
 <body class="dark-edition">
   <div class="wrapper ">
     <div class="sidebar"
-      data-color="<%=panelSetting.color_theme=='primary'?'purple':panelSetting.color_theme=='danger'?'danger':''%>"
-      data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
+      data-color="<%=panelSetting.color_theme=='primary'?'purple':panelSetting.color_theme=='danger'?'danger':panelSetting.color_theme=='success'?'green':panelSetting.color_theme=='warning'?'orange':panelSetting.color_theme=='info'?'azure':''%>"
+      data-background-color="black" data-image="./images/sidebar-1.jpg">
       <div class="logo">
         <a href="/" class="simple-text logo-normal">
           <span>

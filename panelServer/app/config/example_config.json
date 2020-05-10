@@ -12,6 +12,7 @@
     "ser2"
   ],
   "usersTable": "tbl_users",
+  "settingTable": "tbl_settings",
   "scheduleConfig": {
     "delete": "12",
     "notif": "24"
