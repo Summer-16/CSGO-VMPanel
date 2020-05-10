@@ -118,6 +118,26 @@ function fetchPAdminajax() {
   }
 }
 
+function fetchPSettingajax() {
+
+  fetch('/fetchpanelsetting', {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((res) => { return res.json(); })
+    .then((response) => {
+      if (response.success == true) {
+        let settingObj = response.data.res
+        $("input[name=color_theme][value=" + settingObj.color_theme + "]").prop('checked', true);
+        $("input[name=dash_admin_show][value=" + settingObj.dash_admin_show + "]").prop('checked', true);
+      }
+    })
+    .catch(error => console.log('error', error));
+}
+
 function removeOptions(selectElement) {
   var i, L = selectElement.options.length - 1;
   for (i = L; i >= 0; i--) {
@@ -125,15 +145,15 @@ function removeOptions(selectElement) {
   }
 }
 
-
 $(document).ready(function () {
 
   fetchPAdminajax();
+  fetchPSettingajax();
 
-  $(window).keydown(function (event) {
-    if (event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-  });
+  // $(window).keydown(function (event) {
+  //   if (event.keyCode == 13) {
+  //     event.preventDefault();
+  //     return false;
+  //   }
+  // });
 });

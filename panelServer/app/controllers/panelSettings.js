@@ -18,6 +18,7 @@
 */
 
 "use strict";
+const settingsModal = require("../models/panelSettingModal.js");
 
 // -----------------------------------------------------------------------------------------
 
@@ -28,4 +29,64 @@ exports.PanelSettings = async (req, res) => {
     console.log("Error in PanelSettings->", error)
     res.render('PanelSetting');
   }
+}
+
+// -----------------------------------------------------------------------------------------
+
+exports.fetchPanelSettings = async (req, res) => {
+  try {
+    let result = await fetchPanelSettingsFunc(req.body);
+    res.json({
+      success: true,
+      data: { "res": result, "message": "Panel settings Fetched" }
+    });
+  } catch (error) {
+    console.log("error in add/update vip->", error)
+    res.json({
+      success: false,
+      data: { "error": error, "message": "Error in fetching Panel settings" }
+    });
+  }
+}
+
+const fetchPanelSettingsFunc = (reqBody) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await settingsModal.getAllSettings()
+      resolve(data)
+    } catch (error) {
+      console.log("error in fetchPanelSettingsFunc->", error)
+      reject(error)
+    }
+  });
+}
+
+exports.fetchPanelSettingsFunc = fetchPanelSettingsFunc;
+
+// -----------------------------------------------------------------------------------------
+
+exports.updatePanelSettings = async (req, res) => {
+  try {
+    await updatePanelSettingsFunc(req.body);
+    res.redirect('PanelSetting');
+  } catch (error) {
+    console.log("Error in PanelSettings->", error)
+    res.render('PanelSetting');
+  }
+}
+
+const updatePanelSettingsFunc = (reqBody, username) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      let keyArray = Object.keys(reqBody)
+      for (let i = 0; i < keyArray.length; i++) {
+        await settingsModal.updatesetting(keyArray[i], reqBody[keyArray[i]])
+      }
+      resolve(true)
+    } catch (error) {
+      console.log("error in updatePanelSettingsFunc->", error)
+      reject(error + ", Please try again")
+    }
+  });
 }

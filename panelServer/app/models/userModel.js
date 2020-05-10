@@ -42,7 +42,7 @@ var userDataModel = {
                                     sec_key varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
                                     user_type int(11) NOT NULL,
                                     PRIMARY KEY(id)
-                                  ) ENGINE = InnoDB AUTO_INCREMENT = 8 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci
+                                  ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci
                                   AS SELECT "admin" AS username, "password" AS password, "001122" AS sec_key, 1 as user_type`);
         let queryRes = await db.query(query, true);
         if (!queryRes) {

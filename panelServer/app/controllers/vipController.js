@@ -20,13 +20,11 @@
 "use strict";
 
 const vipModel = require("../models/vipModel.js");
-const config = require('../config/config.json')
-const adminsOn = config.panelConf.showAdminsinDashboard
 
 exports.getVipsData = async (req, res) => {
   try {
     let result = await getVipsDataFunc(req.body);
-    res.render('Dashboard', { "vipData": result, "adminsOn": adminsOn });
+    res.render('Dashboard', { "vipData": result });
   } catch (error) {
     console.log("error in getVipsData->", error)
     res.render('Dashboard', { "vipData": null });

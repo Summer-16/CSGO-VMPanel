@@ -21,11 +21,14 @@ const config = require('./app/config/config.json')
 const scheduleConfig = config.scheduleConfig;
 const express = require("express");
 const bodyParser = require("body-parser");
-const vipModel = require("./app/models/vipModel.js");
-const userModel = require("./app/models/userModel.js");
 const cron = require('node-cron');
 const session = require('express-session');
+
+const vipModel = require("./app/models/vipModel.js");
+const userModel = require("./app/models/userModel.js");
+const settingsModal = require("./app/models/panelSettingModal.js");
 const { sendMessageOnDiscord } = require("./app/controllers/sendMessageOnDiscord.js");
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -64,9 +67,11 @@ cron.schedule(`0 */${scheduleConfig.notif} * * *`, async () => {
 
 //create user table if dont exists
 userModel.createTheTableIfNotExists()
+settingsModal.createTheTableIfNotExists()
 
 // middleware to make 'user' available to all templates
-app.use(function (req, res, next) {
+app.use(async function (req, res, next) {
+  res.locals.panelSetting = await settingsModal.getAllSettings();
   res.locals.sessionToken = req.session.token;
   res.locals.adminName = req.session.username;
   res.locals.currentURL = req.originalUrl;

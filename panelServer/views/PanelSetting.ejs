@@ -26,19 +26,64 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header card-header-danger">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
             <h4 class="card-title">VMPanel Settings</h4>
-            <p class="card-category">Coming Soon</p>
           </div>
           <div class="card-body">
-
+            <form class="col-md-12" method="post" action="/updatepanelsetting">
+              <div class="col-md-12 row">
+                <!-- Theme Setting -->
+                <div class="col-md-2">
+                  <label class="">Panel Theme</label>
+                </div>
+                <div class="col-md-10 row">
+                  <div class="col-md-2">
+                    <input class="form-check-input" type="radio" name="color_theme" value="danger" id="danger">
+                    <label class="form-check-label" for="danger">Red</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input class="form-check-input" type="radio" name="color_theme" value="primary" id="primary">
+                    <label class="form-check-label" for="primary">Purple</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input class="form-check-input" type="radio" name="color_theme" value="warning" id="warning">
+                    <label class="form-check-label" for="warning">Orange</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input class="form-check-input" type="radio" name="color_theme" value="success" id="success">
+                    <label class="form-check-label" for="success">Green</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input class="form-check-input" type="radio" name="color_theme" value="info" id="info">
+                    <label class="form-check-label" for="info">Blue</label>
+                  </div>
+                </div>
+                <!-- Admin in dash Setting -->
+                <div class="col-md-2">
+                  <label class="">Show Admins in Dashboard</label>
+                </div>
+                <div class="col-md-10 row">
+                  <div class="col-md-2">
+                    <input class="form-check-input" type="radio" name="dash_admin_show" value="1" id="adminTrue">
+                    <label class="form-check-label" for="adminTrue">Yes</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input class="form-check-input" type="radio" name="dash_admin_show" value="0" id="adminFalse">
+                    <label class="form-check-label" for="adminFalse">No</label>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <button type="submit" onclick="$(this).parents('form').submit()" class="btn btn-success pull-right">Update
+                Settings</button>
+            </form>
           </div>
         </div>
       </div>
       <%if(adminType===1){%>
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header card-header-danger">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
             <h4 class="card-title">Add Panel Admin</h4>
             <p class="card-category">Form to add a new Admins in VMPanel</p>
           </div>
@@ -72,7 +117,7 @@
       </div>
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header card-header-danger">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
             <h4 class="card-title">Update Panel Admin</h4>
             <p class="card-category">Form to Change Password or Delete Panel Admin</p>
           </div>
@@ -108,7 +153,7 @@
 
 <%- include('Footer.ejs') %>
       <script>
-        var curentAdminType =<%=adminType%>
+        var curentAdminType = <%=adminType%>
       </script>
       <script src="./js/PanelSettings.js"></script>
       <script src="./js/customConfirm.js"></script>

@@ -52,12 +52,13 @@ return diffDays
 <div class="content">
   <div class="container-fluid">
     <div class="row">
+
       <% if(vipData) {%>
       <% for(let i=0; i < vipData.length; i++) { %>
-      <% if((vipData[i].type==="VIPs") || (vipData[i].type==="ADMINs" && adminsOn=="true")) {%>
+      <% if((vipData[i].type==="VIPs") || (vipData[i].type==="ADMINs" && panelSetting.dash_admin_show==1)) {%>
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header card-header-danger">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
             <h4 class="card-title "><%=vipData[i].servername.toUpperCase()+' - '+vipData[i].type %></h4>
             <p class="card-category">Total <%=vipData[i].type+':'+vipData[i].data.length%> </p>
           </div>
