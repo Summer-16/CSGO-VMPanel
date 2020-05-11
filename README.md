@@ -67,6 +67,7 @@ sudo service vmpService start
 - paste into your CSGO server's CSGO folder now go to cfg/sourcemod/vmpanel.cfg
 - open the cfg file add a table name for your server something like sv_servername
 - now add an entry named vmpanel in your database,cfg and add the database cred for the same database used for panel
+- Command for plugon "sm_vmprefresh"
 
 ### Adding bash file in servers (old method)
 - Copy the script from serverScript folder add into your CSGO server 
