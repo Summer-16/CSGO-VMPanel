@@ -109,12 +109,27 @@ var panelServerModal = {
         if (!dataObj.tablename) return reject("Table Name is not provided");
         if (!dataObj.servername) return reject("Server Name is not provided");
 
-        let query = db.queryFormat(`INSERT INTO ${table} (tbl_name, server_name, created_at) VALUES (?, ?, ?)`, [dataObj.tablename, dataObj.servername, new Date()]);
-        let queryRes = await db.query(query, true);
+        let query = db.queryFormat(`show tables`);
+        let queryRes = await db.query(query);
         if (!queryRes) {
           return reject("Error in insertion");
         }
-        return resolve(queryRes);
+
+        let tablesArray = []
+        for (let i = 0; i < queryRes.length; i++) {
+          tablesArray.push(queryRes[i].Tables_in_GGVIPlist)
+        }
+
+        if (tablesArray.includes(dataObj.tablename)) {
+          query = db.queryFormat(`INSERT INTO ${table} (tbl_name, server_name, created_at) VALUES (?, ?, ?)`, [dataObj.tablename, dataObj.servername, new Date()]);
+          queryRes = await db.query(query, true);
+          if (!queryRes) {
+            return reject("Error in insertion");
+          }
+          return resolve(queryRes);
+        } else {
+          return reject("Server/table not found, Please add vmpanel plugin in your server then add here.");
+        }
       } catch (error) {
         console.log("error in insertNewPanelServer->", error)
         reject(error)

@@ -32,7 +32,7 @@ public void OnConfigsExecuted() {
 }
 
 public Action commandRefreshVipAndAdmins(int args) {
-  PrintToServer("***[VMP] Executing on manual refresh on command***");
+  PrintToServer("***[VMP] Executing manual refresh on user command***");
   refreshVipAndAdmins();
   PrintToServer("***[VMP] Reloading Admins in server Now***");
   ServerCommand("sm_reloadadmins");
@@ -80,7 +80,6 @@ public void createTableAndFillentries() {
     Format(vipListQuery, sizeof(vipListQuery), "SELECT authId,flag,name FROM %s", g_sSQLTable);
 
     PrintToServer("***[VMP] Running query to fetch vip and admins***");
-    PrintToServer(vipListQuery);
 
     DBResultSet query = SQL_Query(g_Database, vipListQuery);
     if (query == null) {
@@ -116,7 +115,6 @@ public void createTableAndFillentries() {
 }
 
 public void refreshVipAndAdmins() {
-  PrintToServer("***[VMP] Running manual vip and refresh func***");
 
   Database g_Database = null;
   char error[512];
@@ -134,7 +132,6 @@ public void refreshVipAndAdmins() {
     Format(vipListQuery, sizeof(vipListQuery), "SELECT authId,flag,name FROM %s", g_sSQLTable);
 
     PrintToServer("***[VMP] Running query to fetch vip and admins***");
-    PrintToServer(vipListQuery);
 
     DBResultSet query = SQL_Query(g_Database, vipListQuery);
     if (query == null) {
