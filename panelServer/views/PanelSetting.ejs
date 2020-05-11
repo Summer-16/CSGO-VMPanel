@@ -27,56 +27,109 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-<%=panelSetting.color_theme%>">
-            <h4 class="card-title">VMPanel Settings</h4>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="setting-tab" data-toggle="tab" href="#setting" role="tab"
+                  aria-controls="setting" aria-selected="true"><i class="material-icons">settings</i> Panel Settings</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="server-tab" data-toggle="tab" href="#server" role="tab" aria-controls="server"
+                  aria-selected="false"><i class="material-icons">device_hub</i> Manage Servers</a>
+              </li>
+            </ul>
           </div>
           <div class="card-body">
-            <form class="col-md-12" method="post" action="/updatepanelsetting">
-              <div class="col-md-12 row">
-                <!-- Theme Setting -->
-                <div class="col-md-2">
-                  <label class="">Panel Theme</label>
-                </div>
-                <div class="col-md-10 row">
-                  <div class="col-md-2">
-                    <input class="form-check-input" type="radio" name="color_theme" value="danger" id="danger">
-                    <label class="form-check-label" for="danger">Red</label>
+            <div class="tab-content">
+              <div class="tab-pane active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+                <form class="col-md-12" method="post" action="/updatepanelsetting">
+                  <div class="col-md-12 row">
+                    <!-- Theme Setting -->
+                    <div class="col-md-2">
+                      <label class="">Panel Theme</label>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="color_theme" value="danger" id="danger">
+                        <label class="form-check-label" for="danger">Red</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="color_theme" value="primary" id="primary">
+                        <label class="form-check-label" for="primary">Purple</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="color_theme" value="warning" id="warning">
+                        <label class="form-check-label" for="warning">Orange</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="color_theme" value="success" id="success">
+                        <label class="form-check-label" for="success">Green</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="color_theme" value="info" id="info">
+                        <label class="form-check-label" for="info">Blue</label>
+                      </div>
+                    </div>
+                    <!-- Admin in dash Setting -->
+                    <div class="col-md-2">
+                      <label class="">Show Admins in Dashboard</label>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="dash_admin_show" value="1" id="adminTrue">
+                        <label class="form-check-label" for="adminTrue">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="dash_admin_show" value="0" id="adminFalse">
+                        <label class="form-check-label" for="adminFalse">No</label>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-2">
-                    <input class="form-check-input" type="radio" name="color_theme" value="primary" id="primary">
-                    <label class="form-check-label" for="primary">Purple</label>
-                  </div>
-                  <div class="col-md-2">
-                    <input class="form-check-input" type="radio" name="color_theme" value="warning" id="warning">
-                    <label class="form-check-label" for="warning">Orange</label>
-                  </div>
-                  <div class="col-md-2">
-                    <input class="form-check-input" type="radio" name="color_theme" value="success" id="success">
-                    <label class="form-check-label" for="success">Green</label>
-                  </div>
-                  <div class="col-md-2">
-                    <input class="form-check-input" type="radio" name="color_theme" value="info" id="info">
-                    <label class="form-check-label" for="info">Blue</label>
-                  </div>
-                </div>
-                <!-- Admin in dash Setting -->
-                <div class="col-md-2">
-                  <label class="">Show Admins in Dashboard</label>
-                </div>
-                <div class="col-md-10 row">
-                  <div class="col-md-2">
-                    <input class="form-check-input" type="radio" name="dash_admin_show" value="1" id="adminTrue">
-                    <label class="form-check-label" for="adminTrue">Yes</label>
-                  </div>
-                  <div class="col-md-2">
-                    <input class="form-check-input" type="radio" name="dash_admin_show" value="0" id="adminFalse">
-                    <label class="form-check-label" for="adminFalse">No</label>
-                  </div>
-                </div>
+                  <hr>
+                  <button type="submit" onclick="$(this).parents('form').submit()"
+                    class="btn btn-success pull-right">Update
+                    Settings</button>
+                </form>
               </div>
-              <hr>
-              <button type="submit" onclick="$(this).parents('form').submit()" class="btn btn-success pull-right">Update
-                Settings</button>
-            </form>
+              <div class="tab-pane" id="server" role="tabpanel" aria-labelledby="server-tab">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>Server Name</th>
+                      <th>Table Name</th>
+                      <th>Added on</th>
+                      <th>Action</th>
+                    </thead>
+                    <tbody id="manageServersTableBody">
+                    </tbody>
+                  </table>
+                </div>
+                <hr>
+                <form class="col-md-12" id="myForm_addPServer">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server Name</label>
+                        <input type="text" name="servername" class="form-control" id="servername_add" required>
+                      </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertablename_add"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group bmd-form-group">
+                        <button type="button" onclick="addNewPServerajax()" class="btn btn-success pull-right">Add
+                          Server</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -135,6 +188,10 @@
                     <label class="bmd-label-floating">Enter New Password</label>
                     <input id="password_pupdate" type="password" class="form-control" required>
                   </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating"></label>
+                    <input type="text" class="form-control" disabled>
+                  </div>
                 </div>
               </div>
               <button type="button" onclick="deletePAdminajax()" class="btn btn-danger pull-left">DELETE</button>
@@ -146,8 +203,9 @@
       </div>
       <%}%>
 
-    </div>
-  </div>
+
+</div>
+</div>
 </div>
 
 

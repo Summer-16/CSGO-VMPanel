@@ -1,5 +1,6 @@
+# Below are the queries mentioned in case you want to or had to manually perform any actions in MYSQL
 
-- Query to create tables for server
+- Query to manually create tables for server
 ```mysql
 CREATE TABLE `table_name_here` (
   `authId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -11,13 +12,8 @@ CREATE TABLE `table_name_here` (
   PRIMARY KEY (`authId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
-- Query to update server table
-```mysql
-ALTER TABLE `GGVIPlist`.`mumbaiRetake` 
-ADD COLUMN `created_at` DATETIME NOT NULL AFTER `expireStamp`;
-```
 
-- Query to create user table
+- Query to manually create user table
 ```mysql
 CREATE TABLE `tbl_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,6 +24,6 @@ CREATE TABLE `tbl_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
-- Query to insert and admin 
+- Query to manually insert and admin 
 ```mysql
 INSERT INTO `GGVIPlist`.`tbl_users` (`username`, `password`, `sec_key`, `user_type`) VALUES ('your_admin_name_here', 'your_Admin_pass_here', 'your_admin_auth_key_here','1 for superuser, 0 for normal');

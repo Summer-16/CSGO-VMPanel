@@ -33,7 +33,7 @@
             <p class="card-category">Form to add a new VIP in Server</p>
           </div>
           <div class="card-body">
-            <form>
+            <form id="myForm_addVIP">
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group bmd-form-group">
@@ -151,8 +151,8 @@
                         <div class="form-check">
                           <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" name="server_add"
-                              value="<%=serverList[i]%>">
-                            <%=serverList[i].toUpperCase()%>
+                              value="<%=serverList[i].tbl_name%>">
+                            <%=serverList[i].server_name%>
                             <span class="form-check-sign">
                               <span class="check"></span>
                             </span>
@@ -177,7 +177,7 @@
             <p class="card-category">Form to Extend days for an old VIP</p>
           </div>
           <div class="card-body">
-            <form>
+            <form id="myForm_updateVIP">
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group bmd-form-group">
@@ -197,8 +197,8 @@
                         <div class="form-check">
                           <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" name="server_update"
-                              value="<%=serverList[i]%>">
-                            <%=serverList[i].toUpperCase()%>
+                              value="<%=serverList[i].tbl_name%>">
+                            <%=serverList[i].server_name%>
                             <span class="form-check-sign">
                               <span class="check"></span>
                             </span>
@@ -238,8 +238,9 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <% if(serverList) {%>
                   <% for(let i=0; i < serverList.length; i++) { %>
-                  <a class="dropdown-item" href="javascript:void(0)" onclick="getVIPTableListing('<%=serverList[i]%>')">
-                    <%=serverList[i].toUpperCase()%> </a>
+                  <a class="dropdown-item" href="javascript:void(0)"
+                    onclick="getVIPTableListing('<%=serverList[i].tbl_name%>')">
+                    <%=serverList[i].server_name%> </a>
                   <%}}%>
                 </div>
               </div>

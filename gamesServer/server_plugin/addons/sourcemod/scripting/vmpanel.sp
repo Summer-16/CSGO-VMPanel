@@ -18,28 +18,27 @@ public void OnPluginStart() {
 
   g_cServertable = CreateConVar("sm_vmpServerTable", "sv_table", "PLEASE READ !, Enter Name for the table of current server , a table in vmpanel db will be created with this name automatically, make sure to give a unique name(name should not match with any other server connected in vmpanel)");
 
+  RegServerCmd("sm_vmprefresh", commandRefreshVipAndAdmins);
+
   // Execute the config file, create if not present
   AutoExecConfig(true, "VMPanel");
-  RegServerCmd("sm_vmprefresh", commandRefreshVipAndAdmins);
+}
+
+public void OnConfigsExecuted() {
+  PrintToServer("***[VMP] Executing one time refresh for current match***");
   createTableAndFillentries();
   PrintToServer("***[VMP] Reloading Admins in server Now***");
   ServerCommand("sm_reloadadmins");
 }
 
 public Action commandRefreshVipAndAdmins(int args) {
-  refreshVipAndAdmins();
-  PrintToServer("***[VMP] Reloading Admins in server Now***");
-  ServerCommand("sm_reloadadmins");
-}
-
-public void OnMapStart() {
+  PrintToServer("***[VMP] Executing on manual refresh on command***");
   refreshVipAndAdmins();
   PrintToServer("***[VMP] Reloading Admins in server Now***");
   ServerCommand("sm_reloadadmins");
 }
 
 public void createTableAndFillentries() {
-  PrintToServer("***[VMP] Running on plugin start func***");
 
   Database g_Database = null;
   char error[512];
@@ -54,6 +53,7 @@ public void createTableAndFillentries() {
     char g_sSQLTable[512];
     g_cServertable.GetString(g_sSQLTable, sizeof(g_sSQLTable));
 
+    // Create table if don't exists
     char createTableQuery[4096];
     Format(createTableQuery, sizeof(createTableQuery),
       "CREATE TABLE IF NOT EXISTS `%s` ( \
@@ -66,7 +66,8 @@ public void createTableAndFillentries() {
                     PRIMARY KEY (`authId`) \
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", g_sSQLTable);
 
-    PrintToServer("***[VMP] Running qury to create table if not exists***");
+    PrintToServer("***[VMP] Running query to create table if not exists***");
+    PrintToServer(createTableQuery);
 
     if (!SQL_FastQuery(g_Database, createTableQuery)) {
       SQL_GetError(g_Database, error, sizeof(error));
@@ -74,10 +75,12 @@ public void createTableAndFillentries() {
       LogError("***[VMP] Failed to execute create table query (error: %s)", error);
     }
 
+    //load vip and admin from table 
     char vipListQuery[4096];
-    Format(vipListQuery, sizeof(vipListQuery), "SELECT authId,flag,name FROM %s WHERE expireStamp > %d;", g_sSQLTable, GetTime());
+    Format(vipListQuery, sizeof(vipListQuery), "SELECT authId,flag,name FROM %s", g_sSQLTable);
 
-    PrintToServer("***[VMP] Running qury to fetch vip and admins***");
+    PrintToServer("***[VMP] Running query to fetch vip and admins***");
+    PrintToServer(vipListQuery);
 
     DBResultSet query = SQL_Query(g_Database, vipListQuery);
     if (query == null) {
@@ -123,14 +126,15 @@ public void refreshVipAndAdmins() {
     PrintToServer("***[VMP] Error connecting to database==> %s", error);
     LogError("***[VMP] Error connecting to database==> %s", error);
   } else {
-
+    //load vip and admin from table
     char g_sSQLTable[512];
     g_cServertable.GetString(g_sSQLTable, sizeof(g_sSQLTable));
 
     char vipListQuery[4096];
-    Format(vipListQuery, sizeof(vipListQuery), "SELECT authId,flag,name FROM %s WHERE expireStamp > %d;", g_sSQLTable, GetTime());
+    Format(vipListQuery, sizeof(vipListQuery), "SELECT authId,flag,name FROM %s", g_sSQLTable);
 
-    PrintToServer("***[VMP] Running qury to fetch vip and admins***");
+    PrintToServer("***[VMP] Running query to fetch vip and admins***");
+    PrintToServer(vipListQuery);
 
     DBResultSet query = SQL_Query(g_Database, vipListQuery);
     if (query == null) {

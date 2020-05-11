@@ -20,8 +20,7 @@
 "use strict";
 
 var db = require('../db/db_bridge');
-const config = require('../config/config.json')
-const serverList = config.servers;
+const panelServerModal = require("../models/panelServerModal.js");
 
 /**
  *   vipDataModel Model
@@ -35,6 +34,7 @@ var vipDataModel = {
     return new Promise(async (resolve, reject) => {
       try {
         let finalResult = []
+        let serverList = await panelServerModal.getPanelServersDisplayList();
 
         for (let i = 0; i < serverList.length; i++) {
           let query = db.queryFormat(`SELECT authId,
@@ -42,24 +42,24 @@ var vipDataModel = {
                                              expireStamp,
                                              created_at,
                                              type 
-                                      FROM ${serverList[i]} WHERE type = 0`);
+                                      FROM ${serverList[i].tbl_name} WHERE type = 0`);
           let queryRes = await db.query(query);
           if (!queryRes) {
             return reject("No Data Found");
           }
-          finalResult.push({ "servername": serverList[i], "type": "VIPs", "data": queryRes })
+          finalResult.push({ "servername": serverList[i].server_name, "type": "VIPs", "data": queryRes })
 
           query = db.queryFormat(`SELECT authId,
                                          name,
                                          expireStamp,
                                          created_at,
                                          type 
-                                  FROM ${serverList[i]} WHERE type = 1`);
+                                  FROM ${serverList[i].tbl_name} WHERE type = 1`);
           queryRes = await db.query(query);
           if (!queryRes) {
             return reject("No Data Found");
           }
-          finalResult.push({ "servername": serverList[i], "type": "ADMINs", "data": queryRes })
+          finalResult.push({ "servername": serverList[i].server_name, "type": "ADMINs", "data": queryRes })
         }
         return resolve(finalResult);
       } catch (error) {

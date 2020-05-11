@@ -29,6 +29,7 @@ module.exports = app => {
   const { loginPage, authUserLogin } = require("../controllers/login.js");
   const { PanelSettings, fetchPanelSettings, updatePanelSettings } = require("../controllers/panelSettings.js")
   const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
+  const { getPanelServersList, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
 
   //Public Router
   app.get("/", getVipsData);
@@ -43,32 +44,29 @@ module.exports = app => {
     res.redirect('/');
   });
 
-  //Vip fetch
+  //Vip routes
   app.post("/getvipdatasingleserver", middleware.checkToken, getVipsDataSingleServer);
-
-  //Vip insertion or update
   app.get("/managevip", middleware.checkToken, formVIP);
   app.post("/addvip", middleware.checkToken, insertVipData);
-
-  //Vip delete
   app.post("/deletevip", middleware.checkToken, deleteVipData);
 
-  //admin Fetch
+  //Admin routes 
   app.post("/getadmindatasingleserver", middleware.checkToken, getAdminsDataSingleServer);
-
-  //Admin insertion 
   app.get("/manageadmin", middleware.checkToken, formAdmin);
   app.post("/addadmin", middleware.checkToken, insertAdminData);
 
-  //Panel Settings page
+  //Panel Settings routes
   app.get('/panelsetting', middleware.checkToken, PanelSettings);
   app.get('/fetchpanelsetting', middleware.checkToken, fetchPanelSettings);
   app.post('/updatepanelsetting', middleware.checkToken, updatePanelSettings);
 
-  //admin Fetch
-  app.get("/getpaneladminslist", middleware.checkToken, getPanelAdminsList);
+  //Panel server mange routes
+  app.get("/getpanelserverlist", middleware.checkToken, getPanelServersList);
+  app.post("/addpanelserver", middleware.checkToken, addPanelServer);
+  app.post("/deletepanelserver", middleware.checkToken, deletePanelServers);
 
-  //Admin insertion 
+  //Apanel Admin routes
+  app.get("/getpaneladminslist", middleware.checkToken, getPanelAdminsList);
   app.post("/addpaneladmin", middleware.checkToken, addPanelAdmin);
   app.post("/updatepaneladmin", middleware.checkToken, addPanelAdmin);
   app.post("/deletepaneladmin", middleware.checkToken, deletePanelAdmin);

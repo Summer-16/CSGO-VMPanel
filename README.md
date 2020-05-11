@@ -1,48 +1,33 @@
 # CSGO Vip Management Panel
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/Shivam169)  (If you like my work consider donation)
+[![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
+### Single solution to mange VIPs and Admins in your CSGO servers.
 
-This system makes the adding of VIP in CSGO community server's super easy, all you gotta do is add them from the panel and forget system will automatically add them in server from DB and delete them when their subscription expires and it comes with a handy web panel.
-
-Project's Discord Server: https://discord.gg/HcCFa8q
-
-If you wants to use the panel and have no idea how to install through below Instruction, Contact me on Discord: Summer_Soldier#5591 or get help on discord server.
-
-## Nodejs Server
-- It is the main server to manage and maintain everything, from the database to VIP addition, deletion and notification.
-- You will get a web panel with forms to add new VIP and update/extend the time for old VIP and A home page with listing of all VIPs server wise with their VIP subscription details.
-- The panel will automatically delete the expired VIPs from the database (no worries of managing time for VIP anymore)
-- Everyday Panel will send the latest VIP list to your discord server.
- 
-
-## Server Script
-- The bash script needs to be added with CSGO servers, and it will fetch all the VIPs from DB and add them to server's simple_admin.ini 
-- this script must be added in cron
+## Panel Features
+- Add VIP or Admin to servers.
+- While adding VIP subscription days are entered and once subscription days finished panel will automatically delete that VIP and remove it from the CSGO server too.
+- You can also manually delete the VIP and Admins from the panel.
+- A user data fetch tool to make it easy to add VIP and Admins just enter the user steam profile URL and panel will fetch all the info for you (no more using steam id finders)
+- Automatic deletion of VIPs whose subscription days are ended.
+- Daily notification on your discord server with the latest Listing for all servers.
+- A handy dashboard to see all at a glance
+- You can create, delete sub-users and super users in panel handy in case you want multiple admins for panel multiple admins.
+- Don't like the default red, don't worry I got you covered, you can change theme color in panel settings.
+- CSGO server plugin is available which syncs all the entries from your panel database to the CSGO server.
+- A shell script is also available. (used to do plugin work in old versions, but it still works so it's there)
+- Note (I recommend using plugin until and unless u r trying to do custom solutions with a shell script. If you are using shell script you will have to manually create server tables in the database.)
 
 ## Webpanel Screenshots
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
 
-## Change in v1.2
+## Changes in v1.2
 - New UI
 - Now you can also manage Server Admins from VMPanel
 - Panel admins/user management
 
-## Step-by-Step install Instructions for New Installation (if you are upgrading from old version check upgrade instructions)
+## Step-by-Step install Instructions for New Installation 
+#### (these instructions apply to current dev code if you are installing v1.2 then follow the instructions given in its zip)
 Always install the latest released version and follow the instructions available inside the readme of downloaded release.
-I dont recommend installing under-development builds as they may have errors. 
-
-### Setting Up the mysql databse first
-- Query to create tables for server
-```mysql
-CREATE TABLE `table_name_here` (
-  `authId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `flag` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT '"0:a"',
-  `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expireStamp` int(20) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `type` int(20) NOT NULL,
-  PRIMARY KEY (`authId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-```
+I don't recommend installing under-development builds as they may have errors. 
 
 ### Setting Up the node server
 - Install nodejs first if not installed https://nodejs.org/en/download/
@@ -57,7 +42,6 @@ mv example_config.json config.json
 vim config.json
 ```
 - Now inside config file add your database details in DB object
-- server tables list in servers array (just write the name of tables which you made in the database corresponding to servers)
 - your discord server webhook URL in webhook for notifications
 - and a secure key for jwt (remember to add a strong key)
 - save the file and get back to panelServer directory
@@ -72,15 +56,18 @@ node server.js
 npm install -g forever
 npm install -g forever-service
 sudo forever-service install vmpService --script server.js
+sudo service vmpService start
 ```
-- Once done you will get info on your terminal how to start, stop, and restart the service using your OS service manager which indicates the successful execution of the command.
-- Now your server is running and your default username: admin and password: password, use these creds to login to the Panel, go to panel sett create your own superuser, switch to your user, and delete the default user.
-- At this point, you are good to go and add the bash file in all your servers.
+- Now your server is running and your default username: admin and password: password, use these creds to login to the Panel, go to panel setting create your own superuser, switch to your user, and delete the default user.
+- At this point, you are good to go and install the plugin in all your servers.
+- After installing the plugin in the server go to panel settings and add your server in the panel.
 
-### Adding bash file in servers
+### Install plugin in CSGO server
+- go to gameServer folder inside the plugin folder copy the addon and cfg folder
+- paste into your CSGO server's CSGO folder now go to cfg/sourcemod/vmpanel.cfg
+- open the cfg file add a table name for your server something like sv_servername
+- now add an entry named vmpanel in your database,cfg and add the database cred for the same database used for panel
+
+### Adding bash file in servers (old method)
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
-
-## Upgrade Instructions
-- delete your old tbl_users table from the database , update the config from example config, and start the server.
-- Now your server is running and your default username: admin and password: password, use these creds to login to the panel , go to panel setting create your own superuser, switch to your user, and delete the default user.

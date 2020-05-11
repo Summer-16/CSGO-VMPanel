@@ -18,15 +18,15 @@
 */
 
 "use strict";
-const config = require('../config/config.json')
-const serverList = config.servers;
 const userModel = require("../models/userModel.js");
 const vipModel = require("../models/vipModel.js");
+const panelServerModal = require("../models/panelServerModal.js");
 
 // -----------------------------------------------------------------------------------------
 
 exports.formAdmin = async (req, res) => {
   try {
+    let serverList = await panelServerModal.getPanelServersDisplayList();
     res.render('ManageAdmin', { "serverList": serverList });
   } catch (error) {
     res.render('ManageAdmin', { "serverList": null });

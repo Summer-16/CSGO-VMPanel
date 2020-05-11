@@ -66,6 +66,10 @@ exports.getVipsDataSingleServer = async (req, res) => {
 const getVipsDataSingleServerFunc = (reqBody) => {
   return new Promise(async (resolve, reject) => {
     try {
+
+      //validations
+      if (!reqBody.server) return reject("Operation Fail!, Server Missing");
+
       let data = await vipModel.getsingleServerData(reqBody.server, "vip")
       resolve(data)
     } catch (error) {
@@ -98,6 +102,10 @@ exports.getAdminsDataSingleServer = async (req, res) => {
 const getAdminsDataSingleServerFunc = (reqBody) => {
   return new Promise(async (resolve, reject) => {
     try {
+
+      //validations
+      if (!reqBody.server) return reject("Operation Fail!, Server Missing");
+
       let data = await vipModel.getsingleServerData(reqBody.server, "admin")
       resolve(data)
     } catch (error) {

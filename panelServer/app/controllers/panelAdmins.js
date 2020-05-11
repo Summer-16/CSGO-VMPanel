@@ -42,6 +42,10 @@ const addPanelAdminFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
+      //validations
+      if (!reqBody.username) return reject("Operation Fail!, Username Missing");
+      if (!reqBody.password) return reject("Operation Fail!, Password Missing");
+
       let userData = await userModel.getuserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
@@ -133,6 +137,10 @@ const deletePanelAdminFunc = (reqBody, username) => {
       if (reqBody.username.split(':')[1] == username) {
         reject("Did u really tried to delete yourself ?");
       } else {
+
+        //validations
+        if (!reqBody.username) return reject("Operation Fail!, Username Missing");
+
         let userData = await userModel.getuserDataByUsername(username)
 
         if (reqBody.secKey && reqBody.secKey === userData.sec_key) {

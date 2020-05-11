@@ -138,6 +138,84 @@ function fetchPSettingajax() {
     .catch(error => console.log('error', error));
 }
 
+function fetchPServerListajax() {
+
+  fetch('/getpanelserverlist', {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((res) => { return res.json(); })
+    .then((response) => {
+      if (response.success == true) {
+        console.log("response---->", response)
+        let dataArray = response.data.res
+        let htmlString = ""
+        for (let i = 0; i < dataArray.length; i++) {
+          htmlString += `<tr>
+                        <td>${dataArray[i].server_name ? dataArray[i].server_name : 'NA'}</td>
+                        <td>${dataArray[i].tbl_name ? dataArray[i].tbl_name : 'NA'}</td>
+                        <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
+                        <td> <button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button></td>
+                        </tr>`
+
+        }
+        document.getElementById("manageServersTableBody").innerHTML = htmlString
+      }
+    })
+    .catch(error => console.log('error', error));
+}
+
+function addNewPServerajax() {
+  if (curentAdminType === 1) {
+    fetch('/addpanelserver', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "tablename": $('#servertablename_add').val(),
+        "servername": $('#servername_add').val(),
+        "submit": "insert"
+      })
+    })
+      .then((res) => { return res.json(); })
+      .then((response) => {
+        showNotif(response)
+        if (response.success == true) {
+          fetchPServerListajax();
+          $('#myForm_addPServer').trigger("reset");
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+}
+
+function deletePServerajax(id, tablename) {
+  fetch('/deletepanelserver', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "id": id,
+      "tablename": tablename,
+      "submit": "delete"
+    })
+  })
+    .then((res) => { return res.json(); })
+    .then((response) => {
+      if (response.success == true) { fetchPServerListajax() }
+      showNotif(response)
+    })
+    .catch(error => console.log('error', error));
+}
+
+
 function removeOptions(selectElement) {
   var i, L = selectElement.options.length - 1;
   for (i = L; i >= 0; i--) {
@@ -145,10 +223,19 @@ function removeOptions(selectElement) {
   }
 }
 
+function dateFormatter(date) {
+  let d = new Date(date);
+  let dd = d.getDate();
+  let mm = d.getMonth() + 1;
+  let yyyy = d.getFullYear();
+  return dd + '-' + mm + '-' + yyyy;
+}
+
 $(document).ready(function () {
 
   fetchPAdminajax();
   fetchPSettingajax();
+  fetchPServerListajax()
 
   // $(window).keydown(function (event) {
   //   if (event.keyCode == 13) {

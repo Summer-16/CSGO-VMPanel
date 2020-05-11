@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# Get current unix time
-current_time=$(date -d "${orig}" +"%s")
-echo "$current_time"
-
 # Locations of Simpleadminfile
 # Example for Pterodactyl server manager
 FILE="/srv/daemon-data/ba4462c0-76a8-42c8-a034-d47b7ac72ead/csgo/addons/sourcemod/configs/admins_simple.ini"
@@ -12,10 +8,10 @@ FILE1="/home/ss/csgo_Servers/Execute_server/csgoserver/serverfiles/csgo/addons/s
 # File variable will hold the path of your admins_simple.ini file in which admins and vips get stored
 
 #connect with db, read data and store it in myvar (replace user with your sql user, host_ip with your sql server ip, user_password with your sql user password table_name_here_server1 with the name of table you used to store name, flag and steam id)
-myvar=$(mysql testdb -u 'user' -h 'host_ip' -p'user_password' -se "SELECT authId,flag,name FROM table_name_here_server1 where expireStamp > '$current_time'")
+myvar=$(mysql testdb -u 'user' -h 'host_ip' -p'user_password' -se "SELECT authId,flag,name FROM table_name_here_server1 ")
 echo "$myvar"
 
-myvar2=$(mysql testdb -u 'user' -h 'host_ip' -p'user_password' -se "SELECT authId,flag,name FROM table_name_here_server2 where expireStamp > '$current_time'")
+myvar2=$(mysql testdb -u 'user' -h 'host_ip' -p'user_password' -se "SELECT authId,flag,name FROM table_name_here_server2 ")
 echo "$myvar2"
 
 #fill in admins_simple.ini of first server

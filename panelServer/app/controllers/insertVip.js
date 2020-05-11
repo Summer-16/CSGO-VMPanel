@@ -18,17 +18,18 @@
 */
 
 "use strict";
-const config = require('../config/config.json')
-const serverList = config.servers;
 const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
+const panelServerModal = require("../models/panelServerModal.js");
 
 // -----------------------------------------------------------------------------------------
 
 exports.formVIP = async (req, res) => {
   try {
+    let serverList = await panelServerModal.getPanelServersDisplayList();
     res.render('ManageVIP', { "serverList": serverList });
   } catch (error) {
+    console.log("error in formVIP-->", error)
     res.render('ManageVIP', { "serverList": null });
   }
 }
