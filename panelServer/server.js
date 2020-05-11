@@ -27,6 +27,7 @@ const session = require('express-session');
 const vipModel = require("./app/models/vipModel.js");
 const userModel = require("./app/models/userModel.js");
 const settingsModal = require("./app/models/panelSettingModal.js");
+const panelServerModal = require("./app/models/panelServerModal.js");
 const { sendMessageOnDiscord } = require("./app/controllers/sendMessageOnDiscord.js");
 
 const app = express();
@@ -66,8 +67,9 @@ cron.schedule(`0 */${scheduleConfig.notif} * * *`, async () => {
 });
 
 //create user table if dont exists
-userModel.createTheTableIfNotExists()
-settingsModal.createTheTableIfNotExists()
+userModel.createTheTableIfNotExists();
+settingsModal.createTheTableIfNotExists();
+panelServerModal.createTheTableIfNotExists();
 
 // middleware to make 'user' available to all templates
 app.use(async function (req, res, next) {
