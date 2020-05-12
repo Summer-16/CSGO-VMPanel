@@ -46,7 +46,7 @@ var settingsModal = {
           return reject("Error in creating user table");
         }
         if (queryRes.warningCount == 0) {
-          let valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"], ["webhook_url", ""]]
+          let valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"], ["webhook_url", ""], ["community_name", ""]]
           let query = db.queryFormat(`INSERT INTO ${table}
                                       (setting_key,setting_value)
                                       VALUES ?`, [valueArray]);

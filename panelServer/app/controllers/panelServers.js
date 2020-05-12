@@ -43,6 +43,8 @@ const addPanelServerFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
+      console.log("req body--->", reqBody)
+
       // validation
       if (!reqBody.tablename) return reject("Operation Fail!, Table Name is not provided");
       if (!reqBody.servername) return reject("Operation Fail!, Server Name is not provided");

@@ -104,6 +104,7 @@ var panelServerModal = {
   insertNewPanelServer: function (dataObj) {
     return new Promise(async (resolve, reject) => {
       try {
+        console.log("dataObj--->", dataObj)
 
         // validation
         if (!dataObj.tablename) return reject("Table Name is not provided");
@@ -115,10 +116,14 @@ var panelServerModal = {
           return reject("Error in insertion");
         }
 
+
         let tablesArray = []
         for (let i = 0; i < queryRes.length; i++) {
-          tablesArray.push(queryRes[i].Tables_in_GGVIPlist)
+          let temp = Object.keys(queryRes[i])
+          tablesArray.push(queryRes[i][temp[0]])
         }
+
+        console.log("tablesArray--->", tablesArray)
 
         if (tablesArray.includes(dataObj.tablename)) {
           query = db.queryFormat(`INSERT INTO ${table} (tbl_name, server_name, created_at) VALUES (?, ?, ?)`, [dataObj.tablename, dataObj.servername, new Date()]);
