@@ -23,25 +23,25 @@ function getPageHeading(route){
   let heading=""
 switch (route) {
   case "/dashboard":
-    heading = "Dashboard";
+    heading = "Dashboard - "+panelSetting.community_name;
     break;
   case "/managevip":
-    heading = "Manage Server VIPs (Add , Update or Delete)";
+    heading = "Manage Server VIPs (Add , Update or Delete) - "+panelSetting.community_name;
     break;
       case "/manageadmin":
-    heading = "Manage Server Admins (Add or Delete)";
+    heading = "Manage Server Admins (Add or Delete) - "+panelSetting.community_name;
     break;
       case "/panelsetting":
-    heading = "Setup/Settings for the VMPanel";
+    heading = "Setup/Settings for the VMPanel - "+panelSetting.community_name;
     break;
   case "/aboutcreator":
     heading = "About the Creator of VMPanel";
     break;
   case "/login":
-    heading = "Admin Login";
+    heading = "Admin Login - "+panelSetting.community_name;
     break;
   default:
-    heading = "VMPanel";
+    heading = "VMPanel - "+panelSetting.community_name;
 }
 return heading
 }

@@ -133,6 +133,9 @@ function fetchPSettingajax() {
         let settingObj = response.data.res
         $("input[name=color_theme][value=" + settingObj.color_theme + "]").prop('checked', true);
         $("input[name=dash_admin_show][value=" + settingObj.dash_admin_show + "]").prop('checked', true);
+        $('#webhook_url').val(settingObj.webhook_url);
+        $('#community_name').val(settingObj.community_name);
+        // $('#webhook_url').focus();
       }
     })
     .catch(error => console.log('error', error));
@@ -150,7 +153,7 @@ function fetchPServerListajax() {
     .then((res) => { return res.json(); })
     .then((response) => {
       if (response.success == true) {
-        console.log("response---->", response)
+
         let dataArray = response.data.res
         let htmlString = ""
         for (let i = 0; i < dataArray.length; i++) {

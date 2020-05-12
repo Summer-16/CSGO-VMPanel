@@ -2,7 +2,7 @@
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 
-## Panel Features
+## Panel Features v1.3
 - Add VIP or Admin to servers.
 - While adding VIP subscription days are entered and once subscription days finished panel will automatically delete that VIP and remove it from the CSGO server too.
 - You can also manually delete the VIP and Admins from the panel.
@@ -19,10 +19,6 @@
 ## Webpanel Screenshots
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
 
-## Changes in v1.2
-- New UI
-- Now you can also manage Server Admins from VMPanel
-- Panel admins/user management
 
 ## Step-by-Step install Instructions for New Installation 
 #### (these instructions apply to current dev code if you are installing v1.2 then follow the instructions given in its zip)
@@ -72,3 +68,15 @@ sudo service vmpService start
 ### Adding bash file in servers (old method)
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
+
+## Updating from v1.2 to v1.3
+- update your config from example config
+- update your server tables using the below query
+```mysql
+ALTER TABLE `table_name_here` 
+ADD COLUMN `created_at` DATETIME NOT NULL AFTER `expireStamp`,
+ADD COLUMN `type` INT(20) DEFAULT 0 AFTER `created_at`;
+```
+- remove shell script and add plugin (plugin install instructions are same as above)
+- After installing plugin on all server's add the servers in panel through manage server in panel settings.
+- add your discord webhook url from config to panel setting

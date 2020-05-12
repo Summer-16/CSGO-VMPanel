@@ -42,19 +42,25 @@ const addPanelAdminFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      //validations
-      if (!reqBody.username) return reject("Operation Fail!, Username Missing");
-      if (!reqBody.password) return reject("Operation Fail!, Password Missing");
-
       let userData = await userModel.getuserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "insert") {
+
+          //validations
+          if (!reqBody.username) return reject("Operation Fail!, Username Missing");
+          if (!reqBody.password) return reject("Operation Fail!, Password Missing");
+
           let insertRes = await userModel.insertNewUser(reqBody)
           if (insertRes) {
             resolve(insertRes)
           }
         } else if (reqBody.submit === "update") {
+
+          //validations
+          if (!reqBody.username) return reject("Operation Fail!, Username Missing");
+          if (!reqBody.newpassword) return reject("Operation Fail!, Password Missing");
+
           let updateRes = await userModel.updateUserpassword({
             "id": reqBody.username.split(':')[0],
             "username": reqBody.username.split(':')[1],

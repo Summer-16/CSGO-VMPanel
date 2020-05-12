@@ -17,16 +17,18 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-const config = require('../config/config.json')
-const webhook = config.webhook;
+
+const settingsModal = require("../models/panelSettingModal.js");
 const vipModel = require("../models/vipModel.js");
 const request = require('request');
 
 function sendMessageOnDiscord() {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await vipModel.getallServerData()
-      let messageString = "Hey here is the latest Vip List of GanGGaminG Server\n\n"
+      let data = await vipModel.getallServerData();
+      let settingObj = await settingsModal.getAllSettings();
+      console.log("setting onj-->", settingObj)
+      let messageString = "Yo Bois, Here is the latest Vip List of " + settingObj.community_name + " Servers\n\n"
       for (let i = 0; i < data.length; i++) {
         if (data[i].type === 'VIPs') {
           messageString += "**#" + data[i].type + " of " + data[i].servername.toUpperCase() + " Server**\n"
@@ -36,7 +38,7 @@ function sendMessageOnDiscord() {
           messageString += "\n"
         }
       }
-      sendMessage(messageString)
+      sendMessage(messageString, settingObj.webhook_url)
     } catch (error) {
       console.log("error in sendMessageOnDiscord->", error)
       reject(error)
@@ -54,7 +56,7 @@ function EpocToDate(utcSeconds) {
   return dd + '-' + mm + '-' + yyyy;
 }
 
-function sendMessage(message) {
+function sendMessage(message, webhook) {
   var options = {
     'method': 'POST',
     'url': webhook,
@@ -74,7 +76,6 @@ function sendMessage(message) {
           "color": "14177041"
         }]
     })
-
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);

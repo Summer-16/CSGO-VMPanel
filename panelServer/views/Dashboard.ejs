@@ -36,13 +36,13 @@ function dateFormatter(date) {
   return dd + '-' + mm + '-' + yyyy;
 }
 
-function remainingDays(startDate,endEpoc){
-const date1 = new Date(startDate);
-const date2 = new Date(0);
-date2.setUTCSeconds(endEpoc)
-const diffTime = Math.abs(date2 - date1);
-const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-return diffDays
+function remainingDays(endEpoc){
+  const date1 = new Date();
+  const date2 = new Date(0);
+  date2.setUTCSeconds(endEpoc)
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  return diffDays
 }
 
 %>
@@ -83,7 +83,7 @@ return diffDays
                     <td><%=vipData[i].data[j].created_at?dateFormatter(vipData[i].data[j].created_at):"NA"%></td>
                     <td><%=vipData[i].data[j].expireStamp?EpocToDate(vipData[i].data[j].expireStamp):"NA"%></td>
                     <td>
-                      <%=vipData[i].data[j].expireStamp?remainingDays(vipData[i].data[j].created_at,vipData[i].data[j].expireStamp):"NA"%>
+                      <%=vipData[i].data[j].expireStamp?remainingDays(vipData[i].data[j].expireStamp):"NA"%>
                     </td>
                   </tr>
                   <%}}%>

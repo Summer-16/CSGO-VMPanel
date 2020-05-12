@@ -69,6 +69,7 @@
                         <label class="form-check-label" for="info">Blue</label>
                       </div>
                     </div>
+                    <!-- Theme Setting -->
                     <!-- Admin in dash Setting -->
                     <div class="col-md-2">
                       <label class="">Show Admins in Dashboard</label>
@@ -83,6 +84,29 @@
                         <label class="form-check-label" for="adminFalse">No</label>
                       </div>
                     </div>
+                    <!-- Admin in dash Setting -->
+                    <!-- webhook Setting -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Community Name</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <!-- <label class="bmd-label-floating">Enter URL here</label> -->
+                        <input type="text" name="community_name" class="form-control" id="community_name" required>
+                      </div>
+                    </div>
+                    <!-- webhook Setting -->
+                    <!-- webhook Setting -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Discord Webhook URL</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <!-- <label class="bmd-label-floating">Enter URL here</label> -->
+                        <input type="url" name="webhook_url" class="form-control" id="webhook_url" required>
+                      </div>
+                    </div>
+                    <!-- webhook Setting -->
                   </div>
                   <hr>
                   <button type="submit" onclick="$(this).parents('form').submit()"

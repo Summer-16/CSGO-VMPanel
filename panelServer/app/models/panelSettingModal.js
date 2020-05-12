@@ -38,7 +38,7 @@ var settingsModal = {
         let query = db.queryFormat(`CREATE TABLE IF NOT EXISTS ${table} (
                                     id int(11) NOT NULL AUTO_INCREMENT,
                                     setting_key varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                    setting_value varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                    setting_value varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                     PRIMARY KEY(id)
                                   ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci`);
         let queryRes = await db.query(query, true);
@@ -46,7 +46,7 @@ var settingsModal = {
           return reject("Error in creating user table");
         }
         if (queryRes.warningCount == 0) {
-          let valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"]]
+          let valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"], ["webhook_url", ""]]
           let query = db.queryFormat(`INSERT INTO ${table}
                                       (setting_key,setting_value)
                                       VALUES ?`, [valueArray]);

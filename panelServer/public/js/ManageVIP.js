@@ -137,7 +137,7 @@ function getVIPTableListing(value) {
                         <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
                         <td>${dataArray[i].expireStamp ? EpocToDate(dataArray[i].expireStamp) : 'NA'}</td>
-                        <td>${dataArray[i].expireStamp ? remainingDays(dataArray[i].created_at, dataArray[i].expireStamp) : 'NA'}</td>
+                        <td>${dataArray[i].expireStamp ? remainingDays(dataArray[i].expireStamp) : 'NA'}</td>
                         <td> <button class="btn btn-danger" onclick="deleteVIPajax('${value}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
         }
@@ -166,8 +166,8 @@ function dateFormatter(date) {
   return dd + '-' + mm + '-' + yyyy;
 }
 
-function remainingDays(startDate, endEpoc) {
-  const date1 = new Date(startDate);
+function remainingDays(endEpoc) {
+  const date1 = new Date();
   const date2 = new Date(0);
   date2.setUTCSeconds(endEpoc)
   const diffTime = Math.abs(date2 - date1);

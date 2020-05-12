@@ -6,14 +6,13 @@
     "db_password": "your db user's password",
     "db_name": "dbname"
   },
-  "usersTable": "tbl_users",
-  "settingTable": "tbl_settings",
-  "serverTable": "tbl_servers",
   "scheduleConfig": {
     "delete": "12",
     "notif": "24"
   },
-  "webhook": "your discord webhook url",
+  "usersTable": "tbl_users",
+  "settingTable": "tbl_settings",
+  "serverTable": "tbl_servers",
   "jwt": {
     "key": "add some random generated string here min 32length"
   }
