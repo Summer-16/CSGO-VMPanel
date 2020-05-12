@@ -6,6 +6,7 @@
     "db_password": "your db user's password",
     "db_name": "dbname"
   },
+  "serverPort": "3535",
   "scheduleConfig": {
     "delete": "12",
     "notif": "24"

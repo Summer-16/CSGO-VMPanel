@@ -84,7 +84,7 @@ app.use(async function (req, res, next) {
 require("./app/routes/router.js")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3535;
+const PORT = process.env.PORT || config.serverPort;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

@@ -104,7 +104,6 @@ var panelServerModal = {
   insertNewPanelServer: function (dataObj) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log("dataObj--->", dataObj)
 
         // validation
         if (!dataObj.tablename) return reject("Table Name is not provided");
@@ -122,8 +121,6 @@ var panelServerModal = {
           let temp = Object.keys(queryRes[i])
           tablesArray.push(queryRes[i][temp[0]])
         }
-
-        console.log("tablesArray--->", tablesArray)
 
         if (tablesArray.includes(dataObj.tablename)) {
           query = db.queryFormat(`INSERT INTO ${table} (tbl_name, server_name, created_at) VALUES (?, ?, ?)`, [dataObj.tablename, dataObj.servername, new Date()]);
