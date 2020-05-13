@@ -22,28 +22,25 @@ const settingsModal = require("../models/panelSettingModal.js");
 const vipModel = require("../models/vipModel.js");
 const request = require('request');
 
-function sendMessageOnDiscord() {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let data = await vipModel.getallServerData();
-      let settingObj = await settingsModal.getAllSettings();
-      console.log("setting onj-->", settingObj)
-      let messageString = "Yo Bois, Here is the latest Vip List of " + settingObj.community_name + " Servers\n\n"
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].type === 'VIPs') {
-          messageString += "**#" + data[i].type + " of " + data[i].servername.toUpperCase() + " Server**\n"
-          for (let j = 0; j < data[i].data.length; j++) {
-            messageString += "-> " + data[i].data[j].authId.replace('"', '').replace('"', '') + "  :- " + data[i].data[j].name.replace("//", "") + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***\n"
-          }
-          messageString += "\n"
+async function sendMessageOnDiscord() {
+  try {
+    let data = await vipModel.getallServerData();
+    let settingObj = await settingsModal.getAllSettings();
+
+    let messageString = "Yo Bois, Here is the latest Vip List of " + settingObj.community_name + " Servers\n\n"
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].type === 'VIPs') {
+        messageString += "**#" + data[i].type + " of " + data[i].servername.toUpperCase() + " Server**\n"
+        for (let j = 0; j < data[i].data.length; j++) {
+          messageString += "-> " + data[i].data[j].authId.replace('"', '').replace('"', '') + "  :- " + data[i].data[j].name.replace("//", "") + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***\n"
         }
+        messageString += "\n"
       }
-      sendMessage(messageString, settingObj.webhook_url)
-    } catch (error) {
-      console.log("error in sendMessageOnDiscord->", error)
-      reject(error)
     }
-  });
+    sendMessage(messageString, settingObj.webhook_url)
+  } catch (error) {
+    console.log("error in sendMessageOnDiscord->", error)
+  }
 }
 
 function EpocToDate(utcSeconds) {
@@ -57,12 +54,12 @@ function EpocToDate(utcSeconds) {
 }
 
 function sendMessage(message, webhook) {
+
   var options = {
     'method': 'POST',
     'url': webhook,
     'headers': {
-      'Content-Type': 'application/json',
-      'Cookie': '__cfduid=d49450082a303e89b0cf1067962ca64721587413688; __cfruid=175ad1a6c7ccdf59e3cb0ee9eded81889f66399d-1587413688'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       "embeds": [
@@ -77,6 +74,8 @@ function sendMessage(message, webhook) {
         }]
     })
   };
+
+  console.log("****Sending Message Payload****")
   request(options, function (error, response) {
     if (error) throw new Error(error);
     console.log(response.body);
