@@ -21,66 +21,136 @@
 const settingsModal = require("../models/panelSettingModal.js");
 const vipModel = require("../models/vipModel.js");
 const request = require('request');
+const GAcolor = [1752220, 3066993, 3447003, 10181046, 15105570, 15158332, 9807270, 8359053, 3426654, 1146986, 2067276, 2123412, 7419530, 11027200, 10038562, 9936031, 12370112, 2899536, 16580705, 12320855]
 
 async function sendMessageOnDiscord() {
   try {
+    const color = GAcolor;
     let data = await vipModel.getallServerData();
     let settingObj = await settingsModal.getAllSettings();
 
-    let messageString = "Yo Bois, Here is the latest Vip List of " + settingObj.community_name + " Servers\n\n"
+    let messageString = "", messageArray = [], count = 0, colorArray = []
+
     for (let i = 0; i < data.length; i++) {
-      if (data[i].type === 'VIPs') {
-        messageString += "**#" + data[i].type + " of " + data[i].servername.toUpperCase() + " Server**\n"
-        for (let j = 0; j < data[i].data.length; j++) {
-          messageString += "-> " + data[i].data[j].authId.replace('"', '').replace('"', '') + "  :- " + data[i].data[j].name.replace("//", "") + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***\n"
+
+      if (data[i].type == "VIPs" || (data[i].type == "ADMINs" && settingObj.dash_admin_show == 1)) {
+
+        let ranNum = getRandomInt(19);
+        let roll = color.splice(ranNum, 1);
+        let currentColor = roll[0];
+
+        if (data[i].type == "VIPs") {
+          messageString = "**" + data[i].type + " of " + data[i].servername + " Server**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
+        } else {
+          messageString = "**" + data[i].type + " of " + data[i].servername + " Server**\n**- Name  , Steam Id**\n";
         }
-        messageString += "\n"
+
+        if (data[i].data.length) {
+
+          count = 0;
+
+          for (let j = 0; j < data[i].data.length; j++) {
+
+            if (count <= 10) {
+
+              if (data[i].type == "VIPs") {
+                messageString += "- " + data[i].data[j].name.replace("//", "")
+                  + "  :- " + data[i].data[j].authId.replace('"', '').replace('"', '')
+                  + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***"
+                  + "  :- " + remainingDays(data[i].data[j].expireStamp) + " days left\n"
+              } else {
+                messageString += "- " + data[i].data[j].name.replace("//", "")
+                  + "  :- " + data[i].data[j].authId.replace('"', '').replace('"', '') + "\n"
+              }
+
+              count++
+            } else {
+
+              messageArray.push(messageString);
+              colorArray.push(currentColor)
+              count = 0;
+
+              if (data[i].type == "VIPs") {
+                messageString = "**" + data[i].type + " of " + data[i].servername + " Server Continue**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
+              } else {
+                messageString = "**" + data[i].type + " of " + data[i].servername + " Server Continue**\n**- Name  , Steam Id**\n";
+              }
+
+            }
+          }
+          messageArray.push(messageString)
+          colorArray.push(currentColor)
+
+        }
+        messageString = ""
       }
     }
-    sendMessage(messageString, settingObj.webhook_url)
+    sendMessage(messageArray, colorArray, settingObj.webhook_url)
   } catch (error) {
     console.log("error in sendMessageOnDiscord->", error)
+  }
+}
+
+
+function sendMessage(message, color, webhook) {
+  console.log("messgae-->", message)
+
+  for (let i = 0; i < message.length; i++) {
+    console.log("messgae-->", message[i].length)
+    let options = {
+      'method': 'POST',
+      'url': webhook,
+      'headers': {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "embeds": [
+          {
+            "author": {
+              "name": "Notification by VMPanel",
+              "url": "https://github.com/Summer-16/CSGO-VMPanel",
+              "icon_url": "https://raw.githubusercontent.com/Summer-16/CSGO-VMPanel/master/panelServer/public/images/icon.png"
+            },
+            "description": message[i],
+            "color": color[i]
+          }]
+      })
+    };
+
+    setTimeout(function () {
+      console.log("****Sending Message Payload****")
+      request(options, function (error, response) {
+        if (error) {
+          throw new Error(error)
+        }
+        console.log("Discord send message request status-->", response.statusCode);
+      });
+    }, i * 2000);
+
+
   }
 }
 
 function EpocToDate(utcSeconds) {
   let d = new Date(0);
   d.setUTCSeconds(utcSeconds)
-
   let dd = d.getDate();
   let mm = d.getMonth() + 1;
   let yyyy = d.getFullYear();
   return dd + '-' + mm + '-' + yyyy;
 }
 
-function sendMessage(message, webhook) {
+function remainingDays(endEpoc) {
+  const date1 = new Date();
+  const date2 = new Date(0);
+  date2.setUTCSeconds(endEpoc)
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays
+}
 
-  var options = {
-    'method': 'POST',
-    'url': webhook,
-    'headers': {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "embeds": [
-        {
-          "author": {
-            "name": "Summer Soldier",
-            "url": "https://github.com/Summer-16",
-            "icon_url": "https://avatars0.githubusercontent.com/u/23084341?s=460&u=81ecd55c581074d6561d6250a2daa52cb7152089&v=4"
-          },
-          "description": message,
-          "color": "14177041"
-        }]
-    })
-  };
-
-  console.log("****Sending Message Payload****")
-  request(options, function (error, response) {
-    if (error) throw new Error(error);
-    console.log(response.body);
-  });
-
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
 
 module.exports.sendMessageOnDiscord = sendMessageOnDiscord

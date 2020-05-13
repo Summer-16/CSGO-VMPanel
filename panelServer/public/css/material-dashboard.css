@@ -22129,6 +22129,11 @@ select:-webkit-autofill:focus
 	border: 1px solid #192033;
 }
 
+.scroller {
+  scrollbar-color: #192033 #021441;
+  scrollbar-width: thin;
+}
+
 /* Absolute Center Spinner */
 .loading {
   position: fixed;
