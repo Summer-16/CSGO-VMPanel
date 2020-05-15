@@ -95,6 +95,9 @@ const getPanelServersListFunc = (reqBody) => {
 
       let serverData = await panelServerModal.getPanelServersList()
       if (serverData) {
+        for (let i = 0; i < serverData.length; i++) {
+          serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA"
+        }
         resolve(serverData)
       }
     } catch (error) {

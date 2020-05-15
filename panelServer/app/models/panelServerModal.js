@@ -97,6 +97,26 @@ var panelServerModal = {
     });
   },
 
+  /**
+* get single server details
+*/
+  getPanelServerDetails: function (server) {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        let query = db.queryFormat(`SELECT * FROM ${table} WHERE tbl_name = ?`, [server]);
+        let queryRes = await db.query(query, true);
+        if (!queryRes) {
+          return reject("No Data Found");
+        }
+        return resolve(queryRes);
+      } catch (error) {
+        console.log("error in getPanelServerDetails->", error)
+        reject(error)
+      }
+    });
+  },
+
 
   /**
  * Insert a new server
@@ -123,7 +143,13 @@ var panelServerModal = {
         }
 
         if (tablesArray.includes(dataObj.tablename)) {
-          query = db.queryFormat(`INSERT INTO ${table} (tbl_name, server_name, created_at) VALUES (?, ?, ?)`, [dataObj.tablename, dataObj.servername, new Date()]);
+          query = db.queryFormat(`INSERT INTO ${table} 
+                                  (tbl_name, 
+                                  server_name,
+                                  server_ip,
+                                  server_port,
+                                  server_rcon_pass, 
+                                  created_at) VALUES (?, ?, ?, ?, ? ,?)`, [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, new Date()]);
           queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("Error in insertion");

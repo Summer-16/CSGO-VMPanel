@@ -21,6 +21,8 @@
 const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
+const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
+var rconStatus = []
 
 // -----------------------------------------------------------------------------------------
 
@@ -42,7 +44,12 @@ exports.insertVipData = async (req, res) => {
     let result = await insertVipDataFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": req.body.submit == "insert" ? "New VIP added Successfully" : "VIP Updated Successfully", "notifType": "success" }
+      data: {
+        "res": result,
+        "message": req.body.submit == "insert" ? "New VIP added Successfully" + (rconStatus.includes(false) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers") :
+          "VIP Updated Successfully" + (rconStatus.includes(false) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
+        "notifType": "success"
+      }
     });
   } catch (error) {
     console.log("error in add/update vip->", error)
@@ -77,6 +84,10 @@ const insertVipDataFunc = (reqBody, username) => {
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
+            for (let i = 0; i < reqBody.server.length; i++) {
+              let result = await refreshAdminsInServer(reqBody.server[i]);
+              rconStatus.push(result)
+            }
             resolve(insertRes)
           }
         } else if (reqBody.submit === "update") {
@@ -91,6 +102,10 @@ const insertVipDataFunc = (reqBody, username) => {
 
           let updateRes = await vipModel.updateVIPData(reqBody)
           if (updateRes) {
+            for (let i = 0; i < reqBody.server.length; i++) {
+              let result = await refreshAdminsInServer(reqBody.server[i]);
+              rconStatus.push(result)
+            }
             resolve(updateRes)
           }
         } else {

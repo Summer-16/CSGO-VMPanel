@@ -195,6 +195,9 @@ function fetchPServerListajax() {
           htmlString += `<tr>
                         <td>${dataArray[i].server_name ? dataArray[i].server_name : 'NA'}</td>
                         <td>${dataArray[i].tbl_name ? dataArray[i].tbl_name : 'NA'}</td>
+                        <td>${dataArray[i].server_ip ? dataArray[i].server_ip : 'NA'}</td>
+                          <td>${dataArray[i].server_port ? dataArray[i].server_port : 'NA'}</td>
+                        <td>${dataArray[i].server_rcon_pass ? dataArray[i].server_rcon_pass : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
                         <td><button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
@@ -205,6 +208,7 @@ function fetchPServerListajax() {
     })
     .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
+
 
 function addNewPServerajax() {
   if (curentAdminType === 1) {
@@ -221,6 +225,9 @@ function addNewPServerajax() {
       body: JSON.stringify({
         "tablename": $('#servertablename_add').val(),
         "servername": $('#servername_add').val(),
+        "serverip": $('#servertableIP_add').val(),
+        "serverport": $('#servertablePort_add').val(),
+        "serverrcon": $('#servertableRCON_add').val(),
         "submit": "insert"
       })
     })

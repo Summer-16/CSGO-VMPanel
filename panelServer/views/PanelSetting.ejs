@@ -118,6 +118,9 @@
                     <thead class=" text-primary">
                       <th>Server Name</th>
                       <th>Table Name</th>
+                      <th>Server IP</th>
+                      <th>Server Port</th>
+                      <th>Rcon Pass.</th>
                       <th>Added on</th>
                       <th>Action</th>
                     </thead>
@@ -129,16 +132,36 @@
                 <hr>
                 <form class="col-md-12" id="myForm_addPServer">
                   <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">Server Name</label>
                         <input type="text" name="servername" class="form-control" id="servername_add" required>
                       </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
                         <input type="text" name="servertablename" class="form-control" id="servertablename_add"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server IP</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertableIP_add" required>
+                      </div>
+                    </div>
+                    <div class="col-md-1">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server Port</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertablePort_add"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">RCON Password</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertableRCON_add"
                           required>
                       </div>
                     </div>

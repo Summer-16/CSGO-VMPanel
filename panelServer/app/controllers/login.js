@@ -56,7 +56,7 @@ exports.authUserLogin = async (req, res) => {
         req.session.username = userData.username;
         req.session.sec_key = userData.sec_key;
         req.session.user_type = userData.user_type;
-        res.redirect('/dashboard')
+        res.redirect('/managevip')
       } else {
         res.render('Login', { "error": 'Incorrect username or password' })
       }

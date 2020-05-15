@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.17.1",
     "node-cron": "^2.0.3",
+    "rcon": "^1.0.3",
     "request": "^2.88.2"
   }
 }

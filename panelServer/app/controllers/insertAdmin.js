@@ -21,6 +21,8 @@
 const userModel = require("../models/userModel.js");
 const vipModel = require("../models/vipModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
+const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
+var rconStatus = []
 
 // -----------------------------------------------------------------------------------------
 
@@ -41,7 +43,11 @@ exports.insertAdminData = async (req, res) => {
     let result = await insertAdminDataFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": "New Admin added Successfully", "notifType": "success" }
+      data: {
+        "res": result,
+        "message": "New Admin added Successfully" + (rconStatus.includes(false) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
+        "notifType": "success"
+      }
     });
   } catch (error) {
     console.log("error in add Admin->", error)
@@ -74,6 +80,10 @@ const insertAdminDataFunc = (reqBody, username) => {
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
+            for (let i = 0; i < reqBody.server.length; i++) {
+              let result = await refreshAdminsInServer(reqBody.server[i]);
+              rconStatus.push(result)
+            }
             resolve(insertRes)
           }
         }

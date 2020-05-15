@@ -20,6 +20,8 @@
 "use strict";
 const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
+const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
+var rconStatus
 
 // -----------------------------------------------------------------------------------------
 
@@ -29,7 +31,11 @@ exports.deleteVipData = async (req, res) => {
     let result = await deleteVipDataFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": "VIP deleted Successfully" }
+      data: {
+        "res": result,
+        "message": "VIP deleted Successfully" + (rconStatus ? ", RCON Executed" : ", RCON Not Executed"),
+        "notifType": "success"
+      }
     });
   } catch (error) {
     console.log("error in delete vip->", error)
@@ -49,6 +55,7 @@ const deleteVipDataFunc = (reqBody, username) => {
         reqBody.primaryKey = '"' + reqBody.primaryKey + '"'
         let deleteRes = await vipModel.deleteVipByAdmin(reqBody)
         if (deleteRes) {
+          rconStatus = await refreshAdminsInServer(reqBody.tableName);
           resolve(deleteRes)
         }
       } else {
