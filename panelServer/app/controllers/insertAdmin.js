@@ -41,7 +41,7 @@ exports.insertAdminData = async (req, res) => {
     let result = await insertAdminDataFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": "New Admin added Successfully" }
+      data: { "res": result, "message": "New Admin added Successfully", "notifType": "success" }
     });
   } catch (error) {
     console.log("error in add Admin->", error)

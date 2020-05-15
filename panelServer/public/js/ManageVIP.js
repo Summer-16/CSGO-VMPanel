@@ -19,6 +19,9 @@
 
 function addNewVIPajax() {
 
+  let loader = `<div class="loading">Loading&#8230;</div>`;
+  $("#divForLoader").html(loader)
+
   let flagString = '"' + ($('#immunity_vip').val() / 1) + ':'
   let serverArray = []
 
@@ -49,13 +52,17 @@ function addNewVIPajax() {
   })
     .then((res) => { return res.json(); })
     .then((response) => {
+      $("#divForLoader").html("")
       showNotif(response)
       if (response.success == true) { getVIPTableListing(serverArray[0]) }
     })
-    .catch(error => console.log('error', error));
+    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
 
 function updateOldVIPajax() {
+
+  let loader = `<div class="loading">Loading&#8230;</div>`;
+  $("#divForLoader").html(loader)
 
   let serverArray = []
   $("input:checkbox[name=server_update]:checked").each(function () {
@@ -77,10 +84,11 @@ function updateOldVIPajax() {
   })
     .then((res) => { return res.json(); })
     .then((response) => {
+      $("#divForLoader").html("")
       showNotif(response)
       if (response.success == true) { getVIPTableListing(serverArray[0]) }
     })
-    .catch(error => console.log('error', error));
+    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
 
 function deleteVIPajax(tableName, primaryKey) {
@@ -90,6 +98,10 @@ function deleteVIPajax(tableName, primaryKey) {
   custom_confirm(htmlString, (response) => {
 
     if (response == true) {
+
+      let loader = `<div class="loading">Loading&#8230;</div>`;
+      $("#divForLoader").html(loader)
+
       fetch('/deletevip', {
         method: 'POST',
         headers: {
@@ -103,16 +115,19 @@ function deleteVIPajax(tableName, primaryKey) {
       })
         .then((res) => { return res.json(); })
         .then((response) => {
+          $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) { getVIPTableListing(tableName) }
         })
-        .catch(error => console.log('error', error));
+        .catch(error => { showNotif({ success: false, data: { "error": error } }) });
     }
   })
 }
 
 function getVIPTableListing(value) {
   if (value) {
+    // let loader = `<div class="loading">Loading&#8230;</div>`;
+    // $("#divForLoader").html(loader)
 
     $("#manageCardTitle").text("View and Manage VIP of " + value.toUpperCase());
 
@@ -128,6 +143,7 @@ function getVIPTableListing(value) {
     })
       .then((res) => { return res.json(); })
       .then((response) => {
+        // $("#divForLoader").html("")
         let dataArray = response.data.res
         let htmlString = ""
         for (let i = 0; i < dataArray.length; i++) {
@@ -145,7 +161,7 @@ function getVIPTableListing(value) {
 
         showNotif(response)
       })
-      .catch(error => console.log('error', error));
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
   }
 }
 

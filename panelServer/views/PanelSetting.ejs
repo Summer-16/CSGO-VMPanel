@@ -125,6 +125,7 @@
                     </tbody>
                   </table>
                 </div>
+                <%if(adminType===1){%>
                 <hr>
                 <form class="col-md-12" id="myForm_addPServer">
                   <div class="row">
@@ -150,91 +151,93 @@
                   </div>
                   <div class="clearfix"></div>
                 </form>
+                <%}%>
               </div>
             </div>
           </div>
         </div>
       </div>
       <%if(adminType===1){%>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header card-header-<%=panelSetting.color_theme%>">
-            <h4 class="card-title">Add Panel Admin</h4>
-            <p class="card-category">Form to add a new Admins in VMPanel</p>
-          </div>
-          <div class="card-body">
-            <form>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter Username</label>
-                    <input id="username_padd" type="text" class="form-control" required>
-                  </div>
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter Password</label>
-                    <input id="password_padd" type="password" class="form-control" required>
-                  </div>
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Select Admin Type</label>
-                    <select class="form-control" id="admintype_padd" required>
-                      <option value="" selected>Select Admin Type</option>
-                      <option value="1">Super Admin</option>
-                      <option value="0">Normal Admin</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <button type="button" onclick="addNewPAdminajax()" class="btn btn-success pull-right">ADD ADMIN</button>
-              <div class="clearfix"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header card-header-<%=panelSetting.color_theme%>">
-            <h4 class="card-title">Update Panel Admin</h4>
-            <p class="card-category">Form to Change Password or Delete Panel Admin</p>
-          </div>
-          <div class="card-body">
-            <form>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Select Admin</label>
-                    <select class="form-control" id="selected_padmin" required>
-                      <option value="" selected>Select Admin</option>
-                    </select>
-                  </div>
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter New Password</label>
-                    <input id="password_pupdate" type="password" class="form-control" required>
-                  </div>
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating"></label>
-                    <input type="text" class="form-control" disabled>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                      <h4 class="card-title">Add Panel Admin</h4>
+                      <p class="card-category">Form to add a new Admins in VMPanel</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Enter Username</label>
+                              <input id="username_padd" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Enter Password</label>
+                              <input id="password_padd" type="password" class="form-control" required>
+                            </div>
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Select Admin Type</label>
+                              <select class="form-control" id="admintype_padd" required>
+                                <option value="" selected>Select Admin Type</option>
+                                <option value="1">Super Admin</option>
+                                <option value="0">Normal Admin</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addNewPAdminajax()" class="btn btn-success pull-right">ADD
+                          ADMIN</button>
+                        <div class="clearfix"></div>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <button type="button" onclick="deletePAdminajax()" class="btn btn-danger pull-left">DELETE</button>
-              <button type="button" onclick="updateOldPAdminajax()" class="btn btn-success pull-right">UPDATE</button>
-              <div class="clearfix"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <%}%>
-
-
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                      <h4 class="card-title">Update Panel Admin</h4>
+                      <p class="card-category">Form to Change Password or Delete Panel Admin</p>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Select Admin</label>
+                              <select class="form-control" id="selected_padmin" required>
+                                <option value="" selected>Select Admin</option>
+                              </select>
+                            </div>
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Enter New Password</label>
+                              <input id="password_pupdate" type="password" class="form-control" required>
+                            </div>
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating"></label>
+                              <input type="text" class="form-control" disabled>
+                            </div>
+                          </div>
+                        </div>
+                        <button type="button" onclick="deletePAdminajax()"
+                          class="btn btn-danger pull-left">DELETE</button>
+                        <button type="button" onclick="updateOldPAdminajax()"
+                          class="btn btn-success pull-right">UPDATE</button>
+                        <div class="clearfix"></div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <%}%>
 </div>
 </div>
 </div>
 
 
 <%- include('Footer.ejs') %>
-      <script>
-        var curentAdminType = <%=adminType%>
-      </script>
-      <script src="./js/PanelSettings.js"></script>
-      <script src="./js/customConfirm.js"></script>
-      <script src="./js/notifications.js"></script>
+                <script>
+                  var curentAdminType = <%=adminType%>
+                </script>
+                <script src="./js/PanelSettings.js"></script>
+                <script src="./js/customConfirm.js"></script>
+                <script src="./js/notifications.js"></script>

@@ -20,30 +20,50 @@
 
 function profileUrlToDataFetcher(profileUrl) {
 
-  let loader = `<div class="loading">Loading&#8230;</div>`;
-  $("#divForLoader").html(loader)
+  if (profileUrl) {
 
-  let proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-  fetch(proxyUrl + profileUrl + '?xml=1', {
-    method: 'GET',
-    redirect: 'follow'
-  })
-    .then((res) => { return res.text() })
-    .then((response) => {
-      let steamID64 = $(response).find("steamID64").text();
-      let userName = $(response).find("steamID").html().slice(11).slice(0, -5);
-      let dpURL = $(response).find("avatarMedium").html().slice(11).slice(0, -5);
-      let finalSteamID = SteamIDConverter.toSteamID(steamID64);
+    let loader = `<div class="loading">Loading&#8230;</div>`;
+    $("#divForLoader").html(loader)
 
-      $("#divForLoader").html("")
-      $('#steamId_add').val(finalSteamID);
-      $('#name_add').val(userName);
-      $('#steamId_update').val(finalSteamID);
-      $("#display_steamId").text(finalSteamID)
-      $("#display_name").text(userName)
-      $("#dp_div").html(`<img src="${dpURL}" alt="Profile Picture">`);
-      $("#name_add").focus();
+    fetch('/fetchsteamprofiledata', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "profileUrl": profileUrl,
+      })
     })
-    .catch(error => console.log('error', error));
+      .then((res) => { return res.json(); })
+      .then((response) => {
 
+        response = response.data.res
+
+        $("#divForLoader").html("")
+
+        let steamID64 = $(response).find("steamID64").text();
+        let userName = $(response).find("steamID").html().slice(11).slice(0, -5);
+        let dpURL = $(response).find("avatarMedium").html().slice(11).slice(0, -5);
+        let finalSteamID = SteamIDConverter.toSteamID(steamID64);
+
+        $("#divForLoader").html("")
+        $('#steamId_add').val(finalSteamID);
+        $('#name_add').val(userName);
+        $('#steamId_update').val(finalSteamID);
+        $("#display_steamId").text(finalSteamID)
+        $("#display_name").text(userName)
+        $("#dp_div").html(`<img src="${dpURL}" alt="Profile Picture">`);
+        $("#name_add").focus();
+      })
+      .catch(error => {
+        console.log("error -->", error)
+        showNotif({ success: false, data: { "error": error } })
+      });
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "Profile Url is Missing" }
+    })
+  }
 }

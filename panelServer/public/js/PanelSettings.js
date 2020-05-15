@@ -19,6 +19,10 @@
 
 function addNewPAdminajax() {
   if (curentAdminType === 1) {
+
+    let loader = `<div class="loading">Loading&#8230;</div>`;
+    $("#divForLoader").html(loader)
+
     fetch('/addpaneladmin', {
       method: 'POST',
       headers: {
@@ -34,15 +38,25 @@ function addNewPAdminajax() {
     })
       .then((res) => { return res.json(); })
       .then((response) => {
+        $("#divForLoader").html("")
         showNotif(response)
         if (response.success == true) { fetchPAdminajax() }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
   }
 }
 
 function updateOldPAdminajax() {
   if (curentAdminType === 1) {
+
+    let loader = `<div class="loading">Loading&#8230;</div>`;
+    $("#divForLoader").html(loader)
+
     fetch('/updatepaneladmin', {
       method: 'POST',
       headers: {
@@ -57,15 +71,25 @@ function updateOldPAdminajax() {
     })
       .then((res) => { return res.json(); })
       .then((response) => {
+        $("#divForLoader").html("")
         showNotif(response)
         if (response.success == true) { fetchPAdminajax() }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
   }
 }
 
 function deletePAdminajax() {
   if (curentAdminType === 1) {
+
+    let loader = `<div class="loading">Loading&#8230;</div>`;
+    $("#divForLoader").html(loader)
+
     fetch('/deletepaneladmin', {
       method: 'POST',
       headers: {
@@ -79,10 +103,16 @@ function deletePAdminajax() {
     })
       .then((res) => { return res.json(); })
       .then((response) => {
+        $("#divForLoader").html("")
         showNotif(response)
         if (response.success == true) { fetchPAdminajax() }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
   }
 }
 
@@ -114,7 +144,12 @@ function fetchPAdminajax() {
           }
         }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
   }
 }
 
@@ -138,7 +173,7 @@ function fetchPSettingajax() {
         // $('#webhook_url').focus();
       }
     })
-    .catch(error => console.log('error', error));
+    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
 
 function fetchPServerListajax() {
@@ -161,18 +196,22 @@ function fetchPServerListajax() {
                         <td>${dataArray[i].server_name ? dataArray[i].server_name : 'NA'}</td>
                         <td>${dataArray[i].tbl_name ? dataArray[i].tbl_name : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
-                        <td> <button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button></td>
+                        <td><button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
 
         }
         document.getElementById("manageServersTableBody").innerHTML = htmlString
       }
     })
-    .catch(error => console.log('error', error));
+    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
 
 function addNewPServerajax() {
   if (curentAdminType === 1) {
+
+    let loader = `<div class="loading">Loading&#8230;</div>`;
+    $("#divForLoader").html(loader)
+
     fetch('/addpanelserver', {
       method: 'POST',
       headers: {
@@ -187,35 +226,53 @@ function addNewPServerajax() {
     })
       .then((res) => { return res.json(); })
       .then((response) => {
+        $("#divForLoader").html("")
         showNotif(response)
         if (response.success == true) {
           fetchPServerListajax();
           $('#myForm_addPServer').trigger("reset");
         }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
   }
 }
 
 function deletePServerajax(id, tablename) {
-  fetch('/deletepanelserver', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "id": id,
-      "tablename": tablename,
-      "submit": "delete"
+  if (curentAdminType === 1) {
+
+    let loader = `<div class="loading">Loading&#8230;</div>`;
+    $("#divForLoader").html(loader)
+
+    fetch('/deletepanelserver', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "id": id,
+        "tablename": tablename,
+        "submit": "delete"
+      })
     })
-  })
-    .then((res) => { return res.json(); })
-    .then((response) => {
-      if (response.success == true) { fetchPServerListajax() }
-      showNotif(response)
+      .then((res) => { return res.json(); })
+      .then((response) => {
+        $("#divForLoader").html("")
+        if (response.success == true) { fetchPServerListajax() }
+        showNotif(response)
+      })
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
     })
-    .catch(error => console.log('error', error));
+  }
 }
 
 

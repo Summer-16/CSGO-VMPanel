@@ -52,7 +52,7 @@ exports.getVipsDataSingleServer = async (req, res) => {
     let result = await getVipsDataSingleServerFunc(req.body);
     res.json({
       success: true,
-      data: { "res": result, "message": "VIP Listing loaded for " + req.body.server.toUpperCase() }
+      data: { "res": result, "message": "VIP Listing loaded for " + req.body.server.toUpperCase(), "notifType": "info" }
     });
   } catch (error) {
     console.log("error in getVipsDataSingleServer->", error)
@@ -88,7 +88,7 @@ exports.getAdminsDataSingleServer = async (req, res) => {
     let result = await getAdminsDataSingleServerFunc(req.body);
     res.json({
       success: true,
-      data: { "res": result, "message": "Admins Listing loaded for " + req.body.server.toUpperCase() }
+      data: { "res": result, "message": "Admins Listing loaded for " + req.body.server.toUpperCase(), "notifType": "info" }
     });
   } catch (error) {
     console.log("error in getAdminsDataSingleServerFunc->", error)

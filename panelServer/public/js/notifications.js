@@ -23,7 +23,7 @@ function showNotif(response) {
       icon: "add_alert",
       message: response.data.message
     }, {
-      type: "success",
+      type: response.data.notifType,
       timer: 3000,
       placement: {
         from: "top",

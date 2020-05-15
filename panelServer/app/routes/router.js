@@ -30,6 +30,7 @@ module.exports = app => {
   const { PanelSettings, fetchPanelSettings, updatePanelSettings } = require("../controllers/panelSettings.js")
   const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
   const { getPanelServersList, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
+  const { fetchProfileData } = require("../controllers/steamProfileDataFetch")
 
   //Public Router
   app.get("/", getVipsData);
@@ -43,6 +44,9 @@ module.exports = app => {
     req.session.destroy();
     res.redirect('/');
   });
+
+  //route to fetch user data from steam profile
+  app.post('/fetchsteamprofiledata', fetchProfileData);
 
   //Vip routes
   app.post("/getvipdatasingleserver", middleware.checkToken, getVipsDataSingleServer);

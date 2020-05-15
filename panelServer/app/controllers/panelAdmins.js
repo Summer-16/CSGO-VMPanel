@@ -27,7 +27,7 @@ exports.addPanelAdmin = async (req, res) => {
     let result = await addPanelAdminFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": req.body.submit == "insert" ? "New Admin added Successfully" : "Admin Updated Successfully" }
+      data: { "res": result, "message": req.body.submit == "insert" ? "New Admin added Successfully" : "Admin Updated Successfully", "notifType": "success" }
     });
   } catch (error) {
     console.log("error in addPanelAdmin->", error)
@@ -126,7 +126,7 @@ exports.deletePanelAdmin = async (req, res) => {
     let result = await deletePanelAdminFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": "Admin Deleted Successfully" }
+      data: { "res": result, "message": "Admin Deleted Successfully", "notifType": "success" }
     });
   } catch (error) {
     console.log("error in deletePanelAdmin->", error)

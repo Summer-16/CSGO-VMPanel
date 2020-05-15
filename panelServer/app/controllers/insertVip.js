@@ -42,7 +42,7 @@ exports.insertVipData = async (req, res) => {
     let result = await insertVipDataFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": req.body.submit == "insert" ? "New VIP added Successfully" : "VIP Updated Successfully" }
+      data: { "res": result, "message": req.body.submit == "insert" ? "New VIP added Successfully" : "VIP Updated Successfully", "notifType": "success" }
     });
   } catch (error) {
     console.log("error in add/update vip->", error)

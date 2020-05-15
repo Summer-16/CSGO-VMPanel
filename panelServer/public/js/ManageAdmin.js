@@ -19,6 +19,9 @@
 
 function addNewAdminajax() {
 
+  let loader = `<div class="loading">Loading&#8230;</div>`;
+  $("#divForLoader").html(loader)
+
   let flagString = '"' + ($('#immunity_admin').val() / 1) + ':'
   let serverArray = []
 
@@ -48,10 +51,11 @@ function addNewAdminajax() {
   })
     .then((res) => { return res.json(); })
     .then((response) => {
+      $("#divForLoader").html("")
       showNotif(response)
       if (response.success == true) { getAdminTableListing(serverArray[0]) }
     })
-    .catch(error => console.log('error', error));
+    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
 
 function deleteAdminajax(tableName, primaryKey) {
@@ -61,6 +65,10 @@ function deleteAdminajax(tableName, primaryKey) {
   custom_confirm(htmlString, (response) => {
 
     if (response == true) {
+
+      let loader = `<div class="loading">Loading&#8230;</div>`;
+      $("#divForLoader").html(loader)
+
       fetch('/deletevip', {
         method: 'POST',
         headers: {
@@ -74,10 +82,11 @@ function deleteAdminajax(tableName, primaryKey) {
       })
         .then((res) => { return res.json(); })
         .then((response) => {
+          $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) { getAdminTableListing(tableName) }
         })
-        .catch(error => console.log('error', error));
+        .catch(error => { showNotif({ success: false, data: { "error": error } }) });
     }
   })
 }
@@ -87,6 +96,10 @@ function getAdminTableListing(value) {
   $("#manageCardTitle").text("View and Manage Admin of " + value.toUpperCase());
 
   if (value) {
+
+    // let loader = `<div class="loading">Loading&#8230;</div>`;
+    // $("#divForLoader").html(loader)
+
     fetch('/getadmindatasingleserver', {
       method: 'POST',
       headers: {
@@ -99,6 +112,7 @@ function getAdminTableListing(value) {
     })
       .then((res) => { return res.json(); })
       .then((response) => {
+        // $("#divForLoader").html("")
         let dataArray = response.data.res
         let htmlString = ""
         for (let i = 0; i < dataArray.length; i++) {
@@ -113,7 +127,7 @@ function getAdminTableListing(value) {
 
         showNotif(response)
       })
-      .catch(error => console.log('error', error));
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
   }
 }
 
