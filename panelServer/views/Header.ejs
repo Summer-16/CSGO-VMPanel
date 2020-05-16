@@ -106,18 +106,19 @@ return heading
               <p>Manage Admin</p>
             </a>
           </li>
+          <%if((adminType===1)||(panelSetting.normiadmin_settings==1 && adminType===0)){%>
           <li class="nav-item <%= (currentURL=='/panelsetting'?'active':'') %>">
             <a class="nav-link" href="/panelsetting">
               <i class="material-icons">settings</i>
               <p>Panel Settings</p>
             </a>
           </li>
-          <%}%> 
+          <%}}%>
           <li class="nav-item <%= (currentURL=='/aboutcreator'?'active':'') %>">
-          <a class="nav-link" href="/aboutcreator">
-            <i class="material-icons">person</i>
-            <p>About Creator</p>
-          </a>
+            <a class="nav-link" href="/aboutcreator">
+              <i class="material-icons">person</i>
+              <p>About Creator</p>
+            </a>
           </li>
           <%if(sessionToken){%>
           <li class="nav-item <%= (currentURL=='/logout'?'active':'') %>">

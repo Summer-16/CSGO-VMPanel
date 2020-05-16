@@ -76,7 +76,7 @@ exports.fetchPanelSettingsFunc = fetchPanelSettingsFunc;
 exports.updatePanelSettings = async (req, res) => {
   try {
     req.body.secKey = req.session.sec_key
-    await updatePanelSettingsFunc(req.body);
+    await updatePanelSettingsFunc(req.body, req.session.username);
     res.redirect('PanelSetting');
   } catch (error) {
     console.log("Error in PanelSettings->", error)
@@ -94,7 +94,7 @@ const updatePanelSettingsFunc = (reqBody, username) => {
 
         let keyArray = Object.keys(reqBody)
         for (let i = 0; i < keyArray.length; i++) {
-          // await settingsModal.updatesetting(keyArray[i], reqBody[keyArray[i]])
+          await settingsModal.updatesetting(keyArray[i], reqBody[keyArray[i]])
         }
         resolve(true)
       }
