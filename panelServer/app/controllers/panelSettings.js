@@ -26,10 +26,24 @@ const settingsModal = require("../models/panelSettingModal.js");
 
 exports.PanelSettings = async (req, res) => {
   try {
-    res.render('PanelSetting');
+
+    if (req.session.user_type == 1) {
+      res.render('PanelSetting');
+    } else {
+      let settings = await settingsModal.getAllSettings();
+      if (settings.normiadmin_settings == 1) {
+        res.render('PanelSetting');
+      } else {
+        res.redirect('dashboard');
+      }
+    }
   } catch (error) {
     console.log("Error in PanelSettings->", error)
-    res.render('PanelSetting');
+    if (req.session.user_type == 1) {
+      res.render('PanelSetting');
+    } else {
+      res.redirect('dashboard');
+    }
   }
 }
 //-----------------------------------------------------------------------------------------------------
