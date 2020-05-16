@@ -18,7 +18,7 @@
 - Added RCON feature therefore now as soon as you add any admin or vip it get updated in respective CSGO server through RCON by the panel's plugin
 
 ## Webpanel Screenshots
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP.jpg)
 
 
 ## Step-by-Step install Instructions for New Installation 
