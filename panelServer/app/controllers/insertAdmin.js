@@ -24,7 +24,8 @@ const panelServerModal = require("../models/panelServerModal.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 var rconStatus = []
 
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.formAdmin = async (req, res) => {
   try {
@@ -34,8 +35,11 @@ exports.formAdmin = async (req, res) => {
     res.render('ManageAdmin', { "serverList": null });
   }
 }
+//-----------------------------------------------------------------------------------------------------
 
-// -----------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.insertAdminData = async (req, res) => {
   try {
@@ -96,7 +100,5 @@ const insertAdminDataFunc = (reqBody, username) => {
     }
   });
 }
-
-// -----------------------------------------------------------------------------------------
 
 exports.insertAdminDataFunc = insertAdminDataFunc;

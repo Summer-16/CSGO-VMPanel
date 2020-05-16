@@ -17,6 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
 function addNewPAdminajax() {
   if (curentAdminType === 1) {
 
@@ -50,6 +53,11 @@ function addNewPAdminajax() {
     })
   }
 }
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function updateOldPAdminajax() {
   if (curentAdminType === 1) {
@@ -83,31 +91,44 @@ function updateOldPAdminajax() {
     })
   }
 }
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function deletePAdminajax() {
+
   if (curentAdminType === 1) {
 
-    let loader = `<div class="loading">Loading&#8230;</div>`;
-    $("#divForLoader").html(loader)
+    let htmlString = `<p>You Sure !<br>Please Confirm delete Operation for Admin: ${$('#selected_padmin').val().split(":")[1]}`
 
-    fetch('/deletepaneladmin', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "username": $('#selected_padmin').val(),
-        "submit": "delete"
-      })
+    custom_confirm(htmlString, (response) => {
+      if (response == true) {
+
+        let loader = `<div class="loading">Loading&#8230;</div>`;
+        $("#divForLoader").html(loader)
+
+        fetch('/deletepaneladmin', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "username": $('#selected_padmin').val(),
+            "submit": "delete"
+          })
+        })
+          .then((res) => { return res.json(); })
+          .then((response) => {
+            $("#divForLoader").html("")
+            showNotif(response)
+            if (response.success == true) { fetchPAdminajax() }
+          })
+          .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+      }
     })
-      .then((res) => { return res.json(); })
-      .then((response) => {
-        $("#divForLoader").html("")
-        showNotif(response)
-        if (response.success == true) { fetchPAdminajax() }
-      })
-      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
   } else {
     showNotif({
       success: false,
@@ -115,7 +136,11 @@ function deletePAdminajax() {
     })
   }
 }
+//-----------------------------------------------------------------------------------------------------
 
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function fetchPAdminajax() {
   if (curentAdminType === 1) {
@@ -152,6 +177,11 @@ function fetchPAdminajax() {
     })
   }
 }
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function fetchPSettingajax() {
 
@@ -190,7 +220,15 @@ function fetchPServerListajax() {
       if (response.success == true) {
 
         let dataArray = response.data.res
-        let htmlString = ""
+        let htmlString = "", selectHtmlString = ""
+
+        removeOptions(document.getElementById('selected_pserver'));
+        let option = document.createElement("option");
+        option.value = "";
+        option.text = "Select Server";
+        option.selected = true;
+        document.getElementById("selected_pserver").add(option)
+
         for (let i = 0; i < dataArray.length; i++) {
           htmlString += `<tr>
                         <td>${dataArray[i].server_name ? dataArray[i].server_name : 'NA'}</td>
@@ -202,13 +240,22 @@ function fetchPServerListajax() {
                         <td><button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
 
+          let option = document.createElement("option");
+          option.value = dataArray[i].id + ":" + dataArray[i].tbl_name + ":" + dataArray[i].server_name;
+          option.text = dataArray[i].server_name + " - (" + dataArray[i].tbl_name + ")";
+          document.getElementById("selected_pserver").add(option)
+
         }
         document.getElementById("manageServersTableBody").innerHTML = htmlString
       }
     })
     .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
+//-----------------------------------------------------------------------------------------------------
 
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function addNewPServerajax() {
   if (curentAdminType === 1) {
@@ -248,30 +295,41 @@ function addNewPServerajax() {
     })
   }
 }
+//-----------------------------------------------------------------------------------------------------
 
-function deletePServerajax(id, tablename) {
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
+function updatePServerajax() {
   if (curentAdminType === 1) {
 
     let loader = `<div class="loading">Loading&#8230;</div>`;
     $("#divForLoader").html(loader)
 
-    fetch('/deletepanelserver', {
+    fetch('/addpanelserver', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "id": id,
-        "tablename": tablename,
-        "submit": "delete"
+        "tablename": $('#selected_pserver').val(),
+        "servername": $('#servername_update').val(),
+        "serverip": $('#servertableIP_update').val(),
+        "serverport": $('#servertablePort_update').val(),
+        "serverrcon": $('#servertableRCON_update').val(),
+        "submit": "update"
       })
     })
       .then((res) => { return res.json(); })
       .then((response) => {
         $("#divForLoader").html("")
-        if (response.success == true) { fetchPServerListajax() }
         showNotif(response)
+        if (response.success == true) {
+          fetchPServerListajax();
+          $('#myForm_updatePServer').trigger("reset");
+        }
       })
       .catch(error => { showNotif({ success: false, data: { "error": error } }) });
   } else {
@@ -281,7 +339,96 @@ function deletePServerajax(id, tablename) {
     })
   }
 }
+//-----------------------------------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
+function deletePServerajax(id, tablename) {
+
+  if (curentAdminType === 1) {
+
+    let htmlString = `<p>You Sure !<br>Please Confirm delete Operation for Server: ${tablename}`
+
+    custom_confirm(htmlString, (response) => {
+      if (response == true) {
+
+        let loader = `<div class="loading">Loading&#8230;</div>`;
+        $("#divForLoader").html(loader)
+
+        fetch('/deletepanelserver', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "id": id,
+            "tablename": tablename,
+            "submit": "delete"
+          })
+        })
+          .then((res) => { return res.json(); })
+          .then((response) => {
+            $("#divForLoader").html("")
+            if (response.success == true) { fetchPServerListajax() }
+            showNotif(response)
+          })
+          .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+      }
+    })
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
+function manuallyRefreshAllServerajax() {
+
+  if (curentAdminType === 1) {
+
+    let htmlString = `<p>You Sure !<br>Please Confirm Refresh Operation, This will delete all the expired VIPS and refresh data in All Servers`
+
+    custom_confirm(htmlString, (response) => {
+      if (response == true) {
+
+        let loader = `<div class="loading">Loading&#8230;</div>`;
+        $("#divForLoader").html(loader)
+
+        fetch('/performmanualrefresh', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+          .then((res) => { return res.json(); })
+          .then((response) => {
+            $("#divForLoader").html("")
+            showNotif(response)
+          })
+          .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+      }
+    })
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function removeOptions(selectElement) {
   var i, L = selectElement.options.length - 1;
@@ -303,6 +450,12 @@ $(document).ready(function () {
   fetchPAdminajax();
   fetchPSettingajax();
   fetchPServerListajax()
+
+  document.getElementById('selected_pserver').onchange = () => {
+    let val = $('#selected_pserver').val().split(":")[2]
+    $('#servername_update').val(val)
+    $('#servername_update').focus()
+  };
 
   // $(window).keydown(function (event) {
   //   if (event.keyCode == 13) {

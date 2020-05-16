@@ -33,8 +33,19 @@
                   aria-controls="setting" aria-selected="true"><i class="material-icons">settings</i> Panel Settings</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="server-tab" data-toggle="tab" href="#server" role="tab" aria-controls="server"
-                  aria-selected="false"><i class="material-icons">device_hub</i> Manage Servers</a>
+                <a class="nav-link" id="manageserver-tab" data-toggle="tab" href="#manageserver" role="tab"
+                  aria-controls="manageserver" aria-selected="false"><i class="material-icons">build</i> Manage
+                  Servers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="listserver-tab" data-toggle="tab" href="#listserver" role="tab"
+                  aria-controls="listserver" aria-selected="false"><i class="material-icons">dns</i> Servers
+                  Listing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="manualoperations-tab" data-toggle="tab" href="#manualoperations" role="tab"
+                  aria-controls="manualoperations" aria-selected="false"><i class="material-icons">cached</i> Manual
+                  Refresh</a>
               </li>
             </ul>
           </div>
@@ -112,7 +123,104 @@
                     Settings</button>
                 </form>
               </div>
-              <div class="tab-pane " id="server" role="tabpanel" aria-labelledby="server-tab">
+              <div class="tab-pane " id="manageserver" role="tabpanel" aria-labelledby="manageserver-tab">
+                <%if(adminType===1){%>
+                <div class="col-md-12 row">
+                  <form class="col-md-6" id="myForm_addPServer">
+                    <div class="col-md-12 pb-2">
+                      <h4 class="card-title">Add New Server</h4>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server Name</label>
+                        <input type="text" name="servername" class="form-control" id="servername_add" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertablename_add"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server IP</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertableIP_add" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server Port</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertablePort_add"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">RCON Password</label>
+                        <input type="text" name="servertablename" class="form-control" id="servertableRCON_add"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <button type="button" onclick="addNewPServerajax()" class="btn btn-success pull-right">Add
+                          Server</button>
+                      </div>
+                    </div>
+                  </form>
+                  <form class="col-md-6" id="myForm_updatePServer">
+                    <div class="col-md-12 pb-2">
+                      <h4 class="card-title">Update Details of a Server</h4>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Select Server</label>
+                        <select class="form-control" id="selected_pserver" required>
+                          <option value="" selected>Select Server</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server Name</label>
+                        <input type="text" name="servername" class="form-control" id="servername_update" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server IP</label>
+                        <input type="text" name="servertableip" class="form-control" id="servertableIP_update">
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Server Port</label>
+                        <input type="text" name="servertableport" class="form-control" id="servertablePort_update"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">RCON Password</label>
+                        <input type="text" name="servertablercon" class="form-control" id="servertableRCON_update"
+                          required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <button type="button" onclick="updatePServerajax()" class="btn btn-success pull-right">Upate
+                          Server</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <%}else{%>
+                <h4 class="card-title">You dont have permissions to execute this operation</h4>
+                <%}%>
+              </div>
+              <div class="tab-pane " id="listserver" role="tabpanel" aria-labelledby="listserver-tab">
                 <div class="table-responsive scroller" style="max-height:400px;overflow: auto;" id="style-4">
                   <table class="table">
                     <thead class=" text-primary">
@@ -128,52 +236,15 @@
                     </tbody>
                   </table>
                 </div>
+              </div>
+              <div class="tab-pane " id="manualoperations" role="tabpanel" aria-labelledby="manualoperations-tab">
                 <%if(adminType===1){%>
-                <hr>
-                <form class="col-md-12" id="myForm_addPServer">
-                  <div class="row">
-                    <div class="col-md-2">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server Name</label>
-                        <input type="text" name="servername" class="form-control" id="servername_add" required>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertablename_add"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-2">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server IP</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertableIP_add" required>
-                      </div>
-                    </div>
-                    <div class="col-md-1">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server Port</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertablePort_add"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-2">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">RCON Password</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertableRCON_add"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-2">
-                      <div class="form-group bmd-form-group">
-                        <button type="button" onclick="addNewPServerajax()" class="btn btn-success pull-right">Add
-                          Server</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="clearfix"></div>
-                </form>
+                <div class="col-md-12 pt-5 pb-5  text-center">
+                  <button type="button" onclick="manuallyRefreshAllServerajax()" class="btn btn-danger"><i
+                      class="material-icons">cached</i> Execute Manual Refresh in All Servers</button>
+                </div>
+                <%}else{%>
+                <h4 class="card-title">You dont have permissions to execute this operation</h4>
                 <%}%>
               </div>
             </div>
@@ -258,6 +329,7 @@
 
 
 <%- include('Footer.ejs') %>
+
                 <script>
                   var curentAdminType = <%=adminType%>
                 </script>

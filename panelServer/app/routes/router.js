@@ -25,7 +25,7 @@ module.exports = app => {
   const { getVipsData, getVipsDataSingleServer, getAdminsDataSingleServer } = require("../controllers/vipController.js");
   const { insertVipData, formVIP } = require("../controllers/insertVip.js");
   const { insertAdminData, formAdmin } = require("../controllers/insertAdmin.js");
-  const { deleteVipData } = require("../controllers/deleteVip.js");
+  const { deleteVipData, deleteOldVipData } = require("../controllers/deleteVip.js");
   const { loginPage, authUserLogin } = require("../controllers/login.js");
   const { PanelSettings, fetchPanelSettings, updatePanelSettings } = require("../controllers/panelSettings.js")
   const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
@@ -74,6 +74,8 @@ module.exports = app => {
   app.post("/addpaneladmin", middleware.checkToken, addPanelAdmin);
   app.post("/updatepaneladmin", middleware.checkToken, addPanelAdmin);
   app.post("/deletepaneladmin", middleware.checkToken, deletePanelAdmin);
+
+  app.get("/performmanualrefresh", middleware.checkToken, deleteOldVipData);
 
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');

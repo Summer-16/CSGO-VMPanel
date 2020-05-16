@@ -17,14 +17,20 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
 function showNotif(response) {
+
+  let showTime = 3000;
+
   if (response.success == true) {
     $.notify({
       icon: "add_alert",
       message: response.data.message
     }, {
       type: response.data.notifType,
-      timer: 3000,
+      timer: showTime,
       placement: {
         from: "top",
         align: "right"
@@ -36,7 +42,7 @@ function showNotif(response) {
       message: response.data.error
     }, {
       type: "warning",
-      timer: 3000,
+      timer: showTime,
       placement: {
         from: "top",
         align: "right"

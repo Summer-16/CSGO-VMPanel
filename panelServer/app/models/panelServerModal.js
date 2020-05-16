@@ -165,6 +165,38 @@ var panelServerModal = {
     });
   },
 
+
+  /**
+* update old vip
+*/
+  updatePanelServer: function (dataObj) {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        // validation
+        if (!dataObj.tablename) return reject("Table Name is not provided");
+        if (!dataObj.servername) return reject("Server Name is not provided");
+
+        let id = dataObj.tablename.split(":")[0], tableName = dataObj.tablename.split(":")[1]
+
+        const query = db.queryFormat(`UPDATE ${table} SET 
+                                      server_name = ?,
+                                      server_ip = ?,
+                                      server_port = ?,
+                                      server_rcon_pass = ? WHERE id = ? AND tbl_name = ?`, [dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, id, tableName]);
+        const queryRes = await db.query(query);
+        if (!queryRes) {
+          return reject("error in update");
+        }
+
+        return resolve(true);
+      } catch (error) {
+        console.log("error in updateVIPData->", error)
+        reject(error)
+      }
+    });
+  },
+
   /**
 * Delete a  server
 */

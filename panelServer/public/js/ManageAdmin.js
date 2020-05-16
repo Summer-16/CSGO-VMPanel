@@ -17,6 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
 function addNewAdminajax() {
 
   let loader = `<div class="loading">Loading&#8230;</div>`;
@@ -57,6 +60,11 @@ function addNewAdminajax() {
     })
     .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function deleteAdminajax(tableName, primaryKey) {
 
@@ -90,6 +98,11 @@ function deleteAdminajax(tableName, primaryKey) {
     }
   })
 }
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function getAdminTableListing(value) {
 
@@ -130,6 +143,11 @@ function getAdminTableListing(value) {
       .catch(error => { showNotif({ success: false, data: { "error": error } }) });
   }
 }
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 $(document).ready(function () {
   $(window).keydown(function (event) {

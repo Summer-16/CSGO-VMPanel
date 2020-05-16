@@ -17,6 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function profileUrlToDataFetcher(profileUrl) {
 

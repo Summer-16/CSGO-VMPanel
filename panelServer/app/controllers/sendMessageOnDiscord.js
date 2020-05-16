@@ -23,6 +23,9 @@ const vipModel = require("../models/vipModel.js");
 const request = require('request');
 const GAcolor = [1752220, 3066993, 3447003, 10181046, 15105570, 15158332, 9807270, 8359053, 3426654, 1146986, 2067276, 2123412, 7419530, 11027200, 10038562, 9936031, 12370112, 2899536, 16580705, 12320855]
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
 async function sendMessageOnDiscord() {
   try {
     const color = GAcolor;
@@ -126,10 +129,15 @@ function sendMessage(message, color, webhook) {
         console.log("Discord send message request status-->", response.statusCode);
       });
     }, i * 2000);
-
-
   }
 }
+
+module.exports.sendMessageOnDiscord = sendMessageOnDiscord
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 function EpocToDate(utcSeconds) {
   let d = new Date(0);
@@ -152,5 +160,3 @@ function remainingDays(endEpoc) {
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
-module.exports.sendMessageOnDiscord = sendMessageOnDiscord

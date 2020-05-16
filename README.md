@@ -69,14 +69,9 @@ sudo service vmpService start
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
 
-## Updating from v1.2 to v1.3
-- update your config from example config
-- update your server tables using the below query
-```mysql
-ALTER TABLE `table_name_here` 
-ADD COLUMN `created_at` DATETIME NOT NULL AFTER `expireStamp`,
-ADD COLUMN `type` INT(20) DEFAULT 0 AFTER `created_at`;
-```
-- remove shell script and add plugin (plugin install instructions are same as above)
-- After installing plugin on all server's add the servers in panel through manage server in panel settings.
-- add your discord webhook url from config to panel setting
+## Updating from v1.3 to v1.4
+- Stop your panel service while updating
+- Add files from v1.4 to yours installed directory
+- Go to panelServer folder , open your linux terminal and run npm i
+- Once install finished restart the panel service.
+- Now to panel settings and update rcon details for your servers.

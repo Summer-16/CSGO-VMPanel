@@ -24,7 +24,8 @@ const panelServerModal = require("../models/panelServerModal.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 var rconStatus = []
 
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.formVIP = async (req, res) => {
   try {
@@ -35,8 +36,11 @@ exports.formVIP = async (req, res) => {
     res.render('ManageVIP', { "serverList": null });
   }
 }
+//-----------------------------------------------------------------------------------------------------
 
-// -----------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.insertVipData = async (req, res) => {
   try {
@@ -121,12 +125,14 @@ const insertVipDataFunc = (reqBody, username) => {
   });
 }
 
+exports.insertVipDataFunc = insertVipDataFunc;
+//-----------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
 function epoctillExpirey(days) {
   let currentEpoc = Math.floor(Date.now() / 1000)
   let daysinSec = Math.floor(days * 86400)
   return (currentEpoc + daysinSec)
 }
-
-// -----------------------------------------------------------------------------------------
-
-exports.insertVipDataFunc = insertVipDataFunc;

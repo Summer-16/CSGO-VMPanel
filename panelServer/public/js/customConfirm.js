@@ -17,6 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
 function custom_confirm(message, callback) {
   //  put message into the body of modal
   //$('#userConfirmationModal-body').innerHTML = `<p>${message}</p>`;

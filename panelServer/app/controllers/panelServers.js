@@ -21,6 +21,9 @@
 const userModel = require("../models/userModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
 exports.addPanelServer = async (req, res) => {
   try {
 
@@ -28,7 +31,7 @@ exports.addPanelServer = async (req, res) => {
     let result = await addPanelServerFunc(req.body, req.session.username);
     res.json({
       success: true,
-      data: { "res": result, "message": "New Server added Successfully" }
+      data: { "res": result, "message": req.body.submit === "insert" ? "New Server added Successfully" : "Server Data Updated Successfully" }
     });
   } catch (error) {
     console.log("error in addPanelServer->", error)
@@ -43,8 +46,6 @@ const addPanelServerFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      console.log("req body--->", reqBody)
-
       // validation
       if (!reqBody.tablename) return reject("Operation Fail!, Table Name is not provided");
       if (!reqBody.servername) return reject("Operation Fail!, Server Name is not provided");
@@ -56,6 +57,11 @@ const addPanelServerFunc = (reqBody, username) => {
           let insertRes = await panelServerModal.insertNewPanelServer(reqBody)
           if (insertRes) {
             resolve(insertRes)
+          }
+        } else if (reqBody.submit === "update") {
+          let updateRes = await panelServerModal.updatePanelServer(reqBody)
+          if (updateRes) {
+            resolve(updateRes)
           }
         }
       } else {
@@ -69,7 +75,11 @@ const addPanelServerFunc = (reqBody, username) => {
 }
 
 exports.addPanelServerFunc = addPanelServerFunc;
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.getPanelServersList = async (req, res) => {
   try {
@@ -108,7 +118,11 @@ const getPanelServersListFunc = (reqBody) => {
 }
 
 exports.getPanelServersListFunc = getPanelServersListFunc;
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.deletePanelServers = async (req, res) => {
   try {
@@ -156,4 +170,3 @@ const deletePanelServersFunc = (reqBody, username) => {
 }
 
 exports.deletePanelServersFunc = deletePanelServersFunc;
-// -----------------------------------------------------------------------------------------

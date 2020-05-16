@@ -23,7 +23,8 @@ const userModel = require("../models/userModel.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 var rconStatus
 
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.deleteVipData = async (req, res) => {
   try {
@@ -69,6 +70,53 @@ const deleteVipDataFunc = (reqBody, username) => {
   });
 }
 
-// -----------------------------------------------------------------------------------------
-
 exports.deleteVipDataFunc = deleteVipDataFunc;
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
+exports.deleteOldVipData = async (req, res) => {
+  try {
+
+    let result = await deleteOldVipDataFunc(req.session.username, req.session.sec_key);
+    res.json({
+      success: true,
+      data: {
+        "res": result,
+        "message": "Operation Successfully Executed",
+        "notifType": "success"
+      }
+    });
+  } catch (error) {
+    console.log("error in delete vip->", error)
+    res.json({
+      success: false,
+      data: { "error": error }
+    });
+  }
+}
+
+const deleteOldVipDataFunc = (username, secKey) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let userData = await userModel.getuserDataByUsername(username)
+
+      if (secKey && secKey === userData.sec_key) {
+
+        let deleteRes = await vipModel.deleteOldVip()
+        if (deleteRes) {
+          resolve(deleteRes)
+        }
+      } else {
+        reject("Unauthorized Access, Key Missing")
+      }
+    } catch (error) {
+      console.log("error in deleteOldVipDataFunc->", error)
+      reject(error + ", Please try again")
+    }
+  });
+}
+
+exports.deleteOldVipDataFunc = deleteOldVipDataFunc;

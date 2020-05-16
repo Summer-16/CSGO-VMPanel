@@ -20,6 +20,9 @@
 "use strict";
 const userModel = require("../models/userModel.js");
 
+//-----------------------------------------------------------------------------------------------------
+// 
+
 exports.addPanelAdmin = async (req, res) => {
   try {
     if (req.session.user_type === 0) { throw "Unauthorized Access, You are not a Super Admin" }
@@ -81,7 +84,11 @@ const addPanelAdminFunc = (reqBody, username) => {
 }
 
 exports.addPanelAdminFunc = addPanelAdminFunc;
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.getPanelAdminsList = async (req, res) => {
   try {
@@ -117,7 +124,11 @@ const getPanelAdminsListFunc = (reqBody) => {
 }
 
 exports.getPanelAdminsListFunc = getPanelAdminsListFunc;
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
 
 exports.deletePanelAdmin = async (req, res) => {
   try {
@@ -171,4 +182,3 @@ const deletePanelAdminFunc = (reqBody, username) => {
 }
 
 exports.deletePanelAdminFunc = deletePanelAdminFunc;
-// -----------------------------------------------------------------------------------------

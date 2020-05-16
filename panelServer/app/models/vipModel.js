@@ -21,6 +21,7 @@
 
 var db = require('../db/db_bridge');
 const panelServerModal = require("../models/panelServerModal.js");
+const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 
 /**
  *   vipDataModel Model
@@ -166,9 +167,11 @@ var vipDataModel = {
         for (let i = 0; i < serverList.length; i++) {
           let query = db.queryFormat(`DELETE FROM ${serverList[i].tbl_name} where expireStamp < ${currentEpoc} AND type = 0 `);
           let queryRes = await db.query(query);
+          console.log("Query response in vips refresh-->", queryRes)
           if (!queryRes) {
             return reject("Error in delete");
           }
+          await refreshAdminsInServer(serverList[i].tbl_name);
         }
         return resolve(true);
       } catch (error) {
