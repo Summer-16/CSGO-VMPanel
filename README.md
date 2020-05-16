@@ -2,7 +2,7 @@
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 
-## Panel Features v1.3
+## Panel Features 1.4
 - Add VIP or Admin to servers.
 - While adding VIP subscription days are entered and once subscription days finished panel will automatically delete that VIP and remove it from the CSGO server too.
 - You can also manually delete the VIP and Admins from the panel.
@@ -15,6 +15,7 @@
 - CSGO server plugin is available which syncs all the entries from your panel database to the CSGO server.
 - A shell script is also available. (used to do plugin work in old versions, but it still works so it's there)
 - Note (I recommend using plugin until and unless u r trying to do custom solutions with a shell script. If you are using shell script you will have to manually create server tables in the database.)
+- Added RCON feature therefore now as soon as you add any admin or vip it get updated in respective CSGO server through RCON by the panel's plugin
 
 ## Webpanel Screenshots
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
@@ -74,4 +75,8 @@ sudo service vmpService start
 - Add files from v1.4 to yours installed directory
 - Go to panelServer folder , open your linux terminal and run npm i
 - Once install finished restart the panel service.
-- Now to panel settings and update rcon details for your servers.
+- Now go to panel settings and update rcon details for your servers.
+- execute below query in your database
+```mysql
+INSERT INTO tbl_settings (setting_key, setting_value) VALUES ('normiadmin_settings', '1');
+```
