@@ -49,7 +49,7 @@ function addNewPAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 1" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -87,7 +87,7 @@ function updateOldPAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 2" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -132,7 +132,7 @@ function deletePAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 3" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -173,7 +173,7 @@ function fetchPAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 4" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -297,7 +297,7 @@ function addNewPServerajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 5" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -341,7 +341,7 @@ function updatePServerajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 6" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -386,7 +386,7 @@ function deletePServerajax(id, tablename) {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 7" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -426,7 +426,7 @@ function manuallyRefreshAllServerajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action 8" }
+      data: { "error": "You dont have Permissions to do this Action" }
     })
   }
 }
@@ -453,25 +453,15 @@ function dateFormatter(date) {
 
 $(document).ready(function () {
 
-
   fetchPSettingajax();
   fetchPServerListajax()
 
   if (curentAdminType === 1) {
-
     fetchPAdminajax();
-
     document.getElementById('selected_pserver').onchange = () => {
       let val = $('#selected_pserver').val().split(":")[2]
       $('#servername_update').val(val)
       $('#servername_update').focus()
     };
   }
-
-  // $(window).keydown(function (event) {
-  //   if (event.keyCode == 13) {
-  //     event.preventDefault();
-  //     return false;
-  //   }
-  // });
 });

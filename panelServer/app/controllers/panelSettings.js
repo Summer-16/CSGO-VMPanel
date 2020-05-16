@@ -87,7 +87,7 @@ exports.updatePanelSettings = async (req, res) => {
 const updatePanelSettingsFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("req body-->", reqBody)
+
       let userData = await userModel.getuserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {

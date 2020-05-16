@@ -21,8 +21,8 @@
 const Rcon = require('rcon');
 const panelServerModal = require("../models/panelServerModal.js");
 
-
-// -----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+// 
 
 const refreshAdminsInServer = (server) => {
   return new Promise(async (resolve, reject) => {
@@ -55,7 +55,5 @@ const refreshAdminsInServer = (server) => {
     }
   });
 }
-
-// -----------------------------------------------------------------------------------------
 
 exports.refreshAdminsInServer = refreshAdminsInServer;
