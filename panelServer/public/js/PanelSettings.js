@@ -49,7 +49,7 @@ function addNewPAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 1" }
     })
   }
 }
@@ -87,7 +87,7 @@ function updateOldPAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 2" }
     })
   }
 }
@@ -132,7 +132,7 @@ function deletePAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 3" }
     })
   }
 }
@@ -173,7 +173,7 @@ function fetchPAdminajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 4" }
     })
   }
 }
@@ -196,9 +196,12 @@ function fetchPSettingajax() {
     .then((response) => {
       if (response.success == true) {
         let settingObj = response.data.res
+        if (curentAdminType === 1) {
+          $("input[name=normiadmin_settings][value=" + settingObj.normiadmin_settings + "]").prop('checked', true);
+          $('#webhook_url').val(settingObj.webhook_url);
+        }
         $("input[name=color_theme][value=" + settingObj.color_theme + "]").prop('checked', true);
         $("input[name=dash_admin_show][value=" + settingObj.dash_admin_show + "]").prop('checked', true);
-        $('#webhook_url').val(settingObj.webhook_url);
         $('#community_name').val(settingObj.community_name);
         // $('#webhook_url').focus();
       }
@@ -220,31 +223,34 @@ function fetchPServerListajax() {
       if (response.success == true) {
 
         let dataArray = response.data.res
-        let htmlString = "", selectHtmlString = ""
+        let htmlString = ""
 
-        removeOptions(document.getElementById('selected_pserver'));
-        let option = document.createElement("option");
-        option.value = "";
-        option.text = "Select Server";
-        option.selected = true;
-        document.getElementById("selected_pserver").add(option)
+        if (curentAdminType === 1) {
+          removeOptions(document.getElementById('selected_pserver'));
+          let option = document.createElement("option");
+          option.value = "";
+          option.text = "Select Server";
+          option.selected = true;
+          document.getElementById("selected_pserver").add(option)
+        }
 
         for (let i = 0; i < dataArray.length; i++) {
           htmlString += `<tr>
                         <td>${dataArray[i].server_name ? dataArray[i].server_name : 'NA'}</td>
                         <td>${dataArray[i].tbl_name ? dataArray[i].tbl_name : 'NA'}</td>
                         <td>${dataArray[i].server_ip ? dataArray[i].server_ip : 'NA'}</td>
-                          <td>${dataArray[i].server_port ? dataArray[i].server_port : 'NA'}</td>
+                        <td>${dataArray[i].server_port ? dataArray[i].server_port : 'NA'}</td>
                         <td>${dataArray[i].server_rcon_pass ? dataArray[i].server_rcon_pass : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
-                        <td><button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button></td>
+                        <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
                         </tr>`
 
-          let option = document.createElement("option");
-          option.value = dataArray[i].id + ":" + dataArray[i].tbl_name + ":" + dataArray[i].server_name;
-          option.text = dataArray[i].server_name + " - (" + dataArray[i].tbl_name + ")";
-          document.getElementById("selected_pserver").add(option)
-
+          if (curentAdminType === 1) {
+            let option = document.createElement("option");
+            option.value = dataArray[i].id + ":" + dataArray[i].tbl_name + ":" + dataArray[i].server_name;
+            option.text = dataArray[i].server_name + " - (" + dataArray[i].tbl_name + ")";
+            document.getElementById("selected_pserver").add(option)
+          }
         }
         document.getElementById("manageServersTableBody").innerHTML = htmlString
       }
@@ -291,7 +297,7 @@ function addNewPServerajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 5" }
     })
   }
 }
@@ -335,7 +341,7 @@ function updatePServerajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 6" }
     })
   }
 }
@@ -380,7 +386,7 @@ function deletePServerajax(id, tablename) {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 7" }
     })
   }
 }
@@ -420,7 +426,7 @@ function manuallyRefreshAllServerajax() {
   } else {
     showNotif({
       success: false,
-      data: { "error": "You dont have Permissions to do this Action" }
+      data: { "error": "You dont have Permissions to do this Action 8" }
     })
   }
 }
@@ -447,15 +453,20 @@ function dateFormatter(date) {
 
 $(document).ready(function () {
 
-  fetchPAdminajax();
+
   fetchPSettingajax();
   fetchPServerListajax()
 
-  document.getElementById('selected_pserver').onchange = () => {
-    let val = $('#selected_pserver').val().split(":")[2]
-    $('#servername_update').val(val)
-    $('#servername_update').focus()
-  };
+  if (curentAdminType === 1) {
+
+    fetchPAdminajax();
+
+    document.getElementById('selected_pserver').onchange = () => {
+      let val = $('#selected_pserver').val().split(":")[2]
+      $('#servername_update').val(val)
+      $('#servername_update').focus()
+    };
+  }
 
   // $(window).keydown(function (event) {
   //   if (event.keyCode == 13) {

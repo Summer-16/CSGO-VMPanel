@@ -96,7 +96,26 @@
                       </div>
                     </div>
                     <!-- Admin in dash Setting -->
-                    <!-- webhook Setting -->
+                    <!-- Normi admin setting -->
+                    <%if(adminType===1){%>
+                    <div class="col-md-2">
+                      <label class="">Normi Admin Basic Settings Access</label>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="normiadmin_settings" value="1"
+                          id="normi_admin_settings1">
+                        <label class="form-check-label" for="normi_admin_settings1">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="normiadmin_settings" value="0"
+                          id="normi_admin_settings0">
+                        <label class="form-check-label" for="normi_admin_settings0">No</label>
+                      </div>
+                    </div>
+                    <%}%>
+                    <!-- Normi admin setting -->
+                    <!-- Community name -->
                     <div class="col-md-2 mt-3">
                       <label class="">Community Name</label>
                     </div>
@@ -105,8 +124,9 @@
                         <input type="text" name="community_name" class="form-control" id="community_name" required>
                       </div>
                     </div>
+                    <!-- Community name  -->
                     <!-- webhook Setting -->
-                    <!-- webhook Setting -->
+                    <%if(adminType===1){%>
                     <div class="col-md-2 mt-3">
                       <label class="">Discord Webhook URL</label>
                     </div>
@@ -115,6 +135,7 @@
                         <input type="url" name="webhook_url" class="form-control" id="webhook_url" required>
                       </div>
                     </div>
+                    <%}%>
                     <!-- webhook Setting -->
                   </div>
                   <hr>
@@ -125,100 +146,101 @@
               </div>
               <div class="tab-pane " id="manageserver" role="tabpanel" aria-labelledby="manageserver-tab">
                 <%if(adminType===1){%>
-                <div class="col-md-12 row">
-                  <form class="col-md-6" id="myForm_addPServer">
-                    <div class="col-md-12 pb-2">
-                      <h4 class="card-title">Add New Server</h4>
+                    <div class="col-md-12 row">
+                      <form class="col-md-6" id="myForm_addPServer">
+                        <div class="col-md-12 pb-2">
+                          <h4 class="card-title">Add New Server</h4>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Server Name</label>
+                            <input type="text" name="servername" class="form-control" id="servername_add" required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
+                            <input type="text" name="servertablename" class="form-control" id="servertablename_add"
+                              required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Server IP</label>
+                            <input type="text" name="servertablename" class="form-control" id="servertableIP_add"
+                              required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Server Port</label>
+                            <input type="text" name="servertablename" class="form-control" id="servertablePort_add"
+                              required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">RCON Password</label>
+                            <input type="text" name="servertablename" class="form-control" id="servertableRCON_add"
+                              required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <button type="button" onclick="addNewPServerajax()" class="btn btn-success pull-right">Add
+                              Server</button>
+                          </div>
+                        </div>
+                      </form>
+                      <form class="col-md-6" id="myForm_updatePServer">
+                        <div class="col-md-12 pb-2">
+                          <h4 class="card-title">Update Details of a Server</h4>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Select Server</label>
+                            <select class="form-control" id="selected_pserver" required>
+                              <option value="" selected>Select Server</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Server Name</label>
+                            <input type="text" name="servername" class="form-control" id="servername_update" required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Server IP</label>
+                            <input type="text" name="servertableip" class="form-control" id="servertableIP_update">
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Server Port</label>
+                            <input type="text" name="servertableport" class="form-control" id="servertablePort_update"
+                              required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">RCON Password</label>
+                            <input type="text" name="servertablercon" class="form-control" id="servertableRCON_update"
+                              required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <button type="button" onclick="updatePServerajax()" class="btn btn-success pull-right">Upate
+                              Server</button>
+                          </div>
+                        </div>
+                      </form>
                     </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server Name</label>
-                        <input type="text" name="servername" class="form-control" id="servername_add" required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertablename_add"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server IP</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertableIP_add" required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server Port</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertablePort_add"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">RCON Password</label>
-                        <input type="text" name="servertablename" class="form-control" id="servertableRCON_add"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <button type="button" onclick="addNewPServerajax()" class="btn btn-success pull-right">Add
-                          Server</button>
-                      </div>
-                    </div>
-                  </form>
-                  <form class="col-md-6" id="myForm_updatePServer">
-                    <div class="col-md-12 pb-2">
-                      <h4 class="card-title">Update Details of a Server</h4>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Select Server</label>
-                        <select class="form-control" id="selected_pserver" required>
-                          <option value="" selected>Select Server</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server Name</label>
-                        <input type="text" name="servername" class="form-control" id="servername_update" required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server IP</label>
-                        <input type="text" name="servertableip" class="form-control" id="servertableIP_update">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Server Port</label>
-                        <input type="text" name="servertableport" class="form-control" id="servertablePort_update"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">RCON Password</label>
-                        <input type="text" name="servertablercon" class="form-control" id="servertableRCON_update"
-                          required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <button type="button" onclick="updatePServerajax()" class="btn btn-success pull-right">Upate
-                          Server</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <%}else{%>
-                <h4 class="card-title">You dont have permissions to execute this operation</h4>
-                <%}%>
+                    <%}else{%>
+                    <h4 class="card-title">You dont have permissions to execute this operation</h4>
+                    <%}%>
               </div>
               <div class="tab-pane " id="listserver" role="tabpanel" aria-labelledby="listserver-tab">
                 <div class="table-responsive scroller" style="max-height:400px;overflow: auto;" id="style-4">
@@ -239,90 +261,90 @@
               </div>
               <div class="tab-pane " id="manualoperations" role="tabpanel" aria-labelledby="manualoperations-tab">
                 <%if(adminType===1){%>
-                <div class="col-md-12 pt-5 pb-5  text-center">
-                  <button type="button" onclick="manuallyRefreshAllServerajax()" class="btn btn-danger"><i
-                      class="material-icons">cached</i> Execute Manual Refresh in All Servers</button>
-                </div>
-                <%}else{%>
-                <h4 class="card-title">You dont have permissions to execute this operation</h4>
-                <%}%>
+                    <div class="col-md-12 pt-5 pb-5  text-center">
+                      <button type="button" onclick="manuallyRefreshAllServerajax()" class="btn btn-danger"><i
+                          class="material-icons">cached</i> Execute Manual Refresh in All Servers</button>
+                    </div>
+                    <%}else{%>
+                    <h4 class="card-title">You dont have permissions to execute this operation</h4>
+                    <%}%>
               </div>
             </div>
           </div>
         </div>
       </div>
       <%if(adminType===1){%>
-                <div class="col-md-6">
-                  <div class="card">
-                    <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                      <h4 class="card-title">Add Panel Admin</h4>
-                      <p class="card-category">Form to add a new Admins in VMPanel</p>
-                    </div>
-                    <div class="card-body">
-                      <form>
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Enter Username</label>
-                              <input id="username_padd" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Enter Password</label>
-                              <input id="password_padd" type="password" class="form-control" required>
-                            </div>
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Select Admin Type</label>
-                              <select class="form-control" id="admintype_padd" required>
-                                <option value="" selected>Select Admin Type</option>
-                                <option value="1">Super Admin</option>
-                                <option value="0">Normal Admin</option>
-                              </select>
-                            </div>
-                          </div>
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                          <h4 class="card-title">Add Panel Admin</h4>
+                          <p class="card-category">Form to add a new Admins in VMPanel</p>
                         </div>
-                        <button type="button" onclick="addNewPAdminajax()" class="btn btn-success pull-right">ADD
-                          ADMIN</button>
-                        <div class="clearfix"></div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="card">
-                    <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                      <h4 class="card-title">Update Panel Admin</h4>
-                      <p class="card-category">Form to Change Password or Delete Panel Admin</p>
-                    </div>
-                    <div class="card-body">
-                      <form>
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Select Admin</label>
-                              <select class="form-control" id="selected_padmin" required>
-                                <option value="" selected>Select Admin</option>
-                              </select>
+                        <div class="card-body">
+                          <form>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Enter Username</label>
+                                  <input id="username_padd" type="text" class="form-control" required>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Enter Password</label>
+                                  <input id="password_padd" type="password" class="form-control" required>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Select Admin Type</label>
+                                  <select class="form-control" id="admintype_padd" required>
+                                    <option value="" selected>Select Admin Type</option>
+                                    <option value="1">Super Admin</option>
+                                    <option value="0">Normal Admin</option>
+                                  </select>
+                                </div>
+                              </div>
                             </div>
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Enter New Password</label>
-                              <input id="password_pupdate" type="password" class="form-control" required>
-                            </div>
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating"></label>
-                              <input type="text" class="form-control" disabled>
-                            </div>
-                          </div>
+                            <button type="button" onclick="addNewPAdminajax()" class="btn btn-success pull-right">ADD
+                              ADMIN</button>
+                            <div class="clearfix"></div>
+                          </form>
                         </div>
-                        <button type="button" onclick="deletePAdminajax()"
-                          class="btn btn-danger pull-left">DELETE</button>
-                        <button type="button" onclick="updateOldPAdminajax()"
-                          class="btn btn-success pull-right">UPDATE</button>
-                        <div class="clearfix"></div>
-                      </form>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <%}%>
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                          <h4 class="card-title">Update Panel Admin</h4>
+                          <p class="card-category">Form to Change Password or Delete Panel Admin</p>
+                        </div>
+                        <div class="card-body">
+                          <form>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Select Admin</label>
+                                  <select class="form-control" id="selected_padmin" required>
+                                    <option value="" selected>Select Admin</option>
+                                  </select>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Enter New Password</label>
+                                  <input id="password_pupdate" type="password" class="form-control" required>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating"></label>
+                                  <input type="text" class="form-control" disabled>
+                                </div>
+                              </div>
+                            </div>
+                            <button type="button" onclick="deletePAdminajax()"
+                              class="btn btn-danger pull-left">DELETE</button>
+                            <button type="button" onclick="updateOldPAdminajax()"
+                              class="btn btn-success pull-right">UPDATE</button>
+                            <div class="clearfix"></div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <%}%>
 </div>
 </div>
 </div>
@@ -330,9 +352,9 @@
 
 <%- include('Footer.ejs') %>
 
-                <script>
-                  var curentAdminType = <%=adminType%>
-                </script>
-                <script src="./js/PanelSettings.js"></script>
-                <script src="./js/customConfirm.js"></script>
-                <script src="./js/notifications.js"></script>
+                    <script>
+                      var curentAdminType = <%=adminType%>
+                    </script>
+                    <script src="./js/PanelSettings.js"></script>
+                    <script src="./js/customConfirm.js"></script>
+                    <script src="./js/notifications.js"></script>

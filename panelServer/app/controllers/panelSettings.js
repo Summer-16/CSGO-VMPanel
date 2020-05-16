@@ -18,6 +18,7 @@
 */
 
 "use strict";
+const userModel = require("../models/userModel.js");
 const settingsModal = require("../models/panelSettingModal.js");
 
 //-----------------------------------------------------------------------------------------------------
@@ -74,6 +75,7 @@ exports.fetchPanelSettingsFunc = fetchPanelSettingsFunc;
 
 exports.updatePanelSettings = async (req, res) => {
   try {
+    req.body.secKey = req.session.sec_key
     await updatePanelSettingsFunc(req.body);
     res.redirect('PanelSetting');
   } catch (error) {
@@ -85,12 +87,17 @@ exports.updatePanelSettings = async (req, res) => {
 const updatePanelSettingsFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
+      console.log("req body-->", reqBody)
+      let userData = await userModel.getuserDataByUsername(username)
 
-      let keyArray = Object.keys(reqBody)
-      for (let i = 0; i < keyArray.length; i++) {
-        await settingsModal.updatesetting(keyArray[i], reqBody[keyArray[i]])
+      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+
+        let keyArray = Object.keys(reqBody)
+        for (let i = 0; i < keyArray.length; i++) {
+          // await settingsModal.updatesetting(keyArray[i], reqBody[keyArray[i]])
+        }
+        resolve(true)
       }
-      resolve(true)
     } catch (error) {
       console.log("error in updatePanelSettingsFunc->", error)
       reject(error + ", Please try again")
