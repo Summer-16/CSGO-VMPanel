@@ -1,5 +1,5 @@
 # CSGO Vip Management Panel
-[![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
+[![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paytm-64.png)](https://drive.google.com/file/d/1ks_B3s9dNk_RPkDVf1DL1ITKe0mnrTRk/view)  [![Donate](https://cdn.iconscout.com/icon/free/png-64/upi-bhim-transfer-1795405-1522773.png)](https://drive.google.com/open?id=1VYYThJS78Pp6yyIU0lCIC4j7ef5a4G0l)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 
 ## Panel Features 1.4
@@ -22,7 +22,7 @@
 
 
 ## Step-by-Step install Instructions for New Installation 
-#### (these instructions apply to current dev code if you are installing v1.2 then follow the instructions given in its zip)
+#### (these instructions apply to current dev code if you are installing v1.4 then follow the instructions given in its zip)
 Always install the latest released version and follow the instructions available inside the readme of downloaded release.
 I don't recommend installing under-development builds as they may have errors. 
 
