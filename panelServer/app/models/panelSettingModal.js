@@ -22,6 +22,7 @@
 var db = require('../db/db_bridge');
 const config = require('../config/config.json')
 const table = config.settingTable
+const valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"], ["webhook_url", ""], ["community_name", "VMPanel"], ["normiadmin_settings", "1"]]
 
 /**
  *   setting Model
@@ -45,14 +46,20 @@ var settingsModal = {
         if (!queryRes) {
           return reject("Error in creating user table");
         }
-        if (queryRes.warningCount == 0) {
-          let valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"], ["webhook_url", ""], ["community_name", ""], ["normiadmin_settings", "1"]]
+
+        query = db.queryFormat(`SELECT * FROM ${table}`);
+        queryRes = await db.query(query);
+        if (!queryRes) {
+          return reject("Error in querying settings, This can be ignored");
+        }
+
+        if (queryRes.length === 0) {
           let query = db.queryFormat(`INSERT INTO ${table}
                                       (setting_key,setting_value)
                                       VALUES ?`, [valueArray]);
           let queryRes = await db.query(query, true);
           if (!queryRes) {
-            return reject("Error in creating user table");
+            return reject("Error while filling entry in table");
           }
         }
         return resolve(true);
