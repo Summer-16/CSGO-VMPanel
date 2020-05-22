@@ -21,7 +21,11 @@
 
 module.exports = app => {
 
+  // Middleware Import
   const middleware = require('../utils/middleWare/middleware.js');
+  const passport = require('passport');
+
+  // Controllers Import
   const { getVipsData, getVipsDataSingleServer, getAdminsDataSingleServer } = require("../controllers/vipController.js");
   const { insertVipData, formVIP } = require("../controllers/insertVip.js");
   const { insertAdminData, formAdmin } = require("../controllers/insertAdmin.js");
@@ -30,17 +34,19 @@ module.exports = app => {
   const { PanelSettings, fetchPanelSettings, updatePanelSettings } = require("../controllers/panelSettings.js")
   const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
   const { getPanelServersList, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
-  const { fetchProfileData } = require("../controllers/steamProfileDataFetch")
+  const { fetchProfileData } = require("../controllers/steamProfileDataFetch.js")
+  const { myDashboard } = require("../controllers/steamUser.js")
 
   //Public Router
   app.get("/", getVipsData);
   app.get("/dashboard", getVipsData);
 
-  //Private Router only for Admins
+
   //Login and logiut
   app.get('/login', loginPage);
   app.post('/authuser', authUserLogin);
   app.get('/logout', function (req, res) {
+    req.logout();
     req.session.destroy();
     res.redirect('/');
   });
@@ -48,6 +54,23 @@ module.exports = app => {
   //route to fetch user data from steam profile
   app.post('/fetchsteamprofiledata', fetchProfileData);
 
+  //Private Router only for User (Steam Authorized)
+  app.get('/auth/steam',
+    passport.authenticate('steam', { failureRedirect: '/' }),
+    function (req, res) {
+      res.redirect('/');
+    });
+
+  app.get('/auth/steam/return',
+    passport.authenticate('steam', { failureRedirect: '/' }),
+    function (req, res) {
+      res.redirect('/mydashboard');
+    });
+
+  app.get('/mydashboard', middleware.checkSteamAuthenticated, myDashboard);
+
+
+  //Private Router only for Panel Admins (Local Aithorized)
   //Vip routes
   app.post("/getvipdatasingleserver", middleware.checkToken, getVipsDataSingleServer);
   app.get("/managevip", middleware.checkToken, formVIP);

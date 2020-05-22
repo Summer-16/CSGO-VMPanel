@@ -23,12 +23,37 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cron = require('node-cron');
 const session = require('express-session');
+const passport = require('passport');
+const SteamStrategy = require('passport-steam');
 
 const vipModel = require("./app/models/vipModel.js");
 const userModel = require("./app/models/userModel.js");
 const settingsModal = require("./app/models/panelSettingModal.js");
 const panelServerModal = require("./app/models/panelServerModal.js");
 const { sendMessageOnDiscord } = require("./app/controllers/sendMessageOnDiscord.js");
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
+passport.use(new SteamStrategy({
+  returnURL: 'http://localhost:' + config.serverPort + '/auth/steam/return',
+  realm: 'http://localhost:' + config.serverPort + '/',
+  apiKey: config.steam_api_key
+},
+  function (identifier, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      profile.identifier = identifier;
+      return done(null, profile);
+    });
+  }
+));
+
 
 const app = express();
 
@@ -43,6 +68,8 @@ app.use(session({
   cookie: { secure: false }
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json({
@@ -73,11 +100,15 @@ panelServerModal.createTheTableIfNotExists();
 
 // middleware to make 'user' available to all templates
 app.use(async function (req, res, next) {
+  //console.log("req.session===>", req.session)
   res.locals.panelSetting = await settingsModal.getAllSettings();
   res.locals.sessionToken = req.session.token;
   res.locals.adminName = req.session.username;
   res.locals.currentURL = req.originalUrl;
   res.locals.adminType = req.session.user_type;
+
+  res.locals.sessionSteamId = req.session.passport ? req.session.passport.user.id : null;
+  res.locals.steamName = req.session.passport ? req.session.passport.user.displayName : null;
   next();
 });
 

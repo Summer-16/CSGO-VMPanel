@@ -43,6 +43,12 @@ let checkToken = (req, res, next) => {
   }
 };
 
+function checkSteamAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/');
+}
+
 module.exports = {
-  checkToken: checkToken
+  checkToken: checkToken,
+  checkSteamAuthenticated: checkSteamAuthenticated
 };

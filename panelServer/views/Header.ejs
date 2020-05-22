@@ -25,6 +25,9 @@ switch (route) {
   case "/dashboard":
     heading = "Dashboard - "+panelSetting.community_name;
     break;
+      case "/mydashboard":
+    heading = "My Dashboard - "+panelSetting.community_name;
+    break;
   case "/managevip":
     heading = "Manage Server VIPs (Add , Update or Delete) - "+panelSetting.community_name;
     break;
@@ -38,7 +41,7 @@ switch (route) {
     heading = "About the Creator of VMPanel";
     break;
   case "/login":
-    heading = "Admin Login - "+panelSetting.community_name;
+    heading = "Login - "+panelSetting.community_name;
     break;
   default:
     heading = "VMPanel - "+panelSetting.community_name;
@@ -93,6 +96,14 @@ return heading
               <p>Dashboard</p>
             </a>
           </li>
+          <%if(sessionSteamId){%>
+          <li class="nav-item <%= (currentURL=='/mydashboard' || currentURL=='/' ?'active':'') %>">
+            <a class="nav-link" href="/mydashboard">
+              <i class="material-icons">account_box</i>
+              <p>My Dashboard</p>
+            </a>
+          </li>
+          <%}%>
           <%if(sessionToken){%>
           <li class="nav-item <%= (currentURL=='/managevip'?'active':'') %>">
             <a class="nav-link" href="/managevip">
@@ -120,7 +131,7 @@ return heading
               <p>About Creator</p>
             </a>
           </li>
-          <%if(sessionToken){%>
+          <%if(sessionToken||sessionSteamId){%>
           <li class="nav-item <%= (currentURL=='/logout'?'active':'') %>">
             <a class="nav-link" href="/logout">
               <i class="material-icons">power_settings_new</i>
@@ -158,11 +169,13 @@ return heading
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)">
+            <a class="nav-link" href="<%= sessionToken?'dashboard':sessionSteamId?'mydashboard':'javascript:void(0)'%>">
               <i class="material-icons">face</i>
               <p class="d-lg d-md-block">
                 <%if(sessionToken){%>
-                <%="Admin "+adminName%>
+                <%="Admin-("+adminName+")"%>
+                <%}else if (sessionSteamId){%>
+                <%="User-("+steamName+")"%>
                 <%}else{%>
                 Guest
                 <%}%>

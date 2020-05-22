@@ -16,5 +16,6 @@
   "serverTable": "tbl_servers",
   "jwt": {
     "key": "add some random generated string here min 32length"
-  }
+  },
+  "steam_api_key": "Your Steam API Key Here"
 }

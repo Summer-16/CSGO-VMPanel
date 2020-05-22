@@ -82,7 +82,7 @@ function remainingDays(endEpoc){
                     <td><%=vipData[i].data[j].name?vipData[i].data[j].name.replace("//",""):"NA"%></td>
                     <td><%=vipData[i].data[j].created_at?dateFormatter(vipData[i].data[j].created_at):"NA"%></td>
                     <td><%=vipData[i].data[j].expireStamp?EpocToDate(vipData[i].data[j].expireStamp):"NA"%></td>
-                    <td>
+                    <td class="text-primary">
                       <%=vipData[i].data[j].expireStamp?remainingDays(vipData[i].data[j].expireStamp):"NA"%>
                     </td>
                   </tr>

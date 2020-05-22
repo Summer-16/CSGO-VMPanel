@@ -1,0 +1,68 @@
+<!-- 
+/* VMP-by-Summer-Soldier
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of VMP-by-Summer-Soldier
+*
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<%
+function EpocToDate(utcSeconds) {
+  let d = new Date(0);
+  d.setUTCSeconds(utcSeconds)
+  let dd = d.getDate();
+  let mm = d.getMonth() + 1;
+  let yyyy = d.getFullYear();
+  return dd + '-' + mm + '-' + yyyy;
+}
+
+function dateFormatter(date) {
+  let d = new Date(date);
+  let dd = d.getDate();
+  let mm = d.getMonth() + 1;
+  let yyyy = d.getFullYear();
+  return dd + '-' + mm + '-' + yyyy;
+}
+
+function remainingDays(endEpoc){
+  const date1 = new Date();
+  const date2 = new Date(0);
+  date2.setUTCSeconds(endEpoc)
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  return diffDays
+}
+
+%>
+
+<%- include('Header.ejs') %>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+
+      <div class="col-md-6">
+        <p><img src='<%= userData.photos[2].value %>' alt='Your Avatar Image' /></p>
+        <p>ID: <%= userData.id %></p>
+        <p>Name: <%= userData.displayName %></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<%- include('Footer.ejs') %>
