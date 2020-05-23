@@ -53,13 +53,91 @@ function remainingDays(endEpoc){
   <div class="container-fluid">
     <div class="row">
 
-
-      <div class="col-md-6">
-        <p><img src='<%= userData.photos[2].value %>' alt='Your Avatar Image' /></p>
-        <p>ID: <%= userData.id %></p>
-        <p>Name: <%= userData.displayName %></p>
+      <div class="col-md-12">
+        <%if(serverArray){%>
+        <% for(let i=0;i<serverArray.length;i++){%>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-<%= (i==0||i%2==0)?'warning'?'success' %> card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">shopping_cart</i>
+              </div>
+              <p class="card-category">Buy VIP For</p>
+              <h3 class="card-title">
+                <%=serverArray[i].server_name?serverArray[i].server_name:"NA"%>
+              </h3>
+            </div>
+            <div class="card-footer text-primary">
+              PayPal Coming Soon
+            </div>
+          </div>
+        </div>
+        <%}}%>
       </div>
 
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
+            <div class="col-md-12 row">
+              <div class="col-md-11">
+                <h4 class="card-title ">
+                  <%=((sessionSteamId&&steamName)?steamName:'')+"'s - VIP/Admin Status for "+panelSetting.community_name+" Servers"%>
+                </h4>
+                <p class="card-category">You have Vip/Admin roles in <%=userDataListing.length%> Servers</p>
+              </div>
+              <div class="col-md-1">
+                <img src='<%= userData? userData.avatarUrl:"" %>' class="pull-right" height="60px"
+                  alt='Your Avatar Image' style="border-radius: 5%;" />
+              </div>
+            </div>
+          </div>
+          <div class="card-body scroller" style="max-height:400px;overflow: auto;" id="style-4">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>Server Name</th>
+                  <th>My Steam Id</th>
+                  <th>My Role</th>
+                  <th>Sub. Start Date</th>
+                  <th>Sub. End Date</th>
+                  <th>Days Left</th>
+                  <th>Action</th>
+                </thead>
+                <tbody>
+                  <% if(userDataListing) {%>
+                  <% for(let j=0; j < userDataListing.length; j++) { %>
+                  <tr>
+                    <td><%=userDataListing[j].servername?userDataListing[j].servername:"NA"%></td>
+                    <td>
+                      <%=userDataListing[j].data?((userDataListing[j].data.authId).replace('"','').replace('"','')):"NA"%>
+                    </td>
+                    <td>
+                      <%=(userDataListing[j].data&&userDataListing[j].data.type===0)?"VIP":(userDataListing[j].data&&userDataListing[j].data.type===1)?"ADMIN":"NA"%>
+                    </td>
+                    <td class="text-info">
+                      <%=(userDataListing[j].data&&userDataListing[j].data.created_at)?dateFormatter(userDataListing[j].data.created_at):"NA"%>
+                    </td>
+                    <td class="text-danger">
+                      <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?EpocToDate(userDataListing[j].data.expireStamp):"NA"%>
+                    </td>
+                    <td
+                      class="text-<%= ((remainingDays(userDataListing[j].data.expireStamp)/1)<10)?'warning':((remainingDays(userDataListing[j].data.expireStamp)/1)<5)?'danger':'primary' %>">
+                      <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?remainingDays(userDataListing[j].data.expireStamp):"NA"%>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary" disabled>
+                        <i class="material-icons">settings_backup_restore</i>
+                        Coming Soon
+                      </button>
+                    </td>
+                  </tr>
+                  <%}}%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

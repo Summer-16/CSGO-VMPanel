@@ -19,25 +19,31 @@
 
 "use strict";
 const vipModel = require("../models/vipModel.js");
+const myDashboardModel = require("../models/myDashboard.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
 
 exports.getVipsData = async (req, res) => {
   try {
-    let result = await getVipsDataFunc(req.body);
-    res.render('Dashboard', { "vipData": result });
+    const token = req.session.token
+    let result = await getVipsDataFunc(req.body, token);
+    res.render('Dashboard', result);
   } catch (error) {
     console.log("error in getVipsData->", error)
-    res.render('Dashboard', { "vipData": null });
+    res.render('Dashboard', { "vipData": null, "adminStats": null });
   }
 }
 
-const getVipsDataFunc = (reqBody) => {
+const getVipsDataFunc = (reqBody, token) => {
   return new Promise(async (resolve, reject) => {
     try {
       let data = await vipModel.getallServerData()
-      resolve(data)
+      let adminStats = null
+      if (token) {
+        adminStats = await myDashboardModel.getStatsForAdmin()
+      }
+      resolve({ "vipData": data, "adminStats": adminStats })
     } catch (error) {
       console.log("error in getVipsDataFunc->", error)
       reject(error)

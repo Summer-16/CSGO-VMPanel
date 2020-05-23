@@ -35,7 +35,7 @@ module.exports = app => {
   const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
   const { getPanelServersList, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
   const { fetchProfileData } = require("../controllers/steamProfileDataFetch.js")
-  const { myDashboard } = require("../controllers/steamUser.js")
+  const { myDashboard } = require("../controllers/userDashboard.js")
 
   //Public Router
   app.get("/", getVipsData);

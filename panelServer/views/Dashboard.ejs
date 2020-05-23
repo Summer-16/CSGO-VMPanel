@@ -51,51 +51,123 @@ function remainingDays(endEpoc){
 
 <div class="content">
   <div class="container-fluid">
-    <div class="row">
 
-      <% if(vipData) {%>
-      <% for(let i=0; i < vipData.length; i++) { %>
-      <% if((vipData[i].type==="VIPs") || (vipData[i].type==="ADMINs" && panelSetting.dash_admin_show==1)) {%>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header card-header-<%=panelSetting.color_theme%>">
-            <h4 class="card-title "><%=vipData[i].servername.toUpperCase()+' - '+vipData[i].type %></h4>
-            <p class="card-category">Total <%=vipData[i].type+':'+vipData[i].data.length%> </p>
+    <%if(sessionToken){%>
+    <div class="row">
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">device_hub</i>
+            </div>
+            <p class="card-category">Total Servers</p>
+            <h3 class="card-title"><%=adminStats.serverCount ?adminStats.serverCount :"NA" %></h3>
           </div>
-          <div class="card-body scroller" style="max-height:400px;overflow: auto;" id="style-4">
-            <div class="table-responsive">
-              <table class="table">
-                <thead class=" text-primary">
-                  <th>Steam ID</th>
-                  <th>Name</th>
-                  <th>Sub. Start Date</th>
-                  <th>Sub. End Date</th>
-                  <th>Days Left</th>
-                </thead>
-                <tbody>
-                  <% if(vipData[i].data) {%>
-                  <% for(let j=0; j < vipData[i].data.length; j++) { %>
-                  <tr>
-                    <td>
-                      <%=vipData[i].data[j].authId?((vipData[i].data[j].authId).replace('"','').replace('"','')):"NA"%>
-                    </td>
-                    <td><%=vipData[i].data[j].name?vipData[i].data[j].name.replace("//",""):"NA"%></td>
-                    <td><%=vipData[i].data[j].created_at?dateFormatter(vipData[i].data[j].created_at):"NA"%></td>
-                    <td><%=vipData[i].data[j].expireStamp?EpocToDate(vipData[i].data[j].expireStamp):"NA"%></td>
-                    <td class="text-primary">
-                      <%=vipData[i].data[j].expireStamp?remainingDays(vipData[i].data[j].expireStamp):"NA"%>
-                    </td>
-                  </tr>
-                  <%}}%>
-                </tbody>
-              </table>
+          <div class="card-footer">
+            <div class="stats text-warning">
+              <i class="material-icons">device_hub</i> My Total Servers
             </div>
           </div>
         </div>
       </div>
-      <%}}}%>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">sentiment_satisfied_alt</i>
+            </div>
+            <p class="card-category">Total Active Users</p>
+            <h3 class="card-title"><%= adminStats.userCount ?adminStats.userCount :"NA"  %></h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats text-warning">
+              <i class="material-icons">sentiment_satisfied_alt</i> My Total Happy Users
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-danger card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">shopping_cart</i>
+            </div>
+            <p class="card-category">Total VIP Purchased</p>
+            <h3 class="card-title"><%= adminStats.saleCount ?adminStats.saleCount :"NA"  %></h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats text-warning">
+              <i class="material-icons">shopping_cart</i> New Purchases
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">settings_backup_restore</i>
+            </div>
+            <p class="card-category">Total VIP Renewed</p>
+            <h3 class="card-title"><%= adminStats.renewSaleCount ?adminStats.renewSaleCount :"NA"  %></h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats text-warning">
+              <i class="material-icons">settings_backup_restore</i> Renewals
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <%}%>
+
+    <div class="row">
+      <% if(vipData) {%>
+    <% for(let i=0; i < vipData.length; i++) { %>
+    <% if((vipData[i].type==="VIPs") || (vipData[i].type==="ADMINs" && panelSetting.dash_admin_show==1)) {%>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header card-header-<%=panelSetting.color_theme%>">
+          <h4 class="card-title "><%=vipData[i].servername.toUpperCase()+' - '+vipData[i].type %></h4>
+          <p class="card-category">Total <%=vipData[i].type+':'+vipData[i].data.length%> </p>
+        </div>
+        <div class="card-body scroller" style="max-height:400px;overflow: auto;" id="style-4">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
+                <th>Steam ID</th>
+                <th>Name</th>
+                <th>Sub. Start Date</th>
+                <th>Sub. End Date</th>
+                <th>Days Left</th>
+              </thead>
+              <tbody>
+                <% if(vipData[i].data) {%>
+                <% for(let j=0; j < vipData[i].data.length; j++) { %>
+                <tr>
+                  <td>
+                    <%=vipData[i].data[j].authId?((vipData[i].data[j].authId).replace('"','').replace('"','')):"NA"%>
+                  </td>
+                  <td><%=vipData[i].data[j].name?vipData[i].data[j].name.replace("//",""):"NA"%></td>
+                  <td class="text-info">
+                    <%=vipData[i].data[j].created_at?dateFormatter(vipData[i].data[j].created_at):"NA"%></td>
+                  <td class="text-danger">
+                    <%=vipData[i].data[j].expireStamp?EpocToDate(vipData[i].data[j].expireStamp):"NA"%></td>
+                  <td
+                    class="text-<%= ((remainingDays(vipData[i].data[j].expireStamp)/1)<10)?'warning':((remainingDays(vipData[i].data[j].expireStamp)/1)<5)?'danger':'primary' %>">
+                    <%=vipData[i].data[j].expireStamp?remainingDays(vipData[i].data[j].expireStamp):"NA"%>
+                  </td>
+                </tr>
+                <%}}%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%}}}%>
   </div>
+</div>
 </div>
 
 
