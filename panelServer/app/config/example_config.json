@@ -14,8 +14,10 @@
   "usersTable": "tbl_users",
   "settingTable": "tbl_settings",
   "serverTable": "tbl_servers",
+  "salestable": "tbl_sales",
   "jwt": {
     "key": "add some random generated string here min 32length"
   },
-  "steam_api_key": "Your Steam API Key Here"
+  "steam_api_key": "Your Steam API Key Here (Leave Empty to disable steam login)",
+  "paypal_client_id": "Your paypal client id here (Leave Empty to disable Paypal Feature)"
 }

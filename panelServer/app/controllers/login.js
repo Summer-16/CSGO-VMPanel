@@ -22,16 +22,17 @@ const config = require('../config/config.json')
 const userModel = require("../models/userModel.js");
 let jwt = require('jsonwebtoken');
 const jwtSecretKey = config.jwt.key;
+const steamApi = config.steam_api_key
 
 //-----------------------------------------------------------------------------------------------------
 // 
 
 exports.loginPage = async (req, res) => {
   try {
-    res.render('Login', { "error": null });
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": null });
   } catch (error) {
     console.log("error in login-->", error)
-    res.render('Login', { "error": error });
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": error });
   }
 }
 //-----------------------------------------------------------------------------------------------------

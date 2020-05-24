@@ -23,6 +23,7 @@
 <div class="content">
   <div class="container-fluid">
     <div class="col-md-12 row">
+      <%if(steamLogin){%>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-<%=panelSetting.color_theme%> card-header-icon">
@@ -44,37 +45,38 @@
           </div>
         </div>
       </div>
+      <%}%>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-<%=panelSetting.color_theme%> card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">fingerprint</i>
+      <div class="card-icon">
+        <i class="material-icons">fingerprint</i>
+      </div>
+      <p class="card-category">Id-Pass Login for</p>
+      <h3 class="card-title">Admin</h3>
+    </div>
+    <div class="card-footer">
+      <form class="col-md-12" method="post" action="/authuser">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group bmd-form-group">
+              <label class="bmd-label-floating">Enter Username</label>
+              <input type="text" name="username" class="form-control" required>
             </div>
-            <p class="card-category">Id-Pass Login for</p>
-            <h3 class="card-title">Admin</h3>
-          </div>
-          <div class="card-footer">
-            <form class="col-md-12" method="post" action="/authuser">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter Username</label>
-                    <input type="text" name="username" class="form-control" required>
-                  </div>
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter Password</label>
-                    <input type="password" name="password" class="form-control" required>
-                  </div>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-success pull-right">Login</button>
-              <div class="clearfix"></div>
-            </form>
+            <div class="form-group bmd-form-group">
+              <label class="bmd-label-floating">Enter Password</label>
+              <input type="password" name="password" class="form-control" required>
+            </div>
           </div>
         </div>
-      </div>
+        <button type="submit" class="btn btn-success pull-right">Login</button>
+        <div class="clearfix"></div>
+      </form>
     </div>
   </div>
+</div>
+</div>
+</div>
 </div>
 
 <%- include('Footer.ejs') %>

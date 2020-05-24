@@ -241,6 +241,9 @@ function fetchPServerListajax() {
                         <td>${dataArray[i].server_ip ? dataArray[i].server_ip : 'NA'}</td>
                         <td>${dataArray[i].server_port ? dataArray[i].server_port : 'NA'}</td>
                         <td>${dataArray[i].server_rcon_pass ? dataArray[i].server_rcon_pass : 'NA'}</td>
+                        <td>${dataArray[i].vip_slots ? dataArray[i].vip_slots : 'NA'}</td>
+                        <td>${dataArray[i].vip_price ? dataArray[i].vip_price + " " + dataArray[i].vip_currency : 'NA'}</td>
+                        <td>${dataArray[i].vip_flag ? dataArray[i].vip_flag : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
                         <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
                         </tr>`
@@ -281,6 +284,10 @@ function addNewPServerajax() {
         "serverip": $('#servertableIP_add').val(),
         "serverport": $('#servertablePort_add').val(),
         "serverrcon": $('#servertableRCON_add').val(),
+        "servertotalvip": $('#servertableTotalVIPSlots_add').val(),
+        "servervipprice": $('#servertableVIPPrice_add').val(),
+        "servervipcurrency": $('#servertableCurrency_add').val(),
+        "servervipflag": $('#servertableVIPFlag_add').val(),
         "submit": "insert"
       })
     })
@@ -325,6 +332,10 @@ function updatePServerajax() {
         "serverip": $('#servertableIP_update').val(),
         "serverport": $('#servertablePort_update').val(),
         "serverrcon": $('#servertableRCON_update').val(),
+        "servertotalvip": $('#servertableTotalVIPSlots_update').val(),
+        "servervipprice": $('#servertableVIPPrice_update').val(),
+        "servervipcurrency": $('#servertableCurrency_update').val(),
+        "servervipflag": $('#servertableVIPFlag_update').val(),
         "submit": "update"
       })
     })

@@ -20,10 +20,9 @@
 "use strict";
 
 var db = require('../db/db_bridge');
-const panelServerModal = require("../models/panelServerModal.js");
+const panelServerModal = require("./panelServerModal.js");
 const config = require('../config/config.json')
-const usersTable = config.usersTable
-const settingTable = config.settingTable
+const salestable = config.salestable
 const serverTable = config.serverTable
 
 
@@ -89,15 +88,55 @@ var myDashboardModel = {
         if (!queryRes) {
           return reject("No Data Found");
         }
+        const totalservers = queryRes.totalservers
+
+        query = db.queryFormat(`SELECT (SELECT COUNT(id) FROM ${salestable} WHERE sale_type=1) as buycount, (SELECT COUNT(id) FROM ${salestable} WHERE sale_type=2) as renewcount `);
+        queryRes = await db.query(query, true);
+        if (!queryRes) {
+          return reject("No Data Found");
+        }
+        const totalbuy = queryRes.buycount
+        const totalrenew = queryRes.renewcount
 
         finalResult = {
-          "serverCount": queryRes.totalservers,
+          "serverCount": totalservers,
           "userCount": userCount,
-          "saleCount": "Coming Soon",
-          "renewSaleCount": "Coming Soon"
+          "saleCount": totalbuy,
+          "renewSaleCount": totalrenew
         }
 
         return resolve(finalResult);
+      } catch (error) {
+        console.log("error in getStatsForAdmin->", error)
+        reject(error)
+      }
+    });
+  },
+
+
+  /**
+ * get server listing
+ */
+  getSaleServerListing: function () {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let serverArray = []
+
+        let serverList = await panelServerModal.getPanelServersList();
+
+        for (let i = 0; i < serverList.length; i++) {
+          let query = db.queryFormat(`SELECT COUNT(authId) AS usercount FROM ${serverList[i].tbl_name}`);
+          let queryRes = await db.query(query, true);
+          if (!queryRes) {
+            return reject("No Data Found");
+          }
+
+          if (queryRes.usercount < serverList[i].vip_slots) {
+            delete serverList[i].server_rcon_pass
+            serverArray.push(serverList[i])
+          }
+        }
+        return resolve(serverArray);
       } catch (error) {
         console.log("error in getStatsForAdmin->", error)
         reject(error)

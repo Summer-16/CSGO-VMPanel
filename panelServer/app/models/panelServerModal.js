@@ -149,7 +149,12 @@ var panelServerModal = {
                                   server_ip,
                                   server_port,
                                   server_rcon_pass, 
-                                  created_at) VALUES (?, ?, ?, ?, ? ,?)`, [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, new Date()]);
+                                  vip_slots,
+                                  vip_price,
+                                  vip_currency,
+                                  vip_flag,
+                                  created_at) VALUES (?, ?, ?, ?, ? ,? ,?, ?, ?, ?)`,
+            [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), new Date()]);
           queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("Error in insertion");
@@ -183,7 +188,13 @@ var panelServerModal = {
                                       server_name = ?,
                                       server_ip = ?,
                                       server_port = ?,
-                                      server_rcon_pass = ? WHERE id = ? AND tbl_name = ?`, [dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, id, tableName]);
+                                      server_rcon_pass = ?,
+                                      vip_slots = ?,
+                                      vip_price = ?,
+                                      vip_currency = ?,
+                                      vip_flag = ?
+                                      WHERE id = ? AND tbl_name = ?`,
+          [dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), id, tableName]);
         const queryRes = await db.query(query);
         if (!queryRes) {
           return reject("error in update");

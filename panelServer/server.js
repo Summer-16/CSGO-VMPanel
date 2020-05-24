@@ -30,6 +30,7 @@ const vipModel = require("./app/models/vipModel.js");
 const userModel = require("./app/models/userModel.js");
 const settingsModal = require("./app/models/panelSettingModal.js");
 const panelServerModal = require("./app/models/panelServerModal.js");
+const salesModal = require("./app/models/salesModel.js");
 const { sendMessageOnDiscord } = require("./app/controllers/sendMessageOnDiscord.js");
 
 passport.serializeUser(function (user, done) {
@@ -97,10 +98,10 @@ cron.schedule(`0 */${scheduleConfig.notif} * * *`, async () => {
 userModel.createTheTableIfNotExists();
 settingsModal.createTheTableIfNotExists();
 panelServerModal.createTheTableIfNotExists();
+salesModal.createTheTableIfNotExists();
 
 // middleware to make 'user' available to all templates
 app.use(async function (req, res, next) {
-  //console.log("req.session===>", req.session)
   res.locals.panelSetting = await settingsModal.getAllSettings();
   res.locals.sessionToken = req.session.token;
   res.locals.adminName = req.session.username;

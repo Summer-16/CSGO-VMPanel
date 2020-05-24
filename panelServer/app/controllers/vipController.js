@@ -19,7 +19,7 @@
 
 "use strict";
 const vipModel = require("../models/vipModel.js");
-const myDashboardModel = require("../models/myDashboard.js");
+const myDashboardModel = require("../models/myDashboardModel.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 

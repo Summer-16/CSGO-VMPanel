@@ -47,28 +47,118 @@ function remainingDays(endEpoc){
 
 %>
 
+<%if(paypalActive){%>
+<script src="https://www.paypal.com/sdk/js?client-id=<%=paypalClientID%>&disable-funding=card"></script>
+<%}%>
+<script>
+  var paypalActive =<%=paypalActive%>
+</script>
+<script>
+    function setPayPalButton(id, serverData, type) {
+      console.log("here console onload-->", id, serverData)
+      console.log("data.server_name->", serverData.server_name)
+      console.log("data.vip_price->", serverData.vip_price)
+      console.log("data.vip_currency->", serverData.vip_currency)
+      let server = serverData.server_name ? serverData.server_name : ''
+      let currency = serverData.vip_currency ? serverData.vip_currency : ''
+      let price = serverData.vip_price ? serverData.vip_price : ''
+
+      if (paypalActive == true && price && currency && server) {
+        paypal.Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  description: "1 Month VIP for " + server + (type == 'newPurchase' ? " (New Buy)" : type == 'renewPurchase' ? " (Renewal)" : ""),
+                  amount: {
+                    currency_code: currency,
+                    value: price,
+                  },
+                },
+              ],
+            });
+          },
+          onCancel: (data) => {
+            console.log("** On Cancel Event Payment **");
+            console.log("Data->>", data);
+            showNotif({
+              success: false,
+              data: { "error": "Payment Failed! , Process terminated by user." }
+            })
+          },
+          onApprove: async (data, actions) => {
+            let loader = `<div class="loading">Loading&#8230;</div>`;
+            $("#divForLoader").html(loader)
+            console.log("** On Approve Event Payment **");
+            console.log("Data->>", data);
+            showNotif({
+              success: true,
+              data: { "message": "Payment Sucess! , Order Id:" + data.orderID + ". Processing furture steps to activate your VIP Subscription.", "notifType": "success" }
+            })
+            const order = await actions.order.capture();
+            console.log("order->>", order);
+            afterPaymentajax({
+              "serverData": serverData,
+              "paymentData": order,
+              "buyType": type
+            })
+          },
+          onError: async (error) => {
+            console.log("** On Error Event Payment **");
+            console.log("error->>", error);
+            showNotif({
+              success: false,
+              data: { "error": "Payment Failed! , Some Error occured try again later. Contact support if you were charged and still got error" }
+            })
+          },
+          "style": {
+            "color": "blue",
+            "shape": "rect",
+            "size": "responsive",
+            "layout": "vertical"
+          }
+        })
+          .render('#' + id);
+      } else {
+        document.getElementById(id).innerHTML = `<div class="stats text-warning">PayPal not working contact Support</div>`
+      }
+
+    }
+</script>
+
+
 <%- include('Header.ejs') %>
 
 <div class="content">
   <div class="container-fluid">
     <div class="row">
 
-      <div class="col-md-12">
+      <div class="col-md-12 row">
         <%if(serverArray){%>
-        <% for(let i=0;i<serverArray.length;i++){%>
+        <% for(let i=0; i < serverArray.length;i++){%>
         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
           <div class="card card-stats">
-            <div class="card-header card-header-<%= (i==0||i%2==0)?'warning'?'success' %> card-header-icon">
+            <div class="card-header card-header-<%= (i==0||i%2==0)?'warning':'success' %> card-header-icon">
               <div class="card-icon">
                 <i class="material-icons">shopping_cart</i>
               </div>
-              <p class="card-category">Buy VIP For</p>
+              <p class="card-category">Buy VIP For <%=serverArray[i].server_name?serverArray[i].server_name:"NA"%></p>
               <h3 class="card-title">
-                <%=serverArray[i].server_name?serverArray[i].server_name:"NA"%>
+                <%=serverArray[i].vip_price?serverArray[i].vip_price+" "+serverArray[i].vip_currency:"NA"%>
               </h3>
+              <%if(serverArray[i].server_ip&&serverArray[i].server_port){%>
+              <a href="<%='steam://connect/'+serverArray[i].server_ip+':'+serverArray[i].server_port%>"
+                class="card-title text-success">Wanna Test the Server! <i
+                  class="material-icons">settings_input_composite</i></a>
+              <%}%>
             </div>
-            <div class="card-footer text-primary">
-              PayPal Coming Soon
+            <div class="card-footer text-primary text-center">
+              <img src
+                onerror="setPayPalButton('<%= serverArray[i].tbl_name ? serverArray[i].tbl_name +`buy`: `buy`+i %>',<%= JSON.stringify(serverArray[i]) %>,'newPurchase')"
+              alt />
+              <div id="<%=serverArray[i].tbl_name ? serverArray[i].tbl_name+'buy' : 'buy'+i %>"
+                class="col-md-12 text-center">
+              </div>
             </div>
           </div>
         </div>
@@ -101,11 +191,12 @@ function remainingDays(endEpoc){
                   <th>Sub. Start Date</th>
                   <th>Sub. End Date</th>
                   <th>Days Left</th>
-                  <th>Action</th>
+                  <th>Renew VIP</th>
                 </thead>
                 <tbody>
                   <% if(userDataListing) {%>
                   <% for(let j=0; j < userDataListing.length; j++) { %>
+                  <%console.log("userDataListing[j]--->",userDataListing[j])%>
                   <tr>
                     <td><%=userDataListing[j].servername?userDataListing[j].servername:"NA"%></td>
                     <td>
@@ -125,10 +216,20 @@ function remainingDays(endEpoc){
                       <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?remainingDays(userDataListing[j].data.expireStamp):"NA"%>
                     </td>
                     <td>
-                      <button type="button" class="btn btn-primary" disabled>
-                        <i class="material-icons">settings_backup_restore</i>
-                        Coming Soon
-                      </button>
+                      <%if(userDataListing[j].data && userDataListing[j].data.type==0){%>
+                      <div>
+                        <!-- class="col-md-6 ml-0 pl-0" -->
+                        <img src
+                          onerror="setPayPalButton('<%= (userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name + `renew`: `renew`+j %>', <%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')"
+                          alt />
+                        <div
+                          id="<%=(userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name+'renew' : 'renew'+j %>"
+                          class="col-md-12">
+                        </div>
+                      </div>
+                      <%}else{%>
+                      NA
+                      <%}%>
                     </td>
                   </tr>
                   <%}}%>
@@ -144,3 +245,6 @@ function remainingDays(endEpoc){
 
 
 <%- include('Footer.ejs') %>
+
+<script src="./js/notifications.js"></script>
+<script src="./js/myDashboard.js"></script>

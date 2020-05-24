@@ -35,7 +35,7 @@ module.exports = app => {
   const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
   const { getPanelServersList, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
   const { fetchProfileData } = require("../controllers/steamProfileDataFetch.js")
-  const { myDashboard } = require("../controllers/userDashboard.js")
+  const { myDashboard, afterPaymentProcess } = require("../controllers/userDashboard.js")
 
   //Public Router
   app.get("/", getVipsData);
@@ -68,6 +68,7 @@ module.exports = app => {
     });
 
   app.get('/mydashboard', middleware.checkSteamAuthenticated, myDashboard);
+  app.post('/execafterpaymentprocess', middleware.checkSteamAuthenticated, afterPaymentProcess);
 
 
   //Private Router only for Panel Admins (Local Aithorized)

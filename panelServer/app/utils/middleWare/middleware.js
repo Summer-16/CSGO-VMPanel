@@ -20,6 +20,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config.json');
 const jwtSecretKey = config.jwt.key;
+const steamApi = config.steam_api_key
 
 let checkToken = (req, res, next) => {
   let token = req.session.token || req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
@@ -32,14 +33,14 @@ let checkToken = (req, res, next) => {
 
     jwt.verify(token, jwtSecretKey, (err, decoded) => {
       if (err) {
-        return res.render('Login', { "error": "Unauthorized Access, If you are an Admin try logging in" })
+        return res.render('Login', { "steamLogin": (steamApi ? true : false), "error": "Unauthorized Access, If you are an Admin try logging in" })
       } else {
         req.decoded = decoded;
         next();
       }
     });
   } else {
-    return res.render('Login', { "error": "Unauthorized Access, If you are an Admin try logging in" })
+    return res.render('Login', { "steamLogin": (steamApi ? true : false), "error": "Unauthorized Access, If you are an Admin try logging in" })
   }
 };
 
