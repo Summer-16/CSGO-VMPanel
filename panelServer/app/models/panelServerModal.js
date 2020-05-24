@@ -42,6 +42,10 @@ var panelServerModal = {
                                     server_ip varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                     server_port varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                     server_rcon_pass varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                    vip_slots int(20) DEFAULT NULL,
+                                    vip_price int(20) DEFAULT NULL,
+                                    vip_currency varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                    vip_flag varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                     created_at datetime DEFAULT NULL,
                                     PRIMARY KEY (id)
                                   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
