@@ -104,7 +104,7 @@ var settingsModal = {
 
         // validation
         if (!key) return reject("Key is not provided");
-        if (!value) return reject("Value is not provided");
+        //if (!value) return reject("Value is not provided");
 
         let query = db.queryFormat(`UPDATE ${table} SET setting_value = ? WHERE setting_key = ?`, [value, key]);
         let queryRes = await db.query(query, true);
