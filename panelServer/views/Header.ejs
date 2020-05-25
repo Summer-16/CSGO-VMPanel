@@ -37,6 +37,9 @@ switch (route) {
       case "/panelsetting":
     heading = "Setup/Settings for the VMPanel - "+panelSetting.community_name;
     break;
+      case "/salesrecord":
+    heading = "VIP Sales Records";
+    break;
   case "/aboutcreator":
     heading = "About the Creator of VMPanel";
     break;
@@ -117,6 +120,14 @@ return heading
               <p>Manage Admin</p>
             </a>
           </li>
+          <%if(adminType===1){%>
+          <li class="nav-item <%= (currentURL=='/salesrecord'?'active':'') %>">
+            <a class="nav-link" href="/salesrecord">
+              <i class="material-icons">account_balance_wallet</i>
+              <p>Sales Record</p>
+            </a>
+          </li>
+          <%}%>
           <%if((adminType===1)||(panelSetting.normiadmin_settings==1 && adminType===0)){%>
           <li class="nav-item <%= (currentURL=='/panelsetting'?'active':'') %>">
             <a class="nav-link" href="/panelsetting">

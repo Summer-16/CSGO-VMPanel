@@ -57,9 +57,11 @@ function remainingDays(endEpoc){
       <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-warning card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">device_hub</i>
-            </div>
+            <a href="/panelsetting#listserver">
+              <div class="card-icon">
+                <i class="material-icons">device_hub</i>
+              </div>
+            </a>
             <p class="card-category">Total Servers</p>
             <h3 class="card-title"><%=adminStats.serverCount ?adminStats.serverCount :"NA" %></h3>
           </div>
@@ -73,9 +75,11 @@ function remainingDays(endEpoc){
       <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">sentiment_satisfied_alt</i>
-            </div>
+            <a href="/managevip">
+              <div class="card-icon">
+                <i class="material-icons">sentiment_satisfied_alt</i>
+              </div>
+            </a>
             <p class="card-category">Total Active Users</p>
             <h3 class="card-title"><%= adminStats.userCount ?adminStats.userCount :"NA"  %></h3>
           </div>
@@ -89,9 +93,11 @@ function remainingDays(endEpoc){
       <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-danger card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">shopping_cart</i>
-            </div>
+            <a href="/salesrecord">
+              <div class="card-icon">
+                <i class="material-icons">shopping_cart</i>
+              </div>
+            </a>
             <p class="card-category">Total New VIP Purchased</p>
             <h3 class="card-title"><%= adminStats.saleCount ?adminStats.saleCount :"NA"  %></h3>
           </div>
@@ -105,9 +111,11 @@ function remainingDays(endEpoc){
       <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-info card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">settings_backup_restore</i>
-            </div>
+            <a href="/salesrecord">
+              <div class="card-icon">
+                <i class="material-icons">settings_backup_restore</i>
+              </div>
+            </a>
             <p class="card-category">Total VIP Renewed</p>
             <h3 class="card-title"><%= adminStats.renewSaleCount ?adminStats.renewSaleCount :"NA"  %></h3>
           </div>

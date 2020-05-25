@@ -112,7 +112,25 @@ var salesModel = {
     });
   },
 
+  /**
+   * get all the sale data form the table
+   */
+  getAllSalesRecords: function () {
+    return new Promise(async (resolve, reject) => {
+      try {
 
+        let query = db.queryFormat(`SELECT * FROM ${table} order by created_on DESC`);
+        let queryRes = await db.query(query);
+        if (!queryRes) {
+          return reject("No Data Found");
+        }
+        return resolve(queryRes);
+      } catch (error) {
+        console.log("error in getAllSalesRecords->", error)
+        reject(error)
+      }
+    });
+  },
 
 }
 

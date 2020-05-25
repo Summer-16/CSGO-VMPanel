@@ -1,0 +1,64 @@
+<!-- 
+/* VMP-by-Summer-Soldier
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of VMP-by-Summer-Soldier
+*
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<%- include('Header.ejs') %>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
+            <h4 class="card-title" id="manageCardTitle">Sales Record</h4>
+            <p class="card-category">All successfull transactions made by users to buy/renew VIP are logged here</p>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive scroller" style="max-height:600px;overflow: auto;" id="style-4">
+              <table class="table" id="salesrecords">
+                <thead class=" text-primary">
+                  <th>S.no</th>
+                  <th>Order ID</th>
+                  <th>Payer ID</th>
+                  <th>Payer Steam ID</th>
+                  <th>Payer Name</th>
+                  <th>Payer Email</th>
+                  <th>Product Desc.</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Sale type</th>
+                  <th>Dated</th>
+                </thead>
+                <tbody id="salesRecordBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%- include('Footer.ejs') %>
+
+<script src="./js/notifications.js"></script>
+<script src="./js/salesRecord.js"></script>

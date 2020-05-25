@@ -42,8 +42,8 @@ passport.deserializeUser(function (obj, done) {
 });
 
 passport.use(new SteamStrategy({
-  returnURL: 'http://localhost:' + config.serverPort + '/auth/steam/return',
-  realm: 'http://localhost:' + config.serverPort + '/',
+  returnURL: ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/auth/steam/return',
+  realm: ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/',
   apiKey: config.steam_api_key
 },
   function (identifier, profile, done) {

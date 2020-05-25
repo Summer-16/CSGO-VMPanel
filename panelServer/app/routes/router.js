@@ -36,6 +36,7 @@ module.exports = app => {
   const { getPanelServersList, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
   const { fetchProfileData } = require("../controllers/steamProfileDataFetch.js")
   const { myDashboard, afterPaymentProcess } = require("../controllers/userDashboard.js")
+  const { saleRecords, getSalesRecord } = require("../controllers/salesRecord.js")
 
   //Public Router
   app.get("/", getVipsData);
@@ -93,13 +94,18 @@ module.exports = app => {
   app.post("/addpanelserver", middleware.checkToken, addPanelServer);
   app.post("/deletepanelserver", middleware.checkToken, deletePanelServers);
 
-  //Apanel Admin routes
+  //Panel Admin routes
   app.get("/getpaneladminslist", middleware.checkToken, getPanelAdminsList);
   app.post("/addpaneladmin", middleware.checkToken, addPanelAdmin);
   app.post("/updatepaneladmin", middleware.checkToken, addPanelAdmin);
   app.post("/deletepaneladmin", middleware.checkToken, deletePanelAdmin);
 
+  //Route to manually refresh data in all servers
   app.get("/performmanualrefresh", middleware.checkToken, deleteOldVipData);
+
+  //Routes for Sales Records
+  app.get("/salesrecord", middleware.checkToken, saleRecords);
+  app.get("/fetchsalesrecord", middleware.checkToken, getSalesRecord);
 
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');

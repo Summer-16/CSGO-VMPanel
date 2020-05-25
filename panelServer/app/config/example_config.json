@@ -6,7 +6,9 @@
     "db_password": "your db user's password",
     "db_name": "dbname"
   },
+  "hostname": "localhost",
   "serverPort": "3535",
+  "apacheProxy": false,
   "scheduleConfig": {
     "delete": "12",
     "notif": "24"
