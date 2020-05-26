@@ -2,7 +2,7 @@
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paytm-64.png)](https://drive.google.com/file/d/1ks_B3s9dNk_RPkDVf1DL1ITKe0mnrTRk/view)  [![Donate](https://cdn.iconscout.com/icon/free/png-64/upi-bhim-transfer-1795405-1522773.png)](https://drive.google.com/open?id=1VYYThJS78Pp6yyIU0lCIC4j7ef5a4G0l)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 
-## Panel Features 1.4
+## Panel Features v1.5
 - Add VIP or Admin to servers.
 - While adding VIP subscription days are entered and once subscription days finished panel will automatically delete that VIP and remove it from the CSGO server too.
 - You can also manually delete the VIP and Admins from the panel.
@@ -16,6 +16,11 @@
 - A shell script is also available. (used to do plugin work in old versions, but it still works so it's there)
 - Note (I recommend using plugin until and unless u r trying to do custom solutions with a shell script. If you are using shell script you will have to manually create server tables in the database.)
 - Added RCON feature therefore now as soon as you add any admin or vip it get updated in respective CSGO server through RCON by the panel's plugin
+- Added Steam login for Users
+- Added Paypal for VIP buy and renew feature
+- User can login through steam and then he can see status of his VIP subscription in all servers , can buy new VIP and Renew old VIP through paypal
+- Sales record for Admin
+- New Features at Dashboard like (Server list with connect feature and other stats for Admin)
 
 ## Webpanel Screenshots
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
