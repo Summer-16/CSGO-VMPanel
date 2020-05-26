@@ -143,7 +143,6 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
       await salesModal.insertNewSaleRecord(paymentInsertObj)
 
       if (reqBody.buyType === 'newPurchase') {
-        console.log("in new purchase")
 
         const newVipInsertObj = {
           day: epoctillExpirey(30),
@@ -163,7 +162,6 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
           resolve(insertRes)
         }
       } else if (reqBody.buyType === 'renewPurchase') {
-        console.log("in renewPurchase purchase")
 
         const updateVipObj = {
           day: Math.floor(30 * 86400),

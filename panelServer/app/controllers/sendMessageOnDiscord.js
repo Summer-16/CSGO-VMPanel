@@ -97,10 +97,8 @@ async function sendMessageOnDiscord() {
 
 
 function sendMessage(message, color, webhook) {
-  console.log("messgae-->", message)
 
   for (let i = 0; i < message.length; i++) {
-    console.log("messgae-->", message[i].length)
     let options = {
       'method': 'POST',
       'url': webhook,

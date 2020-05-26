@@ -55,10 +55,6 @@ function remainingDays(endEpoc){
 </script>
 <script>
     function setPayPalButton(id, serverData, type) {
-      console.log("here console onload-->", id, serverData)
-      console.log("data.server_name->", serverData.server_name)
-      console.log("data.vip_price->", serverData.vip_price)
-      console.log("data.vip_currency->", serverData.vip_currency)
       let server = serverData.server_name ? serverData.server_name : ''
       let currency = serverData.vip_currency ? serverData.vip_currency : ''
       let price = serverData.vip_price ? serverData.vip_price : ''
