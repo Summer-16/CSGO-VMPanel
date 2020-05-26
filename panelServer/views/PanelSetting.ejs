@@ -125,8 +125,41 @@
                       </div>
                     </div>
                     <!-- Community name  -->
-                    <!-- webhook Setting -->
                     <%if(adminType===1){%>
+                    <!-- Community logo -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Community Logo URL</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <input type="url" name="community_logo_url" class="form-control" id="community_logo_url">
+                      </div>
+                    </div>
+                    <!-- Community logo  -->
+                    <!-- Community info -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Community Info</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <textarea rows="2" cols="40" maxlength="255" name="community_info" class="form-control"
+                          id="community_info">
+                          Enter One line Info or Greating here.....
+                        </textarea>
+                      </div>
+                    </div>
+                    <!-- Community info  -->
+                    <!-- Community website -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Community Website</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <input type="url" name="community_website" class="form-control" id="community_website">
+                      </div>
+                    </div>
+                    <!-- Community website  -->
+                    <!-- webhook Setting -->
                     <div class="col-md-2 mt-3">
                       <label class="">Discord Webhook URL</label>
                     </div>
@@ -416,7 +449,7 @@
 <%- include('Footer.ejs') %>
 
                     <script>
-                      var curentAdminType = <%=adminType%>
+                      const curentAdminType =<%=adminType%>
                     </script>
                     <script src="./js/PanelSettings.js"></script>
                     <script src="./js/customConfirm.js"></script>

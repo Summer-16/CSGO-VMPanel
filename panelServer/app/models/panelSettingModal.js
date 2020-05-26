@@ -22,7 +22,7 @@
 var db = require('../db/db_bridge');
 const config = require('../config/config.json')
 const table = config.settingTable
-const valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"], ["webhook_url", ""], ["community_name", "VMPanel"], ["normiadmin_settings", "1"]]
+const valueArray = [["color_theme", "danger"], ["dash_admin_show", "1"], ["webhook_url", ""], ["community_name", "VMPanel"], ["normiadmin_settings", "1"], ["community_logo_url", ""], ["community_info", ""], ["community_website", ""]]
 
 /**
  *   setting Model

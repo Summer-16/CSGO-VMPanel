@@ -20,38 +20,45 @@
 "use strict";
 const vipModel = require("../models/vipModel.js");
 const myDashboardModel = require("../models/myDashboardModel.js");
+const panelServerModal = require("../models/panelServerModal.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
 
-exports.getVipsData = async (req, res) => {
+exports.dashboard = async (req, res) => {
   try {
     const token = req.session.token
-    let result = await getVipsDataFunc(req.body, token);
+    let result = await dashboardFunc(req.body, token);
     res.render('Dashboard', result);
   } catch (error) {
-    console.log("error in getVipsData->", error)
-    res.render('Dashboard', { "vipData": null, "adminStats": null });
+    console.log("error in dashboard->", error)
+    res.render('Dashboard', { "vipData": null, "adminStats": null, "serverData": null });
   }
 }
 
-const getVipsDataFunc = (reqBody, token) => {
+const dashboardFunc = (reqBody, token) => {
   return new Promise(async (resolve, reject) => {
     try {
       let data = await vipModel.getallServerData()
-      let adminStats = null
+      let adminStats = null, serverData = null
       if (token) {
         adminStats = await myDashboardModel.getStatsForAdmin()
       }
-      resolve({ "vipData": data, "adminStats": adminStats })
+      serverData = await await panelServerModal.getPanelServersList()
+      if (serverData) {
+        for (let i = 0; i < serverData.length; i++) {
+          serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA"
+        }
+      }
+      resolve({ "vipData": data, "adminStats": adminStats, "serverData": serverData })
     } catch (error) {
-      console.log("error in getVipsDataFunc->", error)
+      console.log("error in dashboardFunc->", error)
       reject(error)
     }
   });
 }
 
-exports.getVipsDataFunc = getVipsDataFunc;
+exports.dashboardFunc = dashboardFunc;
 //-----------------------------------------------------------------------------------------------------
 
 

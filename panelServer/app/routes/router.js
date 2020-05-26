@@ -26,7 +26,7 @@ module.exports = app => {
   const passport = require('passport');
 
   // Controllers Import
-  const { getVipsData, getVipsDataSingleServer, getAdminsDataSingleServer } = require("../controllers/vipController.js");
+  const { dashboard, getVipsDataSingleServer, getAdminsDataSingleServer } = require("../controllers/vipController.js");
   const { insertVipData, formVIP } = require("../controllers/insertVip.js");
   const { insertAdminData, formAdmin } = require("../controllers/insertAdmin.js");
   const { deleteVipData, deleteOldVipData } = require("../controllers/deleteVip.js");
@@ -39,8 +39,8 @@ module.exports = app => {
   const { saleRecords, getSalesRecord } = require("../controllers/salesRecord.js")
 
   //Public Router
-  app.get("/", getVipsData);
-  app.get("/dashboard", getVipsData);
+  app.get("/", dashboard);
+  app.get("/dashboard", dashboard);
 
 
   //Login and logiut

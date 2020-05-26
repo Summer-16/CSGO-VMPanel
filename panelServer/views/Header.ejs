@@ -41,7 +41,7 @@ switch (route) {
     heading = "VIP Sales Records";
     break;
   case "/aboutcreator":
-    heading = "About the Creator of VMPanel";
+    heading = "About";
     break;
   case "/login":
     heading = "Login - "+panelSetting.community_name;
@@ -139,7 +139,7 @@ return heading
           <li class="nav-item <%= (currentURL=='/aboutcreator'?'active':'') %>">
             <a class="nav-link" href="/aboutcreator">
               <i class="material-icons">person</i>
-              <p>About Creator</p>
+              <p>About</p>
             </a>
           </li>
           <%if(sessionToken||sessionSteamId){%>

@@ -125,7 +125,7 @@ var myDashboardModel = {
         let serverList = await panelServerModal.getPanelServersList();
 
         for (let i = 0; i < serverList.length; i++) {
-          let query = db.queryFormat(`SELECT COUNT(authId) AS usercount FROM ${serverList[i].tbl_name}`);
+          let query = db.queryFormat(`SELECT COUNT(authId) AS usercount FROM ${serverList[i].tbl_name} WHERE type = 0`);
           let queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("No Data Found");

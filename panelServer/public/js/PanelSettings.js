@@ -199,6 +199,9 @@ function fetchPSettingajax() {
         if (curentAdminType === 1) {
           $("input[name=normiadmin_settings][value=" + settingObj.normiadmin_settings + "]").prop('checked', true);
           $('#webhook_url').val(settingObj.webhook_url);
+          $('#community_logo_url').val(settingObj.community_logo_url);
+          $('#community_info').val(settingObj.community_info);
+          $('#community_website').val(settingObj.community_website);
         }
         $("input[name=color_theme][value=" + settingObj.color_theme + "]").prop('checked', true);
         $("input[name=dash_admin_show][value=" + settingObj.dash_admin_show + "]").prop('checked', true);
