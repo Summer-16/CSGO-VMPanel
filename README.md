@@ -15,12 +15,12 @@
 - CSGO server plugin is available which syncs all the entries from your panel database to the CSGO server.
 - A shell script is also available. (used to do plugin work in old versions, but it still works so it's there)
 - Note (I recommend using plugin until and unless u r trying to do custom solutions with a shell script. If you are using shell script you will have to manually create server tables in the database.)
-- Added RCON feature therefore now as soon as you add any admin or vip it get updated in respective CSGO server through RCON by the panel's plugin
+- Added RCON feature therefore now as soon as you add any admin or VIP it gets updated in respective CSGO server through RCON by the panel's plugin
 - Added Steam login for Users
 - Added Paypal for VIP buy and renew feature
-- User can login through steam and then he can see status of his VIP subscription in all servers , can buy new VIP and Renew old VIP through paypal
+- User can log in through steam and then he can see the status of his VIP subscription in all servers, can buy new VIP and Renew old VIP through PayPal
 - Sales record for Admin
-- New Features at Dashboard like (Server list with connect feature and other stats for Admin)
+- New Features at Dashboard like (Server list with connecting feature and other stats for Admin)
 
 ## Webpanel Screenshots
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
@@ -44,7 +44,8 @@ mv example_config.json config.json
 vim config.json
 ```
 - Now inside config file add your database details in DB object
-- your discord server webhook URL in webhook for notifications
+- Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
+- Your Paypal client Id for automatic VIP buy and renew to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
 - and a secure key for jwt (remember to add a strong key)
 - save the file and get back to panelServer directory
 ```bash
@@ -69,19 +70,24 @@ sudo service vmpService start
 - paste into your CSGO server's CSGO folder now go to cfg/sourcemod/vmpanel.cfg
 - open the cfg file add a table name for your server something like sv_servername
 - now add an entry named vmpanel in your database,cfg and add the database cred for the same database used for panel
-- Command for plugon "sm_vmprefresh"
+- Command for plugin "sm_vmprefresh"
 
 ### Adding bash file in servers (old method)
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
 
-## Updating from v1.3 to v1.4
+## Updating from v1.4 to v1.5
 - Stop your panel service while updating
-- Add files from v1.4 to yours installed directory
+- Add files from v1.5 to yours installed directory
 - Go to panelServer folder , open your linux terminal and run npm i
-- Once install finished restart the panel service.
-- Now go to panel settings and update rcon details for your servers.
+- Go to your config and update the following details from example config
+- Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
+- Your Paypal client Id for automatic VIP buy and renew to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
 - execute below query in your database
 ```mysql
-INSERT INTO tbl_settings (setting_key, setting_value) VALUES ('normiadmin_settings', '1');
+ALTER TABLE `tbl_servers`  ADD `vip_slots` INT(20) NOT NULL  AFTER `created_at`,  ADD `vip_price` INT(20) NOT NULL  AFTER `vip_slots`,  ADD `vip_currency` VARCHAR(45) NOT NULL  AFTER `vip_price1`,  ADD `vip_flag` VARCHAR(45) NOT NULL DEFAULT '\"0:a\"'  AFTER `vip_currency1`;
 ```
+```mysql
+INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('community_logo_url', '\"\"'), ('community_info', 'Enter One line Info or Greeting here.....'), ('community_website', '\"\"');
+```
+- Now restart your server and you are good to go

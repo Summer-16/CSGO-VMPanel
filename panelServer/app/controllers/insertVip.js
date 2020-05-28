@@ -50,8 +50,8 @@ exports.insertVipData = async (req, res) => {
       success: true,
       data: {
         "res": result,
-        "message": req.body.submit == "insert" ? "New VIP added Successfully" + (rconStatus.includes(false) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers") :
-          "VIP Updated Successfully" + (rconStatus.includes(false) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
+        "message": req.body.submit == "insert" ? "New VIP added Successfully" + (rconStatus.includes(0) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers") :
+          "VIP Updated Successfully" + (rconStatus.includes(0) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
         "notifType": "success"
       }
     });

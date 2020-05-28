@@ -24,6 +24,56 @@ CREATE TABLE `tbl_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
+
 - Query to manually insert and admin 
 ```mysql
 INSERT INTO `GGVIPlist`.`tbl_users` (`username`, `password`, `sec_key`, `user_type`) VALUES ('your_admin_name_here', 'your_Admin_pass_here', 'your_admin_auth_key_here','1 for superuser, 0 for normal');
+```
+
+- Query to create sales table manually
+```mysql
+CREATE TABLE `tbl_sales` (
+ `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ `order_id` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `payer_id` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `payer_steamid` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `payer_email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `payer_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `payer_surname` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `product_desc` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `amount_paid` int(20) NOT NULL,
+ `amount_currency` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `sale_type` tinyint(4) NOT NULL,
+ `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+```
+
+- Query to create tbl_servers table manually
+```mysql
+CREATE TABLE `tbl_servers` (
+ `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ `tbl_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+ `server_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+ `server_ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+ `server_port` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+ `server_rcon_pass` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+ `vip_slots` int(20) DEFAULT NULL,
+ `vip_price` int(20) DEFAULT NULL,
+ `vip_currency` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+ `vip_flag` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+ `created_at` datetime DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+```
+
+- Query to create tbl_settings table manually
+```mysql
+CREATE TABLE `tbl_settings` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `setting_key` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+ `setting_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+```

@@ -49,7 +49,7 @@ exports.insertAdminData = async (req, res) => {
       success: true,
       data: {
         "res": result,
-        "message": "New Admin added Successfully" + (rconStatus.includes(false) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
+        "message": "New Admin added Successfully" + (rconStatus.includes(0) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
         "notifType": "success"
       }
     });

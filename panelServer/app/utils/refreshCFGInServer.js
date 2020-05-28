@@ -43,11 +43,11 @@ const refreshAdminsInServer = (server) => {
           return reject("Operation Done in VMPanel Database,\n There was an error while executing rcon Command for current Operation. ")
         }).on('end', function () {
           console.log("*** [RCON] Socket closed!");
-          resolve(true)
+          resolve(1)
         });
         conn.connect();
       } else {
-        resolve(false)
+        resolve(0)
       }
     } catch (error) {
       console.log("error in refreshAdminsInServer->", error)
