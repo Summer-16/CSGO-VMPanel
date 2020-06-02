@@ -38,6 +38,9 @@ function afterPaymentajax(formData) {
         document.location.reload()
       }, 5000);
     })
-    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+    .catch(error => {
+      $("#divForLoader").html("")
+      showNotif({ success: false, data: { "error": error } })
+    });
 }
 //-----------------------------------------------------------------------------------------------------

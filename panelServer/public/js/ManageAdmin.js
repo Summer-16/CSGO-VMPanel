@@ -32,33 +32,54 @@ function addNewAdminajax() {
     flagString += $(this).val();
   });
 
+
+
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
   });
 
+  let formError = ""
+  if (!$('#steamId_add').val()) {
+    formError = "Steam Id can not be empty"
+  } else if (!$('#name_add').val()) {
+    formError = "Name can not be empty"
+  } else if (!flagString.split(":")[1]) {
+    formError = "Flags can not be empty"
+  } else if (serverArray.length == 0) {
+    formError = "Select atleast one server"
+  }
+
   flagString += '"';
 
-  fetch('/addadmin', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "steamId": $('#steamId_add').val(),
-      "name": $('#name_add').val(),
-      "flag": flagString,
-      "server": serverArray,
-      "submit": "insert"
+  if (formError == "") {
+    fetch('/addadmin', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "steamId": $('#steamId_add').val(),
+        "name": $('#name_add').val(),
+        "flag": flagString,
+        "server": serverArray,
+        "submit": "insert"
+      })
     })
-  })
-    .then((res) => { return res.json(); })
-    .then((response) => {
-      $("#divForLoader").html("")
-      showNotif(response)
-      if (response.success == true) { getAdminTableListing(serverArray[0]) }
-    })
-    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+      .then((res) => { return res.json(); })
+      .then((response) => {
+        $("#divForLoader").html("")
+        showNotif(response)
+        if (response.success == true) { getAdminTableListing(serverArray[0]) }
+      })
+      .catch(error => {
+        $("#divForLoader").html("")
+        showNotif({ success: false, data: { "error": error } })
+      });
+  } else {
+    $("#divForLoader").html("")
+    showNotif({ success: false, data: { "error": formError } })
+  }
 }
 //-----------------------------------------------------------------------------------------------------
 
@@ -94,7 +115,10 @@ function deleteAdminajax(tableName, primaryKey) {
           showNotif(response)
           if (response.success == true) { getAdminTableListing(tableName) }
         })
-        .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+        .catch(error => {
+          $("#divForLoader").html("");
+          showNotif({ success: false, data: { "error": error } })
+        });
     }
   })
 }

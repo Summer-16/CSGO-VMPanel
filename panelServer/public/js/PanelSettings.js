@@ -26,26 +26,43 @@ function addNewPAdminajax() {
     let loader = `<div class="loading">Loading&#8230;</div>`;
     $("#divForLoader").html(loader)
 
-    fetch('/addpaneladmin', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "username": $('#username_padd').val(),
-        "password": $('#password_padd').val(),
-        "admintype": $('#admintype_padd').val(),
-        "submit": "insert"
+    let formError = ""
+    if (!$('#username_padd').val()) {
+      formError = "Admin username can not be empty"
+    } else if (!$('#password_padd').val()) {
+      formError = "Password can not be empty"
+    } else if (!$('#admintype_padd').val()) {
+      formError = "Admin Type can not be empty"
+    }
+
+    if (formError == "") {
+      fetch('/addpaneladmin', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "username": $('#username_padd').val(),
+          "password": $('#password_padd').val(),
+          "admintype": $('#admintype_padd').val(),
+          "submit": "insert"
+        })
       })
-    })
-      .then((res) => { return res.json(); })
-      .then((response) => {
-        $("#divForLoader").html("")
-        showNotif(response)
-        if (response.success == true) { fetchPAdminajax() }
-      })
-      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+        .then((res) => { return res.json(); })
+        .then((response) => {
+          $("#divForLoader").html("")
+          showNotif(response)
+          if (response.success == true) { fetchPAdminajax() }
+        })
+        .catch(error => {
+          $("#divForLoader").html("")
+          showNotif({ success: false, data: { "error": error } })
+        });
+    } else {
+      $("#divForLoader").html("")
+      showNotif({ success: false, data: { "error": formError } })
+    }
   } else {
     showNotif({
       success: false,
@@ -65,25 +82,40 @@ function updateOldPAdminajax() {
     let loader = `<div class="loading">Loading&#8230;</div>`;
     $("#divForLoader").html(loader)
 
-    fetch('/updatepaneladmin', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "username": $('#selected_padmin').val(),
-        "newpassword": $('#password_pupdate').val(),
-        "submit": "update"
+    let formError = ""
+    if (!$('#selected_padmin').val()) {
+      formError = "Select atleast one Admin"
+    } else if (!$('#password_pupdate').val()) {
+      formError = "Password can not be empty"
+    }
+
+    if (formError == "") {
+      fetch('/updatepaneladmin', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "username": $('#selected_padmin').val(),
+          "newpassword": $('#password_pupdate').val(),
+          "submit": "update"
+        })
       })
-    })
-      .then((res) => { return res.json(); })
-      .then((response) => {
-        $("#divForLoader").html("")
-        showNotif(response)
-        if (response.success == true) { fetchPAdminajax() }
-      })
-      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+        .then((res) => { return res.json(); })
+        .then((response) => {
+          $("#divForLoader").html("")
+          showNotif(response)
+          if (response.success == true) { fetchPAdminajax() }
+        })
+        .catch(error => {
+          $("#divForLoader").html("")
+          showNotif({ success: false, data: { "error": error } })
+        });
+    } else {
+      $("#divForLoader").html("")
+      showNotif({ success: false, data: { "error": formError } })
+    }
   } else {
     showNotif({
       success: false,
@@ -126,7 +158,10 @@ function deletePAdminajax() {
             showNotif(response)
             if (response.success == true) { fetchPAdminajax() }
           })
-          .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+          .catch(error => {
+            $("#divForLoader").html("")
+            showNotif({ success: false, data: { "error": error } })
+          });
       }
     })
   } else {
@@ -275,35 +310,50 @@ function addNewPServerajax() {
     let loader = `<div class="loading">Loading&#8230;</div>`;
     $("#divForLoader").html(loader)
 
-    fetch('/addpanelserver', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "tablename": $('#servertablename_add').val(),
-        "servername": $('#servername_add').val(),
-        "serverip": $('#servertableIP_add').val(),
-        "serverport": $('#servertablePort_add').val(),
-        "serverrcon": $('#servertableRCON_add').val(),
-        "servertotalvip": $('#servertableTotalVIPSlots_add').val(),
-        "servervipprice": $('#servertableVIPPrice_add').val(),
-        "servervipcurrency": $('#servertableCurrency_add').val(),
-        "servervipflag": $('#servertableVIPFlag_add').val(),
-        "submit": "insert"
+    let formError = ""
+    if (!$('#servertablename_add').val()) {
+      formError = "Server Table name is mandatory"
+    } else if (!$('#servername_add').val()) {
+      formError = "Server Name is mandatory"
+    }
+
+    if (formError == "") {
+      fetch('/addpanelserver', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "tablename": $('#servertablename_add').val(),
+          "servername": $('#servername_add').val(),
+          "serverip": $('#servertableIP_add').val(),
+          "serverport": $('#servertablePort_add').val(),
+          "serverrcon": $('#servertableRCON_add').val(),
+          "servertotalvip": $('#servertableTotalVIPSlots_add').val(),
+          "servervipprice": $('#servertableVIPPrice_add').val(),
+          "servervipcurrency": $('#servertableCurrency_add').val(),
+          "servervipflag": $('#servertableVIPFlag_add').val(),
+          "submit": "insert"
+        })
       })
-    })
-      .then((res) => { return res.json(); })
-      .then((response) => {
-        $("#divForLoader").html("")
-        showNotif(response)
-        if (response.success == true) {
-          fetchPServerListajax();
-          $('#myForm_addPServer').trigger("reset");
-        }
-      })
-      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+        .then((res) => { return res.json(); })
+        .then((response) => {
+          $("#divForLoader").html("")
+          showNotif(response)
+          if (response.success == true) {
+            fetchPServerListajax();
+            $('#myForm_addPServer').trigger("reset");
+          }
+        })
+        .catch(error => {
+          $("#divForLoader").html("")
+          showNotif({ success: false, data: { "error": error } })
+        });
+    } else {
+      $("#divForLoader").html("")
+      showNotif({ success: false, data: { "error": formError } })
+    }
   } else {
     showNotif({
       success: false,
@@ -323,35 +373,50 @@ function updatePServerajax() {
     let loader = `<div class="loading">Loading&#8230;</div>`;
     $("#divForLoader").html(loader)
 
-    fetch('/addpanelserver', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "tablename": $('#selected_pserver').val(),
-        "servername": $('#servername_update').val(),
-        "serverip": $('#servertableIP_update').val(),
-        "serverport": $('#servertablePort_update').val(),
-        "serverrcon": $('#servertableRCON_update').val(),
-        "servertotalvip": $('#servertableTotalVIPSlots_update').val(),
-        "servervipprice": $('#servertableVIPPrice_update').val(),
-        "servervipcurrency": $('#servertableCurrency_update').val(),
-        "servervipflag": $('#servertableVIPFlag_update').val(),
-        "submit": "update"
+    let formError = ""
+    if (!$('#selected_pserver').val()) {
+      formError = "Select a server to update"
+    } else if (!$('#servername_update').val()) {
+      formError = "Server Name can not be empty"
+    }
+
+    if (formError == "") {
+      fetch('/addpanelserver', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "tablename": $('#selected_pserver').val(),
+          "servername": $('#servername_update').val(),
+          "serverip": $('#servertableIP_update').val(),
+          "serverport": $('#servertablePort_update').val(),
+          "serverrcon": $('#servertableRCON_update').val(),
+          "servertotalvip": $('#servertableTotalVIPSlots_update').val(),
+          "servervipprice": $('#servertableVIPPrice_update').val(),
+          "servervipcurrency": $('#servertableCurrency_update').val(),
+          "servervipflag": $('#servertableVIPFlag_update').val(),
+          "submit": "update"
+        })
       })
-    })
-      .then((res) => { return res.json(); })
-      .then((response) => {
-        $("#divForLoader").html("")
-        showNotif(response)
-        if (response.success == true) {
-          fetchPServerListajax();
-          $('#myForm_updatePServer').trigger("reset");
-        }
-      })
-      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+        .then((res) => { return res.json(); })
+        .then((response) => {
+          $("#divForLoader").html("")
+          showNotif(response)
+          if (response.success == true) {
+            fetchPServerListajax();
+            $('#myForm_updatePServer').trigger("reset");
+          }
+        })
+        .catch(error => {
+          $("#divForLoader").html("")
+          showNotif({ success: false, data: { "error": error } })
+        });
+    } else {
+      $("#divForLoader").html("")
+      showNotif({ success: false, data: { "error": formError } })
+    }
   } else {
     showNotif({
       success: false,
@@ -394,7 +459,10 @@ function deletePServerajax(id, tablename) {
             if (response.success == true) { fetchPServerListajax() }
             showNotif(response)
           })
-          .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+          .catch(error => {
+            $("#divForLoader").html("")
+            showNotif({ success: false, data: { "error": error } })
+          });
       }
     })
   } else {
@@ -434,7 +502,10 @@ function manuallyRefreshAllServerajax() {
             $("#divForLoader").html("")
             showNotif(response)
           })
-          .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+          .catch(error => {
+            $("#divForLoader").html("")
+            showNotif({ success: false, data: { "error": error } })
+          });
       }
     })
   } else {

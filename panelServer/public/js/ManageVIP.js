@@ -32,34 +32,57 @@ function addNewVIPajax() {
     flagString += $(this).val();
   });
 
+
+
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
   });
 
+  let formError = ""
+  if (!$('#steamId_add').val()) {
+    formError = "Steam Id can not be empty"
+  } else if (!$('#name_add').val()) {
+    formError = "Name can not be empty"
+  } else if (!$('#day_add').val()) {
+    formError = "Days can not be empty"
+  } else if (!flagString.split(":")[1]) {
+    formError = "Flags can not be empty"
+  } else if (serverArray.length == 0) {
+    formError = "Select atleast one server"
+  }
+
   flagString += '"';
 
-  fetch('/addvip', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "steamId": $('#steamId_add').val(),
-      "name": $('#name_add').val(),
-      "day": $('#day_add').val(),
-      "flag": flagString,
-      "server": serverArray,
-      "submit": "insert"
+  if (formError == "") {
+    fetch('/addvip', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "steamId": $('#steamId_add').val(),
+        "name": $('#name_add').val(),
+        "day": $('#day_add').val(),
+        "flag": flagString,
+        "server": serverArray,
+        "submit": "insert"
+      })
     })
-  })
-    .then((res) => { return res.json(); })
-    .then((response) => {
-      $("#divForLoader").html("")
-      showNotif(response)
-      if (response.success == true) { getVIPTableListing(serverArray[0]) }
-    })
-    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+      .then((res) => { return res.json(); })
+      .then((response) => {
+        $("#divForLoader").html("")
+        showNotif(response)
+        if (response.success == true) { getVIPTableListing(serverArray[0]) }
+      })
+      .catch(error => {
+        $("#divForLoader").html("")
+        showNotif({ success: false, data: { "error": error } })
+      });
+  } else {
+    $("#divForLoader").html("")
+    showNotif({ success: false, data: { "error": formError } })
+  }
 }
 //-----------------------------------------------------------------------------------------------------
 
@@ -77,26 +100,43 @@ function updateOldVIPajax() {
     serverArray.push($(this).val());
   });
 
-  fetch('/addvip', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      "steamId": $('#steamId_update').val(),
-      "day": $('#day_update').val(),
-      "server": serverArray,
-      "submit": "update"
+  let formError = ""
+  if (!$('#steamId_update').val()) {
+    formError = "Steam Id can not be empty"
+  } else if (!$('#day_update').val()) {
+    formError = "Days can not be empty"
+  } else if (serverArray.length == 0) {
+    formError = "Select atleast one server"
+  }
+
+  if (formError == "") {
+    fetch('/addvip', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "steamId": $('#steamId_update').val(),
+        "day": $('#day_update').val(),
+        "server": serverArray,
+        "submit": "update"
+      })
     })
-  })
-    .then((res) => { return res.json(); })
-    .then((response) => {
-      $("#divForLoader").html("")
-      showNotif(response)
-      if (response.success == true) { getVIPTableListing(serverArray[0]) }
-    })
-    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+      .then((res) => { return res.json(); })
+      .then((response) => {
+        $("#divForLoader").html("")
+        showNotif(response)
+        if (response.success == true) { getVIPTableListing(serverArray[0]) }
+      })
+      .catch(error => {
+        $("#divForLoader").html("")
+        showNotif({ success: false, data: { "error": error } })
+      });
+  } else {
+    $("#divForLoader").html("")
+    showNotif({ success: false, data: { "error": formError } })
+  }
 }
 //-----------------------------------------------------------------------------------------------------
 
@@ -132,7 +172,10 @@ function deleteVIPajax(tableName, primaryKey) {
           showNotif(response)
           if (response.success == true) { getVIPTableListing(tableName) }
         })
-        .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+        .catch(error => {
+          $("#divForLoader").html("")
+          showNotif({ success: false, data: { "error": error } })
+        });
     }
   })
 }
