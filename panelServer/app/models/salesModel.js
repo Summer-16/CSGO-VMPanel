@@ -115,16 +115,28 @@ var salesModel = {
   /**
    * get all the sale data form the table
    */
-  getAllSalesRecords: function () {
+  getAllSalesRecords: function (dataObj) {
     return new Promise(async (resolve, reject) => {
       try {
 
-        let query = db.queryFormat(`SELECT * FROM ${table} order by created_on DESC`);
+        let query = db.queryFormat(`SELECT * FROM ${table} order by created_on DESC 
+                                    LIMIT ${dataObj.recordPerPage} OFFSET ${(dataObj.currentPage - 1) * dataObj.recordPerPage}`);
         let queryRes = await db.query(query);
         if (!queryRes) {
           return reject("No Data Found");
         }
-        return resolve(queryRes);
+        let queryData = queryRes
+
+        query = db.queryFormat(`SELECT COUNT(id) as count FROM ${table}`);
+        queryRes = await db.query(query, true);
+        if (!queryRes) {
+          return reject("No Data Found");
+        }
+        let totalRecords = queryRes.count
+        return resolve({
+          salesRecord: queryData,
+          totalRecords: totalRecords
+        });
       } catch (error) {
         console.log("error in getAllSalesRecords->", error)
         reject(error)

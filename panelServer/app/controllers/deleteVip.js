@@ -21,6 +21,7 @@
 const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
+const { logThisActivity } = require("../utils/activityLogger.js");
 var rconStatus
 
 //-----------------------------------------------------------------------------------------------------
@@ -30,6 +31,11 @@ exports.deleteVipData = async (req, res) => {
   try {
     req.body.secKey = req.session.sec_key
     let result = await deleteVipDataFunc(req.body, req.session.username);
+    logThisActivity({
+      "activity": "VIP deleted",
+      "additional_info": req.body.primaryKey,
+      "created_by": req.session.username
+    })
     res.json({
       success: true,
       data: {
@@ -81,6 +87,11 @@ exports.deleteOldVipData = async (req, res) => {
   try {
 
     let result = await deleteOldVipDataFunc(req.session.username, req.session.sec_key);
+    logThisActivity({
+      "activity": "Manual Refresh Executed",
+      "additional_info": "Old VIPs and deleted and new data is updated in servers",
+      "created_by": req.session.username
+    })
     res.json({
       success: true,
       data: {

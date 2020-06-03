@@ -20,6 +20,7 @@
 "use strict";
 const userModel = require("../models/userModel.js");
 const settingsModal = require("../models/panelSettingModal.js");
+const { logThisActivity } = require("../utils/activityLogger.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -91,6 +92,13 @@ exports.updatePanelSettings = async (req, res) => {
   try {
     req.body.secKey = req.session.sec_key
     await updatePanelSettingsFunc(req.body, req.session.username);
+
+    logThisActivity({
+      "activity": "Panel Settings Updated",
+      "additional_info": "Panel Settings Updated",
+      "created_by": req.session.username
+    })
+
     res.redirect('PanelSetting');
   } catch (error) {
     console.log("Error in PanelSettings->", error)

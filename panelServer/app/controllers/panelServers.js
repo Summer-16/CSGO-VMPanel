@@ -20,6 +20,7 @@
 "use strict";
 const userModel = require("../models/userModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
+const { logThisActivity } = require("../utils/activityLogger.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -29,6 +30,13 @@ exports.addPanelServer = async (req, res) => {
 
     req.body.secKey = req.session.sec_key
     let result = await addPanelServerFunc(req.body, req.session.username);
+
+    logThisActivity({
+      "activity": reqBody.submit === "insert" ? "New Server added in Panel" : "Panel Server Updated",
+      "additional_info": req.body.servername,
+      "created_by": req.session.username
+    })
+
     res.json({
       success: true,
       data: { "res": result, "message": req.body.submit === "insert" ? "New Server added Successfully" : "Server Data Updated Successfully" }
@@ -129,6 +137,13 @@ exports.deletePanelServers = async (req, res) => {
 
     req.body.secKey = req.session.sec_key
     let result = await deletePanelServersFunc(req.body, req.session.username);
+
+    logThisActivity({
+      "activity": "Panel Server Deleted",
+      "additional_info": req.body.tablename,
+      "created_by": req.session.username
+    })
+
     res.json({
       success: true,
       data: { "res": result, "message": "Server Deleted Successfully" }

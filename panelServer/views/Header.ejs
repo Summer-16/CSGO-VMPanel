@@ -25,20 +25,23 @@ switch (route) {
   case "/dashboard":
     heading = "Dashboard - "+panelSetting.community_name;
     break;
-      case "/mydashboard":
+  case "/mydashboard":
     heading = "My Dashboard - "+panelSetting.community_name;
     break;
   case "/managevip":
     heading = "Manage Server VIPs (Add , Update or Delete) - "+panelSetting.community_name;
     break;
-      case "/manageadmin":
+  case "/manageadmin":
     heading = "Manage Server Admins (Add or Delete) - "+panelSetting.community_name;
     break;
-      case "/panelsetting":
+  case "/panelsetting":
     heading = "Setup/Settings for the VMPanel - "+panelSetting.community_name;
     break;
-      case "/salesrecord":
+  case "/salesrecord":
     heading = "VIP Sales Records";
+    break;
+  case "/auditlogs":
+    heading = "VMPanel - Audit Logs";
     break;
   case "/aboutcreator":
     heading = "About";
@@ -125,6 +128,12 @@ return heading
             <a class="nav-link" href="/salesrecord">
               <i class="material-icons">account_balance_wallet</i>
               <p>Sales Record</p>
+            </a>
+          </li>
+          <li class="nav-item <%= (currentURL=='/auditlogs'?'active':'') %>">
+            <a class="nav-link" href="/auditlogs">
+              <i class="material-icons">analytics</i>
+              <p>Audit Logs</p>
             </a>
           </li>
           <%}%>

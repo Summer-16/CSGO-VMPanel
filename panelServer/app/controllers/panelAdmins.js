@@ -19,15 +19,30 @@
 
 "use strict";
 const userModel = require("../models/userModel.js");
+const { logThisActivity } = require("../utils/activityLogger.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
 
 exports.addPanelAdmin = async (req, res) => {
   try {
-    if (req.session.user_type === 0) { throw "Unauthorized Access, You are not a Super Admin" }
+    if (req.session.user_type === 0) {
+      logThisActivity({
+        "activity": "Unauthorized Access",
+        "additional_info": "Someone tried to add Panel Admin",
+        "created_by": req.session.username ? req.session.username : "NA"
+      })
+      throw "Unauthorized Access, You are not a Super Admin"
+    }
+
     req.body.secKey = req.session.sec_key
     let result = await addPanelAdminFunc(req.body, req.session.username);
+
+    logThisActivity({
+      "activity": "New Panel Admin added",
+      "additional_info": req.body.username,
+      "created_by": req.session.username
+    })
     res.json({
       success: true,
       data: { "res": result, "message": req.body.submit == "insert" ? "New Admin added Successfully" : "Admin Updated Successfully", "notifType": "success" }
@@ -132,9 +147,23 @@ exports.getPanelAdminsListFunc = getPanelAdminsListFunc;
 
 exports.deletePanelAdmin = async (req, res) => {
   try {
-    if (req.session.user_type === 0) { throw "Unauthorized Access, You are not a Super Admin" }
+    if (req.session.user_type === 0) {
+      logThisActivity({
+        "activity": "Unauthorized Access",
+        "additional_info": "Someone tried to Delete Panel Admin",
+        "created_by": req.session.username ? req.session.username : "NA"
+      })
+      throw "Unauthorized Access, You are not a Super Admin"
+    }
+
     req.body.secKey = req.session.sec_key
     let result = await deletePanelAdminFunc(req.body, req.session.username);
+
+    logThisActivity({
+      "activity": "Panel Admin Deleted",
+      "additional_info": req.body.username.split(':')[1],
+      "created_by": req.session.username
+    })
     res.json({
       success: true,
       data: { "res": result, "message": "Admin Deleted Successfully", "notifType": "success" }

@@ -1,0 +1,74 @@
+<!-- 
+/* VMP-by-Summer-Soldier
+*
+* Copyright (C) 2020 SUMMER SOLDIER
+*
+* This file is part of VMP-by-Summer-Soldier
+*
+* VMP-by-Summer-Soldier is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation, either version 3 of the License, or (at your option)
+* any later version.
+*
+* VMP-by-Summer-Soldier is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along with
+* VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
+*/ -->
+
+<%- include('Header.ejs') %>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-<%=panelSetting.color_theme%> row">
+            <div class="col-md-8">
+              <h4 class="card-title" id="manageCardTitle">VMPanel Audit Logs</h4>
+              <p class="card-category">All activities performed on or by VMPanel are logged here</p>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group bmd-form-group mt-0 pt-0">
+                <select class="form-control" id="recordsPerPage" onchange="recordPerPageChanged()" required>
+                  <option value="10" selected>10 Records/page</option>
+                  <option value="15">15 Records/page</option>
+                  <option value="20">20 Records/page</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-end" id="paginationUL">
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive scroller" style="max-height:600px;overflow: auto;" id="style-4">
+              <table class="table" id="auditrecords">
+                <thead class=" text-primary">
+                  <th>Activity</th>
+                  <th>Additional info</th>
+                  <th>Performed By</th>
+                  <th>Time</th>
+                </thead>
+                <tbody id="auditLogsBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%- include('Footer.ejs') %>
+
+<script src="./js/notifications.js"></script>
+<script src="./js/panelAduitLog.js"></script>

@@ -31,7 +31,9 @@ const userModel = require("./app/models/userModel.js");
 const settingsModal = require("./app/models/panelSettingModal.js");
 const panelServerModal = require("./app/models/panelServerModal.js");
 const salesModal = require("./app/models/salesModel.js");
+const auditModal = require("./app/models/auditLogsModel.js");
 const { sendMessageOnDiscord } = require("./app/controllers/sendMessageOnDiscord.js");
+const { logThisActivity } = require("./app/utils/activityLogger.js");
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -87,6 +89,11 @@ app.use(bodyParser.urlencoded({
 cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
   console.log("****Schedule call Deleting old VIP****")
   await vipModel.deleteOldVip()
+  logThisActivity({
+    "activity": "Old VIP records deleted",
+    "additional_info": "Old VIPs and deleted and new data is updated in servers",
+    "created_by": "By Panel Cron"
+  })
 });
 
 cron.schedule(`0 */${scheduleConfig.notif} * * *`, async () => {
@@ -99,6 +106,7 @@ userModel.createTheTableIfNotExists();
 settingsModal.createTheTableIfNotExists();
 panelServerModal.createTheTableIfNotExists();
 salesModal.createTheTableIfNotExists();
+auditModal.createTheTableIfNotExists();
 
 // middleware to make 'user' available to all templates
 app.use(async function (req, res, next) {

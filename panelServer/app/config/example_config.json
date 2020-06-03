@@ -17,6 +17,7 @@
   "settingTable": "tbl_settings",
   "serverTable": "tbl_servers",
   "salestable": "tbl_sales",
+  "audittable": "tbl_audit_logs",
   "jwt": {
     "key": "add some random generated string here min 32length"
   },

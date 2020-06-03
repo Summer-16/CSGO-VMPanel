@@ -18,22 +18,22 @@
 */
 
 "use strict";
-const salesModal = require("../models/salesModel.js");
+const auditModal = require("../models/auditLogsModel.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
 
-exports.saleRecords = async (req, res) => {
+exports.auditRecords = async (req, res) => {
   try {
     if (req.session.user_type == 1) {
-      res.render('SaleRecords');
+      res.render('PanelAuditlogs');
     } else {
       res.redirect('dashboard');
     }
   } catch (error) {
-    console.log("error in saleRecords-->", error)
+    console.log("error in auditRecords-->", error)
     if (req.session.user_type == 1) {
-      res.render('SaleRecords');
+      res.render('PanelAuditlogs');
     } else {
       res.redirect('dashboard');
     }
@@ -45,19 +45,19 @@ exports.saleRecords = async (req, res) => {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-exports.getSalesRecord = async (req, res) => {
+exports.getAuditRecord = async (req, res) => {
   try {
     if (req.session.user_type == 1) {
-      let result = await getSalesRecordFunc(req.body);
+      let result = await getAuditRecordFunc(req.body);
       res.json({
         success: true,
-        data: { "res": result, "message": "Sale Records Fetched" }
+        data: { "res": result, "message": "Audit Logss Fetched" }
       });
     } else {
       return reject("You Dont have permissions to access records")
     }
   } catch (error) {
-    console.log("error in getSalesRecord->", error)
+    console.log("error in getAuditRecord->", error)
     res.json({
       success: false,
       data: { "error": error }
@@ -65,18 +65,18 @@ exports.getSalesRecord = async (req, res) => {
   }
 }
 
-const getSalesRecordFunc = (reqBody) => {
+const getAuditRecordFunc = (reqBody) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      let salesRecord = await salesModal.getAllSalesRecords(reqBody)
+      let salesRecord = await auditModal.getAllAuditRecords(reqBody)
       resolve(salesRecord)
     } catch (error) {
-      console.log("error in getSalesRecordFunc->", error)
+      console.log("error in getAuditRecordFunc->", error)
       reject(error + ", Please try again")
     }
   });
 }
 
-exports.getSalesRecordFunc = getSalesRecordFunc;
+exports.getAuditRecordFunc = getAuditRecordFunc;
 //-----------------------------------------------------------------------------------------------------

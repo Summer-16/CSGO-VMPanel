@@ -22,6 +22,7 @@ const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
+const { logThisActivity } = require("../utils/activityLogger.js");
 var rconStatus = []
 
 //-----------------------------------------------------------------------------------------------------
@@ -46,6 +47,11 @@ exports.insertVipData = async (req, res) => {
   try {
     req.body.secKey = req.session.sec_key
     let result = await insertVipDataFunc(req.body, req.session.username);
+    logThisActivity({
+      "activity": req.body.submit == "insert" ? "New VIP added" : "VIP Updated",
+      "additional_info": `${req.body.name.replace("//", "")} ( ${req.body.steamId} )`,
+      "created_by": req.session.username
+    })
     res.json({
       success: true,
       data: {

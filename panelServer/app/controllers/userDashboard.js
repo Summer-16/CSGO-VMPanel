@@ -23,6 +23,7 @@ const myDashboardModel = require("../models/myDashboardModel.js");
 const salesModal = require("../models/salesModel.js");
 const vipModel = require("../models/vipModel.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
+const { logThisActivity } = require("../utils/activityLogger.js");
 const config = require('../config/config.json')
 const paypalClientID = config.paypal_client_id
 
@@ -98,6 +99,13 @@ exports.afterPaymentProcess = async (req, res) => {
   try {
     const secKey = req.session.passport.user.id
     let result = await afterPaymentProcessFunc(req.body, req.user, secKey);
+
+    logThisActivity({
+      "activity": req.body.buyType === 'newPurchase' ? "New VIP Purchased" : "VIP renewed",
+      "additional_info": `${reqBody.paymentData.id} - ( ${req.user.displayName} )`,
+      "created_by": req.user.displayName + " (Steam Login)"
+    })
+
     res.json({
       success: true,
       data: {

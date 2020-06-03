@@ -37,6 +37,7 @@ module.exports = app => {
   const { fetchProfileData } = require("../controllers/steamProfileDataFetch.js")
   const { myDashboard, afterPaymentProcess } = require("../controllers/userDashboard.js")
   const { saleRecords, getSalesRecord } = require("../controllers/salesRecord.js")
+  const { auditRecords, getAuditRecord } = require("../controllers/auditLogs.js")
 
   //Public Router
   app.get("/", dashboard);
@@ -105,7 +106,11 @@ module.exports = app => {
 
   //Routes for Sales Records
   app.get("/salesrecord", middleware.checkToken, saleRecords);
-  app.get("/fetchsalesrecord", middleware.checkToken, getSalesRecord);
+  app.post("/fetchsalesrecord", middleware.checkToken, getSalesRecord);
+
+  //Routes for Audit logs
+  app.get("/auditlogs", middleware.checkToken, auditRecords);
+  app.post("/fetchauditlogs", middleware.checkToken, getAuditRecord);
 
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');

@@ -22,6 +22,7 @@ const userModel = require("../models/userModel.js");
 const vipModel = require("../models/vipModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
+const { logThisActivity } = require("../utils/activityLogger.js");
 var rconStatus = []
 
 //-----------------------------------------------------------------------------------------------------
@@ -45,6 +46,11 @@ exports.insertAdminData = async (req, res) => {
   try {
     req.body.secKey = req.session.sec_key
     let result = await insertAdminDataFunc(req.body, req.session.username);
+    logThisActivity({
+      "activity": "New Admin added",
+      "additional_info": `${req.body.name.replace("//", "")} ( ${req.body.steamId} )`,
+      "created_by": req.session.username
+    })
     res.json({
       success: true,
       data: {
