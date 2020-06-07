@@ -69,7 +69,7 @@ var userDataModel = {
         let query = db.queryFormat(`SELECT * FROM ${table} WHERE username = ?`, [username]);
         let queryRes = await db.query(query, true);
         if (!queryRes) {
-          return reject("No Data Found");
+          return reject("Username dont Exist");
         }
         return resolve(queryRes);
       } catch (error) {

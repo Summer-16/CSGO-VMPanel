@@ -85,7 +85,7 @@ sudo service vmpService start
 - Your Paypal client Id for automatic VIP buy and renew to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
 - execute below query in your database
 ```mysql
-ALTER TABLE `tbl_servers`  ADD `vip_slots` INT(20) NOT NULL  AFTER `created_at`,  ADD `vip_price` INT(20) NOT NULL  AFTER `vip_slots`,  ADD `vip_currency` VARCHAR(45) NOT NULL  AFTER `vip_price1`,  ADD `vip_flag` VARCHAR(45) NOT NULL DEFAULT '\"0:a\"'  AFTER `vip_currency1`;
+ALTER TABLE `tbl_servers`  ADD `vip_slots` INT(20) NOT NULL  AFTER `created_at`,  ADD `vip_price` INT(20) NOT NULL  AFTER `vip_slots`,  ADD `vip_currency` VARCHAR(45) NOT NULL  AFTER `vip_price`,  ADD `vip_flag` VARCHAR(45) NOT NULL DEFAULT '\"0:a\"'  AFTER `vip_currency`;
 ```
 ```mysql
 INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('community_logo_url', '\"\"'), ('community_info', 'Enter One line Info or Greeting here.....'), ('community_website', '\"\"');

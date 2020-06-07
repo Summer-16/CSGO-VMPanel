@@ -63,13 +63,13 @@ exports.authUserLogin = async (req, res) => {
         req.session.user_type = userData.user_type;
         res.redirect('/managevip')
       } else {
-        res.render('Login', { "error": 'Incorrect username or password' })
+        res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect username or password' })
       }
     } else {
-      res.render('Login', { "error": 'Authentication failed! Please check the request' })
+      res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Authentication failed! Please check the request' })
     }
   } catch (error) {
     console.log("error in authUserLogin-->", error)
-    res.render('Login', { "error": error })
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": error })
   }
 }
