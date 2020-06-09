@@ -89,11 +89,11 @@ function addNewAdminajax() {
 
 function deleteAdminajax(tableName, primaryKey) {
 
-  let htmlString = `<p>You Sure !<br>Please Confirm delete Operation for Steam Id: ${primaryKey}`
+  let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Steam Id: ${primaryKey}</p>`
 
-  custom_confirm(htmlString, (response) => {
+  custom_confirm(htmlString, (Mresponse) => {
 
-    if (response == true) {
+    if (Mresponse == true) {
 
       let loader = `<div class="loading">Loading&#8230;</div>`;
       $("#divForLoader").html(loader)

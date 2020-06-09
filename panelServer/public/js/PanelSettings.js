@@ -133,10 +133,10 @@ function deletePAdminajax() {
 
   if (curentAdminType === 1) {
 
-    let htmlString = `<p>You Sure !<br>Please Confirm delete Operation for Admin: ${$('#selected_padmin').val().split(":")[1]}`
+    let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Admin: ${$('#selected_padmin').val().split(":")[1]}</p>`
 
-    custom_confirm(htmlString, (response) => {
-      if (response == true) {
+    custom_confirm(htmlString, (Mresponse) => {
+      if (Mresponse == true) {
 
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)
@@ -433,10 +433,10 @@ function deletePServerajax(id, tablename) {
 
   if (curentAdminType === 1) {
 
-    let htmlString = `<p>You Sure !<br>Please Confirm delete Operation for Server: ${tablename}`
+    let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Server: ${tablename}</p>`
 
-    custom_confirm(htmlString, (response) => {
-      if (response == true) {
+    custom_confirm(htmlString, (Mresponse) => {
+      if (Mresponse == true) {
 
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)
@@ -482,10 +482,10 @@ function manuallyRefreshAllServerajax() {
 
   if (curentAdminType === 1) {
 
-    let htmlString = `<p>You Sure !<br>Please Confirm Refresh Operation, This will delete all the expired VIPS and refresh data in All Servers`
+    let htmlString = `<p>You Sure !</p><p>Please Confirm Refresh Operation, This will delete all the expired VIPS and refresh data in All Servers</p>`
 
-    custom_confirm(htmlString, (response) => {
-      if (response == true) {
+    custom_confirm(htmlString, (Mresponse) => {
+      if (Mresponse == true) {
 
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)

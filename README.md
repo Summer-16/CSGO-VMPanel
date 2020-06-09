@@ -22,9 +22,15 @@
 - Sales record for Admin
 - New Features at Dashboard like (Server list with connecting feature and other stats for Admin)
 
+## Panel Features v1.6 (Under Development)
+- PayU Money payment gateway added
+- Some bugs fixed for login screen
+- Panel logs added
+- Pagination added for large data
+
 ## Webpanel Screenshots
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
-
+[View All ScreenShots](https://github.com/Summer-16/CSGO-VMPanel/tree/master/screenshots)
 
 ## Step-by-Step install Instructions for New Installation 
 #### (these instructions apply to current dev code if you are installing v1.4 then follow the instructions given in its zip)
@@ -76,18 +82,15 @@ sudo service vmpService start
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
 
-## Updating from v1.4 to v1.5
+## Updating from v1.5 to v1.6
 - Stop your panel service while updating
-- Add files from v1.5 to yours installed directory
+- Add files from v1.6 to yours installed directory
 - Go to panelServer folder , open your linux terminal and run npm i
 - Go to your config and update the following details from example config
-- Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
-- Your Paypal client Id for automatic VIP buy and renew to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
+- PayU Payment gateway is for Indian Users only as it do transactions in rupee
 - execute below query in your database
 ```mysql
-ALTER TABLE `tbl_servers`  ADD `vip_slots` INT(20) NOT NULL  AFTER `created_at`,  ADD `vip_price` INT(20) NOT NULL  AFTER `vip_slots`,  ADD `vip_currency` VARCHAR(45) NOT NULL  AFTER `vip_price`,  ADD `vip_flag` VARCHAR(45) NOT NULL DEFAULT '\"0:a\"'  AFTER `vip_currency`;
-```
-```mysql
-INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('community_logo_url', '\"\"'), ('community_info', 'Enter One line Info or Greeting here.....'), ('community_website', '\"\"');
+ALTER TABLE `tbl_sales` CHANGE `payer_surname` `payer_surname` VARCHAR(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `tbl_sales`  ADD `payment_gateway` VARCHAR(20) NOT NULL  AFTER `id`;
 ```
 - Now restart your server and you are good to go

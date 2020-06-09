@@ -22,5 +22,15 @@
     "key": "add some random generated string here min 32length"
   },
   "steam_api_key": "Your Steam API Key Here (Leave Empty to disable steam login)",
-  "paypal_client_id": "Your paypal client id here (Leave Empty to disable Paypal Feature)"
+  "paymnet_gateways": {
+    "paypal": {
+      "paypal_client_id": "Your paypal client id here (Leave Empty to disable Paypal Feature)"
+    },
+    "payU": {
+      "enabled": "write true to enable payu and false to disable payu, make sure to write true or false without double codes as it is boolean value",
+      "environment": "write test to run payu in test environment, live to make payu work with live payments",
+      "merchantKey": "your payu merchant key (test key for test, live key for live)",
+      "merchantSalt": "your payu merchant salt (test salt for test, live salt for live)"
+    }
+  }
 }

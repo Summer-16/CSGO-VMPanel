@@ -25,6 +25,7 @@ const cron = require('node-cron');
 const session = require('express-session');
 const passport = require('passport');
 const SteamStrategy = require('passport-steam');
+const cors = require('cors');
 
 const vipModel = require("./app/models/vipModel.js");
 const userModel = require("./app/models/userModel.js");
@@ -73,6 +74,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.options('*', cors());
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json({

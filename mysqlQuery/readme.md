@@ -77,3 +77,9 @@ CREATE TABLE `tbl_settings` (
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
+
+- Query to update table accroding to changes of v1.6
+```mysql
+ALTER TABLE `tbl_sales` CHANGE `payer_surname` `payer_surname` VARCHAR(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `tbl_sales`  ADD `payment_gateway` VARCHAR(20) NOT NULL  AFTER `id`;
+```

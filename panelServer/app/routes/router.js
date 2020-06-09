@@ -38,6 +38,7 @@ module.exports = app => {
   const { myDashboard, afterPaymentProcess } = require("../controllers/userDashboard.js")
   const { saleRecords, getSalesRecord } = require("../controllers/salesRecord.js")
   const { auditRecords, getAuditRecord } = require("../controllers/auditLogs.js")
+  const { initPayUPayment } = require("../controllers/payU.js")
 
   //Public Router
   app.get("/", dashboard);
@@ -71,6 +72,7 @@ module.exports = app => {
 
   app.get('/mydashboard', middleware.checkSteamAuthenticated, myDashboard);
   app.post('/execafterpaymentprocess', middleware.checkSteamAuthenticated, afterPaymentProcess);
+  app.post('/initpayupayment', middleware.checkSteamAuthenticated, initPayUPayment);
 
 
   //Private Router only for Panel Admins (Local Aithorized)
@@ -115,6 +117,14 @@ module.exports = app => {
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');
   });
+
+  // app.post('/txnsuccesspayu', function (req, res) {
+  //   console.log("txnsuccesspayu ==>", req.body)
+  // });
+
+  // app.post('/txnerrorpayu', function (req, res) {
+  //   console.log("txnsuccesspayu ==>", req.body)
+  // });
 
   //404
   app.get('*', function (req, res) {

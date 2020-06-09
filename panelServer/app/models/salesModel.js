@@ -66,7 +66,7 @@ var salesModel = {
   /**
    * get all the servers
    */
-  insertNewSaleRecord: function (dataObj) {
+  insertNewSaleRecord: function (dataObj, gateway) {
     return new Promise(async (resolve, reject) => {
       try {
 
@@ -83,10 +83,12 @@ var salesModel = {
         if (!dataObj.status) return reject("Payment Status Missing");
         if (!dataObj.sale_type) return reject("Sale Type Missing");
 
+        let paymentGate = gateway === 'paypal' ? "PayPal" : gateway === 'payu' ? "PayU" : "NA"
         let currentDateTime = new Date()
 
         const query = db.queryFormat(`INSERT INTO ${table} 
-                                        (order_id,
+                                        (payment_gateway,
+                                        order_id,
                                         payer_id,
                                         payer_steamid,
                                         payer_email,
@@ -97,8 +99,8 @@ var salesModel = {
                                         amount_currency,
                                         status,
                                         sale_type,
-                                        created_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [dataObj.order_id, dataObj.payer_id, dataObj.payer_steamid, dataObj.payer_email, dataObj.payer_name, dataObj.payer_surname, dataObj.product_desc, dataObj.amount_paid, dataObj.amount_currency, dataObj.status, dataObj.sale_type, currentDateTime]);
+                                        created_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [paymentGate, dataObj.order_id, dataObj.payer_id, dataObj.payer_steamid, dataObj.payer_email, dataObj.payer_name, dataObj.payer_surname, dataObj.product_desc, dataObj.amount_paid, dataObj.amount_currency, dataObj.status, dataObj.sale_type, currentDateTime]);
 
         const queryRes = await db.query(query);
         if (!queryRes) {
