@@ -119,14 +119,6 @@ module.exports = app => {
     res.render('AboutCreator');
   });
 
-  // app.post('/txnsuccesspayu', function (req, res) {
-  //   console.log("txnsuccesspayu ==>", req.body)
-  // });
-
-  // app.post('/txnerrorpayu', function (req, res) {
-  //   console.log("txnsuccesspayu ==>", req.body)
-  // });
-
   //404
   app.get('*', function (req, res) {
     res.render('404')

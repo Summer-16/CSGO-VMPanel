@@ -9,7 +9,7 @@
 - Pagination added for large data
 - Server data load and autofill added for server update form
 
-## Only enable both paymnet gateways if you are doing transactions in INR , if you are doing transactions is USD do not enable payu
+## Only enable both paymnet gateways if you are doing transactions in INR , if you are doing transactions is USD do not enable PayU
 
 ## Panel Features v1.5
 - Add VIP or Admin to servers.
@@ -58,6 +58,8 @@ vim config.json
 - Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
 - Your Paypal client Id for automatic VIP buy and renew to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
 - and a secure key for jwt (remember to add a strong key)
+- Like same you can enable PayU payment gateway (set enaled:true, environment 'live' for live payments 'test' for testing)
+- and you PayU merchant Key and Salt which is available in your PayU Dashboard.
 - save the file and get back to panelServer directory
 ```bash
 cd ..

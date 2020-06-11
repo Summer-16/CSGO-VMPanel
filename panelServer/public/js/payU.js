@@ -128,25 +128,3 @@ function launchBOLT(payuObj, serverData, type) {
     }
   });
 }
-
-// function launchPAYU(payuObj) {
-
-//   var form = document.createElement("form");
-//   form.setAttribute('id', "payuForm");
-//   form.setAttribute('method', "post");
-//   form.setAttribute('action', "https://sandboxsecure.payu.in/_payment");
-
-//   let keysArray = Object.keys(payuObj)
-
-//   for (let i = 0; i < keysArray.length; i++) {
-//     let input = document.createElement("input"); //input element, Submit button
-//     input.setAttribute('type', "text");
-//     input.setAttribute('name', keysArray[i]);
-//     input.setAttribute('value', payuObj[keysArray[i]]);
-//     form.appendChild(input);
-//   }
-//   document.getElementsByTagName('body')[0].appendChild(form);
-
-//   document.getElementById("payuForm").submit();
-
-// }

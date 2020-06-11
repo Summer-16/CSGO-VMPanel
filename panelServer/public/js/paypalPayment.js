@@ -41,8 +41,6 @@ function setPayPalButton(id, serverData, type) {
         });
       },
       onCancel: (data) => {
-        // console.log("** On Cancel Event Payment **");
-        // console.log("Data->>", data);
         showNotif({
           success: false,
           data: { "error": "Payment Failed! , Process terminated by user." }
@@ -51,14 +49,14 @@ function setPayPalButton(id, serverData, type) {
       onApprove: async (data, actions) => {
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)
-        // console.log("** On Approve Event Payment **");
-        // console.log("Data->>", data);
+
         showNotif({
           success: true,
           data: { "message": "Payment Sucess! , Order Id:" + data.orderID + ". Processing furture steps to activate your VIP Subscription.", "notifType": "success" }
         })
+
         const order = await actions.order.capture();
-        // console.log("order->>", order);
+
         afterPaymentajax({
           "serverData": serverData,
           "paymentData": order,
@@ -67,8 +65,7 @@ function setPayPalButton(id, serverData, type) {
         })
       },
       onError: async (error) => {
-        // console.log("** On Error Event Payment **");
-        // console.log("error->>", error);
+
         showNotif({
           success: false,
           data: { "error": "Payment Failed! , Some Error occured try again later. Contact support if you were charged and still got error" }
@@ -83,6 +80,6 @@ function setPayPalButton(id, serverData, type) {
     })
       .render('#' + id);
   } else {
-    document.getElementById(id).innerHTML = `<div class="stats text-warning">PayPal not working contact Support</div>`
+    document.getElementById(id).innerHTML = `<div class="stats text-warning">${paypalActive == true ? 'PayPal not working contact Support' : ''}</div>`
   }
 }

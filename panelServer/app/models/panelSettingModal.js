@@ -54,10 +54,10 @@ var settingsModal = {
         }
 
         if (queryRes.length === 0) {
-          let query = db.queryFormat(`INSERT INTO ${table}
+          query = db.queryFormat(`INSERT INTO ${table}
                                       (setting_key,setting_value)
                                       VALUES ?`, [valueArray]);
-          let queryRes = await db.query(query, true);
+          queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("Error while filling entry in table");
           }

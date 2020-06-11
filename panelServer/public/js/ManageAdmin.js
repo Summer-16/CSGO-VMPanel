@@ -32,8 +32,6 @@ function addNewAdminajax() {
     flagString += $(this).val();
   });
 
-
-
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
   });

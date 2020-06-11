@@ -197,10 +197,10 @@ function fetchPAdminajax() {
           document.getElementById("selected_padmin").add(option)
           let userArray = response.data.res
           for (let i = 0; i < userArray.length; i++) {
-            let option = document.createElement("option");
-            option.value = userArray[i].id + ":" + userArray[i].username;
-            option.text = userArray[i].username;
-            document.getElementById("selected_padmin").add(option)
+            let Option = document.createElement("option");
+            Option.value = userArray[i].id + ":" + userArray[i].username;
+            Option.text = userArray[i].username;
+            document.getElementById("selected_padmin").add(Option)
           }
         }
       })

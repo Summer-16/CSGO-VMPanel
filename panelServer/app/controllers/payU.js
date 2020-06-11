@@ -53,12 +53,6 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
     try {
 
       const steamId = SteamIDConverter.toSteamID(reqUser.id);
-      const userDisplayname = reqUser.displayName
-
-      // console.log("req bidy in payu==>", reqBody)
-      // console.log("req user in payu==>", reqUser)
-      // console.log("steamIdin payu==>", steamId)
-      //console.log("payUConfig in payu==>", payUConfig)
 
       let productData = reqBody.serverData
       let productinfo = "1 Month VIP for " + productData.server_name + (reqBody.type == 'newPurchase' ? " (New Buy)" : reqBody.type == 'renewPurchase' ? " (Renewal)" : "")
