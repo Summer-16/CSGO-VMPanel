@@ -26,18 +26,12 @@ function initPayUpayment(serverData, type) {
                     <br>
                     <form class="col-md-12">
                       <div class="row">
-                    <!--<div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group bmd-form-group">
-                                <label class="">Enter First Name</label>
+                                <label class="">Enter Name</label>
                                 <input type="text" name="firstname" id="payUfirstname" class="form-control" required>
                             </div>
                           </div>
-                          <div class="col-md-6">
-                            <div class="form-group bmd-form-group">
-                                <label class="">Enter Last Name</label>
-                                <input type="text" name="lastname" id="payUlastname" class="form-control" required>
-                            </div>
-                          </div>  -->
                           <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label class="">Enter Mobile No</label>
@@ -69,7 +63,7 @@ function initPayUpayment(serverData, type) {
         body: JSON.stringify({
           "serverData": serverData,
           "type": type,
-          // "userFirstName": $('#payUfirstname').val(),
+          "userFirstName": $('#payUfirstname').val(),
           // "userLasrName": $('#payUlastname').val(),
           "userEmail": $('#payUemail').val(),
           "userMobile": $('#payUmobile').val(),
@@ -101,7 +95,7 @@ function launchBOLT(payuObj, serverData, type) {
         showNotif({ success: false, data: { "error": "Payment Process is cancelled by user" } })
       } else if (BOLT.response.txnStatus === 'SUCCESS') {
 
-        if (BOLT.response.hash) {
+        try {
           let responseObject = {
             order_id: BOLT.response.payuMoneyId,
             payer_id: BOLT.response.txnid,
@@ -118,11 +112,12 @@ function launchBOLT(payuObj, serverData, type) {
             "serverData": serverData,
             "paymentData": responseObject,
             "buyType": type,
-            "gateway": "payu"
+            "gateway": "payu",
+            "payuData": BOLT.response
           })
 
-        } else {
-          showNotif({ success: false, data: { "error": "Payment Tempered!, Response HASH does not matches with payment HASH therefore payment failed, Contact Support" } })
+        } catch (error) {
+          showNotif({ success: false, data: { "error": error } })
         }
       }
     },

@@ -26,6 +26,9 @@ var record_per_page = $('#recordsPerPage').val(), current_page = 1, max_pages = 
 
 function getSalesReordListing(currentPage, recordPerPage) {
 
+  console.log("currentPage==>", currentPage)
+  console.log("recordPerPage==>", recordPerPage)
+
   let loader = `<div class="loading">Loading&#8230;</div>`;
   $("#divForLoader").html(loader)
 
@@ -53,7 +56,6 @@ function getSalesReordListing(currentPage, recordPerPage) {
       let htmlString = ""
       for (let i = 0; i < dataArray.length; i++) {
         htmlString += `<tr>
-         <td>${dataArray[i].id ? dataArray[i].id : 'NA'}</td>
                         <td>${dataArray[i].order_id ? dataArray[i].order_id : 'NA'}</td>
                         <td>${dataArray[i].payer_id ? dataArray[i].payer_id : 'NA'}</td>
                         <td>${dataArray[i].payer_steamid ? dataArray[i].payer_steamid : 'NA'}</td>
@@ -148,9 +150,7 @@ function dateFormatter(date) {
 
 $(document).ready(function () {
 
-  window.onload = function () {
-    setActivePage(1);
-  };
+  setActivePage(1);
 
   $(window).keydown(function (event) {
     if (event.keyCode == 13) {

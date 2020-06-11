@@ -214,7 +214,7 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">RCON Password</label>
-                            <input type="text" name="servertablename" class="form-control" id="servertableRCON_add"
+                            <input type="password" name="servertablename" class="form-control" id="servertableRCON_add"
                               required>
                           </div>
                         </div>
@@ -236,8 +236,12 @@
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Currency</label>
-                              <input type="text" name="servertablecurrency" value="USD" class="form-control"
-                                id="servertableCurrency_add">
+                              <select class="form-control" id="servertableCurrency_add" name="servertablecurrency"
+                                required>
+                                <option value="" selected>Select Server</option>
+                                <option value="USD">USD</option>
+                                <option value="INR">INR</option>
+                              </select>
                             </div>
                           </div>
                         </div>
@@ -289,8 +293,8 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">RCON Password</label>
-                            <input type="text" name="servertablercon" class="form-control" id="servertableRCON_update"
-                              required>
+                            <input type="password" name="servertablercon" class="form-control"
+                              id="servertableRCON_update" required>
                           </div>
                         </div>
                         <div class="col-md-12">
@@ -311,8 +315,12 @@
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Currency</label>
-                              <input type="text" name="servertablecurrency" value="USD" class="form-control"
-                                id="servertableCurrency_update">
+                              <select class="form-control" id="servertableCurrency_update" name="servertablecurrency"
+                                required>
+                                <option value="" selected>Select Server</option>
+                                <option value="USD">USD</option>
+                                <option value="INR">INR</option>
+                              </select>
                             </div>
                           </div>
                         </div>
@@ -325,6 +333,8 @@
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
+                            <button type="button" onclick="updatePServerajax()" class="btn btn-success pull-left">Upate
+                              Server</button>
                             <button type="button" onclick="updatePServerajax()" class="btn btn-success pull-right">Upate
                               Server</button>
                           </div>

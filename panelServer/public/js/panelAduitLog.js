@@ -141,9 +141,7 @@ function dateFormatter(date) {
 
 $(document).ready(function () {
 
-  window.onload = function () {
-    setActivePage(1);
-  };
+  setActivePage(1);
 
   $(window).keydown(function (event) {
     if (event.keyCode == 13) {

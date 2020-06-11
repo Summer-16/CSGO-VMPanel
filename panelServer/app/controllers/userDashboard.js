@@ -27,6 +27,7 @@ const { logThisActivity } = require("../utils/activityLogger.js");
 const config = require('../config/config.json')
 const paypalClientID = config.paymnet_gateways.paypal.paypal_client_id
 const payUConfig = config.paymnet_gateways.payU
+const crypto = require('crypto');
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -105,7 +106,7 @@ exports.afterPaymentProcess = async (req, res) => {
 
     logThisActivity({
       "activity": req.body.buyType === 'newPurchase' ? "New VIP Purchased" : "VIP renewed",
-      "additional_info": `${req.body.paymentData.id} - ( ${req.user.displayName} )`,
+      "additional_info": `${(reqBody.gateway === 'paypal') ? req.body.paymentData.id : (reqBody.gateway === 'payu') ? req.body.paymentData.order_id : "NA"} - ( ${req.user.displayName} )`,
       "created_by": req.user.displayName + " (Steam Login)"
     })
 
@@ -153,18 +154,31 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
           sale_type: saleType
         }
       } else if (reqBody.gateway === 'payu') {
-        paymentInsertObj = {
-          order_id: paymentData.order_id,
-          payer_id: paymentData.payer_id,
-          payer_steamid: steamId,
-          payer_email: paymentData.payer_email,
-          payer_name: paymentData.payer_name,
-          payer_surname: paymentData.payer_surname,
-          product_desc: paymentData.product_desc,
-          amount_paid: paymentData.amount_paid,
-          amount_currency: paymentData.amount_currency,
-          status: paymentData.status,
-          sale_type: saleType
+
+        let keyString = payUConfig.merchantKey + '|' + reqBody.payuData.txnid + '|' + reqBody.payuData.amount + '|' + reqBody.payuData.productinfo + '|' + reqBody.payuData.firstname + '|' + reqBody.payuData.email + '|||||' + reqBody.payuData.udf5 + '|||||';
+        let keyArray = keyString.split('|');
+        let reverseKeyArray = keyArray.reverse();
+        let reverseKeyString = payUConfig.merchantSalt + '|' + reqBody.payuData.status + '|' + reverseKeyArray.join('|');
+        var cryp = crypto.createHash('sha512');
+        cryp.update(reverseKeyString);
+        var calchash = cryp.digest('hex');
+
+        if (calchash === reqBody.payuData.hash) {
+          paymentInsertObj = {
+            order_id: paymentData.order_id,
+            payer_id: paymentData.payer_id,
+            payer_steamid: steamId,
+            payer_email: paymentData.payer_email,
+            payer_name: paymentData.payer_name,
+            payer_surname: paymentData.payer_surname,
+            product_desc: paymentData.product_desc,
+            amount_paid: paymentData.amount_paid,
+            amount_currency: paymentData.amount_currency,
+            status: paymentData.status,
+            sale_type: saleType
+          }
+        } else {
+          return reject("Payment Tempered!, Response HASH does not matches with payment HASH therefore payment failed, Contact Support")
         }
       }
 

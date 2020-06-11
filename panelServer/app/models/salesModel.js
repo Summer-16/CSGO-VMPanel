@@ -37,12 +37,13 @@ var salesModel = {
 
         let query = db.queryFormat(`CREATE TABLE IF NOT EXISTS ${table} (
                                       id int(10) unsigned NOT NULL AUTO_INCREMENT,
+                                      payment_gateway VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       order_id varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_id varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_steamid varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_email varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_name varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                      payer_surname varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                      payer_surname varchar(150) COLLATE utf8mb4_unicode_ci NULL,
                                       product_desc varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       amount_paid int(20) NOT NULL,
                                       amount_currency varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,

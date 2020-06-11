@@ -33,7 +33,7 @@ module.exports = app => {
   const { loginPage, authUserLogin } = require("../controllers/login.js");
   const { PanelSettings, fetchPanelSettings, updatePanelSettings } = require("../controllers/panelSettings.js")
   const { addPanelAdmin, getPanelAdminsList, deletePanelAdmin } = require("../controllers/panelAdmins.js")
-  const { getPanelServersList, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
+  const { getPanelServersList, getPanelServerSingle, addPanelServer, deletePanelServers } = require("../controllers/panelServers.js")
   const { fetchProfileData } = require("../controllers/steamProfileDataFetch.js")
   const { myDashboard, afterPaymentProcess } = require("../controllers/userDashboard.js")
   const { saleRecords, getSalesRecord } = require("../controllers/salesRecord.js")
@@ -94,6 +94,7 @@ module.exports = app => {
 
   //Panel server mange routes
   app.get("/getpanelserverlist", middleware.checkToken, getPanelServersList);
+  app.post("/getpanelserversingle", middleware.checkToken, getPanelServerSingle);
   app.post("/addpanelserver", middleware.checkToken, addPanelServer);
   app.post("/deletepanelserver", middleware.checkToken, deletePanelServers);
 

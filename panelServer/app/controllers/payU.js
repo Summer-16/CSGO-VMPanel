@@ -68,7 +68,7 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
       let errorURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnerrorpayu'
 
       let cryp = crypto.createHash('sha512');
-      let text = payUConfig.merchantKey + '|' + txnID + '|' + productData.vip_price + '|' + productinfo + '|' + userDisplayname + '|' + reqBody.userEmail + '|||||' + steamId + '||||||' + payUConfig.merchantSalt;
+      let text = payUConfig.merchantKey + '|' + txnID + '|' + productData.vip_price + '|' + productinfo + '|' + reqBody.userFirstName + '|' + reqBody.userEmail + '|||||' + steamId + '||||||' + payUConfig.merchantSalt;
       cryp.update(text);
       let payUHash = cryp.digest('hex');
 
@@ -77,7 +77,7 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
         "txnid": txnID,
         "hash": payUHash,
         "amount": productData.vip_price,
-        "firstname": userDisplayname,
+        "firstname": reqBody.userFirstName,
         "email": reqBody.userEmail,
         "phone": reqBody.userMobile,
         "productinfo": productinfo,

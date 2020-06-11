@@ -542,11 +542,47 @@ $(document).ready(function () {
   fetchPServerListajax()
 
   if (curentAdminType === 1) {
+
     fetchPAdminajax();
+
     document.getElementById('selected_pserver').onchange = () => {
-      let val = $('#selected_pserver').val().split(":")[2]
-      $('#servername_update').val(val)
-      $('#servername_update').focus()
+
+      let serverVal = $('#selected_pserver').val().split(":")[1]
+
+      let loader = `<div class="loading">Loading&#8230;</div>`;
+      $("#divForLoader").html(loader)
+
+      fetch('/getpanelserversingle', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "server": serverVal
+        })
+      })
+        .then((res) => { return res.json(); })
+        .then((response) => {
+          $("#divForLoader").html("")
+          console.log("response==>", response)
+          let serverData = response.data.res
+          $('#servername_update').val(serverData.server_name)
+          $('#servertableIP_update').val(serverData.server_ip)
+          $('#servertablePort_update').val(serverData.server_port)
+          $('#servertableRCON_update').val(serverData.server_rcon_pass)
+          $('#servertableTotalVIPSlots_update').val(serverData.vip_slots)
+          $('#servertableVIPPrice_update').val(serverData.vip_price)
+          $('#servertableCurrency_update').val(serverData.vip_currency)
+          $('#servertableVIPFlag_update').val(serverData.vip_flag)
+          $('#servername_update').focus()
+        })
+        .catch(error => {
+          $("#divForLoader").html("")
+          showNotif({ success: false, data: { "error": error } })
+        });
+
+
     };
   }
 });

@@ -46,7 +46,7 @@ function remainingDays(endEpoc){
 }
 
 %>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <script>
   var paypalActive =<%=paypalActive%>
 </script>
@@ -56,16 +56,17 @@ function remainingDays(endEpoc){
 <script src="./js/paypalPayment.js"></script>
 
 
+
 <%if(payuActive){%>
 
 <%if(payuEnv=='test'){%>
 <!-- BOLT Sandbox/test //-->
-<script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="e34524"
-  bolt-logo="http://boltiswatching.com/wp-content/uploads/2015/09/Bolt-Logo-e14421724859591.png"></script>
+<script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="913f9e"
+  bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
 <%}else if(payuEnv=='live')%>
 <!-- BOLT Sandbox/test //-->
-<script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="<color-
-code>" bolt-logo="<image path>"></script>
+<script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="288c6c"
+  bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
 <%}%>
 
 <%- include('Header.ejs') %>

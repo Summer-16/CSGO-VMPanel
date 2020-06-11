@@ -32,7 +32,7 @@ exports.addPanelServer = async (req, res) => {
     let result = await addPanelServerFunc(req.body, req.session.username);
 
     logThisActivity({
-      "activity": reqBody.submit === "insert" ? "New Server added in Panel" : "Panel Server Updated",
+      "activity": req.body.submit === "insert" ? "New Server added in Panel" : "Panel Server Updated",
       "additional_info": req.body.servername,
       "created_by": req.session.username
     })
@@ -126,6 +126,49 @@ const getPanelServersListFunc = (reqBody) => {
 }
 
 exports.getPanelServersListFunc = getPanelServersListFunc;
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
+exports.getPanelServerSingle = async (req, res) => {
+  try {
+
+    req.body.secKey = req.session.sec_key
+    let result = await getPanelServerSingleFunc(req.body);
+    res.json({
+      success: true,
+      data: { "res": result, "message": "Server Data Fetched" }
+    });
+  } catch (error) {
+    console.log("error in getPanelServerSingle->", error)
+    res.json({
+      success: false,
+      data: { "error": error }
+    });
+  }
+}
+
+const getPanelServerSingleFunc = (reqBody) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log("reqBody==>", reqBody)
+
+      let serverData = await panelServerModal.getPanelServerDetails(reqBody.server)
+      console.log("serverData==>", serverData)
+      // if (serverData) {
+      //   serverData.server_rcon_pass = serverData.server_rcon_pass ? "Available" : "NA"
+      // }
+      resolve(serverData)
+    } catch (error) {
+      console.log("error in getPanelServerSingleFunc->", error)
+      reject(error + ", Please try again")
+    }
+  });
+}
+
+exports.getPanelServerSingleFunc = getPanelServerSingleFunc;
 //-----------------------------------------------------------------------------------------------------
 
 
