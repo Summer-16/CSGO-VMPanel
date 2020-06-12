@@ -35,13 +35,13 @@ function initPayUpayment(serverData, type) {
                           <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label class="">Enter Mobile No</label>
-                                <input type="text" name="lastname" id="payUmobile" class="form-control" required>
+                                <input type="number" name="lastname" id="payUmobile" class="form-control" required>
                             </div>
                           </div>
                           <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label class="">Enter email</label>
-                                <input type="text" name="email" id="payUemail" class="form-control" required>
+                                <input type="email" name="email" id="payUemail" class="form-control" required>
                             </div>
                           </div>
                       </div>
@@ -77,6 +77,7 @@ function initPayUpayment(serverData, type) {
         })
         .catch(error => {
           $("#divForLoader").html("")
+          console.log("error==>", error)
           showNotif({ success: false, data: { "error": error } })
         });
     }
@@ -117,14 +118,15 @@ function launchBOLT(payuObj, serverData, type) {
           })
 
         } catch (error) {
+          console.log("error==>", error)
           showNotif({ success: false, data: { "error": error } })
         }
       }
     },
     catchException: function (BOLT) {
       // console.log("bolt =>", BOLT);
-      // console.log("bolt error=>", BOLT.message);
-      showNotif({ success: false, data: { "error": BOLT.messag } })
+      console.log("bolt error=>", BOLT.message);
+      showNotif({ success: false, data: { "error": BOLT.message } })
     }
   });
 }
