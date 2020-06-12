@@ -104,10 +104,15 @@ exports.afterPaymentProcess = async (req, res) => {
     const secKey = req.session.passport.user.id
     let result = await afterPaymentProcessFunc(req.body, req.user, secKey);
 
+    let userDisplayname = reqUser.displayName
+    userDisplayname = cleanString(userDisplayname)
+    let userRealName = reqUser._json.realname
+    const finalUserName = userRealName + " - (" + (userDisplayname ? userDisplayname : "-_-") + ")"
+
     logThisActivity({
       "activity": req.body.buyType === 'newPurchase' ? "New VIP Purchased" : "VIP renewed",
-      "additional_info": `${(reqBody.gateway === 'paypal') ? req.body.paymentData.id : (reqBody.gateway === 'payu') ? req.body.paymentData.order_id : "NA"} - ( ${req.user.displayName} )`,
-      "created_by": req.user.displayName + " (Steam Login)"
+      "additional_info": `${(reqBody.gateway === 'paypal') ? req.body.paymentData.id : (reqBody.gateway === 'payu') ? req.body.paymentData.order_id : "NA"} - ( ${finalUserName} )`,
+      "created_by": finalUserName + " (Steam Login)"
     })
 
     res.json({
@@ -132,7 +137,10 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
     try {
 
       const steamId = SteamIDConverter.toSteamID(reqUser.id);
-      const userDisplayname = reqUser.displayName
+      let userDisplayname = reqUser.displayName
+      userDisplayname = cleanString(userDisplayname)
+      let userRealName = reqUser._json.realname
+      const finalUserName = userRealName + " - (" + (userDisplayname ? userDisplayname : "-_-") + ")"
       const saleType = reqBody.buyType === 'newPurchase' ? 1 : reqBody.buyType === 'renewPurchase' ? 2 : 0
       const serverTable = reqBody.serverData.tbl_name
       const flag = reqBody.serverData.vip_flag
@@ -188,7 +196,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
 
         const newVipInsertObj = {
           day: epoctillExpirey(30),
-          name: "//" + userDisplayname,
+          name: "//" + finalUserName,
           steamId: '"' + steamId + '"',
           userType: 0,
           flag: flag,
@@ -215,7 +223,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
         let updateRes = await vipModel.updateVIPData(updateVipObj)
         if (updateRes) {
           for (let i = 0; i < updateVipObj.server.length; i++) {
-            await refreshAdminsInServer(updateVipObj.server[i]);
+            refreshAdminsInServer(updateVipObj.server[i]);
           }
           resolve(updateRes)
         }
@@ -236,4 +244,14 @@ function epoctillExpirey(days) {
   let currentEpoc = Math.floor(Date.now() / 1000)
   let daysinSec = Math.floor(days * 86400)
   return (currentEpoc + daysinSec)
+}
+
+function cleanString(input) {
+  var output = "";
+  for (var i = 0; i < input.length; i++) {
+    if (input.charCodeAt(i) <= 127) {
+      output += input.charAt(i);
+    }
+  }
+  return output;
 }

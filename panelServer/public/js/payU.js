@@ -63,7 +63,7 @@ function initPayUpayment(serverData, type) {
         body: JSON.stringify({
           "serverData": serverData,
           "type": type,
-          "userFirstName": $('#payUfirstname').val(),
+          "userFirstName": cleanString($('#payUfirstname').val()),
           // "userLasrName": $('#payUlastname').val(),
           "userEmail": $('#payUemail').val(),
           "userMobile": $('#payUmobile').val(),
@@ -127,4 +127,15 @@ function launchBOLT(payuObj, serverData, type) {
       showNotif({ success: false, data: { "error": BOLT.messag } })
     }
   });
+}
+//-----------------------------------------------------------------------------------------------------
+
+function cleanString(input) {
+  var output = "";
+  for (var i = 0; i < input.length; i++) {
+    if (input.charCodeAt(i) <= 127) {
+      output += input.charAt(i);
+    }
+  }
+  return output;
 }

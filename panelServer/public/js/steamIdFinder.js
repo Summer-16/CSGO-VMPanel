@@ -44,14 +44,20 @@ function profileUrlToDataFetcher(profileUrl) {
 
         $("#divForLoader").html("")
 
+        console.log("response==>", response)
+
         let steamID64 = $(response).find("steamID64").text();
         let userName = $(response).find("steamID").html().slice(11).slice(0, -5);
+        userName = cleanString(userName)
+        let realName = $(response).find("realname").html().slice(11).slice(0, -5);
+        let finalName = realName + " - (" + (userName ? userName : "-_-") + ")"
+
         let dpURL = $(response).find("avatarMedium").html().slice(11).slice(0, -5);
         let finalSteamID = SteamIDConverter.toSteamID(steamID64);
 
         $("#divForLoader").html("")
         $('#steamId_add').val(finalSteamID);
-        $('#name_add').val(userName);
+        $('#name_add').val(finalName);
         $('#steamId_update').val(finalSteamID);
         $("#display_steamId").text(finalSteamID)
         $("#display_name").text(userName)
@@ -68,4 +74,15 @@ function profileUrlToDataFetcher(profileUrl) {
       data: { "error": "Profile Url is Missing" }
     })
   }
+}
+//-----------------------------------------------------------------------------------------------------
+
+function cleanString(input) {
+  var output = "";
+  for (var i = 0; i < input.length; i++) {
+    if (input.charCodeAt(i) <= 127) {
+      output += input.charAt(i);
+    }
+  }
+  return output;
 }
