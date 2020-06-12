@@ -19,6 +19,7 @@
 
 "use strict";
 const Rcon = require('rcon');
+const SourceQuery = require('sourcequery');
 const panelServerModal = require("../models/panelServerModal.js");
 
 //-----------------------------------------------------------------------------------------------------
@@ -31,21 +32,32 @@ const refreshAdminsInServer = (server) => {
       let serverDetails = await panelServerModal.getPanelServerDetails(server)
 
       if (serverDetails.server_ip && serverDetails.server_port && serverDetails.server_rcon_pass) {
-        var conn = new Rcon(serverDetails.server_ip, serverDetails.server_port, serverDetails.server_rcon_pass);
-        conn.on('auth', function () {
-          console.log("*** Rcon Authed! ***");
-          conn.send("sm_vmprefresh");
-          conn.disconnect();
-        }).on('response', function (str) {
-          console.log("*** [RCON] Got response: " + str);
-        }).on('error', function (error) {
-          console.log("*** [RCON] Got error: " + error);
-          return reject("Operation Done in VMPanel Database,\n There was an error while executing rcon Command for current Operation. ")
-        }).on('end', function () {
-          console.log("*** [RCON] Socket closed!");
-          resolve(1)
+
+        let sq = new SourceQuery(1000); // 1000ms timeout
+        sq.open(serverDetails.server_ip, serverDetails.server_port);
+        sq.getInfo(function (err, info) {
+          if (err) {
+            sq.close()
+            return reject("Operation Done in VMPanel Database,\n No Rcon execution, Server is Offline ")
+          } else {
+            sq.close()
+            var conn = new Rcon(serverDetails.server_ip, serverDetails.server_port, serverDetails.server_rcon_pass);
+            conn.on('auth', function () {
+              console.log("*** Rcon Authed! ***");
+              conn.send("sm_vmprefresh");
+              conn.disconnect();
+            }).on('response', function (str) {
+              console.log("*** [RCON] Got response: " + str);
+            }).on('error', function (error) {
+              console.log("*** [RCON] Got error: " + error);
+              return reject("Operation Done in VMPanel Database,\n There was an error while executing rcon Command for current Operation. ")
+            }).on('end', function () {
+              console.log("*** [RCON] Socket closed!");
+              resolve(1)
+            });
+            conn.connect();
+          }
         });
-        conn.connect();
       } else {
         resolve(0)
       }
