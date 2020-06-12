@@ -35,7 +35,7 @@ function initPayUpayment(serverData, type) {
                           <div class="col-md-12">
                             <div class="form-group bmd-form-group">
                                 <label class="">Enter Mobile No</label>
-                                <input type="number" name="lastname" id="payUmobile" class="form-control" required>
+                                <input type="number" name="mobile" id="payUmobile" class="form-control" required>
                             </div>
                           </div>
                           <div class="col-md-12">
