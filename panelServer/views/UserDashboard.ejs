@@ -172,39 +172,41 @@ function remainingDays(endEpoc){
                             <img src
                               onerror="setPayPalButton('<%= (userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name + `renew`: `renew`+j %>', <%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')"
                               alt />
-                            <div
-                              id="<%=(userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name+'renew' : 'renew'+j %>"
-                              class="col-md-6">
-                            </div>
                             <%if(payuActive){%>
-                            <div class="col-md-6">
+                            <div class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
                               <button type="button" class="btn btn-success text-center col-md-12 m-0"
                                 onclick="initPayUpayment(<%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')">
-                                <img src="./images/payumoney.png" height='11' alt="payu" class="pt-0 pb-0">
+                                <img
+                                  src="<%= (payuActive&&paypalActive) ? './images/payumini.png' : './images/payumoney.png' %>"
+                                  height='11' alt="payu" class="pt-0 pb-0">
                               </button>
                             </div>
                             <%}%>
-                      </div>
-                      <%}else{%>
-                            NA
-                            <%}%>
+                            <div
+                              id="<%=(userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name+'renew' : 'renew'+j %>"
+                            class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
+                          </div>
+                </div>
+                <%}else{%>
+                NA
+                <%}%>
                     </td>
                   </tr>
                   <%}}%>
-                    </tbody>
-                  </table>
-                </div>
+                </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
 
-    <%- include('Footer.ejs') %>
+  <%- include('Footer.ejs') %>
 
-    <script src="./js/notifications.js"></script>
-    <script src="./js/myDashboard.js"></script>
-    <script src="./js/customConfirm.js"></script>
-    <script src="./js/payU.js"></script>
+  <script src="./js/notifications.js"></script>
+  <script src="./js/myDashboard.js"></script>
+  <script src="./js/customConfirm.js"></script>
+  <script src="./js/payU.js"></script>
