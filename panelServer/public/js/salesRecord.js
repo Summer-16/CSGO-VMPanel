@@ -26,8 +26,6 @@ var record_per_page = $('#recordsPerPage').val(), current_page = 1, max_pages = 
 
 function getSalesReordListing(currentPage, recordPerPage) {
 
-  console.log("currentPage==>", currentPage)
-  console.log("recordPerPage==>", recordPerPage)
 
   let loader = `<div class="loading">Loading&#8230;</div>`;
   $("#divForLoader").html(loader)

@@ -13,6 +13,7 @@
   ],
   "author": "Shivam Parashar (Summer Soldier)",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "big-integer": "^1.6.48",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

@@ -44,8 +44,6 @@ function profileUrlToDataFetcher(profileUrl) {
 
         $("#divForLoader").html("")
 
-        console.log("response==>", response)
-
         let steamID64 = $(response).find("steamID64").text();
         let userName = $(response).find("steamID").html().slice(11).slice(0, -5);
         userName = cleanString(userName)

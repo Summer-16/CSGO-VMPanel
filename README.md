@@ -99,5 +99,6 @@ sudo service vmpService start
 ```mysql
 ALTER TABLE `tbl_sales` CHANGE `payer_surname` `payer_surname` VARCHAR(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `tbl_sales`  ADD `payment_gateway` VARCHAR(20) NOT NULL  AFTER `id`;
+ALTER TABLE `tbl_users` CHANGE `password` `password` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 ```
 - Now restart your server and you are good to go

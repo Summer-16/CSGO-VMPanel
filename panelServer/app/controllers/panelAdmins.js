@@ -20,6 +20,8 @@
 "use strict";
 const userModel = require("../models/userModel.js");
 const { logThisActivity } = require("../utils/activityLogger.js");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -69,24 +71,39 @@ const addPanelAdminFunc = (reqBody, username) => {
           if (!reqBody.username) return reject("Operation Fail!, Username Missing");
           if (!reqBody.password) return reject("Operation Fail!, Password Missing");
 
-          let insertRes = await userModel.insertNewUser(reqBody)
-          if (insertRes) {
-            resolve(insertRes)
-          }
+          bcrypt.hash(reqBody.password, saltRounds, async function (err, hash) {
+            if (err) {
+              return reject("Error in password Encrytion, Try again")
+            } else {
+              reqBody.password = hash
+              let insertRes = await userModel.insertNewUser(reqBody)
+              if (insertRes) {
+                resolve(insertRes)
+              }
+            }
+          });
+
         } else if (reqBody.submit === "update") {
 
           //validations
           if (!reqBody.username) return reject("Operation Fail!, Username Missing");
           if (!reqBody.newpassword) return reject("Operation Fail!, Password Missing");
 
-          let updateRes = await userModel.updateUserpassword({
-            "id": reqBody.username.split(':')[0],
-            "username": reqBody.username.split(':')[1],
-            "password": reqBody.newpassword
-          })
-          if (updateRes) {
-            resolve(updateRes)
-          }
+          bcrypt.hash(reqBody.newpassword, saltRounds, async function (err, hash) {
+            if (err) {
+              return reject("Error in password Encrytion, Try again")
+            } else {
+              reqBody.newpassword = hash
+              let updateRes = await userModel.updateUserpassword({
+                "id": reqBody.username.split(':')[0],
+                "username": reqBody.username.split(':')[1],
+                "password": reqBody.newpassword
+              })
+              if (updateRes) {
+                resolve(updateRes)
+              }
+            }
+          });
         }
       } else {
         reject("Unauthorized Access, Key Missing")

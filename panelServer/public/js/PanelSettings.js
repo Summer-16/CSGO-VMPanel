@@ -565,7 +565,7 @@ $(document).ready(function () {
         .then((res) => { return res.json(); })
         .then((response) => {
           $("#divForLoader").html("")
-          console.log("response==>", response)
+
           let serverData = response.data.res
           $('#servername_update').val(serverData.server_name)
           $('#servertableIP_update').val(serverData.server_ip)

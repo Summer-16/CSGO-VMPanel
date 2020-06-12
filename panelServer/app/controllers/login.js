@@ -23,6 +23,8 @@ const userModel = require("../models/userModel.js");
 let jwt = require('jsonwebtoken');
 const jwtSecretKey = config.jwt.key;
 const steamApi = config.steam_api_key
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -49,21 +51,32 @@ exports.authUserLogin = async (req, res) => {
     // For the given username fetch user from DB
     let userData = await userModel.getuserDataByUsername(username)
     if (username && password) {
-      if (username === userData.username && password === userData.password) {
-        let token = jwt.sign({ username: username },
-          jwtSecretKey,
-          {
-            expiresIn: '1h' // expires in 2 hours
+      if (username === userData.username) {
+
+        bcrypt.compare(password, userData.password, function (err, result) {
+
+          if (err) {
+            res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect Password' })
           }
-        );
-        // return the JWT token for the future API calls
-        req.session.token = token;
-        req.session.username = userData.username;
-        req.session.sec_key = userData.sec_key;
-        req.session.user_type = userData.user_type;
-        res.redirect('/managevip')
+          if (result == true) {
+            let token = jwt.sign({ username: username },
+              jwtSecretKey,
+              {
+                expiresIn: '1h' // expires in 2 hours
+              }
+            );
+            // return the JWT token for the future API calls
+            req.session.token = token;
+            req.session.username = userData.username;
+            req.session.sec_key = userData.sec_key;
+            req.session.user_type = userData.user_type;
+            res.redirect('/managevip')
+          } else {
+            res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect Password' })
+          }
+        });
       } else {
-        res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect username or password' })
+        res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect username' })
       }
     } else {
       res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Authentication failed! Please check the request' })

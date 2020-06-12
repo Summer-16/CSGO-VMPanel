@@ -153,13 +153,8 @@ exports.getPanelServerSingle = async (req, res) => {
 const getPanelServerSingleFunc = (reqBody) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("reqBody==>", reqBody)
 
       let serverData = await panelServerModal.getPanelServerDetails(reqBody.server)
-      console.log("serverData==>", serverData)
-      // if (serverData) {
-      //   serverData.server_rcon_pass = serverData.server_rcon_pass ? "Available" : "NA"
-      // }
       resolve(serverData)
     } catch (error) {
       console.log("error in getPanelServerSingleFunc->", error)

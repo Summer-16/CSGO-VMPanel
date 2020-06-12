@@ -72,7 +72,7 @@ function initPayUpayment(serverData, type) {
         .then((res) => { return res.json(); })
         .then((response) => {
           $("#divForLoader").html("")
-          console.log("payu response==>", response)
+          // console.log("payu response==>", response)
           launchBOLT(response.data.res, serverData, type)
         })
         .catch(error => {
@@ -87,9 +87,9 @@ function initPayUpayment(serverData, type) {
 function launchBOLT(payuObj, serverData, type) {
   bolt.launch(payuObj, {
     responseHandler: function (BOLT) {
-      console.log("bolt =>", BOLT);
-      console.log("bolt response=>", BOLT.response);
-      console.log("bolt response txstatus=>", BOLT.response.txnStatus);
+      // console.log("bolt =>", BOLT);
+      // console.log("bolt response=>", BOLT.response);
+      // console.log("bolt response txstatus=>", BOLT.response.txnStatus);
 
       if (BOLT.response.txnStatus === 'CANCEL') {
         showNotif({ success: false, data: { "error": "Payment Process is cancelled by user" } })
@@ -122,8 +122,8 @@ function launchBOLT(payuObj, serverData, type) {
       }
     },
     catchException: function (BOLT) {
-      console.log("bolt =>", BOLT);
-      console.log("bolt error=>", BOLT.message);
+      // console.log("bolt =>", BOLT);
+      // console.log("bolt error=>", BOLT.message);
       showNotif({ success: false, data: { "error": BOLT.messag } })
     }
   });
