@@ -55,7 +55,7 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
       const steamId = SteamIDConverter.toSteamID(reqUser.id);
 
       let productData = reqBody.serverData
-      let productinfo = "1 Month VIP for " + productData.server_name + (reqBody.type == 'newPurchase' ? " (New Buy)" : reqBody.type == 'renewPurchase' ? " (Renewal)" : "")
+      let productinfo = productData.vip_days + " days VIP for " + productData.server_name + (reqBody.type == 'newPurchase' ? " (New Buy)" : reqBody.type == 'renewPurchase' ? " (Renewal)" : "")
 
       let txnID = createTXNid()
       let successURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnsuccesspayu'

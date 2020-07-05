@@ -85,7 +85,7 @@ function remainingDays(endEpoc){
               </div>
               <p class="card-category">Buy VIP For <%=serverArray[i].server_name?serverArray[i].server_name:"NA"%></p>
               <h3 class="card-title">
-                <%=serverArray[i].vip_price?serverArray[i].vip_price+" "+serverArray[i].vip_currency:"NA"%>
+                <%=serverArray[i].vip_price? serverArray[i].vip_price+" "+serverArray[i].vip_currency+" for "+serverArray[i].vip_days+" days"  :"NA"%>
               </h3>
               <%if(serverArray[i].server_ip&&serverArray[i].server_port){%>
               <a href="<%='steam://connect/'+serverArray[i].server_ip+':'+serverArray[i].server_port%>"

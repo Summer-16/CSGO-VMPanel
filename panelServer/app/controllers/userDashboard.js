@@ -144,6 +144,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
       const saleType = reqBody.buyType === 'newPurchase' ? 1 : reqBody.buyType === 'renewPurchase' ? 2 : 0
       const serverTable = reqBody.serverData.tbl_name
       const flag = reqBody.serverData.vip_flag
+      const subDays = (reqBody.serverData.vip_days / 1)
       const paymentData = reqBody.paymentData
       let paymentInsertObj
 
@@ -195,7 +196,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
       if (reqBody.buyType === 'newPurchase') {
 
         const newVipInsertObj = {
-          day: epoctillExpirey(30),
+          day: epoctillExpirey(subDays),
           name: "//" + finalUserName,
           steamId: '"' + steamId + '"',
           userType: 0,
@@ -214,7 +215,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
       } else if (reqBody.buyType === 'renewPurchase') {
 
         const updateVipObj = {
-          day: Math.floor(30 * 86400),
+          day: Math.floor(subDays * 86400),
           steamId: '"' + steamId + '"',
           server: [serverTable],
           secKey: secKey

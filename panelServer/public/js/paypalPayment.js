@@ -24,6 +24,7 @@ function setPayPalButton(id, serverData, type) {
   let server = serverData.server_name ? serverData.server_name : ''
   let currency = serverData.vip_currency ? serverData.vip_currency : ''
   let price = serverData.vip_price ? serverData.vip_price : ''
+  let subDays = serverData.vip_days ? serverData.vip_days : ''
 
   if (paypalActive == true && price && currency && server) {
     paypal.Buttons({
@@ -31,7 +32,7 @@ function setPayPalButton(id, serverData, type) {
         return actions.order.create({
           purchase_units: [
             {
-              description: "1 Month VIP for " + server + (type == 'newPurchase' ? " (New Buy)" : type == 'renewPurchase' ? " (Renewal)" : ""),
+              description: subDays + " days VIP for " + server + (type == 'newPurchase' ? " (New Buy)" : type == 'renewPurchase' ? " (Renewal)" : ""),
               amount: {
                 currency_code: currency,
                 value: price,

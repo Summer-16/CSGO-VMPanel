@@ -218,6 +218,12 @@
                               required>
                           </div>
                         </div>
+
+                        <div class="col-md-12 pb-2">
+                          <h4 class="card-title">Following detail is used in VIP Store</h4>
+                        </div>
+
+
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Total VIP Slots in Server</label>
@@ -245,11 +251,20 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-12">
-                          <div class="form-group bmd-form-group">
-                            <label class="bmd-label-floating">Default VIP Flag (Used in automatic insertion)</label>
-                            <input type="text" name="servertabledefaultflag" value="0:a" class="form-control"
-                              id="servertableVIPFlag_add">
+                        <div class="col-md-12 row">
+                          <div class="col-md-6">
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Subscription Days</label>
+                              <input type="number" name="servertabledefaultdays" value="30" class="form-control"
+                                id="servertableVIPDays_add">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Default VIP Flag</label>
+                              <input type="text" name="servertabledefaultflag" value="0:a" class="form-control"
+                                id="servertableVIPFlag_add">
+                            </div>
                           </div>
                         </div>
                         <div class="col-md-12">
@@ -297,6 +312,11 @@
                               id="servertableRCON_update" required>
                           </div>
                         </div>
+
+                        <div class="col-md-12 pb-2">
+                          <h4 class="card-title">Following detail is used in VIP Store</h4>
+                        </div>
+
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Total VIP Slots in Server</label>
@@ -324,17 +344,24 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-12">
-                          <div class="form-group bmd-form-group">
-                            <label class="bmd-label-floating">Default VIP Flag (Used in automatic insertion)</label>
-                            <input type="text" name="servertabledefaultflag" value="0:a" class="form-control"
-                              id="servertableVIPFlag_update">
+                        <div class="col-md-12 row">
+                          <div class="col-md-6">
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Subscription Days</label>
+                              <input type="text" name="servertabledefaultdays" class="form-control"
+                                id="servertableVIPDays_update">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group bmd-form-group">
+                              <label class="bmd-label-floating">Default VIP Flag</label>
+                              <input type="text" name="servertabledefaultflag" class="form-control"
+                                id="servertableVIPFlag_update">
+                            </div>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
-                            <button type="button" onclick="updatePServerajax()" class="btn btn-success pull-left">Upate
-                              Server</button>
                             <button type="button" onclick="updatePServerajax()" class="btn btn-success pull-right">Upate
                               Server</button>
                           </div>

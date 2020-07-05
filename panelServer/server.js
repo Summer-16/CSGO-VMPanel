@@ -33,6 +33,7 @@ const settingsModal = require("./app/models/panelSettingModal.js");
 const panelServerModal = require("./app/models/panelServerModal.js");
 const salesModal = require("./app/models/salesModel.js");
 const auditModal = require("./app/models/auditLogsModel.js");
+const bundleModel = require("./app/models/bundleModel.js");
 const { sendMessageOnDiscord } = require("./app/controllers/sendMessageOnDiscord.js");
 const { logThisActivity } = require("./app/utils/activityLogger.js");
 
@@ -111,6 +112,7 @@ settingsModal.createTheTableIfNotExists();
 panelServerModal.createTheTableIfNotExists();
 salesModal.createTheTableIfNotExists();
 auditModal.createTheTableIfNotExists();
+bundleModel.createTheTableIfNotExists();
 
 // middleware to make 'user' available to all templates
 app.use(async function (req, res, next) {

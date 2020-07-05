@@ -16,6 +16,8 @@
 //   "serverTable": "tbl_servers",
 //   "salestable": "tbl_sales",
 //   "audittable": "tbl_audit_logs",
+// "bundletable": "tbl_bundles",
+//   "bundleRELtable": "tbl_rel_bundle_server",
 //   "scheduleConfig": {
 //     "delete": "12",
 //     "notif": "24"

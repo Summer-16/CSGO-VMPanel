@@ -157,8 +157,9 @@ var panelServerModal = {
                                   vip_price,
                                   vip_currency,
                                   vip_flag,
-                                  created_at) VALUES (?, ?, ?, ?, ? ,? ,?, ?, ?, ?)`,
-            [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), new Date()]);
+                                  vip_days,
+                                  created_at) VALUES (?, ?, ?, ?, ? ,? ,?, ?, ?, ?, ?)`,
+            [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), dataObj.servervipdays, new Date()]);
           queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("Error in insertion");
@@ -196,9 +197,10 @@ var panelServerModal = {
                                       vip_slots = ?,
                                       vip_price = ?,
                                       vip_currency = ?,
-                                      vip_flag = ?
+                                      vip_flag = ?,
+                                      vip_days = ?
                                       WHERE id = ? AND tbl_name = ?`,
-          [dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), id, tableName]);
+          [dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, dataObj.servervipflag, dataObj.servervipdays, id, tableName]);
         const queryRes = await db.query(query);
         if (!queryRes) {
           return reject("error in update");

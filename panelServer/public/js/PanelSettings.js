@@ -334,6 +334,7 @@ function addNewPServerajax() {
           "servervipprice": $('#servertableVIPPrice_add').val(),
           "servervipcurrency": $('#servertableCurrency_add').val(),
           "servervipflag": $('#servertableVIPFlag_add').val(),
+          "servervipdays": $('#servertableVIPDays_add').val(),
           "submit": "insert"
         })
       })
@@ -397,6 +398,7 @@ function updatePServerajax() {
           "servervipprice": $('#servertableVIPPrice_update').val(),
           "servervipcurrency": $('#servertableCurrency_update').val(),
           "servervipflag": $('#servertableVIPFlag_update').val(),
+          "servervipdays": $('#servertableVIPDays_update').val(),
           "submit": "update"
         })
       })
@@ -575,6 +577,7 @@ $(document).ready(function () {
           $('#servertableVIPPrice_update').val(serverData.vip_price)
           $('#servertableCurrency_update').val(serverData.vip_currency)
           $('#servertableVIPFlag_update').val(serverData.vip_flag)
+          $('#servertableVIPDays_update').val(serverData.vip_days)
           $('#servername_update').focus()
         })
         .catch(error => {
