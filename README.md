@@ -2,6 +2,10 @@
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paytm-64.png)](https://drive.google.com/file/d/1ks_B3s9dNk_RPkDVf1DL1ITKe0mnrTRk/view)  [![Donate](https://cdn.iconscout.com/icon/free/png-64/upi-bhim-transfer-1795405-1522773.png)](https://drive.google.com/open?id=1VYYThJS78Pp6yyIU0lCIC4j7ef5a4G0l)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 
+## Panel Features Latest Dev Version (Changelogs)
+- Now admin can define no of subscription days for every server
+- Admin can create server bundle where they can create a bundle by adding multiple servers with custom subscription days and price to create custom offers
+
 ## Panel Features v1.6 (Changelogs)
 - PayU Money payment gateway added (PayU Payment gateway is for Indian Users only as it do transactions in rupee)
 - Some bugs fixed for login screen
@@ -30,7 +34,6 @@
 - User can log in through steam and then he can see the status of his VIP subscription in all servers, can buy new VIP and Renew old VIP through PayPal
 - Sales record for Admin
 - New Features at Dashboard like (Server list with connecting feature and other stats for Admin)
-
 
 
 ## Webpanel Screenshots
@@ -77,6 +80,27 @@ sudo service vmpService start
 - Now your server is running and your default username: admin and password: password, use these creds to login to the Panel, go to panel setting create your own superuser, switch to your user, and delete the default user.
 - At this point, you are good to go and install the plugin in all your servers.
 - After installing the plugin in the server go to panel settings and add your server in the panel.
+- If you want to remove port the use the following apache2 config
+```bash
+<VirtualHost *:80>
+ ServerAdmin webmaster@localhost
+ ServerName vip.example.com
+
+
+  ProxyRequests off
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <Location />
+        ProxyPass http://localhost:3535/
+        ProxyPassReverse http://localhost:3535/
+    </Location>
+
+</VirtualHost>
+```
 
 ### Install plugin in CSGO server
 - go to gameServer folder inside the plugin folder copy the addon and cfg folder
@@ -89,17 +113,15 @@ sudo service vmpService start
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
 
-## Updating from v1.5 to v1.6
+## Updating from v1.6 to latest dev release
 - Stop your panel service while updating
-- Add files from v1.6 to yours installed directory
+- Add files from latest commit to yours installed directory
 - Go to panelServer folder , open your linux terminal and run npm i
 - Go to your config and update the following details from example config
 - PayU Payment gateway is for Indian Users only as it do transactions in rupee
 - execute below query in your database
 ```mysql
-ALTER TABLE `tbl_sales` CHANGE `payer_surname` `payer_surname` VARCHAR(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
-ALTER TABLE `tbl_sales`  ADD `payment_gateway` VARCHAR(20) NOT NULL  AFTER `id`;
-ALTER TABLE `tbl_users` CHANGE `password` `password` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
-TRUNCATE `tbl_users`;
+ALTER TABLE `GGVIPlist`.`tbl_servers` 
+ADD COLUMN `vip_days` INT(11) NULL DEFAULT 30 AFTER `vip_currency`;
 ```
 - Now restart your server and you are good to go

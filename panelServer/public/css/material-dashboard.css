@@ -22254,4 +22254,9 @@ select:-webkit-autofill:focus
     transform: rotate(360deg);
   }
 }
+
+.my-pre{
+ color:#8b92a9 !important;
+}
+
 /*# sourceMappingURL=dashboard-free.css.map */

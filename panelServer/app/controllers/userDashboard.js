@@ -28,6 +28,7 @@ const config = require('../config/config.json')
 const paypalClientID = config.paymnet_gateways.paypal.paypal_client_id
 const payUConfig = config.paymnet_gateways.payU
 const crypto = require('crypto');
+const { getPanelBundlesListFunc } = require('./panelServerBundles.js')
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -76,10 +77,40 @@ const myDashboardFunc = (reqBody, reqUser) => {
         }
       }
 
+      let bundleList = await getPanelBundlesListFunc()
+      // console.log("bundleList dash==>", bundleList)
+      const bundleArray = []
+      for (let i = 0; i < bundleList.length; i++) {
+
+        let serversTblNames = []
+        for (let j = 0; j < bundleList[i].bundleServersData.length; j++) {
+          serversTblNames.push(bundleList[i].bundleServersData[j].tbl_name)
+        }
+
+        let serverDataObj = {
+          "id": bundleList[i].id,
+          "server_ip": "-",
+          "server_port": "-",
+          "server_name": bundleList[i].bundle_name,
+          "vip_price": bundleList[i].bundle_price,
+          "vip_currency": bundleList[i].bundle_currency,
+          "vip_days": bundleList[i].bundle_sub_days,
+          "tbl_name": serversTblNames.join(','),
+          "vip_flag": bundleList[i].bundle_flags
+        }
+
+        bundleList[i]["serverDataObj"] = serverDataObj
+        bundleArray.push(bundleList[i])
+
+      }
+
+      // console.log("bundleArray dash==>", bundleArray)
+
       resolve({
         "userDataListing": userDataListing,
         "userData": userData,
         "serverArray": serverArray,
+        "bundleArray": bundleArray,
         "paypalActive": paypalClientID ? true : false,
         "paypalClientID": paypalClientID,
         "payuActive": payUConfig.enabled,
@@ -201,7 +232,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
           steamId: '"' + steamId + '"',
           userType: 0,
           flag: flag,
-          server: [serverTable],
+          server: serverTable.split(','),
           secKey: secKey
         }
 

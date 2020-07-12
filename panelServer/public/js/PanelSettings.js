@@ -246,7 +246,11 @@ function fetchPSettingajax() {
     })
     .catch(error => { showNotif({ success: false, data: { "error": error } }) });
 }
+//-----------------------------------------------------------------------------------------------------
 
+
+//-----------------------------------------------------------------------------------------------------
+// 
 function fetchPServerListajax() {
 
   fetch('/getpanelserverlist', {
@@ -261,7 +265,7 @@ function fetchPServerListajax() {
       if (response.success == true) {
 
         let dataArray = response.data.res
-        let htmlString = ""
+        let htmlString = "", htmlString2 = ""
 
         if (curentAdminType === 1) {
           removeOptions(document.getElementById('selected_pserver'));
@@ -286,6 +290,18 @@ function fetchPServerListajax() {
                         <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
                         </tr>`
 
+          htmlString2 += ` <div class="col-md-3">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="bundle_server_add" value="${dataArray[i].tbl_name + ":" + dataArray[i].id}">
+                                ${dataArray[i].server_name}
+                                <span class="form-check-sign">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                          </div>`
+
           if (curentAdminType === 1) {
             let option = document.createElement("option");
             option.value = dataArray[i].id + ":" + dataArray[i].tbl_name + ":" + dataArray[i].server_name;
@@ -294,6 +310,7 @@ function fetchPServerListajax() {
           }
         }
         document.getElementById("manageServersTableBody").innerHTML = htmlString
+        document.getElementById("bundleOfferServerListingInput").innerHTML = htmlString2
       }
     })
     .catch(error => { showNotif({ success: false, data: { "error": error } }) });
@@ -523,6 +540,170 @@ function manuallyRefreshAllServerajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
+function addNewPanelServerBundle() {
+  if (curentAdminType === 1) {
+
+    let loader = `<div class="loading">Loading&#8230;</div>`;
+    $("#divForLoader").html(loader)
+
+    let serverArray = []
+    $("input:checkbox[name=bundle_server_add]:checked").each(function () {
+      serverArray.push($(this).val());
+    });
+
+    let formError = ""
+    if (serverArray.length < 2) {
+      formError = "Select atleast two servers to create a bundle"
+    } else if (!$('#bundle_name_add').val()) {
+      formError = "Bundle name is mandatory"
+    } else if (!$('#bundle_price_add').val()) {
+      formError = "Bundle Price is mandatory"
+    } else if (!$('#bundle_currency_add').val()) {
+      formError = "Bundle Currency is mandatory"
+    } else if (!$('#bundle_subdays_add').val()) {
+      formError = "Bundle Subscription days are mandatory"
+    } else if (!$('#bundle_flags_add').val()) {
+      formError = "Bundle VIP Flag is mandatory"
+    }
+
+    if (formError == "") {
+      fetch('/addpanelserverbundle', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "bundlename": $('#bundle_name_add').val(),
+          "bundleserverarray": serverArray,
+          "bundleprice": $('#bundle_price_add').val(),
+          "bundlecurrency": $('#bundle_currency_add').val(),
+          "bundlesubdays": $('#bundle_subdays_add').val(),
+          "bundlevipflag": $('#bundle_flags_add').val(),
+          "submit": "insert"
+        })
+      })
+        .then((res) => { return res.json(); })
+        .then((response) => {
+          $("#divForLoader").html("")
+          showNotif(response)
+          if (response.success == true) {
+            fetchPBundleListajax();
+            $('#myForm_addBundle').trigger("reset");
+          }
+        })
+        .catch(error => {
+          $("#divForLoader").html("")
+          showNotif({ success: false, data: { "error": error } })
+        });
+    } else {
+      $("#divForLoader").html("")
+      showNotif({ success: false, data: { "error": formError } })
+    }
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
+function fetchPBundleListajax() {
+
+  fetch('/getpanelbundleslist', {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((res) => { return res.json(); })
+    .then((response) => {
+      if (response.success == true) {
+        let dataArray = response.data.res
+        // console.log("dataArray==>", dataArray)
+        let htmlString = "";
+
+        for (let i = 0; i < dataArray.length; i++) {
+          let servername = dataArray[i].bundleServersData.map((data) => {
+            return (data.server_name + " ( " + data.server_ip + ":" + data.server_port + " ) ")
+          })
+          servername = servername.join("\n")
+          htmlString += `<tr>
+                        <td>${dataArray[i].bundle_name ? dataArray[i].bundle_name : 'NA'}</td>
+                        <td><pre class="my-pre">${servername ? servername : 'NA'}</pre></td>
+                        <td>${dataArray[i].bundle_price ? dataArray[i].bundle_price + " " + dataArray[i].bundle_currency : 'NA'}</td>
+                        <td>${dataArray[i].bundle_sub_days ? dataArray[i].bundle_sub_days : 'NA'}</td>
+                        <td>${dataArray[i].bundle_flags ? dataArray[i].bundle_flags : 'NA'}</td>
+                        <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
+                        <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePBundleajax('${dataArray[i].id}','${dataArray[i].bundle_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
+                        </tr>`
+
+        }
+        document.getElementById("manageServerOffersTableBody").innerHTML = htmlString
+      }
+    })
+    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+}
+//-----------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
+function deletePBundleajax(id, bundlename) {
+
+  if (curentAdminType === 1) {
+
+    let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Bundle: ${bundlename}</p>`
+
+    custom_confirm(htmlString, (Mresponse) => {
+      if (Mresponse == true) {
+
+        let loader = `<div class="loading">Loading&#8230;</div>`;
+        $("#divForLoader").html(loader)
+
+        fetch('/deletepanelbundle', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "id": id,
+            "bundlename": bundlename,
+            "submit": "delete"
+          })
+        })
+          .then((res) => { return res.json(); })
+          .then((response) => {
+            $("#divForLoader").html("")
+            if (response.success == true) { fetchPBundleListajax() }
+            showNotif(response)
+          })
+          .catch(error => {
+            $("#divForLoader").html("")
+            showNotif({ success: false, data: { "error": error } })
+          });
+      }
+    })
+  } else {
+    showNotif({
+      success: false,
+      data: { "error": "You dont have Permissions to do this Action" }
+    })
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
 function removeOptions(selectElement) {
   var i, L = selectElement.options.length - 1;
   for (i = L; i >= 0; i--) {
@@ -541,7 +722,8 @@ function dateFormatter(date) {
 $(document).ready(function () {
 
   fetchPSettingajax();
-  fetchPServerListajax()
+  fetchPServerListajax();
+  fetchPBundleListajax();
 
   if (curentAdminType === 1) {
 

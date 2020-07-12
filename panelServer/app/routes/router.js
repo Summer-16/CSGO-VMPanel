@@ -39,6 +39,7 @@ module.exports = app => {
   const { saleRecords, getSalesRecord } = require("../controllers/salesRecord.js")
   const { auditRecords, getAuditRecord } = require("../controllers/auditLogs.js")
   const { initPayUPayment } = require("../controllers/payU.js")
+  const { addPanelServerBundle, getPanelBundlesList, deletePanelBundle } = require("../controllers/panelServerBundles.js")
 
   //Public Router
   app.get("/", dashboard);
@@ -73,6 +74,7 @@ module.exports = app => {
   app.get('/mydashboard', middleware.checkSteamAuthenticated, myDashboard);
   app.post('/execafterpaymentprocess', middleware.checkSteamAuthenticated, afterPaymentProcess);
   app.post('/initpayupayment', middleware.checkSteamAuthenticated, initPayUPayment);
+  app.get('/getpanelbundleslistud', middleware.checkSteamAuthenticated, getPanelBundlesList);
 
 
   //Private Router only for Panel Admins (Local Aithorized)
@@ -97,6 +99,11 @@ module.exports = app => {
   app.post("/getpanelserversingle", middleware.checkToken, getPanelServerSingle);
   app.post("/addpanelserver", middleware.checkToken, addPanelServer);
   app.post("/deletepanelserver", middleware.checkToken, deletePanelServers);
+
+  //Panel server bundl mange routes
+  app.get("/getpanelbundleslist", middleware.checkToken, getPanelBundlesList);
+  app.post("/addpanelserverbundle", middleware.checkToken, addPanelServerBundle);
+  app.post("/deletepanelbundle", middleware.checkToken, deletePanelBundle);
 
   //Panel Admin routes
   app.get("/getpaneladminslist", middleware.checkToken, getPanelAdminsList);

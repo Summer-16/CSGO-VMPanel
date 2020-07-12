@@ -21,6 +21,7 @@
 // 
 
 function initPayUpayment(serverData, type) {
+  // console.log("serverData payu==>", serverData, type)
 
   let htmlString = `<p>Enter following details and proceed</p>
                     <br>

@@ -38,10 +38,13 @@ var bundleModel = {
 
         let query = db.queryFormat(`CREATE TABLE IF NOT EXISTS ${table} (
                                     id INT NOT NULL AUTO_INCREMENT,
-                                    name VARCHAR(255) NULL,
+                                    bundle_name VARCHAR(255) NULL,
                                     bundle_price INT(11) NULL,
                                     bundle_currency VARCHAR(45) NULL,
                                     bundle_desc VARCHAR(255) NULL,
+                                    bundle_sub_days INT(11) NULL,
+                                    bundle_flags VARCHAR(50) NULL,
+                                    created_at datetime DEFAULT NULL,
                                     PRIMARY KEY (id)
                                   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
         let queryRes = await db.query(query, true);
@@ -63,6 +66,138 @@ var bundleModel = {
         return resolve(true);
       } catch (error) {
         console.log("error in createTheTableIfNotExists->", error)
+        reject(error)
+      }
+    });
+  },
+
+  /**
+ * Insert a new bundle
+ */
+  insertNewPanelBundle: function (dataObj) {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        // validation
+        if (dataObj.bundleserverarray < 2) return reject("Operation Fail!, Select atleast two servers to create a bundle");
+        if (!dataObj.bundlename) return reject("Operation Fail!, Bundle name is Missing");
+        if (!dataObj.bundleprice) return reject("Operation Fail!, Bundle Price is Missing");
+        if (!dataObj.bundlecurrency) return reject("Operation Fail!, Bundle Currency is Missing");
+        if (!dataObj.bundlesubdays) return reject("Operation Fail!, Bundle Subscription days are Missing");
+        if (!dataObj.bundlevipflag) return reject("Operation Fail!, Bundle VIP Flag is Missing");
+
+        let query = db.queryFormat(`INSERT INTO ${table} 
+                                    (bundle_name, 
+                                    bundle_price,
+                                    bundle_currency,
+                                    bundle_desc,
+                                    bundle_sub_days,
+                                    bundle_flags,
+                                    created_at) VALUES (?, ?, ?, ?, ? ,?,?)`,
+          [dataObj.bundlename, dataObj.bundleprice, dataObj.bundlecurrency, dataObj.bundlename, dataObj.bundlesubdays, ('"' + dataObj.bundlevipflag + '"'), new Date()]);
+        let queryRes = await db.query(query, true);
+        if (!queryRes) {
+          return reject("Error in insertion bundle");
+        }
+        // console.log("queryRes===>", queryRes)
+
+        let bundleInsertId = queryRes.insertId
+        let insertArray = []
+        let serverArray = dataObj.bundleserverarray
+
+        for (let i = 0; i < serverArray.length; i++) {
+          insertArray.push([bundleInsertId, serverArray[i].split(':')[1]])
+        }
+
+        if (insertArray.length) {
+          query = db.queryFormat(`INSERT INTO ${reltable}
+                                      (bundle_id,server_id)
+                                      VALUES ?`, [insertArray]);
+          queryRes = await db.query(query, true);
+          // console.log("queryRes===>", queryRes)
+          if (!queryRes) {
+            return reject("Error in insertion bundle relation");
+          }
+        }
+
+        return resolve(true);
+
+      } catch (error) {
+        console.log("error in insertNewPanelServer->", error)
+        reject(error)
+      }
+    });
+  },
+
+  /**
+ * get all bundles list
+ */
+  getAllBundles: function () {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        let query = db.queryFormat(`SELECT * FROM ${table}`);
+        let queryRes = await db.query(query);
+        // console.log("queryRes===>", queryRes.length, queryRes)
+        if (!queryRes) {
+          return reject("No Data Found");
+        }
+
+        let bundleData = queryRes
+
+        for (let i = 0; i < bundleData.length; i++) {
+          query = db.queryFormat(`SELECT tbl_servers.server_name,
+                                  tbl_servers.server_ip,
+                                  tbl_servers.server_port,
+                                  tbl_servers.tbl_name
+                                  FROM ${reltable}
+                                  left join tbl_servers on tbl_servers.id = server_id 
+                                  where bundle_id = ?`, [bundleData[i].id]);
+          // console.log("query===>", query)
+          queryRes = await db.query(query);
+          // console.log("queryRes 1===>", queryRes.length, queryRes)
+          if (!queryRes) {
+            return reject("Error in insertion bundle relation");
+          }
+          bundleData[i]["bundleServersData"] = queryRes
+        }
+        // console.log("bundleData===>", bundleData)
+        return resolve(bundleData);
+      } catch (error) {
+        console.log("error in getAllSettings->", error)
+        reject(error)
+      }
+    });
+  },
+
+  /**
+* Delete a Bundle
+*/
+  deletePanelBundle: function (dataObj) {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        // validation
+        if (!dataObj.id) return reject("id is not provided");
+        if (!dataObj.bundlename) return reject("Table Name is not provided");
+
+        let query = db.queryFormat(`DELETE FROM ${table} WHERE id = ? AND bundle_name = ?`, [dataObj.id, dataObj.bundlename]);
+        let queryRes = await db.query(query, true);
+        // console.log("queryRes===>", queryRes)
+        if (!queryRes) {
+          return reject("Error in delete");
+        }
+
+        query = db.queryFormat(`DELETE FROM ${reltable} WHERE bundle_id = ?`, [dataObj.id]);
+        queryRes = await db.query(query, true);
+        // console.log("queryRes===>", queryRes)
+        if (!queryRes) {
+          return reject("Error in delete");
+        }
+
+        return resolve(queryRes);
+      } catch (error) {
+        console.log("error in deletePanelServer->", error)
         reject(error)
       }
     });
