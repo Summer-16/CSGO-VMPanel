@@ -157,7 +157,7 @@ function remainingDays(endEpoc){
                               <%=bundleArray[i].bundle_price? bundleArray[i].bundle_price+" "+bundleArray[i].bundle_currency+" for "+bundleArray[i].bundle_sub_days+" days"  :"NA"%>
                             </h3>
                             <div class="text-center mt-3" style="max-height:250px;overflow: auto;">
-                              <h4>Bundle Inclides Following Servers</h4>
+                              <h4>Bundle Includes Following Servers</h4>
                               <%if(bundleArray[i].bundleServersData){%>
                               <% for(let j=0; j < bundleArray[i].bundleServersData.length;j++){%>
                               <a href="<%='steam://connect/'+bundleArray[i].bundleServersData[j].server_ip+':'+bundleArray[i].bundleServersData[j].server_port%>"
