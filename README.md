@@ -132,7 +132,7 @@ pm2 stop 0
 - PayU Payment gateway is for Indian Users only as it do transactions in rupee
 - execute below query in your database
 ```mysql
-ALTER TABLE `GGVIPlist`.`tbl_servers` 
+ALTER TABLE `tbl_servers` 
 ADD COLUMN `vip_days` INT(11) NULL DEFAULT 30 AFTER `vip_currency`;
 ```
 - Now restart your server and you are good to go
