@@ -6,7 +6,7 @@
 - Now admin can define no of subscription days for every server
 - Admin can create server bundle where they can create a bundle by adding multiple servers with custom subscription days and price to create custom offers
 
-## Panel Features v1.6 (Changelogs)
+## Panel Features v1.6 (Changelogs) (will be released tonight)
 - PayU Money payment gateway added (PayU Payment gateway is for Indian Users only as it does transactions in rupee)
 - Some bugs fixed for the login screen
 - Panel logs added
