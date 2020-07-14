@@ -38,7 +38,8 @@ const refreshAdminsInServer = (server) => {
         sq.getInfo(function (err, info) {
           if (err) {
             sq.close()
-            return reject("Operation Done in VMPanel Database,\n No Rcon execution, Server is Offline ")
+            //return reject("Operation Done in VMPanel Database,\n No Rcon execution, Server is Offline ")
+            return resolve(0)
           } else {
             sq.close()
             var conn = new Rcon(serverDetails.server_ip, serverDetails.server_port, serverDetails.server_rcon_pass);
