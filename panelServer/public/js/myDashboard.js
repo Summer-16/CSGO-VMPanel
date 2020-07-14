@@ -65,8 +65,6 @@ function fetchPBundleListajax() {
 
         let htmlString = "";
 
-        // console.log("dataArray==>", dataArray)
-
         for (let i = 0; i < dataArray.length; i++) {
 
           let serversHtml = '', serversTblNames = []
@@ -89,7 +87,7 @@ function fetchPBundleListajax() {
             "tbl_name": serversTblNames.join(','),
             "vip_flag": dataArray[i].bundle_flags
           }
-          // console.log("serverDataObj==>", serverDataObj)
+
           serverDataObj = JSON.stringify(serverDataObj)
           let tempString = dataArray[i].bundle_name;
           let idForPayPal = tempString.split(" ").join("");
@@ -127,7 +125,7 @@ function fetchPBundleListajax() {
                         </div>`
 
         }
-        // console.log("htmlString==>", htmlString)
+
         document.getElementById("userDashoardServerBundleListing").innerHTML = htmlString
       }
     })

@@ -625,7 +625,7 @@ function fetchPBundleListajax() {
     .then((response) => {
       if (response.success == true) {
         let dataArray = response.data.res
-        // console.log("dataArray==>", dataArray)
+
         let htmlString = "";
 
         for (let i = 0; i < dataArray.length; i++) {

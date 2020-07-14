@@ -78,7 +78,7 @@ const myDashboardFunc = (reqBody, reqUser) => {
       }
 
       let bundleList = await getPanelBundlesListFunc()
-      // console.log("bundleList dash==>", bundleList)
+
       const bundleArray = []
       for (let i = 0; i < bundleList.length; i++) {
 
@@ -103,8 +103,6 @@ const myDashboardFunc = (reqBody, reqUser) => {
         bundleArray.push(bundleList[i])
 
       }
-
-      // console.log("bundleArray dash==>", bundleArray)
 
       resolve({
         "userDataListing": userDataListing,

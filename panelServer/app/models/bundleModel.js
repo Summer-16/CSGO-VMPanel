@@ -99,7 +99,7 @@ var bundleModel = {
         if (!queryRes) {
           return reject("Error in insertion bundle");
         }
-        // console.log("queryRes===>", queryRes)
+
 
         let bundleInsertId = queryRes.insertId
         let insertArray = []
@@ -114,7 +114,7 @@ var bundleModel = {
                                       (bundle_id,server_id)
                                       VALUES ?`, [insertArray]);
           queryRes = await db.query(query, true);
-          // console.log("queryRes===>", queryRes)
+
           if (!queryRes) {
             return reject("Error in insertion bundle relation");
           }
@@ -138,7 +138,7 @@ var bundleModel = {
 
         let query = db.queryFormat(`SELECT * FROM ${table}`);
         let queryRes = await db.query(query);
-        // console.log("queryRes===>", queryRes.length, queryRes)
+
         if (!queryRes) {
           return reject("No Data Found");
         }
@@ -153,15 +153,15 @@ var bundleModel = {
                                   FROM ${reltable}
                                   left join tbl_servers on tbl_servers.id = server_id 
                                   where bundle_id = ?`, [bundleData[i].id]);
-          // console.log("query===>", query)
+
           queryRes = await db.query(query);
-          // console.log("queryRes 1===>", queryRes.length, queryRes)
+
           if (!queryRes) {
             return reject("Error in insertion bundle relation");
           }
           bundleData[i]["bundleServersData"] = queryRes
         }
-        // console.log("bundleData===>", bundleData)
+
         return resolve(bundleData);
       } catch (error) {
         console.log("error in getAllSettings->", error)
@@ -183,14 +183,14 @@ var bundleModel = {
 
         let query = db.queryFormat(`DELETE FROM ${table} WHERE id = ? AND bundle_name = ?`, [dataObj.id, dataObj.bundlename]);
         let queryRes = await db.query(query, true);
-        // console.log("queryRes===>", queryRes)
+
         if (!queryRes) {
           return reject("Error in delete");
         }
 
         query = db.queryFormat(`DELETE FROM ${reltable} WHERE bundle_id = ?`, [dataObj.id]);
         queryRes = await db.query(query, true);
-        // console.log("queryRes===>", queryRes)
+
         if (!queryRes) {
           return reject("Error in delete");
         }

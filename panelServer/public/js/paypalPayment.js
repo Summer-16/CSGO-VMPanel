@@ -22,8 +22,6 @@
 
 function setPayPalButton(id, serverData, type) {
 
-  // console.log("serverData paypal==>", id, serverData, type)
-
   let server = serverData.server_name ? serverData.server_name : ''
   let currency = serverData.vip_currency ? serverData.vip_currency : ''
   let price = serverData.vip_price ? serverData.vip_price : ''

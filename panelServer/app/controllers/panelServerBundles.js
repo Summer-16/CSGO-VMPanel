@@ -54,8 +54,6 @@ const addPanelServerBundleFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      //console.log("req bidy on addPanelServerBundleFunc==>", reqBody)
-
       // validation
       if (reqBody.bundleserverarray < 2) return reject("Operation Fail!, Select atleast two servers to create a bundle");
       if (!reqBody.bundlename) return reject("Operation Fail!, Bundle name is Missing");
