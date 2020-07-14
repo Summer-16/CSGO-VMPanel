@@ -2,11 +2,11 @@
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paytm-64.png)](https://drive.google.com/file/d/1ks_B3s9dNk_RPkDVf1DL1ITKe0mnrTRk/view)  [![Donate](https://cdn.iconscout.com/icon/free/png-64/upi-bhim-transfer-1795405-1522773.png)](https://drive.google.com/open?id=1VYYThJS78Pp6yyIU0lCIC4j7ef5a4G0l)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 
-## Panel Features v1.7 (Changelogs)
+## Panel Features v1.7 (Changelogs) (will be released tonight)
 - Now admin can define no of subscription days for every server
 - Admin can create server bundle where they can create a bundle by adding multiple servers with custom subscription days and price to create custom offers
 
-## Panel Features v1.6 (Changelogs) (will be released tonight)
+## Panel Features v1.6 (Changelogs) 
 - PayU Money payment gateway added (PayU Payment gateway is for Indian Users only as it does transactions in rupee)
 - Some bugs fixed for the login screen
 - Panel logs added
