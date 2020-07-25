@@ -133,14 +133,14 @@ exports.afterPaymentProcess = async (req, res) => {
     const secKey = req.session.passport.user.id
     let result = await afterPaymentProcessFunc(req.body, req.user, secKey);
 
-    let userDisplayname = reqUser.displayName
+    let userDisplayname = req.user.displayName
     userDisplayname = cleanString(userDisplayname)
-    let userRealName = reqUser._json.realname
+    let userRealName = req.user._json.realname
     const finalUserName = userRealName + " - (" + (userDisplayname ? userDisplayname : "-_-") + ")"
 
     logThisActivity({
       "activity": req.body.buyType === 'newPurchase' ? "New VIP Purchased" : "VIP renewed",
-      "additional_info": `${(reqBody.gateway === 'paypal') ? req.body.paymentData.id : (reqBody.gateway === 'payu') ? req.body.paymentData.order_id : "NA"} - ( ${finalUserName} )`,
+      "additional_info": `${(req.body.gateway === 'paypal') ? req.body.paymentData.id : (req.body.gateway === 'payu') ? req.body.paymentData.order_id : "NA"} - ( ${finalUserName} )`,
       "created_by": finalUserName + " (Steam Login)"
     })
 
