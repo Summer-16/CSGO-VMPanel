@@ -49,7 +49,7 @@ exports.insertVipData = async (req, res) => {
     let result = await insertVipDataFunc(req.body, req.session.username);
     logThisActivity({
       "activity": req.body.submit == "insert" ? "New VIP added" : "VIP Updated",
-      "additional_info": `${req.body.name.replace("//", "")} ( ${req.body.steamId} )`,
+      "additional_info": `${(req.body.name)?req.body.name.replace("//", ""):"-_-"} ( ${req.body.steamId} )`,
       "created_by": req.session.username
     })
     res.json({

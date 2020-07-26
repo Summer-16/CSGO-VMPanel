@@ -239,6 +239,7 @@ function fetchPSettingajax() {
           $('#community_website').val(settingObj.community_website);
         }
         $("input[name=color_theme][value=" + settingObj.color_theme + "]").prop('checked', true);
+        $("input[name=dash_vip_show][value=" + settingObj.dash_vip_show + "]").prop('checked', true);
         $("input[name=dash_admin_show][value=" + settingObj.dash_admin_show + "]").prop('checked', true);
         $('#community_name').val(settingObj.community_name);
         // $('#webhook_url').focus();
@@ -310,7 +311,9 @@ function fetchPServerListajax() {
           }
         }
         document.getElementById("manageServersTableBody").innerHTML = htmlString
-        document.getElementById("bundleOfferServerListingInput").innerHTML = htmlString2
+        if (curentAdminType === 1) {
+          document.getElementById("bundleOfferServerListingInput").innerHTML = htmlString2
+        }
       }
     })
     .catch(error => { showNotif({ success: false, data: { "error": error } }) });

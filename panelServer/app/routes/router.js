@@ -40,6 +40,7 @@ module.exports = app => {
   const { auditRecords, getAuditRecord } = require("../controllers/auditLogs.js")
   const { initPayUPayment } = require("../controllers/payU.js")
   const { addPanelServerBundle, getPanelBundlesList, deletePanelBundle } = require("../controllers/panelServerBundles.js")
+  const { sourceBans, sourceBansAddBan } = require("../controllers/sourceBans.js")
 
   //Public Router
   app.get("/", dashboard);
@@ -122,6 +123,11 @@ module.exports = app => {
   app.get("/auditlogs", middleware.checkToken, auditRecords);
   app.post("/fetchauditlogs", middleware.checkToken, getAuditRecord);
 
+  //Routes for sourcebans
+  app.get("/sourcebans", middleware.checkToken, sourceBans);
+  app.post("/sourcebansaddban", middleware.checkToken, sourceBansAddBan);
+
+  //Creator info route
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');
   });

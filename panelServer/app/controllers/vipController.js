@@ -21,6 +21,7 @@
 const vipModel = require("../models/vipModel.js");
 const myDashboardModel = require("../models/myDashboardModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
+const settingsModal = require("../models/panelSettingModal.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -39,12 +40,19 @@ exports.dashboard = async (req, res) => {
 const dashboardFunc = (reqBody, token) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await vipModel.getallServerData()
-      let adminStats = null, serverData = null
+
+      let data = null, adminStats = null, serverData = null
+
       if (token) {
+        data = await vipModel.getallServerData()
         adminStats = await myDashboardModel.getStatsForAdmin()
+      } else {
+        let settingObj = await settingsModal.getAllSettings();
+        if (settingObj.dash_vip_show) {
+          data = await vipModel.getallServerData()
+        }
       }
-      serverData = await await panelServerModal.getPanelServersList()
+      serverData = await panelServerModal.getPanelServersList()
       if (serverData) {
         for (let i = 0; i < serverData.length; i++) {
           serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA"

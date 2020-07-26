@@ -43,6 +43,9 @@ switch (route) {
   case "/auditlogs":
     heading = "VMPanel - Audit Logs";
     break;
+  case "/sourcebans":
+    heading = "VMPanel SourceBans Integration";
+    break;
   case "/aboutcreator":
     heading = "About";
     break;
@@ -121,6 +124,12 @@ return heading
             <a class="nav-link" href="/manageadmin">
               <i class="material-icons">people</i>
               <p>Manage Admin</p>
+            </a>
+          </li>
+          <li class="nav-item <%= (currentURL=='/sourcebans'?'active':'') %>">
+            <a class="nav-link" href="/sourcebans">
+              <i class="material-icons">anchor</i>
+              <p>SourceBans</p>
             </a>
           </li>
           <%if(adminType===1){%>

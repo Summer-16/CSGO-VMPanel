@@ -152,7 +152,7 @@ function remainingDays(endEpoc){
   <div class="row">
     <% if(vipData) {%>
     <% for(let i=0; i < vipData.length; i++) { %>
-    <% if((vipData[i].type==="VIPs") || (vipData[i].type==="ADMINs" && panelSetting.dash_admin_show==1)) {%>
+    <% if( ((vipData[i].type==="VIPs" && panelSetting.dash_vip_show==1 && !sessionToken ) ||(vipData[i].type==="VIPs" && sessionToken)  ) || (vipData[i].type==="ADMINs" && panelSetting.dash_admin_show==1)) {%>
     <div class="col-md-6">
       <div class="card">
         <div class="card-header card-header-<%=panelSetting.color_theme%>">
