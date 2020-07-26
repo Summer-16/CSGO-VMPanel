@@ -1,6 +1,12 @@
 # CSGO Vip Management Panel
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paytm-64.png)](https://drive.google.com/file/d/1ks_B3s9dNk_RPkDVf1DL1ITKe0mnrTRk/view)  [![Donate](https://cdn.iconscout.com/icon/free/png-64/upi-bhim-transfer-1795405-1522773.png)](https://drive.google.com/open?id=1VYYThJS78Pp6yyIU0lCIC4j7ef5a4G0l)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
+### If you like my work , Consider donating to the project and support me. Thank You
+
+## Latest Development build (Changelogs)
+- Some fixes and improvemnts
+- New setting option added to enable disable vip listing on public dashboard
+- Sourceban integration on-going (under development)
 
 ## Panel Features v1.7 (Changelogs)
 - Now admin can define no of subscription days for every server
@@ -124,14 +130,11 @@ pm2 stop 0
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
 
-## Updating from v1.6 to v1.7
+## Updating from v1.7 to dev
 - Stop your panel service while updating
 - Add files from latest commit to yours installed directory
-- Go to panelServer folder , open your Linux terminal and run npm i
-- Go to your config and update the new  details from example config
 - execute the below query in your database
 ```mysql
-ALTER TABLE `tbl_servers` 
-ADD COLUMN `vip_days` INT(11) NULL DEFAULT 30 AFTER `vip_currency`;
+INSERT INTO `GGVIPlist`.`tbl_settings` (`setting_key`, `setting_value`) VALUES ('dash_vip_show', '1');
 ```
 - Now restart your server and you are good to go
