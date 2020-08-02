@@ -56,6 +56,7 @@ function profileUrlToDataFetcher(profileUrl) {
         $("#divForLoader").html("")
         $('#steamId_add').val(finalSteamID);
         $('#name_add').val(finalName);
+        $('#name_comm').val(finalName);
         $('#steamId_update').val(finalSteamID);
         $("#display_steamId").text(finalSteamID)
         $("#display_name").text(userName)
