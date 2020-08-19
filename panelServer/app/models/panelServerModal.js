@@ -160,7 +160,7 @@ var panelServerModal = {
                                   vip_flag,
                                   vip_days,
                                   created_at) VALUES (?, ?, ?, ?, ? ,? ,?, ?, ?, ?, ?)`,
-            [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), dataObj.servervipdays, new Date()]);
+            [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip / 1, dataObj.servervipprice / 1, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), dataObj.servervipdays / 1, new Date()]);
           queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("Error in insertion");

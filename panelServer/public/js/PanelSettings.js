@@ -347,14 +347,14 @@ function addNewPServerajax() {
         body: JSON.stringify({
           "tablename": $('#servertablename_add').val(),
           "servername": $('#servername_add').val(),
-          "serverip": $('#servertableIP_add').val(),
-          "serverport": $('#servertablePort_add').val(),
-          "serverrcon": $('#servertableRCON_add').val(),
-          "servertotalvip": $('#servertableTotalVIPSlots_add').val(),
-          "servervipprice": $('#servertableVIPPrice_add').val(),
-          "servervipcurrency": $('#servertableCurrency_add').val(),
-          "servervipflag": $('#servertableVIPFlag_add').val(),
-          "servervipdays": $('#servertableVIPDays_add').val(),
+          "serverip": $('#servertableIP_add').val() ? $('#servertableIP_add').val() : null,
+          "serverport": $('#servertablePort_add').val() ? $('#servertablePort_add').val() : null,
+          "serverrcon": $('#servertableRCON_add').val() ? $('#servertableRCON_add').val() : null,
+          "servertotalvip": $('#servertableTotalVIPSlots_add').val() ? $('#servertableTotalVIPSlots_add').val() : null,
+          "servervipprice": $('#servertableVIPPrice_add').val() ? $('#servertableVIPPrice_add').val() : null,
+          "servervipcurrency": $('#servertableCurrency_add').val() ? $('#servertableCurrency_add').val() : null,
+          "servervipflag": $('#servertableVIPFlag_add').val() ? $('#servertableVIPFlag_add').val() : null,
+          "servervipdays": $('#servertableVIPDays_add').val() ? $('#servertableVIPDays_add').val() : null,
           "submit": "insert"
         })
       })

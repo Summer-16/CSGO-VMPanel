@@ -44,24 +44,32 @@ function profileUrlToDataFetcher(profileUrl) {
 
         $("#divForLoader").html("")
 
-        let steamID64 = $(response).find("steamID64").text();
-        let userName = $(response).find("steamID").html().slice(11).slice(0, -5);
-        userName = cleanString(userName)
-        let realName = $(response).find("realname").html().slice(11).slice(0, -5);
-        let finalName = realName + " - (" + (userName ? userName : "-_-") + ")"
+        let privacyState = $(response).find("privacyState").text();
+        if (privacyState === "public") {
+          let steamID64 = $(response).find("steamID64").text();
+          let userName = $(response).find("steamID").html().slice(11).slice(0, -5);
+          userName = cleanString(userName)
+          let realName = $(response).find("realname").html().slice(11).slice(0, -5);
+          let finalName = realName + " - (" + (userName ? userName : "-_-") + ")"
 
-        let dpURL = $(response).find("avatarMedium").html().slice(11).slice(0, -5);
-        let finalSteamID = SteamIDConverter.toSteamID(steamID64);
+          let dpURL = $(response).find("avatarMedium").html().slice(11).slice(0, -5);
+          let finalSteamID = SteamIDConverter.toSteamID(steamID64);
 
-        $("#divForLoader").html("")
-        $('#steamId_add').val(finalSteamID);
-        $('#name_add').val(finalName);
-        $('#name_comm').val(finalName);
-        $('#steamId_update').val(finalSteamID);
-        $("#display_steamId").text(finalSteamID)
-        $("#display_name").text(userName)
-        $("#dp_div").html(`<img src="${dpURL}" alt="Profile Picture">`);
-        $("#name_add").focus();
+          $("#divForLoader").html("")
+          $('#steamId_add').val(finalSteamID);
+          $('#name_add').val(finalName);
+          $('#name_comm').val(finalName);
+          $('#steamId_update').val(finalSteamID);
+          $("#display_steamId").text(finalSteamID)
+          $("#display_name").text(userName)
+          $("#dp_div").html(`<img src="${dpURL}" alt="Profile Picture">`);
+          $("#name_add").focus();
+        } else {
+          showNotif({
+            success: false,
+            data: { "error": "Can not fetch user data Profile privacy is " + privacyState }
+          })
+        }
       })
       .catch(error => {
         console.log("error -->", error)
