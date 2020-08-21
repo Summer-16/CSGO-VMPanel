@@ -1,9 +1,9 @@
 {
   "db": {
-    "db_host": "your db host",
+    "db_host": "your_db_host",
     "db_port": 3306,
-    "db_user": "your db username",
-    "db_password": "your db user's password",
+    "db_user": "your_db_username",
+    "db_password": "your_db_user's_password",
     "db_name": "dbname"
   },
   "hostname": "localhost",
