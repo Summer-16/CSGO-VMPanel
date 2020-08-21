@@ -20,7 +20,7 @@
 "use strict";
 
 var db = require('../db/db_bridge');
-const config = require('../config/config.json')
+const config = require('../config');
 const table = config.settingTable
 const valueArray = [["color_theme", "danger"], ["dash_vip_show", "1"], ["dash_admin_show", "1"], ["webhook_url", ""], ["community_name", "VMPanel"], ["normiadmin_settings", "1"], ["community_logo_url", ""], ["community_info", ""], ["community_website", ""]]
 

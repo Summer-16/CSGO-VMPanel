@@ -17,7 +17,7 @@
  * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
  */
 
-const config = require('./app/config/config.json')
+const config = require('./app/config');
 const scheduleConfig = config.scheduleConfig;
 const express = require("express");
 const bodyParser = require("body-parser");
