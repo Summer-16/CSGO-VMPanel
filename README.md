@@ -4,7 +4,7 @@
 ### If you like my work , Consider donating to the project and support me. Thank You
 
 ## Latest Development build (Changelogs)
-- Some fixes and improvemnts
+- Some fixes and improvements
 - New setting option added to enable disable vip listing on public dashboard
 - Sourceban integration on-going (under development)
 
@@ -133,6 +133,7 @@ pm2 stop 0
 ## Updating from v1.7 to dev
 - Stop your panel service while updating
 - Add files from latest commit to yours installed directory
+- delete the `package-lock.json` in `panelServer` directory, then run `npm i`
 - execute the below query in your database
 ```mysql
 INSERT INTO `GGVIPlist`.`tbl_settings` (`setting_key`, `setting_value`) VALUES ('dash_vip_show', '1');
