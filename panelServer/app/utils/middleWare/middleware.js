@@ -18,7 +18,7 @@
 */
 
 const jwt = require('jsonwebtoken');
-const config = require('../../config/config.json');
+const config = require('../../config');
 const jwtSecretKey = config.jwt.key;
 const steamApi = config.steam_api_key
 

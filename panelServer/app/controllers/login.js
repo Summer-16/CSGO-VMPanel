@@ -18,7 +18,7 @@
 */
 
 "use strict";
-const config = require('../config/config.json')
+const config = require('../config');
 const userModel = require("../models/userModel.js");
 let jwt = require('jsonwebtoken');
 const jwtSecretKey = config.jwt.key;

@@ -20,7 +20,7 @@
 'use strict';
 
 const mysql = require('mysql');
-const config = require('../config/config.json')
+const config = require('../config');
 const dbConfig = config.db;
 
 var pool;

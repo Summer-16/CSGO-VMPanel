@@ -20,7 +20,7 @@
 "use strict";
 const SteamIDConverter = require('../utils/steamIdConvertor')
 const crypto = require('crypto');
-const config = require('../config/config.json')
+const config = require('../config');
 const payUConfig = config.paymnet_gateways.payU
 
 //-----------------------------------------------------------------------------------------------------

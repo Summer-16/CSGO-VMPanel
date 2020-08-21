@@ -20,7 +20,7 @@
 "use strict";
 
 var db = require('../db/db_bridge');
-const config = require('../config/config.json')
+const config = require('../config');
 const table = config.audittable
 
 /**

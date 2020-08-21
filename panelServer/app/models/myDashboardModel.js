@@ -21,7 +21,7 @@
 
 var db = require('../db/db_bridge');
 const panelServerModal = require("./panelServerModal.js");
-const config = require('../config/config.json')
+const config = require('../config');
 const salestable = config.salestable
 const serverTable = config.serverTable
 
