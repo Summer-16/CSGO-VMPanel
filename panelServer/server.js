@@ -19,6 +19,7 @@
 
 const config = require('./app/config');
 const scheduleConfig = config.scheduleConfig;
+const logger = require('./app/modules/logger')('Server');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cron = require('node-cron');
@@ -92,7 +93,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
-  console.log("****Schedule call Deleting old VIP****")
+  logger.info("****Schedule call Deleting old VIP****");
   await vipModel.deleteOldVip()
   logThisActivity({
     "activity": "Old VIP records deleted",
@@ -102,7 +103,7 @@ cron.schedule(`0 */${scheduleConfig.delete} * * *`, async () => {
 });
 
 cron.schedule(`0 */${scheduleConfig.notif} * * *`, async () => {
-  console.log("****Schedule call Sending Notification on Discord****")
+  logger.info("****Schedule call Sending Notification on Discord****");
   sendMessageOnDiscord()
 });
 
@@ -132,18 +133,15 @@ require("./app/routes/router.js")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || config.serverPort;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  logger.info(`Server is running on port ${PORT}.`);
 });
 
-// ------------ process error handling [ start  ]  ------
-
+// ========== process error handling [ start ] ==========
 process.on('uncaughtException', err => {
-  console.log("'uncaughtException' occurred!")
-  console.log("err", err);
+  logger.error("'uncaughtException' occurred! \n error:", err);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at:', reason.stack || reason);
+  logger.error('Unhandled Rejection at:', reason.stack || reason);
 });
-
-// ------------ process error handling [ end  ]  ------
+// ========== process error handling [ end ] ==========

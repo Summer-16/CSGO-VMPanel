@@ -17,7 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Source Bans');
+
 const panelServerModal = require("../models/panelServerModal.js");
 const { executeRconInServer } = require("../utils/csgoServerRconExecuter")
 const { logThisActivity } = require("../utils/activityLogger.js");
@@ -33,7 +35,7 @@ exports.sourceBans = async (req, res) => {
     let serverList = await panelServerModal.getPanelServersDisplayList();
     res.render('sourceBans', { "serverList": serverList });
   } catch (error) {
-    console.log("error in sourceBans-->", error)
+    logger.error("error in sourceBans-->", error);
     res.render('sourceBans', { "serverList": null });
   }
 }
@@ -63,7 +65,7 @@ exports.sourceBansAddBan = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error in adding ban in sourceBansAddBan->", error)
+    logger.error("error in adding ban in sourceBansAddBan->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -79,7 +81,7 @@ const sourceBansAddBanFunc = (reqBody, username) => {
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
 
-        console.log("req body in  sourceBansAddBanFunc==> ", reqBody)
+        logger.info("req body in  sourceBansAddBanFunc==> ", reqBody);
 
         if (reqBody.bantype === "serverBan") {
           if (reqBody.serverbantype == "steamid") {
@@ -113,7 +115,7 @@ const sourceBansAddBanFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in sourceBansAddBanFunc->", error)
+      logger.error("error in sourceBansAddBanFunc->", error);
       reject(error + ", Please try again")
     }
   });

@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Panel Admins Controller');
 const userModel = require("../models/userModel.js");
 const { logThisActivity } = require("../utils/activityLogger.js");
 const bcrypt = require('bcrypt');
@@ -50,7 +51,7 @@ exports.addPanelAdmin = async (req, res) => {
       data: { "res": result, "message": req.body.submit == "insert" ? "New Admin added Successfully" : "Admin Updated Successfully", "notifType": "success" }
     });
   } catch (error) {
-    console.log("error in addPanelAdmin->", error)
+    logger.error("error in addPanelAdmin->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -109,7 +110,7 @@ const addPanelAdminFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in addPanelAdminFunc->", error)
+      logger.error("error in addPanelAdminFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -132,7 +133,7 @@ exports.getPanelAdminsList = async (req, res) => {
       data: { "res": result, "message": "Admin List Fetched" }
     });
   } catch (error) {
-    console.log("error in getPanelAdminsList->", error)
+    logger.error("error in getPanelAdminsList->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -149,7 +150,7 @@ const getPanelAdminsListFunc = (reqBody) => {
         resolve(userData)
       }
     } catch (error) {
-      console.log("error in getPanelAdminsListFunc->", error)
+      logger.error("error in getPanelAdminsListFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -186,7 +187,7 @@ exports.deletePanelAdmin = async (req, res) => {
       data: { "res": result, "message": "Admin Deleted Successfully", "notifType": "success" }
     });
   } catch (error) {
-    console.log("error in deletePanelAdmin->", error)
+    logger.error("error in deletePanelAdmin->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -221,7 +222,7 @@ const deletePanelAdminFunc = (reqBody, username) => {
         }
       }
     } catch (error) {
-      console.log("error in deletePanelAdminFunc->", error)
+      logger.error("error in deletePanelAdminFunc->", error);
       reject(error + ", Please try again")
     }
   });

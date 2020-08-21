@@ -18,6 +18,7 @@
 */
 
 "use strict";
+const logger = require('../modules/logger')('refresh CGF');
 const Rcon = require('rcon');
 const SourceQuery = require('sourcequery');
 const panelServerModal = require("../models/panelServerModal.js");
@@ -44,16 +45,16 @@ const refreshAdminsInServer = (server) => {
             sq.close()
             var conn = new Rcon(serverDetails.server_ip, serverDetails.server_port, serverDetails.server_rcon_pass);
             conn.on('auth', function () {
-              console.log("*** Rcon Authed! ***");
+              logger.info("*** Rcon Authed! ***");
               conn.send("sm_vmprefresh");
               conn.disconnect();
             }).on('response', function (str) {
-              console.log("*** [RCON] Got response: " + str);
+              logger.info("*** [RCON] Got response: " + str);
             }).on('error', function (error) {
-              console.log("*** [RCON] Got error: " + error);
+              logger.error("*** [RCON] Got error: " + error);
               return reject("Operation Done in VMPanel Database,\n There was an error while executing rcon Command for current Operation. ")
             }).on('end', function () {
-              console.log("*** [RCON] Socket closed!");
+              logger.info("*** [RCON] Socket closed!");
               resolve(1)
             });
             conn.connect();
@@ -63,7 +64,7 @@ const refreshAdminsInServer = (server) => {
         resolve(0)
       }
     } catch (error) {
-      console.log("error in refreshAdminsInServer->", error)
+      logger.error("error in refreshAdminsInServer->", error)
       reject("Operation Done in VMPanel Database,\n There was an error while executing rcon Command for current Operation. ")
     }
   });

@@ -17,7 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Insert Admin Controller');
+
 const userModel = require("../models/userModel.js");
 const vipModel = require("../models/vipModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
@@ -60,7 +62,7 @@ exports.insertAdminData = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error in add Admin->", error)
+    logger.error("error in add Admin->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -101,7 +103,7 @@ const insertAdminDataFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in insertAdminDataFunc->", error)
+      logger.error("error in insertAdminDataFunc->", error);
       reject(error + ", Please try again")
     }
   });

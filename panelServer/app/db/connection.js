@@ -18,6 +18,7 @@
 */
 
 'use strict';
+const logger = require('../modules/logger')('MySQL Connection');
 
 const mysql = require('mysql');
 const config = require('../config');
@@ -40,7 +41,7 @@ const sqlOptions = {
 try {
     pool = mysql.createPool(sqlOptions);
 } catch (error) {
-    console.log("Connection Pool Error : ", error);
+    logger.error("Connection Pool Error : ", error);
 }
 
 pool.getConnection((err, connection) => {
@@ -57,7 +58,7 @@ pool.getConnection((err, connection) => {
     }
 
     if (connection) {
-        console.log("MYSQL connection Stablished")
+        logger.info("MYSQL connection established");
         connection.release();
     }
 

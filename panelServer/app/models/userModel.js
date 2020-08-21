@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('User Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
@@ -62,7 +63,7 @@ var userDataModel = {
 
           bcrypt.hash(password, saltRounds, async function (err, hash) {
             if (err) {
-              console.log("Error in password Encryption, While registering default user")
+              logger.error("Error in password Encryption, While registering default user");
             } else {
               password = hash
               query = db.queryFormat(`INSERT INTO ${table}
@@ -79,7 +80,7 @@ var userDataModel = {
           return resolve(true);
         }
       } catch (error) {
-        console.log("error in createTheTableIfNotExists->", error)
+        logger.error("error in createTheTableIfNotExists->", error);
         reject(error)
       }
     });
@@ -102,7 +103,7 @@ var userDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in getallTableData->", error)
+        logger.error("error in getallTableData->", error);
         reject(error)
       }
     });
@@ -122,7 +123,7 @@ var userDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in getListOfAdmins->", error)
+        logger.error("error in getListOfAdmins->", error);
         reject(error)
       }
     });
@@ -147,7 +148,7 @@ var userDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in insertNewUser->", error)
+        logger.error("error in insertNewUser->", error);
         reject(error)
       }
     });
@@ -173,7 +174,7 @@ var userDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in updateUserpassword->", error)
+        logger.error("error in updateUserpassword->", error);
         reject(error)
       }
     });
@@ -197,7 +198,7 @@ var userDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in deleteUser->", error)
+        logger.error("error in deleteUser->", error);
         reject(error)
       }
     });

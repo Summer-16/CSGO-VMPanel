@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Panel Server Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
@@ -56,7 +57,7 @@ var panelServerModal = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in createTheTableIfNotExists->", error)
+        logger.error("error in createTheTableIfNotExists->", error);
         reject(error)
       }
     });
@@ -76,7 +77,7 @@ var panelServerModal = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in getPanelServersList->", error)
+        logger.error("error in getPanelServersList->", error);
         reject(error)
       }
     });
@@ -96,7 +97,7 @@ var panelServerModal = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in getPanelServersList->", error)
+        logger.error("error in getPanelServersList->", error);
         reject(error)
       }
     });
@@ -116,7 +117,7 @@ var panelServerModal = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in getPanelServerDetails->", error)
+        logger.error("error in getPanelServerDetails->", error);
         reject(error)
       }
     });
@@ -170,7 +171,7 @@ var panelServerModal = {
           return reject("Server/table not found, Please add vmpanel plugin in your server then add here.");
         }
       } catch (error) {
-        console.log("error in insertNewPanelServer->", error)
+        logger.error("error in insertNewPanelServer->", error);
         reject(error)
       }
     });
@@ -209,7 +210,7 @@ var panelServerModal = {
 
         return resolve(true);
       } catch (error) {
-        console.log("error in updateVIPData->", error)
+        logger.error("error in updateVIPData->", error);
         reject(error)
       }
     });
@@ -233,7 +234,7 @@ var panelServerModal = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in deletePanelServer->", error)
+        logger.error("error in deletePanelServer->", error);
         reject(error)
       }
     });

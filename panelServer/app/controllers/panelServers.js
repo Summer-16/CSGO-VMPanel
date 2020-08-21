@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Panel Servers Controller');
 const userModel = require("../models/userModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
 const { logThisActivity } = require("../utils/activityLogger.js");
@@ -42,7 +43,7 @@ exports.addPanelServer = async (req, res) => {
       data: { "res": result, "message": req.body.submit === "insert" ? "New Server added Successfully" : "Server Data Updated Successfully" }
     });
   } catch (error) {
-    console.log("error in addPanelServer->", error)
+    logger.error("error in addPanelServer->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -76,7 +77,7 @@ const addPanelServerFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in addPanelServerFunc->", error)
+      logger.error("error in addPanelServerFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -99,7 +100,7 @@ exports.getPanelServersList = async (req, res) => {
       data: { "res": result, "message": "Server List Fetched" }
     });
   } catch (error) {
-    console.log("error in getPanelServersList->", error)
+    logger.error("error in getPanelServersList->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -119,7 +120,7 @@ const getPanelServersListFunc = (reqBody) => {
         resolve(serverData)
       }
     } catch (error) {
-      console.log("error in getPanelServersListFunc->", error)
+      logger.error("error in getPanelServersListFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -142,7 +143,7 @@ exports.getPanelServerSingle = async (req, res) => {
       data: { "res": result, "message": "Server Data Fetched" }
     });
   } catch (error) {
-    console.log("error in getPanelServerSingle->", error)
+    logger.error("error in getPanelServerSingle->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -157,7 +158,7 @@ const getPanelServerSingleFunc = (reqBody) => {
       let serverData = await panelServerModal.getPanelServerDetails(reqBody.server)
       resolve(serverData)
     } catch (error) {
-      console.log("error in getPanelServerSingleFunc->", error)
+      logger.error("error in getPanelServerSingleFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -187,7 +188,7 @@ exports.deletePanelServers = async (req, res) => {
       data: { "res": result, "message": "Server Deleted Successfully" }
     });
   } catch (error) {
-    console.log("error in deletePanelServers->", error)
+    logger.error("error in deletePanelServers->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -216,7 +217,7 @@ const deletePanelServersFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in deletePanelServersFunc->", error)
+      logger.error("error in deletePanelServersFunc->", error);
       reject(error + ", Please try again")
     }
   });

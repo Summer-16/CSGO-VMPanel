@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Panel Server Bundles Controller');
 const userModel = require("../models/userModel.js");
 const bundleModel = require("../models/bundleModel.js");
 const { logThisActivity } = require("../utils/activityLogger.js");
@@ -42,7 +43,7 @@ exports.addPanelServerBundle = async (req, res) => {
       data: { "res": result, "message": "New Server Bundle added in Panel" }
     });
   } catch (error) {
-    console.log("error in addPanelServerBundle->", error)
+    logger.error("error in addPanelServerBundle->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -75,7 +76,7 @@ const addPanelServerBundleFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in addPanelServerBundleFunc->", error)
+      logger.error("error in addPanelServerBundleFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -98,7 +99,7 @@ exports.getPanelBundlesList = async (req, res) => {
       data: { "res": result, "message": "Bundles List Fetched" }
     });
   } catch (error) {
-    console.log("error in getPanelBundlesList->", error)
+    logger.error("error in getPanelBundlesList->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -114,7 +115,7 @@ const getPanelBundlesListFunc = (reqBody) => {
       resolve(serverData)
 
     } catch (error) {
-      console.log("error in getPanelBundlesListFunc->", error)
+      logger.error("error in getPanelBundlesListFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -144,7 +145,7 @@ exports.deletePanelBundle = async (req, res) => {
       data: { "res": result, "message": "Bundle Deleted Successfully" }
     });
   } catch (error) {
-    console.log("error in deletePanelBundle->", error)
+    logger.error("error in deletePanelBundle->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -173,7 +174,7 @@ const deletePanelBundleFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in deletePanelBundleFunc->", error)
+      logger.error("error in deletePanelBundleFunc->", error);
       reject(error + ", Please try again")
     }
   });

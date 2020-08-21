@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Panel Setting Controller');
 const userModel = require("../models/userModel.js");
 const settingsModal = require("../models/panelSettingModal.js");
 const { logThisActivity } = require("../utils/activityLogger.js");
@@ -39,7 +40,7 @@ exports.PanelSettings = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Error in PanelSettings->", error)
+    logger.error("Error in PanelSettings->", error);
     if (req.session.user_type == 1) {
       res.render('PanelSetting');
     } else {
@@ -61,7 +62,7 @@ exports.fetchPanelSettings = async (req, res) => {
       data: { "res": result, "message": "Panel settings Fetched" }
     });
   } catch (error) {
-    console.log("error in add/update vip->", error)
+    logger.error("error in add/update vip->", error);
     res.json({
       success: false,
       data: { "error": error, "message": "Error in fetching Panel settings" }
@@ -75,7 +76,7 @@ const fetchPanelSettingsFunc = (reqBody) => {
       let data = await settingsModal.getAllSettings()
       resolve(data)
     } catch (error) {
-      console.log("error in fetchPanelSettingsFunc->", error)
+      logger.error("error in fetchPanelSettingsFunc->", error);
       reject(error)
     }
   });
@@ -101,7 +102,7 @@ exports.updatePanelSettings = async (req, res) => {
 
     res.redirect('PanelSetting');
   } catch (error) {
-    console.log("Error in PanelSettings->", error)
+    logger.error("Error in PanelSettings->", error);
     res.render('PanelSetting');
   }
 }
@@ -121,7 +122,7 @@ const updatePanelSettingsFunc = (reqBody, username) => {
         resolve(true)
       }
     } catch (error) {
-      console.log("error in updatePanelSettingsFunc->", error)
+      logger.error("error in updatePanelSettingsFunc->", error);
       reject(error + ", Please try again")
     }
   });

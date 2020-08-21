@@ -17,7 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('User Dashboard');
+
 const SteamIDConverter = require('../utils/steamIdConvertor')
 const myDashboardModel = require("../models/myDashboardModel.js");
 const salesModal = require("../models/salesModel.js");
@@ -38,7 +40,7 @@ exports.myDashboard = async (req, res) => {
     let result = await myDashboardFunc(req.body, req.user);
     res.render('UserDashboard', result);
   } catch (error) {
-    console.log("error in myDashboard->", error)
+    logger.error("error in myDashboard->", error);
     res.render('UserDashboard', { "userData": null });
   }
 }
@@ -116,7 +118,7 @@ const myDashboardFunc = (reqBody, reqUser) => {
       })
 
     } catch (error) {
-      console.log("error in myDashboardFunc->", error)
+      logger.error("error in myDashboardFunc->", error);
       reject(error)
     }
   });
@@ -153,7 +155,7 @@ exports.afterPaymentProcess = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error in afterPaymentProcess->", error)
+    logger.error("error in afterPaymentProcess->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -261,7 +263,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
         reject("Something Went Wrong")
       }
     } catch (error) {
-      console.log("error in afterPaymentProcessFunc->", error)
+      logger.error("error in afterPaymentProcessFunc->", error);
       reject(error + ", Please try again")
     }
   });
