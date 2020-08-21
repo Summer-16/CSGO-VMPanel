@@ -30,7 +30,9 @@ async function sendMessageOnDiscord() {
   try {
     const color = [...GAcolor];
     let settingObj = await settingsModal.getAllSettings();
-    if (settingObj.webhook_url == undefined || settingObj.webhook_url == null || settingObj.webhook_url == "") { return resolve("Webhook not found") }
+    if (!settingObj.webhook_url) {
+      return "Webhook not found"
+    }
     let data = await vipModel.getallServerData();
 
     let messageString = "", messageArray = [], count = 0, colorArray = []
