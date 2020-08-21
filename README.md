@@ -133,6 +133,12 @@ pm2 stop 0
 ## Updating from v1.7 to dev
 - Stop your panel service while updating
 - Add files from latest commit to yours installed directory
+- add the following lines in `panelServer/app/config/config.json`
+```json
+"logging": {
+      "logLevel": "INFO"
+ }
+```
 - delete the `package-lock.json` in `panelServer` directory, then run `npm i`
 - execute the below query in your database
 ```mysql

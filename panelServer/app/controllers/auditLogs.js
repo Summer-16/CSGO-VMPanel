@@ -17,7 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Audit Logs Controller');
+
 const auditModal = require("../models/auditLogsModel.js");
 
 //-----------------------------------------------------------------------------------------------------
@@ -31,7 +33,7 @@ exports.auditRecords = async (req, res) => {
       res.redirect('dashboard');
     }
   } catch (error) {
-    console.log("error in auditRecords-->", error)
+    logger.error("error in auditRecords-->", error);
     if (req.session.user_type == 1) {
       res.render('PanelAuditlogs');
     } else {
@@ -57,7 +59,7 @@ exports.getAuditRecord = async (req, res) => {
       return reject("You Dont have permissions to access records")
     }
   } catch (error) {
-    console.log("error in getAuditRecord->", error)
+    logger.error("error in getAuditRecord->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -72,7 +74,7 @@ const getAuditRecordFunc = (reqBody) => {
       let salesRecord = await auditModal.getAllAuditRecords(reqBody)
       resolve(salesRecord)
     } catch (error) {
-      console.log("error in getAuditRecordFunc->", error)
+      logger.error("error in getAuditRecordFunc->", error);
       reject(error + ", Please try again")
     }
   });

@@ -17,7 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('VIP Controller');
+
 const vipModel = require("../models/vipModel.js");
 const myDashboardModel = require("../models/myDashboardModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
@@ -32,7 +34,7 @@ exports.dashboard = async (req, res) => {
     let result = await dashboardFunc(req.body, token);
     res.render('Dashboard', result);
   } catch (error) {
-    console.log("error in dashboard->", error)
+    logger.error("error in dashboard->", error);
     res.render('Dashboard', { "vipData": null, "adminStats": null, "serverData": null });
   }
 }
@@ -60,7 +62,7 @@ const dashboardFunc = (reqBody, token) => {
       }
       resolve({ "vipData": data, "adminStats": adminStats, "serverData": serverData })
     } catch (error) {
-      console.log("error in dashboardFunc->", error)
+      logger.error("error in dashboardFunc->", error);
       reject(error)
     }
   });
@@ -81,7 +83,7 @@ exports.getVipsDataSingleServer = async (req, res) => {
       data: { "res": result, "message": "VIP Listing loaded for " + req.body.server.toUpperCase(), "notifType": "info" }
     });
   } catch (error) {
-    console.log("error in getVipsDataSingleServer->", error)
+    logger.error("error in getVipsDataSingleServer->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -99,7 +101,7 @@ const getVipsDataSingleServerFunc = (reqBody) => {
       let data = await vipModel.getsingleServerData(reqBody.server, "vip")
       resolve(data)
     } catch (error) {
-      console.log("error in getVipsDataSingleServerFunc->", error)
+      logger.error("error in getVipsDataSingleServerFunc->", error);
       reject(error)
     }
   });
@@ -120,7 +122,7 @@ exports.getAdminsDataSingleServer = async (req, res) => {
       data: { "res": result, "message": "Admins Listing loaded for " + req.body.server.toUpperCase(), "notifType": "info" }
     });
   } catch (error) {
-    console.log("error in getAdminsDataSingleServerFunc->", error)
+    logger.error("error in getAdminsDataSingleServerFunc->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -138,7 +140,7 @@ const getAdminsDataSingleServerFunc = (reqBody) => {
       let data = await vipModel.getsingleServerData(reqBody.server, "admin")
       resolve(data)
     } catch (error) {
-      console.log("error in getAdminsDataSingleServerFunc->", error)
+      logger.error("error in getAdminsDataSingleServerFunc->", error);
       reject(error)
     }
   });

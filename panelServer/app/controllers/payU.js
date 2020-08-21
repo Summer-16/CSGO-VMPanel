@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('pay U controller');
 const SteamIDConverter = require('../utils/steamIdConvertor')
 const crypto = require('crypto');
 const config = require('../config');
@@ -40,7 +41,7 @@ exports.initPayUPayment = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error in add/update vip->", error)
+    logger.error("error in add/update vip->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -82,7 +83,7 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
 
       resolve(payuFormData)
     } catch (error) {
-      console.log("error in initPayUPaymentFunc->", error)
+      logger.error("error in initPayUPaymentFunc->", error);
       reject(error + ", Please try again")
     }
   });

@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Panel Setting Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
@@ -64,7 +65,7 @@ var settingsModal = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in createTheTableIfNotExists->", error)
+        logger.error("error in createTheTableIfNotExists->", error);
         reject(error)
       }
     });
@@ -88,7 +89,7 @@ var settingsModal = {
         }
         return resolve(settingObj);
       } catch (error) {
-        console.log("error in getAllSettings->", error)
+        logger.error("error in getAllSettings->", error);
         reject(error)
       }
     });
@@ -113,7 +114,7 @@ var settingsModal = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in updatesetting->", error)
+        logger.error("error in update setting->", error);
         reject(error)
       }
     });
@@ -133,7 +134,7 @@ var settingsModal = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in getAllTables->", error)
+        logger.error("error in getAllTables->", error);
         reject(error)
       }
     });

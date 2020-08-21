@@ -16,7 +16,8 @@
 * You should have received a copy of the GNU General Public License along with
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
-
+'use strict';
+const logger = require('../modules/logger')('Send Message Discord Controller');
 
 const settingsModal = require("../models/panelSettingModal.js");
 const vipModel = require("../models/vipModel.js");
@@ -93,7 +94,7 @@ async function sendMessageOnDiscord() {
     }
     sendMessage(messageArray, colorArray, settingObj.webhook_url)
   } catch (error) {
-    console.log("error in sendMessageOnDiscord->", error)
+    logger.error("error in sendMessageOnDiscord->", error);
   }
 }
 
@@ -122,12 +123,12 @@ function sendMessage(message, color, webhook) {
     };
 
     setTimeout(function () {
-      console.log("****Sending Message Payload****")
+      logger.info("****Sending Message Payload****");
       request(options, function (error, response) {
         if (error) {
           throw new Error(error)
         }
-        console.log("Discord send message request status-->", response.statusCode);
+        logger.info("Discord send message request status-->", response.statusCode);
       });
     }, i * 2000);
   }

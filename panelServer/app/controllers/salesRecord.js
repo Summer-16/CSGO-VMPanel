@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Sales Record Controller');
 const salesModal = require("../models/salesModel.js");
 
 //-----------------------------------------------------------------------------------------------------
@@ -31,7 +32,7 @@ exports.saleRecords = async (req, res) => {
       res.redirect('dashboard');
     }
   } catch (error) {
-    console.log("error in saleRecords-->", error)
+    logger.error("error in saleRecords-->", error);
     if (req.session.user_type == 1) {
       res.render('SaleRecords');
     } else {
@@ -57,7 +58,7 @@ exports.getSalesRecord = async (req, res) => {
       return reject("You Dont have permissions to access records")
     }
   } catch (error) {
-    console.log("error in getSalesRecord->", error)
+    logger.error("error in getSalesRecord->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -72,7 +73,7 @@ const getSalesRecordFunc = (reqBody) => {
       let salesRecord = await salesModal.getAllSalesRecords(reqBody)
       resolve(salesRecord)
     } catch (error) {
-      console.log("error in getSalesRecordFunc->", error)
+      logger.error("error in getSalesRecordFunc->", error);
       reject(error + ", Please try again")
     }
   });

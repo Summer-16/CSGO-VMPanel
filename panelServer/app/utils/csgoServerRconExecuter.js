@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('cs go rcon');
 const Rcon = require('rcon');
 const SourceQuery = require('sourcequery');
 const panelServerModal = require("../models/panelServerModal.js");
@@ -43,16 +44,16 @@ const executeRconInServer = (server,commandString) => {
             sq.close()
             var conn = new Rcon(serverDetails.server_ip, serverDetails.server_port, serverDetails.server_rcon_pass);
             conn.on('auth', function () {
-              console.log("*** Rcon Authed! ***");
+              logger.info("*** Rcon Authed! ***");
               conn.send(commandString);
               conn.disconnect();
             }).on('response', function (str) {
-              console.log("*** [RCON] Got response: " + str);
+              logger.info("*** [RCON] Got response: " + str);
             }).on('error', function (error) {
-              console.log("*** [RCON] Got error: " + error);
+              logger.error("*** [RCON] Got error: " + error);
               return reject("Can not proceed with the Operation, There was an error while making RCON Connection to Server ")
             }).on('end', function () {
-              console.log("*** [RCON] Socket closed!");
+              logger.info("*** [RCON] Socket closed!");
               resolve(1)
             });
             conn.connect();
@@ -62,7 +63,7 @@ const executeRconInServer = (server,commandString) => {
         reject("Can not proceed with the Operation, Server details are missing in Database ")
       }
     } catch (error) {
-      console.log("error in executeRconInServer->", error)
+      logger.error("error in executeRconInServer->", error)
       reject("Operation Failed, There was an error while executing RCON Commands in Server. ")
     }
   });
