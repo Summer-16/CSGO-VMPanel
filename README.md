@@ -6,7 +6,9 @@
 ## Latest Development build (Changelogs)
 - Some fixes and improvements
 - New setting option added to enable disable vip listing on public dashboard
-- Sourceban integration on-going (under development)
+- Sourceban integration (You can add Bans and Comm Bans)
+- Plugin Updated, Otimized database connectiona and added a new command to check subscription status
+- Code Optimizations and Performance improvements
 
 ## Panel Features v1.7 (Changelogs)
 - Now admin can define no of subscription days for every server
