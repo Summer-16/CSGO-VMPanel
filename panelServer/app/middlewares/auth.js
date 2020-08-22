@@ -23,6 +23,12 @@ const config = require('../config');
 const jwtSecretKey = config.jwt.key;
 const steamAPIKey = config.steam_api_key;
 
+/**
+ * check token middleware
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next 
+ */
 const checkToken = (req, res, next) => {
     const token = req.session.token || req.headers['x-access-token'] ||
         req.headers['authorization']; // Express headers are auto converted to lowercase
@@ -54,6 +60,12 @@ const checkToken = (req, res, next) => {
     }
 };
 
+/**
+ * check steam authentication middleware
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next 
+ */
 const checkSteamAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) { return next(); }
     res.redirect('/');

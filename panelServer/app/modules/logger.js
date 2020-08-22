@@ -16,7 +16,7 @@ log4js.configure({
             type: 'stdout',
             layout: {
                 type: 'pattern',
-                pattern: '[%x{uuid}] [%d] [%p] <%c> {%f{2}:%l} => %m%n',
+                pattern: '%[[%x{uuid}] [%d] [%p] <%c> {%f{2}:%l}%] => %m',
                 tokens: {
                     uuid: function (logEvent) {
                         return cryptoCustom.getUUID();

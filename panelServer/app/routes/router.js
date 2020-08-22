@@ -47,7 +47,7 @@ module.exports = app => {
   app.get("/dashboard", dashboard);
 
 
-  //Login and logiut
+  //Login and logout
   app.get('/login', loginPage);
   app.post('/authuser', authUserLogin);
   app.get('/logout', function (req, res) {
@@ -130,10 +130,5 @@ module.exports = app => {
   //Creator info route
   app.get('/aboutcreator', function (req, res) {
     res.render('AboutCreator');
-  });
-
-  //404
-  app.get('*', function (req, res) {
-    res.render('404')
   });
 };

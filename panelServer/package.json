@@ -29,5 +29,8 @@
     "rcon": "^1.0.3",
     "request": "^2.88.2",
     "sourcequery": "0.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0"
   }
 }

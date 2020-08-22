@@ -28,6 +28,8 @@ const passport = require('passport');
 const SteamStrategy = require('passport-steam');
 const cors = require('cors');
 
+const requestMiddleware = require('./app/middlewares/request');
+const notFoundMiddleware = require('./app/middlewares/not_found');
 const vipModel = require("./app/models/vipModel.js");
 const settingsModal = require("./app/models/panelSettingModal.js");
 const dbBootstrap = require('./app/db/bootstrap');
@@ -61,6 +63,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
+app.use(requestMiddleware.addRequestUUID);
 app.use(express.static('public'));
 
 app.use(session({
@@ -117,6 +120,7 @@ app.use(async function (req, res, next) {
 });
 
 require("./app/routes/router.js")(app);
+app.use(notFoundMiddleware.notFound);
 
 // Start the server after db bootstrapping
 dbBootstrap().then(() => {
