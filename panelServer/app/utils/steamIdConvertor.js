@@ -76,7 +76,7 @@ var SteamIDConverter = {
     if (w < 1) {
       return false;
     }
-    return "STEAM_0:" + y + ":" + w.divide(2).toString();
+    return "STEAM_1:" + y + ":" + w.divide(2).toString();
   },
 
   /**
