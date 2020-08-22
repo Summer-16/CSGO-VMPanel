@@ -17,12 +17,12 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
 
 module.exports = app => {
 
   // Middleware Import
-  const middleware = require('../utils/middleWare/middleware.js');
+  const authMiddleware = require('../middlewares/auth');
   const passport = require('passport');
 
   // Controllers Import
@@ -72,60 +72,60 @@ module.exports = app => {
       res.redirect('/mydashboard');
     });
 
-  app.get('/mydashboard', middleware.checkSteamAuthenticated, myDashboard);
-  app.post('/execafterpaymentprocess', middleware.checkSteamAuthenticated, afterPaymentProcess);
-  app.post('/initpayupayment', middleware.checkSteamAuthenticated, initPayUPayment);
-  app.get('/getpanelbundleslistud', middleware.checkSteamAuthenticated, getPanelBundlesList);
+  app.get('/mydashboard', authMiddleware.checkSteamAuthenticated, myDashboard);
+  app.post('/execafterpaymentprocess', authMiddleware.checkSteamAuthenticated, afterPaymentProcess);
+  app.post('/initpayupayment', authMiddleware.checkSteamAuthenticated, initPayUPayment);
+  app.get('/getpanelbundleslistud', authMiddleware.checkSteamAuthenticated, getPanelBundlesList);
 
 
-  //Private Router only for Panel Admins (Local Aithorized)
+  //Private Router only for Panel Admins (Local Authorized)
   //Vip routes
-  app.post("/getvipdatasingleserver", middleware.checkToken, getVipsDataSingleServer);
-  app.get("/managevip", middleware.checkToken, formVIP);
-  app.post("/addvip", middleware.checkToken, insertVipData);
-  app.post("/deletevip", middleware.checkToken, deleteVipData);
+  app.post("/getvipdatasingleserver", authMiddleware.checkToken, getVipsDataSingleServer);
+  app.get("/managevip", authMiddleware.checkToken, formVIP);
+  app.post("/addvip", authMiddleware.checkToken, insertVipData);
+  app.post("/deletevip", authMiddleware.checkToken, deleteVipData);
 
   //Admin routes 
-  app.post("/getadmindatasingleserver", middleware.checkToken, getAdminsDataSingleServer);
-  app.get("/manageadmin", middleware.checkToken, formAdmin);
-  app.post("/addadmin", middleware.checkToken, insertAdminData);
+  app.post("/getadmindatasingleserver", authMiddleware.checkToken, getAdminsDataSingleServer);
+  app.get("/manageadmin", authMiddleware.checkToken, formAdmin);
+  app.post("/addadmin", authMiddleware.checkToken, insertAdminData);
 
   //Panel Settings routes
-  app.get('/panelsetting', middleware.checkToken, PanelSettings);
-  app.get('/fetchpanelsetting', middleware.checkToken, fetchPanelSettings);
-  app.post('/updatepanelsetting', middleware.checkToken, updatePanelSettings);
+  app.get('/panelsetting', authMiddleware.checkToken, PanelSettings);
+  app.get('/fetchpanelsetting', authMiddleware.checkToken, fetchPanelSettings);
+  app.post('/updatepanelsetting', authMiddleware.checkToken, updatePanelSettings);
 
   //Panel server mange routes
-  app.get("/getpanelserverlist", middleware.checkToken, getPanelServersList);
-  app.post("/getpanelserversingle", middleware.checkToken, getPanelServerSingle);
-  app.post("/addpanelserver", middleware.checkToken, addPanelServer);
-  app.post("/deletepanelserver", middleware.checkToken, deletePanelServers);
+  app.get("/getpanelserverlist", authMiddleware.checkToken, getPanelServersList);
+  app.post("/getpanelserversingle", authMiddleware.checkToken, getPanelServerSingle);
+  app.post("/addpanelserver", authMiddleware.checkToken, addPanelServer);
+  app.post("/deletepanelserver", authMiddleware.checkToken, deletePanelServers);
 
   //Panel server bundl mange routes
-  app.get("/getpanelbundleslist", middleware.checkToken, getPanelBundlesList);
-  app.post("/addpanelserverbundle", middleware.checkToken, addPanelServerBundle);
-  app.post("/deletepanelbundle", middleware.checkToken, deletePanelBundle);
+  app.get("/getpanelbundleslist", authMiddleware.checkToken, getPanelBundlesList);
+  app.post("/addpanelserverbundle", authMiddleware.checkToken, addPanelServerBundle);
+  app.post("/deletepanelbundle", authMiddleware.checkToken, deletePanelBundle);
 
   //Panel Admin routes
-  app.get("/getpaneladminslist", middleware.checkToken, getPanelAdminsList);
-  app.post("/addpaneladmin", middleware.checkToken, addPanelAdmin);
-  app.post("/updatepaneladmin", middleware.checkToken, addPanelAdmin);
-  app.post("/deletepaneladmin", middleware.checkToken, deletePanelAdmin);
+  app.get("/getpaneladminslist", authMiddleware.checkToken, getPanelAdminsList);
+  app.post("/addpaneladmin", authMiddleware.checkToken, addPanelAdmin);
+  app.post("/updatepaneladmin", authMiddleware.checkToken, addPanelAdmin);
+  app.post("/deletepaneladmin", authMiddleware.checkToken, deletePanelAdmin);
 
   //Route to manually refresh data in all servers
-  app.get("/performmanualrefresh", middleware.checkToken, deleteOldVipData);
+  app.get("/performmanualrefresh", authMiddleware.checkToken, deleteOldVipData);
 
   //Routes for Sales Records
-  app.get("/salesrecord", middleware.checkToken, saleRecords);
-  app.post("/fetchsalesrecord", middleware.checkToken, getSalesRecord);
+  app.get("/salesrecord", authMiddleware.checkToken, saleRecords);
+  app.post("/fetchsalesrecord", authMiddleware.checkToken, getSalesRecord);
 
   //Routes for Audit logs
-  app.get("/auditlogs", middleware.checkToken, auditRecords);
-  app.post("/fetchauditlogs", middleware.checkToken, getAuditRecord);
+  app.get("/auditlogs", authMiddleware.checkToken, auditRecords);
+  app.post("/fetchauditlogs", authMiddleware.checkToken, getAuditRecord);
 
   //Routes for sourcebans
-  app.get("/sourcebans", middleware.checkToken, sourceBans);
-  app.post("/sourcebansaddban", middleware.checkToken, sourceBansAddBan);
+  app.get("/sourcebans", authMiddleware.checkToken, sourceBans);
+  app.post("/sourcebansaddban", authMiddleware.checkToken, sourceBansAddBan);
 
   //Creator info route
   app.get('/aboutcreator', function (req, res) {
