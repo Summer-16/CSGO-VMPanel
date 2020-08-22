@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Activity Logger');
 const auditModal = require("../models/auditLogsModel.js");
 
 //-----------------------------------------------------------------------------------------------------
@@ -32,7 +33,7 @@ const logThisActivity = (activityObject) => {
 
     auditModal.insertNewAuditRecord(activityObject)
   } catch (error) {
-    console.log("error in activity logger->", error)
+    logger.error("error in activity logger->", error);
   }
 }
 

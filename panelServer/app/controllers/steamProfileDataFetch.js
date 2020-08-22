@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Steam Profile Data Fetch');
 const request = require('request');
 
 //-----------------------------------------------------------------------------------------------------
@@ -31,7 +32,7 @@ exports.fetchProfileData = async (req, res) => {
       data: { "res": result, "message": "Data fetched", "notifType": "success" }
     });
   } catch (error) {
-    console.log("Error fetching user data->", error)
+    logger.error("Error fetching user data->", error);
     res.json({
       success: false,
       data: { "error": "Something went Wrong!, Error in Fetching user Data" }
@@ -58,7 +59,7 @@ const fetchProfileDataFunc = (reqBody) => {
         return reject("Url not provided")
       }
     } catch (error) {
-      console.log("error in fetchProfileDataFunc->", error)
+      logger.error("error in fetchProfileDataFunc->", error);
       reject(error + ", Please try again")
     }
   });

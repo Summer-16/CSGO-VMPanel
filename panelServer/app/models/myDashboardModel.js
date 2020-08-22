@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('My Dashboard Model');
 
 var db = require('../db/db_bridge');
 const panelServerModal = require("./panelServerModal.js");
@@ -56,7 +57,7 @@ var myDashboardModel = {
         }
         return resolve(finalResult);
       } catch (error) {
-        console.log("error in getUserDataFromAllServers->", error)
+        logger.error("error in getUserDataFromAllServers->", error);
         reject(error)
       }
     });
@@ -107,7 +108,7 @@ var myDashboardModel = {
 
         return resolve(finalResult);
       } catch (error) {
-        console.log("error in getStatsForAdmin->", error)
+        logger.error("error in getStatsForAdmin->", error);
         reject(error)
       }
     });
@@ -138,7 +139,7 @@ var myDashboardModel = {
         }
         return resolve(serverArray);
       } catch (error) {
-        console.log("error in getStatsForAdmin->", error)
+        logger.error("error in getStatsForAdmin->", error);
         reject(error)
       }
     });

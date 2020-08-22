@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Delete VIP controller');
 const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
@@ -45,7 +46,7 @@ exports.deleteVipData = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error in delete vip->", error)
+    logger.error("error in delete vip->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -70,7 +71,7 @@ const deleteVipDataFunc = (reqBody, username) => {
       }
 
     } catch (error) {
-      console.log("error in deleteVipDataFunc->", error)
+      logger.error("error in deleteVipDataFunc->", error);
       reject(error + ", Please try again")
     }
   });
@@ -101,7 +102,7 @@ exports.deleteOldVipData = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error in delete vip->", error)
+    logger.error("error in delete vip->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -124,7 +125,7 @@ const deleteOldVipDataFunc = (username, secKey) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in deleteOldVipDataFunc->", error)
+      logger.error("error in deleteOldVipDataFunc->", error);
       reject(error + ", Please try again")
     }
   });

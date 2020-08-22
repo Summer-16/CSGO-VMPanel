@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Audit Logs Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
@@ -49,7 +50,7 @@ var salesModel = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in createTheTableIfNotExists->", error)
+        logger.error("error in createTheTableIfNotExists->", error);
         reject(error)
       }
     });
@@ -81,7 +82,7 @@ var salesModel = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in insertNewAuditRecord->", error)
+        logger.error("error in insertNewAuditRecord->", error);
         reject(error)
       }
     });
@@ -116,7 +117,7 @@ var salesModel = {
           totalRecords: totalRecords
         });
       } catch (error) {
-        console.log("error in getAllAuditRecords->", error)
+        logger.error("error in getAllAuditRecords->", error);
         reject(error)
       }
     });

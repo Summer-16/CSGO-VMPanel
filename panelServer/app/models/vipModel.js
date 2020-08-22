@@ -17,8 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
 
+const logger = require('../modules/logger')('VIP model');
 var db = require('../db/db_bridge');
 const panelServerModal = require("../models/panelServerModal.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
@@ -64,7 +65,7 @@ var vipDataModel = {
         }
         return resolve(finalResult);
       } catch (error) {
-        console.log("error in getallTableData->", error)
+        logger.error("error in getallTableData->", error);
         reject(error)
       }
     });
@@ -91,7 +92,7 @@ var vipDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        console.log("error in getsingleServerData->", error)
+        logger.error("error in getsingleServerData->", error);
         reject(error)
       }
     });
@@ -123,7 +124,7 @@ var vipDataModel = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in insertVIPData->", error)
+        logger.error("error in insertVIPData->", error);
         reject(error)
       }
     });
@@ -148,7 +149,7 @@ var vipDataModel = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in updateVIPData->", error)
+        logger.error("error in updateVIPData->", error);
         reject(error)
       }
     });
@@ -174,7 +175,7 @@ var vipDataModel = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in deleteOldVip->", error)
+        logger.error("error in deleteOldVip->", error);
         reject(error)
       }
     });
@@ -197,7 +198,7 @@ var vipDataModel = {
         }
         return resolve(true);
       } catch (error) {
-        console.log("error in deleteVipByAdmin->", error)
+        logger.error("error in deleteVipByAdmin->", error);
         reject(error)
       }
     });

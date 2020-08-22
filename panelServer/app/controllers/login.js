@@ -17,7 +17,9 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Login Controller');
+
 const config = require('../config');
 const userModel = require("../models/userModel.js");
 let jwt = require('jsonwebtoken');
@@ -33,7 +35,7 @@ exports.loginPage = async (req, res) => {
   try {
     res.render('Login', { "steamLogin": (steamApi ? true : false), "error": null });
   } catch (error) {
-    console.log("error in login-->", error)
+    logger.error("error in login-->", error);
     res.render('Login', { "steamLogin": (steamApi ? true : false), "error": error });
   }
 }
@@ -82,7 +84,7 @@ exports.authUserLogin = async (req, res) => {
       res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Authentication failed! Please check the request' })
     }
   } catch (error) {
-    console.log("error in authUserLogin-->", error)
+    logger.error("error in authUserLogin-->", error);
     res.render('Login', { "steamLogin": (steamApi ? true : false), "error": error })
   }
 }

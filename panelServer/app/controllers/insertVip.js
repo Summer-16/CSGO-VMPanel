@@ -17,7 +17,8 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
 
-"use strict";
+'use strict';
+const logger = require('../modules/logger')('Insert VIP controller');
 const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
@@ -33,7 +34,7 @@ exports.formVIP = async (req, res) => {
     let serverList = await panelServerModal.getPanelServersDisplayList();
     res.render('ManageVIP', { "serverList": serverList });
   } catch (error) {
-    console.log("error in formVIP-->", error)
+    logger.error("error in formVIP-->", error);
     res.render('ManageVIP', { "serverList": null });
   }
 }
@@ -62,7 +63,7 @@ exports.insertVipData = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error in add/update vip->", error)
+    logger.error("error in add/update vip->", error);
     res.json({
       success: false,
       data: { "error": error }
@@ -125,7 +126,7 @@ const insertVipDataFunc = (reqBody, username) => {
         reject("Unauthorized Access, Key Missing")
       }
     } catch (error) {
-      console.log("error in insertVipDataFunc->", error)
+      logger.error("error in insertVipDataFunc->", error);
       reject(error + ", Please try again")
     }
   });

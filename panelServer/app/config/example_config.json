@@ -34,5 +34,8 @@
       "merchantKey": "your payu merchant key (test key for test, live key for live)",
       "merchantSalt": "your payu merchant salt (test salt for test, live salt for live)"
     }
+  },
+  "logging": {
+      "logLevel": "INFO"
   }
 }
