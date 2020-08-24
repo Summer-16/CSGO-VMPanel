@@ -197,8 +197,24 @@
                         <input type="url" name="webhook_url" class="form-control" id="webhook_url">
                       </div>
                     </div>
-                    <%}%>
                     <!-- webhook Setting -->
+                    <!-- currency Setting -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Platform Currency</label>
+                      <p><small>This setting defines the currency used in server VIP Payments</small></p>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Currency</label>
+                        <select class="form-control" id="platform_currency" name="platform_currency" required>
+                          <option value="" selected>Select Server</option>
+                          <option value="USD">USD</option>
+                          <option value="INR">INR</option>
+                        </select>
+                      </div>
+                    </div>
+                    <%}%>
+                    <!-- currency Setting -->
                   </div>
                   <hr>
                   <button type="submit" onclick="$(this).parents('form').submit()"
@@ -269,8 +285,7 @@
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Currency</label>
                               <select class="form-control" id="servertableCurrency_add" name="servertablecurrency"
-                                required>
-                                <option value="" selected>Select Server</option>
+                                value="<%=panelSetting.platform_currency%>" disabled required>
                                 <option value="USD">USD</option>
                                 <option value="INR">INR</option>
                               </select>
@@ -359,9 +374,9 @@
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Currency</label>
-                              <select class="form-control" id="servertableCurrency_update" name="servertablecurrency"
+                              <select class="form-control" id="servertableCurrency_update"
+                                value="<%=panelSetting.platform_currency%>" name="servertablecurrency" disabled
                                 required>
-                                <option value="" selected>Select Server</option>
                                 <option value="USD">USD</option>
                                 <option value="INR">INR</option>
                               </select>

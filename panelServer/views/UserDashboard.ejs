@@ -51,7 +51,8 @@ function remainingDays(endEpoc){
   var paypalActive = <%=paypalActive%>;
 </script>
 <%if(paypalActive){%>
-<script src="https://www.paypal.com/sdk/js?client-id=<%=paypalClientID%>&disable-funding=card"></script>
+<script
+  src="https://www.paypal.com/sdk/js?client-id=<%=paypalClientID%>&disable-funding=card&currency=<%=panelSetting.platform_currency%>"></script>
 <%}%>
 <script src="./js/paypalPayment.js"></script>
 
@@ -59,7 +60,7 @@ function remainingDays(endEpoc){
   var payuActive = <%=payuActive%>;
 </script>
 
-<%if(payuActive){%>
+<%if(payuActive && panelSetting.platform_currency==="INR"){%>
 <%if(payuEnv=='test'){%>
 <!-- BOLT Sandbox/test //-->
 <script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="913f9e"
@@ -122,7 +123,7 @@ function remainingDays(endEpoc){
                         class="col-md-12 text-center">
                       </div>
                     </div>
-                    <%if(payuActive){%>
+                    <%if(payuActive && panelSetting.platform_currency==="INR"){%>
                     <div class="card-footer text-primary text-center">
                       <div id="" class="col-md-12 text-center">
                         <button type="button" class="btn btn-success text-center col-md-12 m-0"
@@ -175,7 +176,7 @@ function remainingDays(endEpoc){
                               class="col-md-12 text-center">
                             </div>
                           </div>
-                          <%if(payuActive){%>
+                          <%if(payuActive && panelSetting.platform_currency==="INR"){%>
                           <div class="card-footer text-primary text-center">
                             <div id="" class="col-md-12 text-center">
                               <button type="button" class="btn btn-success text-center col-md-12 m-0"
@@ -255,7 +256,7 @@ function remainingDays(endEpoc){
                                 <img src
                                   onerror="setPayPalButton('<%= (userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name + `renew`: `renew`+j %>', <%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')"
                                   alt />
-                                <%if(payuActive){%>
+                                <%if(payuActive && panelSetting.platform_currency==="INR"){%>
                                 <div class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
                                   <button type="button" class="btn btn-success text-center col-md-12 m-0"
                                     onclick="initPayUpayment(<%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')">
