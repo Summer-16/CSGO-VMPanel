@@ -761,7 +761,7 @@ $(document).ready(function () {
           $('#servertableRCON_update').val(serverData.server_rcon_pass)
           $('#servertableTotalVIPSlots_update').val(serverData.vip_slots)
           $('#servertableVIPPrice_update').val(serverData.vip_price)
-          $('#servertableCurrency_update').val(serverData.vip_currency)
+          // $('#servertableCurrency_update').val(serverData.vip_currency)
           $('#servertableVIPFlag_update').val(serverData.vip_flag)
           $('#servertableVIPDays_update').val(serverData.vip_days)
           $('#servername_update').focus()
