@@ -46,7 +46,12 @@ function remainingDays(endEpoc){
 }
 
 %>
+
+<!-- crypto script needed for payu (sometimes it gives error loading this script from sdk so adding it manually) -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
+<!-- Paypal SDK Settings start -->
 <script>
   var paypalActive = <%=paypalActive%>;
 </script>
@@ -55,7 +60,9 @@ function remainingDays(endEpoc){
   src="https://www.paypal.com/sdk/js?client-id=<%=paypalClientID%>&disable-funding=card&currency=<%=panelSetting.platform_currency%>"></script>
 <%}%>
 <script src="./js/paypalPayment.js"></script>
+<!-- Paypal SDK Settings end -->
 
+<!-- PayU SDK Settings start -->
 <script>
   var payuActive = <%=payuActive%>;
 </script>
@@ -70,6 +77,7 @@ function remainingDays(endEpoc){
 <script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="288c6c"
   bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
 <%}%>
+<!-- PayU SDK Settings end -->
 
 <%- include('Header.ejs') %>
 

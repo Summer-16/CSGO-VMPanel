@@ -113,7 +113,7 @@ const myDashboardFunc = (reqBody, reqUser) => {
         "bundleArray": bundleArray,
         "paypalActive": paypalClientID ? true : false,
         "paypalClientID": paypalClientID,
-        "payuActive": payUConfig.enabled,
+        "payuActive": (payUConfig.enabled == true || payUConfig.enabled == "true") ? true : false,
         "payuEnv": payUConfig.environment
       })
 
