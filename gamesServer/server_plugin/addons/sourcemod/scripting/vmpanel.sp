@@ -34,9 +34,9 @@ public void OnPluginStart() {
 
 
     //Plugin Commands
-    RegConsoleCmd("sm_vmprefresh", handler_RefreshVipAndAdmins);
-    RegConsoleCmd("sm_vmpstatus", handler_getUserVIPStatus);
-    RegAdminCmd("sm_vmpaddvip", handler_addVIP, ADMFLAG_ROOT, "Adds a VIP Usage: sm_vmpaddvip \"<SteamID>\" <Duration in days> <Name>");
+    RegConsoleCmd("sm_vipRefresh", handler_RefreshVipAndAdmins);
+    RegConsoleCmd("sm_vipStatus", handler_getUserVIPStatus);
+    RegAdminCmd("sm_addVip", handler_addVIP, ADMFLAG_ROOT, "Adds a VIP Usage: sm_vmpaddvip \"<SteamID>\" <Duration in days> <Name>");
 
     // Execute the config file, create if not present
     AutoExecConfig(true, "VMPanel");
@@ -62,7 +62,7 @@ public void OnConfigsExecuted() {
 
 // Function called for all clients once after , client enters in server
 public OnClientPostAdminCheck(client) {
-    if ((GetConVarInt(gC_VMP_alertenable) == 1) && (GetUserFlagBits(client) & ADMFLAG_RESERVATION) && !IsFakeClient(client)) {
+    if ((GetConVarInt(gC_VMP_alertenable) == 1) && (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) && !IsFakeClient(client)) {
         CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
     }
 }
@@ -134,9 +134,10 @@ public void Nothing_Callback_addVip(Database db, DBResultSet result, char[] erro
 public Action handler_RefreshVipAndAdmins(int client, int args) {
 
     PrintToServer("***[VMP] Executing manual refresh triggered by command");
-    PrintToServer("***[VMP] here is client for checking====> %d", client);
+    // PrintToServer("***[VMP] here is client for checking====> %d", client);
 
-    if (client == 0 || (GetUserFlagBits(client) & ADMFLAG_GENERIC)) {
+    if ((client == 0) || (CheckCommandAccess(client, "", ADMFLAG_GENERIC))) {
+        CPrintToChat(client, "{red}[VMP] {green}Updating the VIP/Admin in Server");
         PrintToServer("***[VMP] Requesting user is an Admin/Console, Executing the command");
         refreshVipAndAdmins();
     } else {
@@ -152,7 +153,7 @@ public Action handler_getUserVIPStatus(int client, int type) {
     PrintToServer("***[VMP] User requested for VIP status");
 
     if (!IsFakeClient(client)) {
-        if (GetUserFlagBits(client) & ADMFLAG_RESERVATION) {
+        if (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) {
 
             if (type != 2) {
                 CPrintToChat(client, "{red}[VMP] {green}Hold On Getting your Data now.");

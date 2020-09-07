@@ -24,7 +24,7 @@
     "key": "add some random generated string here min 32length"
   },
   "steam_api_key": "Your Steam API Key Here (Leave Empty to disable steam login)",
-  "paymnet_gateways": {
+  "payment_gateways": {
     "paypal": {
       "paypal_client_id": "Your paypal client id here (Leave Empty to disable Paypal Feature)"
     },

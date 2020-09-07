@@ -22,7 +22,7 @@ const logger = require('../modules/logger')('pay U controller');
 const SteamIDConverter = require('../utils/steamIdConvertor')
 const crypto = require('crypto');
 const config = require('../config');
-const payUConfig = config.paymnet_gateways.payU
+const payUConfig = config.payment_gateways.payU
 
 //-----------------------------------------------------------------------------------------------------
 // 

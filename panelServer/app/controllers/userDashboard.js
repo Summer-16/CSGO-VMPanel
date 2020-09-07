@@ -27,8 +27,8 @@ const vipModel = require("../models/vipModel.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 const { logThisActivity } = require("../utils/activityLogger.js");
 const config = require('../config');
-const paypalClientID = config.paymnet_gateways.paypal.paypal_client_id
-const payUConfig = config.paymnet_gateways.payU
+const paypalClientID = config.payment_gateways.paypal.paypal_client_id
+const payUConfig = config.payment_gateways.payU
 const crypto = require('crypto');
 const { getPanelBundlesListFunc } = require('./panelServerBundles.js')
 

@@ -26,7 +26,7 @@
 //     "key": "|@MaDevL0p3R"
 //   },
 //   "steam_api_key": "DFGH4567SDFGH567DFGHJ",
-//   "paymnet_gateways": {
+//   "payment_gateways": {
 //     "paypal": {
 //       "paypal_client_id": "wertyjkjhgfdsertghjknbvfdr567uijnbvfdertyujnbvcdrtyujnbvfrtyujhbvfr567ujbvfrtyu"
 //     },

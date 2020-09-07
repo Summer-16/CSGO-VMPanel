@@ -3,25 +3,21 @@
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 ### If you like my work , Consider donating to the project and support me. Thank You
 
-## Latest Development build (Changelogs)
+## Panel Features v1.8 (Changelogs)
 - Some fixes and improvements
 - New setting option added to enable disable vip listing on public dashboard
 - Sourceban integration (You can add Bans and Comm Bans)
-- Plugin Updated, Otimized database connectiona and added a new command to check subscription status
 - Code Optimizations and Performance improvements
+- Plugin Updated Following features added:
+    Otimized database connection
+    Added a Command to check VIP Subscription status
+    Added Alert about expiring VIP Subscription
+    Added an Admin command to add VIP through Console
+    Commands updated for better nomenclature (!vipRefresh, !vipStatus, !addVip) . 
+    Note, Commands are case sensitive and status command will not work for old entries, it will work for entries made with v1.8 and higher.
 
-## Panel Features v1.7 (Changelogs)
-- Now admin can define no of subscription days for every server
-- Admin can create server bundle where they can create a bundle by adding multiple servers with custom subscription days and price to create custom offers
 
-## Panel Features v1.6 (Changelogs) 
-- PayU Money payment gateway added (PayU Payment gateway is for Indian Users only as it does transactions in rupee)
-- Some bugs fixed for the login screen
-- Panel logs added
-- Pagination added for large data
-- Server data load and autofill added for server update form
-
-## Panel Features v1.5
+## Panel Features v1.7
 - Add VIP or Admin to servers.
 - While adding VIP subscription days are entered and once subscription days finished panel will automatically delete that VIP and remove it from the CSGO server too.
 - You can also manually delete the VIP and Admins from the panel.
@@ -40,6 +36,9 @@
 - User can log in through steam and then he can see the status of his VIP subscription in all servers, can buy new VIP and Renew old VIP through PayPal
 - Sales record for Admin
 - New Features at Dashboard like (Server list with connecting feature and other stats for Admin)
+- PayU Money payment gateway (PayU Payment gateway is for Indian Users only as it does transactions in rupee)
+- Panel audit logs
+- Server bundles for selling and buying multiple server vip at once 
 
 ## Only enable both payment gateways if you are doing transactions in INR, if you are doing transactions is USD do not enable PayU
 
