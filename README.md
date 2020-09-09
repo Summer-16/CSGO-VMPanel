@@ -131,7 +131,7 @@ pm2 stop 0
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
 
-## Updating from v1.7 to dev
+## Updating from v1.7 to 1.8
 - Stop your panel service while updating
 - Add files from latest commit to yours installed directory
 - add the following lines in `panelServer/app/config/config.json`
