@@ -137,7 +137,9 @@ public Action handler_RefreshVipAndAdmins(int client, int args) {
     // PrintToServer("***[VMP] here is client for checking====> %d", client);
 
     if ((client == 0) || (CheckCommandAccess(client, "", ADMFLAG_GENERIC))) {
-        CPrintToChat(client, "{red}[VMP] {green}Updating the VIP/Admin in Server");
+        if(client >0){
+            CPrintToChat(client, "{red}[VMP] {green}Updating the VIP/Admin in Server");
+        }
         PrintToServer("***[VMP] Requesting user is an Admin/Console, Executing the command");
         refreshVipAndAdmins();
     } else {
