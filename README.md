@@ -125,7 +125,7 @@ pm2 stop 0
 - open the cfg file add a table name for your server something like sv_servername
 - Restart the server, and check if plugin is working without an errors
 - now add an entry named vmpanel in your database.cfg and add the database cred for the same database used for panel
-- Command for plugin "sm_vmprefresh"
+- Command for plugin "sm_vipRefresh"
 
 ### Adding bash file in servers (old method) (not needed if you using the plugin)
 - Copy the script from serverScript folder add into your CSGO server 

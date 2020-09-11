@@ -46,7 +46,7 @@ const refreshAdminsInServer = (server) => {
             var conn = new Rcon(serverDetails.server_ip, serverDetails.server_port, serverDetails.server_rcon_pass);
             conn.on('auth', function () {
               logger.info("*** Rcon Authed! ***");
-              conn.send("sm_vmprefresh");
+              conn.send("sm_vipRefresh");
               conn.disconnect();
             }).on('response', function (str) {
               logger.info("*** [RCON] Got response: " + str);
