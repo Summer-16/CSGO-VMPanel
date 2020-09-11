@@ -353,7 +353,7 @@ function addNewPServerajax() {
           "serverrcon": $('#servertableRCON_add').val() ? $('#servertableRCON_add').val() : null,
           "servertotalvip": $('#servertableTotalVIPSlots_add').val() ? $('#servertableTotalVIPSlots_add').val() : null,
           "servervipprice": $('#servertableVIPPrice_add').val() ? $('#servertableVIPPrice_add').val() : null,
-          "servervipcurrency": $('#servertableCurrency_add').val() ? $('#servertableCurrency_add').val() : null,
+          "servervipcurrency": $('#servertablecurrency').val() ? $('#servertablecurrency').val() : null,
           "servervipflag": $('#servertableVIPFlag_add').val() ? $('#servertableVIPFlag_add').val() : null,
           "servervipdays": $('#servertableVIPDays_add').val() ? $('#servertableVIPDays_add').val() : null,
           "submit": "insert"
@@ -417,7 +417,7 @@ function updatePServerajax() {
           "serverrcon": $('#servertableRCON_update').val(),
           "servertotalvip": $('#servertableTotalVIPSlots_update').val(),
           "servervipprice": $('#servertableVIPPrice_update').val(),
-          "servervipcurrency": $('#servertableCurrency_update').val(),
+          "servervipcurrency": $('#servertablecurrency').val(),
           "servervipflag": $('#servertableVIPFlag_update').val(),
           "servervipdays": $('#servertableVIPDays_update').val(),
           "submit": "update"
