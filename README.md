@@ -143,7 +143,7 @@ pm2 stop 0
 - delete the `package-lock.json` in `panelServer` directory, then run `npm i`
 - execute the below query in your database
 ```mysql
-INSERT INTO `GGVIPlist`.`tbl_settings` (`setting_key`, `setting_value`) VALUES ('dash_vip_show', '1');
+INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('dash_vip_show', '1');
 INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('platform_currency', 'USD');
 ```
 - Now restart your server and you are good to go
