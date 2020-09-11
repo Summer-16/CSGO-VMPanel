@@ -17,7 +17,7 @@ public Plugin myinfo = {
     name = "SM VMPanel ",
     author = "Summer Soldier",
     description = "CSGO Plugin for VMPanel Project",
-    version = "1.0",
+    version = "2.0",
     url = "https://github.com/Summer-16/CSGO-VMPanel"
 };
 
@@ -137,7 +137,7 @@ public Action handler_RefreshVipAndAdmins(int client, int args) {
     // PrintToServer("***[VMP] here is client for checking====> %d", client);
 
     if ((client == 0) || (CheckCommandAccess(client, "", ADMFLAG_GENERIC))) {
-        if(client >0){
+        if(client > 0){
             CPrintToChat(client, "{red}[VMP] {green}Updating the VIP/Admin in Server");
         }
         PrintToServer("***[VMP] Requesting user is an Admin/Console, Executing the command");
@@ -304,7 +304,7 @@ public void refreshVipAndAdmins_Callback(Database db, DBResultSet result, char[]
     new String: g_sFilePath[PLATFORM_MAX_PATH];
     BuildPath(Path_SM, g_sFilePath, sizeof(g_sFilePath), "/configs/admins_simple.ini");
     new Handle: FileHandle = OpenFile(g_sFilePath, "w");
-    WriteFileLine(FileHandle, "//This file is maintained by VMPanel Plugin v1.0, Do not add any entries in this file as they will be overwritten by plugin");
+    WriteFileLine(FileHandle, "//This file is maintained by VMPanel Plugin v2.0, Do not add any entries in this file as they will be overwritten by plugin");
 
     while (result.FetchRow()) {
         char authId[100];
@@ -313,7 +313,7 @@ public void refreshVipAndAdmins_Callback(Database db, DBResultSet result, char[]
         result.FetchString(0, authId, sizeof(authId));
         result.FetchString(1, flag, sizeof(flag));
         result.FetchString(2, name, sizeof(name));
-        // PrintToServer("***[VMP] %s %s %s ",authId,flag,name);
+        PrintToServer("***[VMP] fetched entries || ===> %s %s %s ",authId,flag,name);
         WriteFileLine(FileHandle, "%s  %s  %s ", authId, flag, name);
     }
 
