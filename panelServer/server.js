@@ -67,7 +67,7 @@ app.use(requestMiddleware.addRequestUUID);
 app.use(express.static('public'));
 
 app.use(session({
-  secret: 'catINSIDEcsgoServer)(',
+  secret: config.app.secret,
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }

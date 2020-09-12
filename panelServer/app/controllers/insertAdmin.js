@@ -85,6 +85,10 @@ const insertAdminDataFunc = (reqBody, username) => {
           if (!reqBody.flag) return reject("Operation Fail!, Flags Missing");
           if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
 
+          let serverList = reqBody.server
+          let serverListLength = reqBody.server.length
+          if (!Array.isArray(serverList)) return reject("Operation Fail!, Server list is not an Array");
+
           reqBody.name = "//" + reqBody.name;
           reqBody.steamId = '"' + reqBody.steamId + '"';
           reqBody.day = 0;
@@ -92,8 +96,8 @@ const insertAdminDataFunc = (reqBody, username) => {
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
-            for (let i = 0; i < reqBody.server.length; i++) {
-              let result = await refreshAdminsInServer(reqBody.server[i]);
+            for (let i = 0; i < serverListLength; i++) {
+              let result = await refreshAdminsInServer(serverList[i]);
               rconStatus.push(result)
             }
             resolve(insertRes)

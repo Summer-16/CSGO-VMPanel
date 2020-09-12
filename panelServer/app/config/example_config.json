@@ -23,6 +23,9 @@
   "jwt": {
     "key": "add some random generated string here min 32length"
   },
+  "app": {
+    "secret": "add some random generated string here min 32length"
+  },
   "steam_api_key": "Your Steam API Key Here (Leave Empty to disable steam login)",
   "payment_gateways": {
     "paypal": {
@@ -36,6 +39,6 @@
     }
   },
   "logging": {
-      "logLevel": "INFO"
+    "logLevel": "INFO"
   }
 }

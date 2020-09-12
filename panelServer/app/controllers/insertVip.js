@@ -50,7 +50,7 @@ exports.insertVipData = async (req, res) => {
     let result = await insertVipDataFunc(req.body, req.session.username);
     logThisActivity({
       "activity": req.body.submit == "insert" ? "New VIP added" : "VIP Updated",
-      "additional_info": `${(req.body.name)?req.body.name.replace("//", ""):"-_-"} ( ${req.body.steamId} )`,
+      "additional_info": `${(req.body.name) ? req.body.name.replace("//", "") : "-_-"} ( ${req.body.steamId} )`,
       "created_by": req.session.username
     })
     res.json({
@@ -88,6 +88,10 @@ const insertVipDataFunc = (reqBody, username) => {
           if (!reqBody.day) return reject("Operation Fail!, No of Days Missing");
           if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
 
+          let serverList = reqBody.server
+          let serverListLength = reqBody.server.length
+          if (!Array.isArray(serverList)) return reject("Operation Fail!, Server list is not an Array");
+
           reqBody.day = epoctillExpirey(reqBody.day);
           reqBody.name = "//" + reqBody.name;
           reqBody.steamId = '"' + reqBody.steamId + '"';
@@ -95,8 +99,8 @@ const insertVipDataFunc = (reqBody, username) => {
 
           let insertRes = await vipModel.insertVIPData(reqBody)
           if (insertRes) {
-            for (let i = 0; i < reqBody.server.length; i++) {
-              let result = await refreshAdminsInServer(reqBody.server[i]);
+            for (let i = 0; i < serverListLength; i++) {
+              let result = await refreshAdminsInServer(serverList[i]);
               rconStatus.push(result)
             }
             resolve(insertRes)
@@ -108,13 +112,17 @@ const insertVipDataFunc = (reqBody, username) => {
           if (!reqBody.day) return reject("Operation Fail!, No of Days Missing");
           if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
 
+          let serverList = reqBody.server
+          let serverListLength = reqBody.server.length
+          if (!Array.isArray(serverList)) return reject("Operation Fail!, Server list is not an Array");
+
           reqBody.day = Math.floor(reqBody.day * 86400);
           reqBody.steamId = '"' + reqBody.steamId + '"';
 
           let updateRes = await vipModel.updateVIPData(reqBody)
           if (updateRes) {
-            for (let i = 0; i < reqBody.server.length; i++) {
-              let result = await refreshAdminsInServer(reqBody.server[i]);
+            for (let i = 0; i < serverListLength; i++) {
+              let result = await refreshAdminsInServer(serverList[i]);
               rconStatus.push(result)
             }
             resolve(updateRes)

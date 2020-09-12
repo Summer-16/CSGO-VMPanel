@@ -25,6 +25,9 @@
 //   "jwt": {
 //     "key": "|@MaDevL0p3R"
 //   },
+// "app": {
+//   "secret": "add some random generated string here min 32length"
+// },
 //   "steam_api_key": "DFGH4567SDFGH567DFGHJ",
 //   "payment_gateways": {
 //     "paypal": {

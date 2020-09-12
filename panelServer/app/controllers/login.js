@@ -36,7 +36,7 @@ exports.loginPage = async (req, res) => {
     res.render('Login', { "steamLogin": (steamApi ? true : false), "error": null });
   } catch (error) {
     logger.error("error in login-->", error);
-    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": error });
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": "Something went wrong contact Admin for more Info" });
   }
 }
 //-----------------------------------------------------------------------------------------------------
@@ -85,6 +85,6 @@ exports.authUserLogin = async (req, res) => {
     }
   } catch (error) {
     logger.error("error in authUserLogin-->", error);
-    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": error })
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": "Something went wrong contact Admin for more Info" })
   }
 }
