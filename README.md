@@ -1,27 +1,27 @@
 # CSGO Vip Management Panel
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paytm-64.png)](https://drive.google.com/file/d/1ks_B3s9dNk_RPkDVf1DL1ITKe0mnrTRk/view)  [![Donate](https://cdn.iconscout.com/icon/free/png-64/upi-bhim-transfer-1795405-1522773.png)](https://drive.google.com/open?id=1VYYThJS78Pp6yyIU0lCIC4j7ef5a4G0l)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 ### Single solution to mange VIPs and Admins in your CSGO servers.
-### If you like my work , Consider donating to the project and support me. Thank You
+### If you like my work, consider donating to the project and support me. Thank You
 
 ## Panel Features v1.8 (Changelogs)
 - Some fixes and improvements
-- New setting option added to enable disable vip listing on public dashboard
+- New setting option added to enable disable VIP listing on a public dashboard
 - Sourceban integration (You can add Bans and Comm Bans)
 - Code Optimizations and Performance improvements
 - Plugin Updated Following features added:
-    Otimized database connection
-    Added a Command to check VIP Subscription status
-    Added Alert about expiring VIP Subscription
-    Added an Admin command to add VIP through Console
-    Commands updated for better nomenclature (!vipRefresh, !vipStatus, !addVip) . 
-    Note, Commands are case sensitive and status command will not work for old entries, it will work for entries made with v1.8 and higher.
+    -Optimized database connection
+    -Added a Command to check VIP Subscription status
+    -Added Alert about expiring VIP Subscription
+    -Added an Admin command to add VIP through Console
+    -Commands updated for better nomenclature (!vipRefresh, !vipStatus, !addVip) . 
+    -Note, Commands are case sensitive and the status command will not work for old entries, it will work for entries made with v1.8 and higher.
 
 
 ## Panel Features v1.7
 - Add VIP or Admin to servers.
 - While adding VIP subscription days are entered and once subscription days finished panel will automatically delete that VIP and remove it from the CSGO server too.
 - You can also manually delete the VIP and Admins from the panel.
-- A user data fetch tool to make it easy to add VIP and Admins just enter the user steam profile URL and panel will fetch all the info for you (no more using steam id finders)
+- A user data fetch tool to make it easy to add VIP and Admins just enter the user steam profile URL and the panel will fetch all the info for you (no more using steam id finders)
 - Automatic deletion of VIPs whose subscription days are ended.
 - Daily notification on your discord server with the latest Listing for all servers.
 - A handy dashboard to see all at a glance
@@ -30,15 +30,15 @@
 - CSGO server plugin is available which syncs all the entries from your panel database to the CSGO server.
 - A shell script is also available. (used to do plugin work in old versions, but it still works so it's there)
 - Note (I recommend using plugin until and unless u r trying to do custom solutions with a shell script. If you are using shell script you will have to manually create server tables in the database.)
-- Added RCON feature therefore now as soon as you add any admin or VIP it gets updated in respective CSGO server through RCON by the panel's plugin
+- Added RCON feature therefore now as soon as you add any admin or VIP it gets updated in the respective CSGO server through RCON by the panel's plugin
 - Added Steam login for Users
 - Added Paypal for VIP buy and renew feature
-- User can log in through steam and then he can see the status of his VIP subscription in all servers, can buy new VIP and Renew old VIP through PayPal
+- User can log in through steam and then he can see the status of his VIP subscription in all servers, can buy new VIP, and Renew old VIP through PayPal
 - Sales record for Admin
 - New Features at Dashboard like (Server list with connecting feature and other stats for Admin)
 - PayU Money payment gateway (PayU Payment gateway is for Indian Users only as it does transactions in rupee)
 - Panel audit logs
-- Server bundles for selling and buying multiple server vip at once 
+- Server bundles for selling and buying multiple server VIP at once 
 
 ## Only enable both payment gateways if you are doing transactions in INR, if you are doing transactions is USD do not enable PayU
 
@@ -47,8 +47,8 @@
 [View All ScreenShots](https://github.com/Summer-16/CSGO-VMPanel/tree/master/screenshots)
 
 ## Step-by-Step install Instructions for New Installation 
-#### (these instructions apply to current dev code if you are installing v1.7 then follow the instructions given in its zip)
-Always install the latest released version and follow the instructions available inside the readme of downloaded release.
+#### (these instructions apply to current dev code if you are installing older version then follow the instructions given in its zip)
+Always install the latest released version and follow the instructions available inside the readme of the downloaded release.
 I don't recommend installing under-development builds as they may have errors. 
 
 ### Setting Up the node server
@@ -67,7 +67,7 @@ vim config.json
 - Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
 - Your Paypal client Id for automatic VIP buy and renew to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
 - and a secure key for jwt (remember to add a strong key)
-- Like same you can enable PayU payment gateway (set enaled:true, environment 'live' for live payments 'test' for testing)
+- Like same you can enable PayU payment gateway (set enabled: true, environment 'live' for live payments 'test' for testing)
 - and you PayU Merchant Key and Salt which is available in your PayU Dashboard.
 - save the file and get back to panelServer directory
 ```bash
