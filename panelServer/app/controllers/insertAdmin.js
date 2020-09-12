@@ -86,8 +86,14 @@ const insertAdminDataFunc = (reqBody, username) => {
           if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
 
           let serverList = reqBody.server
-          let serverListLength = reqBody.server.length
           if (!Array.isArray(serverList)) return reject("Operation Fail!, Server list is not an Array");
+          let allServersList = await panelServerModal.getPanelServersDisplayList();
+          let serverListLength
+          if (serverList.length <= allServersList.length) {
+            serverListLength = serverList.length
+          } else {
+            return reject("Length of given server list is more then max servers added in panel, something is fishy");
+          }
 
           reqBody.name = "//" + reqBody.name;
           reqBody.steamId = '"' + reqBody.steamId + '"';
