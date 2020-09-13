@@ -103,7 +103,7 @@ function remainingDays(endEpoc){
         <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active" id="serverVip" role="tabpanel" aria-labelledby="serverVip-tab">
-              <div class="col-md-12 row" style="max-height:330px;overflow: auto;" id="style-4">
+              <div class="col-md-12 row" style="height:330px;overflow: auto;" id="style-4">
                 <%if(serverArray){%>
                 <% for(let i=0; i < serverArray.length;i++){%>
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
@@ -201,6 +201,13 @@ function remainingDays(endEpoc){
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div class="col-md-12 text-center" id="arrowButtonDiv">
+                    <button type="button"
+                      class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
+                      onclick="changeDivHeight()">
+                      <i class="material-icons" id="iconForArrow">keyboard_arrow_down</i>
+                    </button>
                   </div>
                 </div>
               </div>

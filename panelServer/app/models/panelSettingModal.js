@@ -32,7 +32,8 @@ const valueArray = [["color_theme", "danger"],
 ["community_logo_url", ""],
 ["community_info", ""],
 ["community_website", ""],
-["platform_currency", "USD"]]
+["platform_currency", "USD"],
+["hiddenadmin_login", "0"]]
 
 /**
  *   setting Model

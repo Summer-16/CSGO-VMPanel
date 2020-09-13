@@ -49,6 +49,7 @@ module.exports = app => {
 
   //Login and logout
   app.get('/login', loginPage);
+  app.get('/adminlogin', loginPage);
   app.post('/authuser', authUserLogin);
   app.get('/logout', function (req, res) {
     req.logout();

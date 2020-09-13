@@ -131,19 +131,11 @@ pm2 stop 0
 - Copy the script from serverScript folder add into your CSGO server 
 - Update your DB cred and admins_simple.ini path in the script and add the script into cron
 
-## Updating from v1.7 to 1.8
+## Updating from v1.8 to dev
 - Stop your panel service while updating
 - Add files from latest commit to yours installed directory
-- add the following lines in `panelServer/app/config/config.json`
-```json
-"logging": {
-      "logLevel": "INFO"
- }
-```
-- delete the `package-lock.json` in `panelServer` directory, then run `npm i`
 - execute the below query in your database
 ```mysql
-INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('dash_vip_show', '1');
-INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('platform_currency', 'USD');
+INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('hiddenadmin_login', '0');
 ```
 - Now restart your server and you are good to go

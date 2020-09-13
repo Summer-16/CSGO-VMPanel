@@ -136,6 +136,19 @@ function fetchPBundleListajax() {
 }
 //-----------------------------------------------------------------------------------------------------
 
+function changeDivHeight() {
+  let currentheight = document.getElementById("style-4").clientHeight
+  if (currentheight == 330) {
+    document.getElementById("style-4").style.height = "660px"
+    document.getElementById("iconForArrow").textContent = "keyboard_arrow_up"
+  } else {
+    document.getElementById("style-4").style.height = "330px"
+    document.getElementById("iconForArrow").textContent = "keyboard_arrow_down"
+  }
+}
+
+//-----------------------------------------------------------------------------------------------------
+
 $(document).ready(function () {
 
   // fetchPBundleListajax();

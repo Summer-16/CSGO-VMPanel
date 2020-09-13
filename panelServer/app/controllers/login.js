@@ -33,10 +33,15 @@ const saltRounds = 10;
 
 exports.loginPage = async (req, res) => {
   try {
-    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": null });
+    if (req.session.token || req.session.passport) {
+      return res.redirect('/');
+    }
+    let adminroute = req.route.path === "/adminlogin" ? true : false
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "adminroute": adminroute, "error": null });
   } catch (error) {
     logger.error("error in login-->", error);
-    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": "Something went wrong contact Admin for more Info" });
+    let adminroute = req.route.path === "/adminlogin" ? true : false
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "adminroute": adminroute, "error": "Something went wrong contact Admin for more Info" });
   }
 }
 //-----------------------------------------------------------------------------------------------------
@@ -50,6 +55,7 @@ exports.authUserLogin = async (req, res) => {
 
     let username = req.body.username;
     let password = req.body.password;
+    let adminroute = req.route.path === "/adminlogin" ? true : false
     // For the given username fetch user from DB
     let userData = await userModel.getuserDataByUsername(username)
     if (username && password) {
@@ -58,7 +64,7 @@ exports.authUserLogin = async (req, res) => {
         bcrypt.compare(password, userData.password, function (err, result) {
 
           if (err) {
-            res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect Password' })
+            res.render('Login', { "steamLogin": (steamApi ? true : false), "adminroute": adminroute, "error": 'Incorrect Password' })
           }
           if (result == true) {
             let token = jwt.sign({ username: username },
@@ -74,17 +80,17 @@ exports.authUserLogin = async (req, res) => {
             req.session.user_type = userData.user_type;
             res.redirect('/managevip')
           } else {
-            res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect Password' })
+            res.render('Login', { "steamLogin": (steamApi ? true : false), "adminroute": adminroute, "error": 'Incorrect Password' })
           }
         });
       } else {
-        res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Incorrect username' })
+        res.render('Login', { "steamLogin": (steamApi ? true : false), "adminroute": adminroute, "error": 'Incorrect username' })
       }
     } else {
-      res.render('Login', { "steamLogin": (steamApi ? true : false), "error": 'Authentication failed! Please check the request' })
+      res.render('Login', { "steamLogin": (steamApi ? true : false), "adminroute": adminroute, "error": 'Authentication failed! Please check the request' })
     }
   } catch (error) {
     logger.error("error in authUserLogin-->", error);
-    res.render('Login', { "steamLogin": (steamApi ? true : false), "error": "Something went wrong contact Admin for more Info" })
+    res.render('Login', { "steamLogin": (steamApi ? true : false), "adminroute": adminroute, "error": "Something went wrong contact Admin for more Info" })
   }
 }

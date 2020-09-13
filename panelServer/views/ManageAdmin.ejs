@@ -32,7 +32,7 @@
             <h4 class="card-title">Add Admin</h4>
             <p class="card-category">Form to add a new Admin in Server</p>
           </div>
-          <div class="card-body" style="min-height:360px;">
+          <div class="card-body" style="min-height:360px;" id="addAdminDiv">
             <form id="myForm_addAdmin">
               <div class="row">
                 <div class="col-md-12">
@@ -107,19 +107,33 @@
             <p class="card-category">Select a server to view the list</p>
           </div>
           <div class="card-body">
-            <div class="col-md-4">
-              <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Select Server
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <% if(serverList) {%>
-                  <% for(let i=0; i < serverList.length; i++) { %>
-                  <a class="dropdown-item" href="javascript:void(0)"
-                    onclick="getAdminTableListing('<%=serverList[i].tbl_name%>')"> <%=serverList[i].server_name%> </a>
-                  <%}}%>
+            <div class="col-md-12 row">
+              <div class="col-md-4">
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select Server
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <% if(serverList) {%>
+                    <% for(let i=0; i < serverList.length; i++) { %>
+                    <a class="dropdown-item" href="javascript:void(0)"
+                      onclick="getAdminTableListing('<%=serverList[i].tbl_name%>')"> <%=serverList[i].server_name%> </a>
+                    <%}}%>
+                  </div>
                 </div>
+              </div>
+              <div class="col-md-5"></div>
+              <div class="col-md-3">
+                <form class="form-inline col-md-12">
+                  <div class="form-group has-<%=panelSetting.color_theme%>">
+                    <input type="text" class="form-control" placeholder="Search">
+                  </div>
+                  <button type="button"
+                    class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round">
+                    <i class="material-icons">search</i>
+                  </button>
+                </form>
               </div>
             </div>
             <hr />
