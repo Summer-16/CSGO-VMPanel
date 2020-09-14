@@ -33,7 +33,8 @@ const valueArray = [["color_theme", "danger"],
 ["community_info", ""],
 ["community_website", ""],
 ["platform_currency", "USD"],
-["hiddenadmin_login", "0"]]
+["hiddenadmin_login", "0"],
+["salenotification_discord", "0"]]
 
 /**
  *   setting Model

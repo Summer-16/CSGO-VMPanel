@@ -31,6 +31,8 @@ const paypalClientID = config.payment_gateways.paypal.paypal_client_id
 const payUConfig = config.payment_gateways.payU
 const crypto = require('crypto');
 const { getPanelBundlesListFunc } = require('./panelServerBundles.js')
+const { sendBuyMessageOnDiscord } = require('./sendMessageOnDiscord.js')
+const panelServerModal = require("../models/panelServerModal.js");
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -60,6 +62,7 @@ const myDashboardFunc = (reqBody, reqUser) => {
       let userDataListing = await myDashboardModel.getUserDataFromAllServers('"' + steamId + '"')
 
       let serverList = await myDashboardModel.getSaleServerListing()
+      let allServerList = await panelServerModal.getPanelServersList();
 
       const userServerArray = []
       for (let j = 0; j < userDataListing.length; j++) {
@@ -70,8 +73,10 @@ const myDashboardFunc = (reqBody, reqUser) => {
       for (let i = 0; i < serverList.length; i++) {
         if (userServerArray.includes(serverList[i].server_name)) {
           for (let k = 0; k < userDataListing.length; k++) {
-            if (userDataListing[k].servername == serverList[i].server_name) {
-              userDataListing[k].serverdata = serverList[i]
+            for (let l = 0; l < allServerList.length; l++) {
+              if (userDataListing[k].servername == allServerList[l].server_name) {
+                userDataListing[k].serverdata = allServerList[l]
+              }
             }
           }
         } else {
@@ -145,6 +150,8 @@ exports.afterPaymentProcess = async (req, res) => {
       "additional_info": `${(req.body.gateway === 'paypal') ? req.body.paymentData.id : (req.body.gateway === 'payu') ? req.body.paymentData.order_id : "NA"} - ( ${finalUserName} )`,
       "created_by": finalUserName + " (Steam Login)"
     })
+
+    sendBuyMessageOnDiscord(req.body, finalUserName)
 
     res.json({
       success: true,

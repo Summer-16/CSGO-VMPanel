@@ -103,7 +103,7 @@ function remainingDays(endEpoc){
         <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active" id="serverVip" role="tabpanel" aria-labelledby="serverVip-tab">
-              <div class="col-md-12 row" style="height:330px;overflow: auto;" id="style-4">
+              <div class="col-md-12 row" style="height:330px;overflow:auto;" id="style-4">
                 <%if(serverArray){%>
                 <% for(let i=0; i < serverArray.length;i++){%>
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
@@ -117,7 +117,7 @@ function remainingDays(endEpoc){
                       <h3 class="card-title">
                         <%=serverArray[i].vip_price? serverArray[i].vip_price+" "+serverArray[i].vip_currency+" for "+serverArray[i].vip_days+" days"  :"NA"%>
                       </h3>
-                      <%if(serverArray[i].server_ip&&serverArray[i].server_port){%>
+                      <%if(serverArray[i].server_ip && serverArray[i].server_port){%>
                       <a href="<%='steam://connect/'+serverArray[i].server_ip+':'+serverArray[i].server_port%>"
                         class="card-title text-success">Wanna Test the Server! <i
                           class="material-icons">settings_input_composite</i></a>
@@ -265,11 +265,11 @@ function remainingDays(endEpoc){
                               <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?remainingDays(userDataListing[j].data.expireStamp):"NA"%>
                             </td>
                             <td>
-                              <%if(userDataListing[j].data && userDataListing[j].data.type==0){%>
+                              <% if(userDataListing[j].data && userDataListing[j].data.type==0 && userDataListing[j].serverdata){ %>
                               <div class="col-md-12 row">
                                 <!-- class="col-md-6 ml-0 pl-0" -->
                                 <img src
-                                  onerror="setPayPalButton('<%= (userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name + `renew`: `renew`+j %>', <%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')"
+                                  onerror="setPayPalButton('<%= (userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name + `renew`: `renew`+j %>', <%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')"
                                   alt />
                                 <%if(payuActive && panelSetting.platform_currency==="INR"){%>
                                 <div class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
@@ -282,16 +282,19 @@ function remainingDays(endEpoc){
                                 </div>
                                 <%}%>
                             <div
-                              id="<%=(userDataListing[j].serverdata && userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name+'renew' : 'renew'+j %>"
+                              id="<%=(userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name+'renew' : 'renew'+j %>"
                                 class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
                               </div>
                     </div>
                     <%}else{%>
-                    NA
+                    <div class="text-center">
+                      <button class="text-warning" disabled><i class="material-icons"
+                          id="iconForArrow">keyboard_arrow_down</i> Something Wrong</button>
+                    </div>
                     <%}%>
-                    </td>
-                  </tr>
-                  <%}}%>
+                            </td>
+                          </tr>
+                          <%}}%>
                     </tbody>
                     </table>
                   </div>

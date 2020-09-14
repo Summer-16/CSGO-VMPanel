@@ -78,7 +78,7 @@ function addSourceBansCommBanajax() {
   let formError = ""
   if (!$('#commban_type').val()) {
     formError = "Select Comm Ban type"
-  } else if (!$('#steamId_add').val()) {
+  } else if (!$('#steamId_update').val()) {
     formError = "Steam Id Missing"
   } else if (!$('#commban_reason').val()) {
     formError = "Comm Ban Reason Missing"
@@ -97,7 +97,7 @@ function addSourceBansCommBanajax() {
       },
       body: JSON.stringify({
         "commbantype": $('#commban_type').val(),
-        "steamid": $('#steamId_add').val(),
+        "steamid": $('#steamId_update').val(),
         "username": $('#name_comm').val(),
         "banlength": $('#commban_length').val(),
         "banreason": $('#commban_reason').val() === "OtherReason" ? $('#other_ban_reasoncomm').val() : $('#commban_reason').val(),

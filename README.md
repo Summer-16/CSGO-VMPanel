@@ -3,6 +3,13 @@
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 ### If you like my work, consider donating to the project and support me. Thank You
 
+## Panel Features Dev Version (Changelogs)
+- Various UI fixes.
+- Sourceban page steam profile data fetch tool fixed.
+- Fixed an error in user dashboard where renew button don't work if 10/10 slots are sold.
+- Added Feature to hide admin login form from public display;
+- Added Feature to enable discord notifications for VIP sales.
+
 ## Panel Features v1.8 (Changelogs)
 - Some fixes and improvements
 - New setting option added to enable disable VIP listing on a public dashboard
@@ -134,8 +141,15 @@ pm2 stop 0
 ## Updating from v1.8 to dev
 - Stop your panel service while updating
 - Add files from latest commit to yours installed directory
-- execute the below query in your database
+- Add following code in your config , see example config for reference 
+```
+  "app": {
+    "secret": "add some random generated string here min 32length"
+  },
+```
+- execute the below queries in your database
 ```mysql
 INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('hiddenadmin_login', '0');
+INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('salenotification_discord', '0');
 ```
 - Now restart your server and you are good to go
