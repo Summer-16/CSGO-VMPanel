@@ -53,7 +53,7 @@ const query = function (queryText, singleRecord) {
 };
 
 /**
- * shim for formating the query
+ * shim for formatting the query
  */
 var queryFormat = mysql.format;
 

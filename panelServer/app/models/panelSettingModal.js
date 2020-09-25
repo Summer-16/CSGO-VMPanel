@@ -53,7 +53,7 @@ var settingsModal = {
                                     setting_key varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
                                     setting_value varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                     PRIMARY KEY(id)
-                                  ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci`);
+                                  ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci`);
         let queryRes = await db.query(query, true);
         if (!queryRes) {
           return reject("Error in creating user table");
