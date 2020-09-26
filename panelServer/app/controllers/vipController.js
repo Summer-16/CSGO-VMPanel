@@ -96,10 +96,32 @@ const getVipsDataSingleServerFunc = (reqBody) => {
     try {
 
       //validations
-      if (!reqBody.server) return reject("Operation Fail!, Server Missing");
+      if (!reqBody.server && !reqBody.searchKey) return reject("Operation Fail!, Server Missing");
+      if (reqBody.server) {
+        let data = await vipModel.getsingleServerData(reqBody.server, reqBody.searchKey, "vip")
 
-      let data = await vipModel.getsingleServerData(reqBody.server, "vip")
-      resolve(data)
+        for (let i = 0; i < data.length; i++) {
+          data[i].server = reqBody.server
+          data[i].serverName = reqBody.serverName
+        }
+        resolve(data)
+      } else if (!reqBody.server && reqBody.searchKey) {
+        let serverData = await panelServerModal.getPanelServersList()
+        let finalResult = []
+
+        for (let i = 0; i < serverData.length; i++) {
+          let data = await vipModel.getsingleServerData(serverData[i].tbl_name, reqBody.searchKey, "vip")
+          for (let j = 0; j < data.length; j++) {
+            data[j].server = serverData[i].tbl_name
+            data[j].serverName = serverData[i].server_name
+          }
+          finalResult = [...finalResult, ...data]
+        }
+        resolve(finalResult)
+      } else {
+        return reject("Something went wrong")
+      }
+
     } catch (error) {
       logger.error("error in getVipsDataSingleServerFunc->", error);
       reject(error)
@@ -135,10 +157,31 @@ const getAdminsDataSingleServerFunc = (reqBody) => {
     try {
 
       //validations
-      if (!reqBody.server) return reject("Operation Fail!, Server Missing");
+      if (!reqBody.server && !reqBody.searchKey) return reject("Operation Fail!, Server Missing");
+      if (reqBody.server) {
+        let data = await vipModel.getsingleServerData(reqBody.server, reqBody.searchKey, "admin")
 
-      let data = await vipModel.getsingleServerData(reqBody.server, "admin")
-      resolve(data)
+        for (let i = 0; i < data.length; i++) {
+          data[i].server = reqBody.server
+          data[i].serverName = reqBody.serverName
+        }
+        resolve(data)
+      } else if (!reqBody.server && reqBody.searchKey) {
+        let serverData = await panelServerModal.getPanelServersList()
+        let finalResult = []
+
+        for (let i = 0; i < serverData.length; i++) {
+          let data = await vipModel.getsingleServerData(serverData[i].tbl_name, reqBody.searchKey, "admin")
+          for (let j = 0; j < data.length; j++) {
+            data[j].server = serverData[i].tbl_name
+            data[j].serverName = serverData[i].server_name
+          }
+          finalResult = [...finalResult, ...data]
+        }
+        resolve(finalResult)
+      } else {
+        return reject("Something went wrong")
+      }
     } catch (error) {
       logger.error("error in getAdminsDataSingleServerFunc->", error);
       reject(error)

@@ -168,7 +168,13 @@ function deleteVIPajax(tableName, primaryKey) {
         .then((response) => {
           $("#divForLoader").html("")
           showNotif(response)
-          if (response.success == true) { getVIPTableListing(tableName) }
+          if (response.success == true) {
+            if ($("#hiddenServerTableName").val()) {
+              getVIPTableListing(tableName)
+            } else {
+              getVIPTableListingSearch()
+            }
+          }
         })
         .catch(error => {
           $("#divForLoader").html("")
@@ -183,12 +189,14 @@ function deleteVIPajax(tableName, primaryKey) {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function getVIPTableListing(value) {
+function getVIPTableListing(value, name) {
   if (value) {
     // let loader = `<div class="loading">Loading&#8230;</div>`;
     // $("#divForLoader").html(loader)
 
-    $("#manageCardTitle").text("View and Manage VIP of " + value.toUpperCase());
+    $("#dropdownMenuButton").text(name);
+    $("#hiddenServerTableName").val(value + ":" + name);
+    $("#manageCardTitle").text("View and Manage VIP of " + (name ? name : value.toUpperCase()));
 
     fetch('/getvipdatasingleserver', {
       method: 'POST',
@@ -198,6 +206,7 @@ function getVIPTableListing(value) {
       },
       body: JSON.stringify({
         "server": value,
+        "serverName": name
       })
     })
       .then((res) => { return res.json(); })
@@ -210,10 +219,11 @@ function getVIPTableListing(value) {
                         <td>${dataArray[i].authId ? dataArray[i].authId.replace('"', '').replace('"', '') : 'NA'}</td>
                         <td>${dataArray[i].name ? dataArray[i].name.replace("//", "") : 'NA'}</td>
                         <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
+                        <td class="text-primary">${dataArray[i].serverName ? dataArray[i].serverName : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
                         <td>${dataArray[i].expireStamp ? EpocToDate(dataArray[i].expireStamp) : 'NA'}</td>
                         <td>${dataArray[i].expireStamp ? remainingDays(dataArray[i].expireStamp) : 'NA'}</td>
-                        <td> <button class="btn btn-danger" onclick="deleteVIPajax('${value}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
+                        <td> <button class="btn btn-danger" onclick="deleteVIPajax('${dataArray[i].server}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
         }
         document.getElementById("manageVipTableBody").innerHTML = htmlString
@@ -222,6 +232,74 @@ function getVIPTableListing(value) {
       })
       .catch(error => { showNotif({ success: false, data: { "error": error } }) });
   }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
+function getVIPTableListingSearch() {
+
+  let loader = `<div class="loading">Loading&#8230;</div>`;
+  $("#divForLoader").html(loader)
+
+  let formError = ""
+  if (!$('#vipSearchInput').val()) {
+    formError = "You tried to make an empty search, really ?"
+  }
+
+  if (formError == "") {
+    fetch('/getvipdatasingleserver', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "server": $("#hiddenServerTableName").val().split(":")[0],
+        "serverName": $("#hiddenServerTableName").val().split(":")[1],
+        "searchKey": $('#vipSearchInput').val()
+      })
+    })
+      .then((res) => { return res.json(); })
+      .then((response) => {
+        $("#divForLoader").html("")
+        let dataArray = response.data.res
+        let htmlString = ""
+        for (let i = 0; i < dataArray.length; i++) {
+          htmlString += `<tr>
+                        <td>${dataArray[i].authId ? dataArray[i].authId.replace('"', '').replace('"', '') : 'NA'}</td>
+                        <td>${dataArray[i].name ? dataArray[i].name.replace("//", "") : 'NA'}</td>
+                        <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
+                        <td class="text-primary">${dataArray[i].serverName ? dataArray[i].serverName : 'NA'}</td>
+                        <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
+                        <td>${dataArray[i].expireStamp ? EpocToDate(dataArray[i].expireStamp) : 'NA'}</td>
+                        <td>${dataArray[i].expireStamp ? remainingDays(dataArray[i].expireStamp) : 'NA'}</td>
+                        <td> <button class="btn btn-danger" onclick="deleteVIPajax('${dataArray[i].server}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
+                        </tr>`
+        }
+        document.getElementById("manageVipTableBody").innerHTML = htmlString
+
+        showNotif(response)
+      })
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+
+  } else {
+    $("#divForLoader").html("")
+    showNotif({ success: false, data: { "error": formError } })
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// Function to clear filters
+function resetSearchAndTable() {
+  $("#dropdownMenuButton").text("SELECT SERVER");
+  $("#hiddenServerTableName").val("");
+  $('#vipSearchInput').val("")
+  document.getElementById("manageVipTableBody").innerHTML = ""
 }
 //-----------------------------------------------------------------------------------------------------
 

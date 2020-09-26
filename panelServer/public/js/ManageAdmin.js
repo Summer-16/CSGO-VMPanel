@@ -111,7 +111,13 @@ function deleteAdminajax(tableName, primaryKey) {
         .then((response) => {
           $("#divForLoader").html("")
           showNotif(response)
-          if (response.success == true) { getAdminTableListing(tableName) }
+          if (response.success == true) {
+            if ($("#hiddenServerTableName").val()) {
+              getAdminTableListing(tableName)
+            } else {
+              getAdminTableListingSearch()
+            }
+          }
         })
         .catch(error => {
           $("#divForLoader").html("");
@@ -155,7 +161,8 @@ function getAdminTableListing(value) {
                         <td>${dataArray[i].authId ? dataArray[i].authId.replace('"', '').replace('"', '') : 'NA'}</td>
                         <td>${dataArray[i].name ? dataArray[i].name.replace("//", "") : 'NA'}</td>
                         <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
-                        <td> <button class="btn btn-danger" onclick="deleteAdminajax('${value}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
+                        <td class="text-primary">${dataArray[i].serverName ? dataArray[i].serverName : 'NA'}</td>
+                        <td> <button class="btn btn-danger" onclick="deleteAdminajax('${dataArray[i].server}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
         }
         document.getElementById("manageVipTableBody").innerHTML = htmlString
@@ -164,6 +171,67 @@ function getAdminTableListing(value) {
       })
       .catch(error => { showNotif({ success: false, data: { "error": error } }) });
   }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// 
+
+function getAdminTableListingSearch() {
+
+  let loader = `<div class="loading">Loading&#8230;</div>`;
+  $("#divForLoader").html(loader)
+
+  let formError = ""
+  if (!$('#adminSearchInput').val()) {
+    formError = "You tried to make an empty search, really ?"
+  }
+
+  if (formError == "") {
+    fetch('/getadmindatasingleserver', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "server": $("#hiddenServerTableName").val().split(":")[0],
+        "serverName": $("#hiddenServerTableName").val().split(":")[1],
+        "searchKey": $('#adminSearchInput').val()
+      })
+    })
+      .then((res) => { return res.json(); })
+      .then((response) => {
+        $("#divForLoader").html("")
+        let dataArray = response.data.res
+        let htmlString = ""
+        for (let i = 0; i < dataArray.length; i++) {
+          htmlString += `<tr>
+                        <td>${dataArray[i].authId ? dataArray[i].authId.replace('"', '').replace('"', '') : 'NA'}</td>
+                        <td>${dataArray[i].name ? dataArray[i].name.replace("//", "") : 'NA'}</td>
+                        <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
+                        <td class="text-primary">${dataArray[i].serverName ? dataArray[i].serverName : 'NA'}</td>
+                        <td> <button class="btn btn-danger" onclick="deleteAdminajax('${dataArray[i].server}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
+                        </tr>`
+        }
+        document.getElementById("manageVipTableBody").innerHTML = htmlString
+
+        showNotif(response)
+      })
+      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+  }
+}
+//-----------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------
+// Function to clear filters
+function resetSearchAndTable() {
+  $("#dropdownMenuButton").text("SELECT SERVER");
+  $("#hiddenServerTableName").val("");
+  $('#adminSearchInput').val("")
+  document.getElementById("manageVipTableBody").innerHTML = ""
 }
 //-----------------------------------------------------------------------------------------------------
 

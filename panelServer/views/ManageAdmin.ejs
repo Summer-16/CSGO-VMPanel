@@ -123,16 +123,24 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-5"></div>
-              <div class="col-md-3">
+              <div class="col-md-4">
+                <input type="hidden" id="hiddenServerTableName" name="hiddenServerTableName" value=""
+                  autocomplete="off">
+              </div>
+              <div class="col-md-4">
                 <form class="form-inline col-md-12">
                   <div class="form-group has-<%=panelSetting.color_theme%>">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" id="adminSearchInput">
                   </div>
                   <button type="button"
-                    class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round">
+                    class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
+                    onclick="getAdminTableListingSearch()">
                     <i class="material-icons">search</i>
-                  </button>
+                    <button type="button"
+                      class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
+                      onclick="resetSearchAndTable()">
+                      <i class="material-icons">clear</i>
+                    </button>
                 </form>
               </div>
             </div>
@@ -143,6 +151,7 @@
                   <th>Steam ID</th>
                   <th>Name</th>
                   <th>Flags</th>
+                  <th>Server</th>
                   <th>Actions</th>
                 </thead>
                 <tbody id="manageVipTableBody">

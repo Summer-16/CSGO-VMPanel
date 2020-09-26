@@ -240,21 +240,30 @@
                     <% if(serverList) {%>
                     <% for(let i=0; i < serverList.length; i++) { %>
                     <a class="dropdown-item" href="javascript:void(0)"
-                      onclick="getVIPTableListing('<%=serverList[i].tbl_name%>')">
+                      onclick="getVIPTableListing('<%=serverList[i].tbl_name%>','<%=serverList[i].server_name%>')">
                       <%=serverList[i].server_name%> </a>
                     <%}}%>
                   </div>
                 </div>
               </div>
-              <div class="col-md-5"></div>
-              <div class="col-md-3">
+              <div class="col-md-4">
+                <input type="hidden" id="hiddenServerTableName" name="hiddenServerTableName" value=""
+                  autocomplete="off">
+              </div>
+              <div class="col-md-4">
                 <form class="form-inline col-md-12">
                   <div class="form-group has-<%=panelSetting.color_theme%>">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" id="vipSearchInput">
                   </div>
                   <button type="button"
-                    class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round">
+                    class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
+                    onclick="getVIPTableListingSearch()">
                     <i class="material-icons">search</i>
+                  </button>
+                  <button type="button"
+                    class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
+                    onclick="resetSearchAndTable()">
+                    <i class="material-icons">clear</i>
                   </button>
                 </form>
               </div>
@@ -266,6 +275,7 @@
                   <th>Steam ID</th>
                   <th>Name</th>
                   <th>Flags</th>
+                  <th>Server</th>
                   <th>Sub. Start Date</th>
                   <th>Sub. End Date</th>
                   <th>Days Left</th>

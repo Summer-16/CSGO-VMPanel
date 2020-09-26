@@ -74,7 +74,7 @@ var vipDataModel = {
   /**
  * get single server listing
  */
-  getsingleServerData: function (server, type) {
+  getsingleServerData: function (server, search, type) {
     return new Promise(async (resolve, reject) => {
       try {
         if (!server) return reject("Server is not Provided");
@@ -82,9 +82,9 @@ var vipDataModel = {
 
         let query
         if (type === "vip") {
-          query = db.queryFormat(`SELECT * FROM ${server} WHERE type = 0`);
+          query = db.queryFormat(`SELECT * FROM ${server} WHERE type = 0 ${search ? ('AND name LIKE "%' + search + '%"') : ''}`);
         } else if (type === "admin") {
-          query = db.queryFormat(`SELECT * FROM ${server} WHERE type = 1`);
+          query = db.queryFormat(`SELECT * FROM ${server} WHERE type = 1 ${search ? ('AND name LIKE "%' + search + '%"') : ''}`);
         }
         let queryRes = await db.query(query);
         if (!queryRes) {
