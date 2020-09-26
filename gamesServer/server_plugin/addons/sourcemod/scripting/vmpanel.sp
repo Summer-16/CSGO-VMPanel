@@ -10,6 +10,7 @@ ConVar gC_VMP_alerttimer;
 ConVar gC_VMP_alertdays;
 ConVar gC_VMP_panelurl;
 ConVar gC_VMP_defaultvipflag;
+ConVar gC_VMP_alertdisplaytype;
 Database gH_VMP_dbhandler = null;
 
 //Plugin info
@@ -17,7 +18,7 @@ public Plugin myinfo = {
     name = "SM VMPanel ",
     author = "Summer Soldier",
     description = "CSGO Plugin for VMPanel Project",
-    version = "2.0",
+    version = "2.1 beta",
     url = "https://github.com/Summer-16/CSGO-VMPanel"
 };
 
@@ -31,6 +32,7 @@ public void OnPluginStart() {
     gC_VMP_alertenable = CreateConVar("sm_vmpAlertEnable", "1", "Should plugin display subsciption expiring alert to clients");
     gC_VMP_alerttimer = CreateConVar("sm_vmpAlertTimer", "5.0", "When the Subscribtion Expiring alert should be displayed after the player join in the server (in seconds)");
     gC_VMP_alertdays = CreateConVar("sm_vmpAlertdays", "10", "At how many days left user should be notified");
+    gC_VMP_alertdisplaytype = CreateConVar("sm_vmpAlertDisplayType", "10", "1-> Menu, 2-> Chat Text");
 
 
     //Plugin Commands
@@ -60,11 +62,10 @@ public void OnConfigsExecuted() {
 }
 
 
-// Function called for all clients once after , client enters in server
-public OnClientPostAdminCheck(client) {
-    if ((GetConVarInt(gC_VMP_alertenable) == 1) && (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) && !IsFakeClient(client)) {
-        CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
-    }
+// Function called for all clients once on entring in server
+public bool OnClientConnect(client, String: rejectmsg[], maxlen) {
+    CreateTimer(30.0, handler_onclientconnecttimer, client);
+    return true;
 }
 
 
@@ -137,7 +138,7 @@ public Action handler_RefreshVipAndAdmins(int client, int args) {
     // PrintToServer("***[VMP] here is client for checking====> %d", client);
 
     if ((client == 0) || (CheckCommandAccess(client, "", ADMFLAG_GENERIC))) {
-        if(client > 0){
+        if (client > 0) {
             CPrintToChat(client, "{red}[VMP] {green}Updating the VIP/Admin in Server");
         }
         PrintToServer("***[VMP] Requesting user is an Admin/Console, Executing the command");
@@ -229,8 +230,14 @@ public Action handler_addVIP(int client, int args) {
     return Plugin_Handled;
 }
 
+// timer handler for timer executed in OnClientConnect
+public Action: handler_onclientconnecttimer(Handle: timer, any: client) {
+    if ((GetConVarInt(gC_VMP_alertenable) == 1) && (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) && !IsFakeClient(client)) {
+        CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
+    }
+}
 
-// timer handler for timer executed in OnClientPostAdminCheck 
+// timer handler for timer to check and show sub alert to user
 public Action: handler_checkUserSubForAlert(Handle: timer, any: client) {
     handler_getUserVIPStatus(client, 2);
 }
@@ -313,7 +320,7 @@ public void refreshVipAndAdmins_Callback(Database db, DBResultSet result, char[]
         result.FetchString(0, authId, sizeof(authId));
         result.FetchString(1, flag, sizeof(flag));
         result.FetchString(2, name, sizeof(name));
-        PrintToServer("***[VMP] fetched entries || ===> %s %s %s ",authId,flag,name);
+        PrintToServer("***[VMP] fetched entries || ===> %s %s %s ", authId, flag, name);
         WriteFileLine(FileHandle, "%s  %s  %s ", authId, flag, name);
     }
 
@@ -376,21 +383,26 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
         int subDays = ((expireEpoc - currentEpoc) / 86400);
 
         if (subDays <= GetConVarInt(gC_VMP_alertdays)) {
-            char menuItem[500];
             char ls_VMP_panelurl[512];
             gC_VMP_panelurl.GetString(ls_VMP_panelurl, sizeof(ls_VMP_panelurl));
-            Menu menu = new Menu(subStatus_menu_Handler);
-            menu.SetTitle("Your VIP Subscription is about to expire, \nPlease renew to continue using VIP benefits");
-            menu.AddItem("", "Subscription Status : About to Expire");
-            Format(menuItem, sizeof(menuItem), "Subscriber Name : %s", name);
-            menu.AddItem("", menuItem);
-            Format(menuItem, sizeof(menuItem), "Subscription Days Left : %d", subDays);
-            menu.AddItem("", menuItem);
-            Format(menuItem, sizeof(menuItem), "Visit %s to Renew now", ls_VMP_panelurl);
-            menu.AddItem("", menuItem);
 
-            menu.ExitButton = true;
-            menu.Display(client, 10);
+            if ((GetConVarInt(gC_VMP_alertdisplaytype) == 1)) {
+                char menuItem[500];
+                Menu menu = new Menu(subStatus_menu_Handler);
+                menu.SetTitle("Your VIP Subscription is about to expire, \nPlease renew to continue using VIP benefits");
+                menu.AddItem("", "Subscription Status : About to Expire");
+                Format(menuItem, sizeof(menuItem), "Subscriber Name : %s", name);
+                menu.AddItem("", menuItem);
+                Format(menuItem, sizeof(menuItem), "Subscription Days Left : %d", subDays);
+                menu.AddItem("", menuItem);
+                Format(menuItem, sizeof(menuItem), "Visit %s to Renew now", ls_VMP_panelurl);
+                menu.AddItem("", menuItem);
+
+                menu.ExitButton = true;
+                menu.Display(client, 10);
+            } else {
+                CPrintToChat(client, "{red}[VMP] {blue}Your VIP Subscription is about to expire, \nPlease renew to continue using VIP benefits \nSubscriber Name : %s \nSubscription Days Left : %d \nVisit %s to Renew now", name, subDays, ls_VMP_panelurl);
+            }
         }
     }
 }

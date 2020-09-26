@@ -17,8 +17,8 @@ CREATE TABLE `table_name_here` (
 ```mysql
 CREATE TABLE `tbl_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sec_key` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
