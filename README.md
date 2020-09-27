@@ -3,6 +3,15 @@
 ### Single solution to mange VIPs and Admins in your CSGO servers.
 ### If you like my work, consider donating to the project and support me. Thank You
 
+## System Requirements
+
+### Web Server (panelServer)
+- MySQL Server : 5.6 or higher (8.0 or higher is recommended)
+- NodeJS       : 10.x or higher
+
+## CS-GO server (gamesServer)
+- Sourcemod    : 1.9 or higher
+
 ## Panel Features Dev Version (Changelogs)
 - Various UI fixes.
 - Sourceban page steam profile data fetch tool fixed.
