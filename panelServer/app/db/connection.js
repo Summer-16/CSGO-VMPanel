@@ -20,7 +20,7 @@
 'use strict';
 const logger = require('../modules/logger')('MySQL Connection');
 
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 const config = require('../config');
 const dbConfig = config.db;
 
@@ -35,6 +35,7 @@ const sqlOptions = {
     multipleStatements: true,
     supportBigNumbers: true,
     bigNumberStrings: true,
+    waitForConnections: true,
     // debug: true
 }
 
@@ -44,25 +45,25 @@ try {
     logger.error("Connection Pool Error : ", error);
 }
 
-pool.getConnection((err, connection) => {
-    if (err) {
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.error('Database connection was closed.');
-        }
-        if (err.code === 'ER_CON_COUNT_ERROR') {
-            console.error('Database has too many connections.');
-        }
-        if (err.code === 'ECONNREFUSED') {
-            console.error('Database connection was refused.');
-        }
-    }
+// pool.getConnection((err, connection) => {
+//     if (err) {
+//         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+//             console.error('Database connection was closed.');
+//         }
+//         if (err.code === 'ER_CON_COUNT_ERROR') {
+//             console.error('Database has too many connections.');
+//         }
+//         if (err.code === 'ECONNREFUSED') {
+//             console.error('Database connection was refused.');
+//         }
+//     }
 
-    if (connection) {
-        logger.info("MYSQL connection established");
-        connection.release();
-    }
+//     if (connection) {
+//         logger.info("MYSQL connection established");
+//         connection.release();
+//     }
 
-    return;
-});
+//     return;
+// });
 
 module.exports = pool;

@@ -19,8 +19,8 @@
 
 'use strict';
 
-var pool = require('./connection');
-const mysql = require('mysql');
+const pool = require('./connection');
+const mysql = require('mysql2');
 
 /**
  * Executes SQL query and returns data.
@@ -28,28 +28,20 @@ const mysql = require('mysql');
  * @param {string} queryText - SQL query string
  * @param {boolean} singleRecord - single record
  */
-const query = function (queryText, singleRecord) {
-    return new Promise(function (resolve, reject) {
-        pool.query(queryText, function (err, results, fields) {
-            // Error
-            if (err) return reject(err);
-
-            if (Array.isArray(results)) {
-                let finalResults = [];
-                const resultsLength = results.length;
-                for (let index = 0; index < resultsLength; index++) {
-                    finalResults.push({ ...results[index] });
-                }
-                // For single record
-                if (typeof (singleRecord) == "boolean" && singleRecord) return resolve(finalResults[0]);
-                // For multiple records
-                return resolve(finalResults);
-            }
-
-            // if results is output of insert
-            return resolve(results);
-        });
-    });
+const query = async function (queryText, singleRecord) {
+    const [results] = await pool.query(queryText);
+    if (Array.isArray(results)) {
+        const finalResults = [];
+        const resultsLength = results.length;
+        for (let index = 0; index < resultsLength; index++) {
+            finalResults.push({ ...results[index] });
+        }
+        // For single record
+        if (typeof (singleRecord) == "boolean" && singleRecord) return finalResults[0];
+        // For multiple records
+        return finalResults;
+    }
+    return results;
 };
 
 /**
@@ -63,6 +55,7 @@ var queryFormat = mysql.format;
 var dataEscape = mysql.escape;
 
 module.exports = {
+    dbPool: pool,
     query,
     queryFormat,
     dataEscape

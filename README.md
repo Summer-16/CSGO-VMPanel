@@ -18,6 +18,7 @@
 - Fixed an error in user dashboard where renew button don't work if 10/10 slots are sold.
 - Added Feature to hide admin login form from public display;
 - Added Feature to enable discord notifications for VIP sales.
+- Updated MySQL client library from mysql to mysql2 in panelServer application for better compatibility with MySQL 8.x servers (Mainly new authentication method)
 
 ## Panel Features v1.8 (Changelogs)
 - Some fixes and improvements
