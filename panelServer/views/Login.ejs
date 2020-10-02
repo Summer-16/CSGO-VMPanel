@@ -46,7 +46,7 @@
         </div>
       </div>
       <%}%>
-      <%if((panelSetting.hiddenadmin_login/1 == 0) || (panelSetting.hiddenadmin_login/1==1 && adminroute==true)){%>
+      <%if((panelSetting.hiddenadmin_login/1 == 0) || (panelSetting.hiddenadmin_login/1==1 && adminRoute==true)){%>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-<%=panelSetting.color_theme%> card-header-icon">
@@ -57,7 +57,7 @@
             <h3 class="card-title">Admin</h3>
           </div>
           <div class="card-footer">
-            <form class="col-md-12" method="post" action="/authuser">
+            <form class="col-md-12" method="post" action="/adminlogin">
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group bmd-form-group">

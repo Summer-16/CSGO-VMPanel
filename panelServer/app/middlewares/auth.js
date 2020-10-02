@@ -34,7 +34,8 @@ const checkToken = (req, res, next) => {
         req.headers['authorization']; // Express headers are auto converted to lowercase
 
     let jwtToken = token;
-    let adminroute = req.route.path === "/adminlogin" ? true : false
+    const isAdminRoute = req.route.path === "/adminlogin"
+        || req.headers.referer.indexOf("/adminlogin") != -1;
     if (token) {
         if (token.startsWith('Bearer ')) {
             // Remove Bearer from string
@@ -45,7 +46,7 @@ const checkToken = (req, res, next) => {
             if (err) {
                 return res.render('Login', {
                     "steamLogin": (steamAPIKey ? true : false),
-                    "adminroute": adminroute,
+                    "adminRoute": isAdminRoute,
                     "error": "Unauthorized Access, If you are an Admin try logging in"
                 });
             } else {
@@ -57,7 +58,7 @@ const checkToken = (req, res, next) => {
         return res.render('Login',
             {
                 "steamLogin": (steamAPIKey ? true : false),
-                "adminroute": adminroute,
+                "adminRoute": isAdminRoute,
                 "error": "Unauthorized Access, If you are an Admin try logging in"
             });
     }
