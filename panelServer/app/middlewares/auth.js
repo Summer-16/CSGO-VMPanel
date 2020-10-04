@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU General Public License along with
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */
+
 'use strict';
 
 const jwt = require('jsonwebtoken');

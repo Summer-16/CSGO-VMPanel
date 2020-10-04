@@ -18,25 +18,30 @@
 */
 
 'use strict';
-const logger = require('../modules/logger')('Steam Profile Data Fetch');
-const Steam = require('../modules/steam');
+const needle = require('needle');
 
-//-----------------------------------------------------------------------------------------------------
-// 
+class Steam {
+  constructor() {
 
-exports.fetchProfileData = async (req, res) => {
-  try {
-    const steam = new Steam();
-    const result = await steam.getProfile(req.body.profileUrl);
-    res.json({
-      success: true,
-      data: { "res": result, "message": "Data fetched", "notifType": "success" }
-    });
-  } catch (error) {
-    logger.error("Error fetching user data->", error);
-    res.json({
-      success: false,
-      data: { "error": "Something went Wrong!, Error in Fetching user Data" }
-    });
   }
-};
+
+  /**
+   * Retrieve profile info from steam
+   * @param {String} profileURL 
+   */
+  async getProfile(profileURL) {
+    if (!profileURL) throw {
+      type: "actor",
+      desc: "URL not provided"
+    }
+    const options = {
+      'headers': {}
+    };
+
+    const response = await needle(
+      'get', options, `${profileURL}?xml=1`);
+    return response.body;
+  }
+}
+
+module.exports = Steam;

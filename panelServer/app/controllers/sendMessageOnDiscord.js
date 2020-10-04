@@ -21,7 +21,9 @@ const logger = require('../modules/logger')('Send Message Discord Controller');
 
 const settingsModal = require("../models/panelSettingModal.js");
 const vipModel = require("../models/vipModel.js");
-const request = require('request');
+const { wait } = require('../utils/misc.js');
+const needle = require('needle');
+
 const GAcolor = [1752220, 3066993, 3447003, 10181046, 15105570, 15158332, 9807270, 8359053, 3426654, 1146986, 2067276, 2123412, 7419530, 11027200, 10038562, 9936031, 12370112, 2899536, 16580705, 12320855]
 
 //-----------------------------------------------------------------------------------------------------
@@ -140,42 +142,39 @@ async function sendBuyMessageOnDiscord(data, finalUserName) {
 
 //-----------------------------------------------------------------------------------------------------
 
-function sendMessage(message, color, webhook) {
+async function sendMessage(message, color, webhook) {
 
   for (let i = 0; i < message.length; i++) {
-    let options = {
-      'method': 'POST',
-      'url': webhook,
-      'headers': {
-        'Content-Type': 'application/json'
+    const options = {
+      "json": true,
+      "headers": {
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        "embeds": [
-          {
-            "author": {
-              "name": "Notification by VMPanel",
-              "url": "https://github.com/Summer-16/CSGO-VMPanel",
-              "icon_url": "https://raw.githubusercontent.com/Summer-16/CSGO-VMPanel/master/panelServer/public/images/icon.png"
-            },
-            "timestamp": new Date(),
-            "footer": {
-              "text": "VMPanel made with ❤️ by SummerSoldier"
-            },
-            "description": message[i],
-            "color": color[i]
-          }]
-      })
     };
-
-    setTimeout(function () {
-      logger.info("****Sending Message Payload****");
-      request(options, function (error, response) {
-        if (error) {
-          throw new Error(error)
-        }
-        logger.info("Discord send message request status-->", response.statusCode);
-      });
-    }, i * 2000);
+    const body = {
+      "embeds": [
+        {
+          "author": {
+            "name": "Notification by VMPanel",
+            "url": "https://github.com/Summer-16/CSGO-VMPanel",
+            "icon_url": "https://raw.githubusercontent.com/Summer-16/CSGO-VMPanel/master/panelServer/public/images/icon.png"
+          },
+          "timestamp": new Date(),
+          "footer": {
+            "text": "VMPanel made with ❤️ by SummerSoldier"
+          },
+          "description": message[i],
+          "color": color[i]
+        }]
+    }
+    logger.info("****Sending Message Payload****");
+    try {
+      const response = await needle('post', webhook, body, options);
+      logger.info("Discord send message request status-->", response.statusCode);
+      await wait(2000);
+    } catch (error) {
+      logger.error(error);
+    }
   }
 }
 

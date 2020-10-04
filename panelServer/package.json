@@ -23,11 +23,11 @@
     "jsonwebtoken": "^8.5.1",
     "log4js": "^6.3.0",
     "mysql2": "^2.2.5",
+    "needle": "^2.5.2",
     "node-cron": "^2.0.3",
     "passport": "^0.4.1",
     "passport-steam": "^1.0.14",
     "rcon": "^1.0.3",
-    "request": "^2.88.2",
     "sourcequery": "0.0.2"
   },
   "devDependencies": {
