@@ -33,7 +33,7 @@ function setPayPalButton(id, serverData, type) {
         return actions.order.create({
           purchase_units: [
             {
-              description: subDays + " days VIP for " + server + (type == 'newPurchase' ? " (New Buy)" : type == 'renewPurchase' ? " (Renewal)" : ""),
+              description: subDays + " days VIP for " + server + (type == 'newPurchase' ? " (New Buy)" : type == 'renewPurchase' ? " (Renewal)" : type == "newPurchaseBundle" ? " (New Buy Bundle)" : ""),
               amount: {
                 currency_code: currency,
                 value: price,

@@ -266,6 +266,46 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
           }
           resolve(updateRes)
         }
+      } else if (reqBody.buyType === 'newPurchaseBundle') {
+
+        const bundleServerArray = serverTable.split(',')
+
+        for (let i = 0; i < bundleServerArray.length; i++) {
+
+          let checkRes = await vipModel.checkVipExists({ server: bundleServerArray[i], steamId: '"' + steamId + '"' })
+          console.log("result in check res for ", bundleServerArray[i], "--->", checkRes)
+
+          if (checkRes.id) {
+            const updateVipObj = {
+              day: Math.floor(subDays * 86400),
+              steamId: '"' + steamId + '"',
+              server: [bundleServerArray[i]],
+              secKey: secKey
+            }
+
+            let updateRes = await vipModel.updateVIPData(updateVipObj)
+            if (updateRes) {
+              refreshAdminsInServer(bundleServerArray[i]);
+            }
+          } else {
+            const newVipInsertObj = {
+              day: epoctillExpirey(subDays),
+              name: "//" + finalUserName,
+              steamId: '"' + steamId + '"',
+              userType: 0,
+              flag: flag,
+              server: [bundleServerArray[i]],
+              secKey: secKey
+            }
+
+            let insertRes = await vipModel.insertVIPData(newVipInsertObj)
+            if (insertRes) {
+              await refreshAdminsInServer(bundleServerArray[i]);
+            }
+          }
+
+        }
+
       } else {
         reject("Something Went Wrong")
       }

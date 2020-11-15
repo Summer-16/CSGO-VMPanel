@@ -177,7 +177,7 @@ function remainingDays(endEpoc){
                           </div>
                           <div class="card-footer text-primary text-center">
                             <img src
-                              onerror="setPayPalButton('<%= bundleArray[i].bundle_name ? bundleArray[i].bundle_name.split(` `).join(``) +`buy`: `buy`+i %>',<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchase')"
+                              onerror="setPayPalButton('<%= bundleArray[i].bundle_name ? bundleArray[i].bundle_name.split(` `).join(``) +`buy`: `buy`+i %>',<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchaseBundle')"
                               alt />
                             <div
                               id="<%=bundleArray[i].bundle_name ? bundleArray[i].bundle_name.split(` `).join(``)+'buy' : 'buy'+i %>"
@@ -188,7 +188,7 @@ function remainingDays(endEpoc){
                           <div class="card-footer text-primary text-center">
                             <div id="" class="col-md-12 text-center">
                               <button type="button" class="btn btn-success text-center col-md-12 m-0"
-                                onclick="initPayUpayment(<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchase')">
+                                onclick="initPayUpayment(<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchaseBundle')">
                                 <img src="./images/payumoney.png" height='20' alt="payu">
                               </button>
                             </div>

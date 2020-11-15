@@ -30,17 +30,27 @@ class Steam {
    * @param {String} profileURL 
    */
   async getProfile(profileURL) {
-    if (!profileURL) throw {
-      type: "actor",
-      desc: "URL not provided"
-    }
-    const options = {
-      'headers': {}
-    };
-
-    const response = await needle(
-      'get', options, `${profileURL}?xml=1`);
-    return response.body;
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!profileURL) throw {
+          type: "actor",
+          desc: "URL not provided"
+        }
+        const finalURL = profileURL + "?xml=1"
+        needle('get', finalURL)
+          .then(res => {
+            console.log(res.body);
+            resolve(res.body)
+          })
+          .catch(err => {
+            console.error(err);
+            return reject(err)
+          });
+      } catch (error) {
+        logger.error("error in getProfile->", error);
+        reject(error)
+      }
+    });
   }
 }
 

@@ -39,20 +39,38 @@ function profileUrlToDataFetcher(profileUrl) {
     })
       .then((res) => { return res.json(); })
       .then((response) => {
-
         response = response.data.res
+        const dataArray = response.children
 
         $("#divForLoader").html("")
 
-        let privacyState = $(response).find("privacyState").text();
-        if (privacyState === "public") {
-          let steamID64 = $(response).find("steamID64").text();
-          let userName = $(response).find("steamID").html().slice(11).slice(0, -5);
-          userName = cleanString(userName)
-          let realName = $(response).find("realname").html().slice(11).slice(0, -5);
-          let finalName = realName + " - (" + (userName ? userName : "-_-") + ")"
+        let privacyState, steamID64, userName, realName, dpURL
+        for (let i = 0; i < dataArray.length; i++) {
+          switch (dataArray[i].name) {
+            case "privacyState":
+              privacyState = dataArray[i].value
+              break;
+            case "steamID64":
+              steamID64 = dataArray[i].value
+              break;
+            case "steamID":
+              userName = cleanString(dataArray[i].value)
+              break;
+            case "realname":
+              realName = dataArray[i].value
+              break;
+            case "avatarMedium":
+              dpURL = dataArray[i].value
+              break;
+            default:
+            // code block
+          }
+        }
 
-          let dpURL = $(response).find("avatarMedium").html().slice(11).slice(0, -5);
+        // let privacyState = $(response).find("privacyState").text();
+        if (privacyState === "public") {
+
+          let finalName = realName + " - (" + (userName ? userName : "-_-") + ")"
           let finalSteamID = SteamIDConverter.toSteamID(steamID64);
 
           $("#divForLoader").html("")
