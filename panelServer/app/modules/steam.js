@@ -39,11 +39,9 @@ class Steam {
         const finalURL = profileURL + "?xml=1"
         needle('get', finalURL)
           .then(res => {
-            console.log(res.body);
             resolve(res.body)
           })
           .catch(err => {
-            console.error(err);
             return reject(err)
           });
       } catch (error) {

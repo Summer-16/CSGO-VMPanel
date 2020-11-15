@@ -90,7 +90,6 @@ function profileUrlToDataFetcher(profileUrl) {
         }
       })
       .catch(error => {
-        console.log("error -->", error)
         showNotif({ success: false, data: { "error": error } })
       });
   } else {

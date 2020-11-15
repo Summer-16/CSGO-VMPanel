@@ -214,15 +214,11 @@ var vipDataModel = {
         if (!dataObj.server) return reject("Server Missing in VIP Check");
         if (!dataObj.steamId) return reject("Auth Id Missing in VIP Check");
 
-
-        let query = db.queryFormat(`SELECT id ${dataObj.server} where authId = ? `, [dataObj.steamId]);
+        let query = db.queryFormat(`SELECT name from ${dataObj.server} where authId = ? `, [dataObj.steamId]);
         let queryRes = await db.query(query, true);
-        if (!queryRes) {
-          return reject("Error in delete");
-        }
         return resolve(queryRes);
       } catch (error) {
-        logger.error("error in deleteVipByAdmin->", error);
+        logger.error("error in checkVipExists->", error);
         reject(error)
       }
     });

@@ -65,23 +65,29 @@ const myDashboardFunc = (reqBody, reqUser) => {
       let allServerList = await panelServerModal.getPanelServersList();
 
       const userServerArray = []
-      for (let j = 0; j < userDataListing.length; j++) {
-        userServerArray.push(userDataListing[j].servername)
+      // for (let j = 0; j < userDataListing.length; j++) {
+      //   userServerArray.push(userDataListing[j].servername)
+      // }
+
+      for (let k = 0; k < userDataListing.length; k++) {
+        userServerArray.push(userDataListing[k].servername)
+
+        for (let l = 0; l < allServerList.length; l++) {
+          if (userDataListing[k].servername == allServerList[l].server_name) {
+            userDataListing[k].serverdata = allServerList[l]
+          }
+        }
       }
 
       const serverArray = []
       for (let i = 0; i < serverList.length; i++) {
-        if (userServerArray.includes(serverList[i].server_name)) {
-          for (let k = 0; k < userDataListing.length; k++) {
-            for (let l = 0; l < allServerList.length; l++) {
-              if (userDataListing[k].servername == allServerList[l].server_name) {
-                userDataListing[k].serverdata = allServerList[l]
-              }
-            }
-          }
-        } else {
+        if (!userServerArray.includes(serverList[i].server_name)) {
           serverArray.push(serverList[i])
+
         }
+        //  else {
+        //   serverArray.push(serverList[i])
+        // }
       }
 
       let bundleList = await getPanelBundlesListFunc()
@@ -179,7 +185,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
       userDisplayname = cleanString(userDisplayname)
       let userRealName = reqUser._json.realname
       const finalUserName = userRealName + " - (" + (userDisplayname ? userDisplayname : "-_-") + ")"
-      const saleType = reqBody.buyType === 'newPurchase' ? 1 : reqBody.buyType === 'renewPurchase' ? 2 : 0
+      const saleType = (reqBody.buyType === 'newPurchase' || reqBody.buyType === "newPurchaseBundle") ? 1 : reqBody.buyType === 'renewPurchase' ? 2 : 0
       const serverTable = reqBody.serverData.tbl_name
       const flag = reqBody.serverData.vip_flag
       const subDays = (reqBody.serverData.vip_days / 1)
@@ -275,7 +281,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
           let checkRes = await vipModel.checkVipExists({ server: bundleServerArray[i], steamId: '"' + steamId + '"' })
           console.log("result in check res for ", bundleServerArray[i], "--->", checkRes)
 
-          if (checkRes.id) {
+          if (checkRes && checkRes.name) {
             const updateVipObj = {
               day: Math.floor(subDays * 86400),
               steamId: '"' + steamId + '"',
@@ -303,9 +309,8 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
               await refreshAdminsInServer(bundleServerArray[i]);
             }
           }
-
         }
-
+        resolve(true)
       } else {
         reject("Something Went Wrong")
       }

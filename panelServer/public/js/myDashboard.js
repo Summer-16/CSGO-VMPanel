@@ -130,7 +130,6 @@ function fetchPBundleListajax() {
       }
     })
     .catch(error => {
-      console.log("error=>", error);
       showNotif({ success: false, data: { "error": error } })
     });
 }
