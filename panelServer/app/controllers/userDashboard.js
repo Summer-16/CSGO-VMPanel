@@ -279,7 +279,6 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
         for (let i = 0; i < bundleServerArray.length; i++) {
 
           let checkRes = await vipModel.checkVipExists({ server: bundleServerArray[i], steamId: '"' + steamId + '"' })
-          console.log("result in check res for ", bundleServerArray[i], "--->", checkRes)
 
           if (checkRes && checkRes.name) {
             const updateVipObj = {

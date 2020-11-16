@@ -88,7 +88,8 @@ return heading
   <div class="wrapper ">
     <div class="sidebar"
       data-color="<%=panelSetting.color_theme=='primary'?'purple':panelSetting.color_theme=='danger'?'danger':panelSetting.color_theme=='success'?'green':panelSetting.color_theme=='warning'?'orange':panelSetting.color_theme=='info'?'azure':''%>"
-      data-background-color="black" data-image="./images/sidebar-1.jpg">
+      data-background-color="black"
+      data-image="<%= (currentURL=='/panelsetting'?'./images/sidebar-2.jpg':currentURL=='/aboutcreator'?'./images/sidebar-3.jpg':'./images/sidebar-1.jpg') %>">
       <div class="logo">
         <a href="/" class="simple-text logo-normal">
           <span>
