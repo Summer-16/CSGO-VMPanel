@@ -18,22 +18,20 @@ public Plugin myinfo = {
     name = "SM VMPanel ",
     author = "Summer Soldier",
     description = "CSGO Plugin for VMPanel Project",
-    version = "2.1 beta",
+    version = "2.1",
     url = "https://github.com/Summer-16/CSGO-VMPanel"
 };
 
 
 public void OnPluginStart() {
-
     //Plugin Cvars
-    gC_VMP_servertable = CreateConVar("sm_vmpServerTable", "sv_table", "PLEASE READ !, Enter Name for the table of current server , a table in vmpanel db will be created with this name automatically, make sure to give a unique name(name should not match with any other server connected in vmpanel)");
+    gC_VMP_servertable = CreateConVar("sm_vmpServerTable", "sv_table", "PLEASE READ !, Enter Name for the table of current server , a table in vmpanel db will be created with this name automatically, make sure to give a unique name(name should not match with any other server connected in vmpanel), this name will be used in table name when you gonna add this server in panel");
     gC_VMP_panelurl = CreateConVar("sm_vmpPanelURL", "vmpanel.example", "Enter the URL of Your panel");
     gC_VMP_defaultvipflag = CreateConVar("sm_vmpDefaultVIPFlag", "0:a", "default vip flag and immunity to be used in add vip command");
     gC_VMP_alertenable = CreateConVar("sm_vmpAlertEnable", "1", "Should plugin display subsciption expiring alert to clients");
-    gC_VMP_alerttimer = CreateConVar("sm_vmpAlertTimer", "5.0", "When the Subscribtion Expiring alert should be displayed after the player join in the server (in seconds)");
-    gC_VMP_alertdays = CreateConVar("sm_vmpAlertdays", "10", "At how many days left user should be notified");
-    gC_VMP_alertdisplaytype = CreateConVar("sm_vmpAlertDisplayType", "10", "1-> Menu, 2-> Chat Text");
-
+    gC_VMP_alerttimer = CreateConVar("sm_vmpAlertTimer", "20.0", "When the Subscribtion Expiring alert should be displayed after the player join in the server (in seconds)");
+    gC_VMP_alertdays = CreateConVar("sm_vmpAlertdays", "2", "At how many days left user should be notified");
+    gC_VMP_alertdisplaytype = CreateConVar("sm_vmpAlertDisplayType", "1", "1-> Menu, 2-> Chat Text (in what format should plugin show vip expiry alert)");
 
     //Plugin Commands
     RegConsoleCmd("sm_vipRefresh", handler_RefreshVipAndAdmins);
@@ -44,10 +42,8 @@ public void OnPluginStart() {
     AutoExecConfig(true, "VMPanel");
 }
 
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Functions
-
 // Function called once in all maps after all configs get executed
 public void OnConfigsExecuted() {
     //check for db connection
@@ -58,20 +54,15 @@ public void OnConfigsExecuted() {
         PrintToServer("***[VMP] Database Connection is availabe refreshing Admins and VIPs Now");
         refreshVipAndAdmins();
     }
-
 }
-
 
 // Function called for all clients once on entring in server
-public bool OnClientConnect(client, String: rejectmsg[], maxlen) {
-    CreateTimer(30.0, handler_onclientconnecttimer, client);
-    return true;
+public OnClientPostAdminCheck(client){
+    CreateTimer(GetConVarInt(gC_VMP_alerttimer), handler_onclientconnecttimer, client);
 }
-
 
 // Function to make sql connection
 void SQL_DBConnect() {
-
     PrintToServer("***[VMP] Making a Database Connection");
 
     if (gH_VMP_dbhandler != null)
@@ -85,30 +76,24 @@ void SQL_DBConnect() {
     }
 }
 
-
 // function to refresh vip/admins
 void refreshVipAndAdmins() {
-
     char ls_VMP_sqltable[512];
     gC_VMP_servertable.GetString(ls_VMP_sqltable, sizeof(ls_VMP_sqltable));
     char vipListQuery[4096];
     Format(vipListQuery, sizeof(vipListQuery), "SELECT authId, flag, name FROM %s", ls_VMP_sqltable);
     gH_VMP_dbhandler.Query(refreshVipAndAdmins_Callback, vipListQuery, DBPrio_High);
 }
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Handlers
-
 // Nothing callback for sql queries which do not return any results
 public void Nothing_Callback(Database db, DBResultSet result, char[] error, any data) {
 
     if (result == null)
         LogError("[VMP] Error: %s", error);
 }
-
 
 // Nothing callback for sql queries which do not return any results
 public void Nothing_Callback_addVip(Database db, DBResultSet result, char[] error, any client) {
@@ -127,9 +112,7 @@ public void Nothing_Callback_addVip(Database db, DBResultSet result, char[] erro
         gH_VMP_dbhandler.Query(Nothing_Callback, ls_VMP_addAuditQuery, DBPrio_High);
 
     }
-
 }
-
 
 // handler to be called when vip/admin refresh command is called
 public Action handler_RefreshVipAndAdmins(int client, int args) {
@@ -146,9 +129,7 @@ public Action handler_RefreshVipAndAdmins(int client, int args) {
     } else {
         CPrintToChat(client, "{red}[VMP] {green}You need admin rights to access this command");
     }
-
 }
-
 
 // handler for vmpstatus command 
 public Action handler_getUserVIPStatus(int client, int type) {
@@ -182,7 +163,6 @@ public Action handler_getUserVIPStatus(int client, int type) {
         }
     }
 }
-
 
 // handler for add vip command
 public Action handler_addVIP(int client, int args) {
@@ -242,7 +222,6 @@ public Action: handler_checkUserSubForAlert(Handle: timer, any: client) {
     handler_getUserVIPStatus(client, 2);
 }
 
-
 // handler for menu
 public int subStatus_menu_Handler(Menu menu, MenuAction action, int param1, int param2) {
     /* Close the menu in case of any selection */
@@ -259,13 +238,10 @@ public int subStatus_menu_Handler(Menu menu, MenuAction action, int param1, int 
         delete menu;
     }
 }
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Callbacks
-
 // Callback to execute on successfull sql connection
 public void SQLConnect_Callback(Database db, char[] error, any data) {
 
@@ -286,7 +262,7 @@ public void SQLConnect_Callback(Database db, char[] error, any data) {
         "CREATE TABLE IF NOT EXISTS `%s` ( \
                     `authId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL, \
                     `flag` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT '\"0:a\"', \
-                    `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL, \
+                    `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL, \
                     `expireStamp` int(20) unsigned NOT NULL, \
                     `created_at` datetime NOT NULL, \
                     `type` int(20) NOT NULL, \
@@ -295,7 +271,6 @@ public void SQLConnect_Callback(Database db, char[] error, any data) {
 
     gH_VMP_dbhandler.Query(Nothing_Callback, ls_VMP_tablecreatequery, DBPrio_High);
 }
-
 
 // callback to execute when vip/admin data fetch query is ececuted
 public void refreshVipAndAdmins_Callback(Database db, DBResultSet result, char[] error, any data) {
@@ -311,7 +286,7 @@ public void refreshVipAndAdmins_Callback(Database db, DBResultSet result, char[]
     new String: g_sFilePath[PLATFORM_MAX_PATH];
     BuildPath(Path_SM, g_sFilePath, sizeof(g_sFilePath), "/configs/admins_simple.ini");
     new Handle: FileHandle = OpenFile(g_sFilePath, "w");
-    WriteFileLine(FileHandle, "//This file is maintained by VMPanel Plugin v2.0, Do not add any entries in this file as they will be overwritten by plugin");
+    WriteFileLine(FileHandle, "//This file is maintained by VMPanel Plugin v2.1, Do not add any entries in this file as they will be overwritten by plugin");
 
     while (result.FetchRow()) {
         char authId[100];
@@ -328,7 +303,6 @@ public void refreshVipAndAdmins_Callback(Database db, DBResultSet result, char[]
 
     PrintToServer("***[VMP] All Entries updated in admin file, Reloading Admins in server Now");
     ServerCommand("sm_reloadadmins");
-
 }
 
 
@@ -397,11 +371,14 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
                 menu.AddItem("", menuItem);
                 Format(menuItem, sizeof(menuItem), "Visit %s to Renew now", ls_VMP_panelurl);
                 menu.AddItem("", menuItem);
-
                 menu.ExitButton = true;
                 menu.Display(client, 10);
-            } else {
-                CPrintToChat(client, "{red}[VMP] {blue}Your VIP Subscription is about to expire, \nPlease renew to continue using VIP benefits \nSubscriber Name : %s \nSubscription Days Left : %d \nVisit %s to Renew now", name, subDays, ls_VMP_panelurl);
+            } else if ((GetConVarInt(gC_VMP_alertdisplaytype) == 2)) {
+                CPrintToChat(client, "{red}[VMP] {green}Your VIP Subscription is about to expire");
+                CPrintToChat(client, "{red}[VMP] {green}Please renew to continue using VIP benefits");
+                CPrintToChat(client, "{red}[VMP] {green}Subscriber Name : %s ", name);
+                CPrintToChat(client, "{red}[VMP] {green}Subscription Days Left : %d ", subDays);
+                CPrintToChat(client, "{red}[VMP] {green}Visit %s to Renew now", ls_VMP_panelurl);
             }
         }
     }
