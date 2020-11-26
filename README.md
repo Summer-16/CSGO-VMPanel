@@ -141,7 +141,14 @@ pm2 stop 0
 - After installing the plugin, add the server in the panel using the following steps
 - Open panel, login as admin, go to panel settings, click manage servers, fill up the details in add new server.
 - Note that u need fill the server table name as same as you filled in the server cfg file of plugin (refer to the screenshot)
+
+- In Server CFG
+
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/add_server_cfg.PNG)
+
+
+- In Panel
+
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/add_server_panel.PNG)
 
 ### Adding bash file in servers (old method) (not needed if you using the plugin)
