@@ -155,11 +155,18 @@ pm2 stop 0
 ```
 - Command for plugin (!vipRefresh, !vipStatus, !addVip)
 - After installing the plugin, add the server in the panel using the following steps
-- Open panel, login as admin, go to panel settings, click manage servers, fill up the details in add new server.
+- for plugn V2.1.1
+```
+- Open panel, login as admin, go to panel settings, click manage servers and update the pending details of sever in update server section such as price and custom name.
+```
+- for plugn less then V2.1.1
+```
+- fill up the details in add new server.
 - Note that u need fill the server table name as same as you filled in the server cfg file of plugin (refer to the screenshot, 1->In Server CFG, 2->In Panel)
 
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/add_server_cfg.PNG)
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/add_server_panel.PNG)
+```
 
 ### Adding bash file in servers (old method) (not needed if you using the plugin)
 - Copy the script from serverScript folder add to your CSGO server 
