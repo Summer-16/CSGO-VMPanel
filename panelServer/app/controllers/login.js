@@ -28,8 +28,7 @@ const jwtSecretKey = config.jwt.key;
 const steamApi = config.steam_api_key;
 
 exports.loginPage = async (req, res) => {
-  const isAdminRoute = req.route.path === "/adminlogin"
-    || req.headers.referer.indexOf("/adminlogin") != -1;
+  const isAdminRoute = (req.route.path === "/adminlogin") || (req.headers.referer && req.headers.referer.indexOf("/adminlogin") != -1);
   try {
     if (req.session.token || req.session.passport) return res.redirect('/');
     res.render('Login', {

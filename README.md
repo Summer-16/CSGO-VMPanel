@@ -141,6 +141,18 @@ pm2 stop 0
 - open the cfg file add a table name for your server something like sv_servername
 - Restart the server, and check if the plugin is working without any errors
 - now add an entry named vmpanel in your database.cfg and add the database cred for the same database used for panel
+```
+	"vmpanel"
+	{
+		"driver"        "mysql"
+		"host"          "hostname_here"
+		"database"      "database_name_here"
+		"user"          "username_name_here"
+		"pass"          "password_name_here"
+		//"timeout"     "0"
+    //"port"        "0" // only change if using custom port
+	}
+```
 - Command for plugin (!vipRefresh, !vipStatus, !addVip)
 - After installing the plugin, add the server in the panel using the following steps
 - Open panel, login as admin, go to panel settings, click manage servers, fill up the details in add new server.
