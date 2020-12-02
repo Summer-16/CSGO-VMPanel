@@ -28,9 +28,13 @@ function addNewVIPajax() {
   let flagString = '"' + ($('#immunity_vip').val() / 1) + ':'
   let serverArray = []
 
-  $("input:checkbox[name=vip_flags]:checked").each(function () {
-    flagString += $(this).val();
-  });
+  if (document.getElementById('vip_flag_manual_entry').checked) {
+    flagString += ("@" + $('#vip_group').val())
+  } else {
+    $("input:checkbox[name=vip_flags]:checked").each(function () {
+      flagString += $(this).val();
+    });
+  }
 
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
@@ -43,13 +47,22 @@ function addNewVIPajax() {
     formError = "Name can not be empty"
   } else if (!$('#day_add').val()) {
     formError = "Days can not be empty"
-  } else if (!flagString.split(":")[1]) {
-    formError = "Flags can not be empty"
   } else if (serverArray.length == 0) {
     formError = "Select atleast one server"
   }
 
+  if (document.getElementById('vip_flag_manual_entry').checked) {
+    if (!$('#vip_group').val()) {
+      formError = "You selected to add VIP through admin group either provide a group name or use only flags"
+    }
+  } else {
+    if (!flagString.split(":")[1]) {
+      formError = "Flags can not be empty"
+    }
+  }
+
   flagString += '"';
+  // console.log("final flag here==>", flagString)
 
   if (formError == "") {
     fetch('/addvip', {
@@ -334,6 +347,25 @@ function remainingDays(endEpoc) {
 }
 
 $(document).ready(function () {
+
+  document.getElementById('vip_flag_manual_entry').onchange = () => {
+
+    let ckeckValue = document.getElementById('vip_flag_manual_entry').checked
+    // console.log("ckeckValue==>", ckeckValue)
+    if (ckeckValue === true) {
+      $("input[name='vip_flags']:checkbox").prop('checked', false);
+      let ipHtml = `<label class="">Enter group name</label>
+                    <input id="vip_group" type="text" class="form-control" value="" required>`
+      $("#vip-group-div").html(ipHtml)
+    } else {
+      $("#vip-group-div").html("")
+    }
+  };
+
+  $("input[name='vip_flags']:checkbox").change(function () {
+    $("input[name='vip_flag_manual_entry']:checkbox").prop('checked', false);
+  });
+
   $(window).keydown(function (event) {
     if (event.keyCode == 13) {
       event.preventDefault();
