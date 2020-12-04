@@ -2,18 +2,22 @@
 
 ### Single solution to manage VIPs and Admins in your CSGO servers.
 
-### If you like my work, consider donating to the project and support me. Thank You
+-------------------------------------------------------------
+
+<p align="">
+<b>🙌 If you like my work, consider <a href="https://www.paypal.me/Shivam169">donating</a> to support the project. ! 🙌</b>
+</p>
 [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paypal-64.png)](https://www.paypal.me/Shivam169)  [![Donate](https://cdn2.iconfinder.com/data/icons/social-icons-circular-color/512/paytm-64.png)](https://drive.google.com/file/d/1ks_B3s9dNk_RPkDVf1DL1ITKe0mnrTRk/view)  [![Donate](https://cdn1.iconfinder.com/data/icons/logos-brands-in-colors/436/Google_Pay_GPay_Logo-128.png)](https://drive.google.com/file/d/1c5V8j0W9o23HBCgUiO1SWltR4ADvQTQW/view)  [![Discord](https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/91_Discord-64.png)](https://discord.gg/HcCFa8q)  
 
 -------------------------------------------------------------
 
 ## System Requirements
 
-### Web Server (panelServer)
+### Web Server (Panel_Server)
 - MySQL Server : 5.6 or higher (8.0 or higher is recommended)
 - NodeJS       : 10.x or higher
 
-## CS-GO server (gamesServer)
+## CS-GO server (Plugin)
 - Sourcemod    : 1.9 or higher
 
 ## Panel Features 1.9 (Changelogs)
@@ -22,11 +26,12 @@
 - Fixed an error in the user dashboard where the renew button doesn't work if 10/10 slots are sold.
 - Added Feature to hide admin login form from the public display;
 - Added Feature to enable discord notifications for VIP sales.
-- Updated MySQL client library from MySQL to mysql2 in panelServer application for better compatibility with MySQL 8.x servers (Mainly new authentication method)
+- Updated MySQL client library from MySQL to mysql2 in Panel_Server application for better compatibility with MySQL 8.x servers (Mainly new authentication method)
 - Updated Bundle buy functions with various checks to detect pre-own VIP to update the VIP
 - Code Optimizations and Performance improvements
 - Plugin Updated Following features added:
-    -Added types of VIP expiry alert (you can choose between Menu alert and Chat alert)
+    -Added types of VIP expiry alert (you can choose between Menu alert and Chat alert).
+    -Added feature to auto add the server in panel.
 
 ## Panel Features v1.8
 - Add VIP or Admin to servers.
@@ -74,7 +79,7 @@
 - run the following commands
 ```bash
 git clone https://github.com/Summer-16/CSGO-VMP.git
-cd CSGO-VMP/panelServer/
+cd CSGO-VMP/Panel_Server/
 npm i
 cd app/config/
 mv example_config.json config.json
@@ -87,7 +92,7 @@ vim config.json
 - Your Paypal client Id for automatic VIP buy and renewal to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
 - Like same, you can enable PayU payment gateway (set enabled: true, environment 'live' for live payments 'test' for testing)
 - and you PayU Merchant Key and Salt which is available in your PayU Dashboard.
-- save the file and get back to panelServer directory
+- save the file and get back to Panel_Server directory
 ```bash
 cd ..
 cd ..
@@ -95,7 +100,7 @@ node server.js
 ```
 - At this point, your server will be running  on the default port mentioned in config or the port you defined (updated in config)
 - To access the server type in your machine or VM instance URL/public IP in the browser along with port (example: localhost:3534, 127.0.0.1:3535) and you can use the panel but it will stop if u terminate the server or system restart so we need to add it into the service
-- to add your server into the service run the following commands in panelServer directory
+- to add your server into the service run the following commands in Panel_Server directory
 ```bash
 npm install pm2 -g
 pm2 start server.js
@@ -119,7 +124,6 @@ pm2 stop 0
  ServerAdmin webmaster@localhost
  ServerName vip.example.com
 
-
   ProxyRequests off
 
     <Proxy *>
@@ -136,11 +140,10 @@ pm2 stop 0
 ```
 
 ### Install plugin in CSGO server
-- go to gameServer folder inside the plugin folder copy the addon and cfg folder
+- go to Server_Plugin folder, copy the addon and cfg folder
 - paste into your CSGO server's CSGO folder now go to cfg/sourcemod/vmpanel.cfg
 - open the cfg file add a table name for your server something like sv_servername
-- Restart the server, and check if the plugin is working without any errors
-- now add an entry named vmpanel in your database.cfg and add the database cred for the same database used for panel
+- now add an entry named vmpanel in your sourcemod database.cfg and add the database cred for the same database used for panel
 ```
 	"vmpanel"
 	{
@@ -153,20 +156,9 @@ pm2 stop 0
     //"port"        "0" // only change if using custom port
 	}
 ```
+- Restart the server, and check if the plugin is working without any errors
 - Command for plugin (!vipRefresh, !vipStatus, !addVip)
-- After installing the plugin, add the server in the panel using the following steps
-- for plugn V2.1.1
-```
-- Open panel, login as admin, go to panel settings, click manage servers and update the pending details of sever in update server section such as price and custom name.
-```
-- for plugn less then V2.1.1
-```
-- fill up the details in add new server.
-- Note that u need fill the server table name as same as you filled in the server cfg file of plugin (refer to the screenshot, 1->In Server CFG, 2->In Panel)
-
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/add_server_cfg.PNG)
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/add_server_panel.PNG)
-```
+- After installing the plugin, if you are not getting any error then (plugin will automatically create a table to store players entry and gonna add the server in panel too, you can update the server name and other stuff in panel->settings->manage servers->update server details)
 
 ### Adding bash file in servers (old method) (not needed if you using the plugin)
 - Copy the script from serverScript folder add to your CSGO server 
