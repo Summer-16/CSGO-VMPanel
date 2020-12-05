@@ -46,7 +46,7 @@ function getSalesReordListing(currentPage, recordPerPage) {
       $("#divForLoader").html("")
 
       let dataArray = response.data.res.salesRecord
-      max_pages = response.data.res.totalRecords > record_per_page ? Math.ceil(response.data.res.totalRecords / record_per_page) : 1;
+      max_pages = ((response.data.res.totalRecords / 1) > (record_per_page / 1)) ? Math.ceil((response.data.res.totalRecords / 1) / (record_per_page / 1)) : 1;
       createPagination(max_pages, currentPage);
       $(`#page_${old_page}`).removeClass("active")
       $(`#page_${current_page}`).addClass("active")
