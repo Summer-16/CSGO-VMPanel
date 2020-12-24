@@ -26,11 +26,11 @@
     "needle": "^2.5.2",
     "node-cron": "^2.0.3",
     "passport": "^0.4.1",
-    "passport-steam": "^1.0.14",
+    "passport-steam": "^1.0.15",
     "rcon": "^1.0.3",
     "sourcequery": "0.0.2"
   },
   "devDependencies": {
-    "eslint": "^7.13.0"
+    "eslint": "^7.15.0"
   }
 }
