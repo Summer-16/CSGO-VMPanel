@@ -69,8 +69,8 @@
 ### I recommend using PayU for INR transactions (Indian payment gateway) and PayPal for USD transactions, Note: don't enable both with USD as PayU does not support USD.
 
 ## Web panel Screenshots
-![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/screenshots/VMP_SS.jpg)
-[View All ScreenShots](https://github.com/Summer-16/CSGO-VMPanel/tree/master/screenshots)
+![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/Screen_Shots/VMP_SS.jpg)
+[View All ScreenShots](https://github.com/Summer-16/CSGO-VMPanel/tree/master/Screen_Shots)
 
 ## Step-by-Step install Instructions for New Installation 
 ### Setting Up the node server
