@@ -35,7 +35,7 @@ public void OnPluginStart() {
   //Plugin Commands
   RegConsoleCmd("sm_vipRefresh", handler_RefreshVipAndAdmins);
   RegConsoleCmd("sm_vipStatus", handler_getUserVIPStatus);
-  RegAdminCmd("sm_addVip", handler_addVIP, ADMFLAG_ROOT, "Adds a VIP Usage: sm_vmpaddvip \"<SteamID>\" <Duration in days> <Name>");
+  RegAdminCmd("sm_addVip", handler_addVIP, ADMFLAG_ROOT, "Adds a VIP Usage: sm_addVip \"<SteamID>\" <Duration in days> <Name>");
 
   // Execute the config file, create if not present
   AutoExecConfig(true, "VMPanel");
@@ -147,7 +147,7 @@ public Action handler_getUserVIPStatus(int client, int type) {
       char vipStatusQuery[4096];
       char clientSTEAMID[100];
 
-      GetClientAuthString(client, clientSTEAMID, sizeof(clientSTEAMID), true);
+      GetClientAuthId(client, AuthId_Engine, clientSTEAMID, sizeof(clientSTEAMID), true);
 
       Format(vipStatusQuery, sizeof(vipStatusQuery), "SELECT name, expireStamp FROM %s where authId = '\"%s\"'", ls_VMP_sqltable, clientSTEAMID);
       // PrintToServer("***[VMP] query is here %s : ",vipStatusQuery);
@@ -158,7 +158,9 @@ public Action handler_getUserVIPStatus(int client, int type) {
         gH_VMP_dbhandler.Query(getUserVIPStatus_callback, vipStatusQuery, client);
       }
     } else {
-      CPrintToChat(client, "{red}[VMP] {green}You are not a VIP, Only VIP can use this command");
+      char ls_VMP_panelurl[512];
+      gC_VMP_panelurl.GetString(ls_VMP_panelurl, sizeof(ls_VMP_panelurl));
+      CPrintToChat(client, "{red}[VMP] {green}You are not a VIP, Visit {darkred}%s {green}to purcahse now", ls_VMP_panelurl);
     }
   }
 }
@@ -168,9 +170,9 @@ public Action handler_addVIP(int client, int args) {
 
   if (args < 3) {
     if (client != 0)
-      CPrintToChat(client, "{red}[VMP] {green}Invalid Params Usage: sm_vmpaddvip \"<SteamID>\" <Duration in days> <Name>");
+      CPrintToChat(client, "{red}[VMP] {green}Invalid Params Usage: sm_addVip \"<SteamID>\" <Duration in days> <Name>");
     else
-      PrintToServer("***[VMP] Invalid Params Usage:  sm_vmpaddvip \"<SteamID>\" <Duration in days> <Name>");
+      PrintToServer("***[VMP] Invalid Params Usage:  sm_addVip \"<SteamID>\" <Duration in days> <Name>");
     return Plugin_Handled;
   }
 
@@ -314,6 +316,7 @@ public void refreshVipAndAdmins_Callback(Database db, DBResultSet result, char[]
 
   PrintToServer("***[VMP] All Entries updated in admin file, Reloading Admins in server Now");
   ServerCommand("sm_reloadadmins");
+  ServerCommand("sm_reloadtags"); //to update player tag for hextags plugin
 }
 
 // callback to execute when user data fetch query is ececuted for sub status
@@ -386,9 +389,9 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
       } else if ((GetConVarInt(gC_VMP_alertdisplaytype) == 2)) {
         CPrintToChat(client, "{red}[VMP] {green}Your VIP Subscription is about to expire");
         CPrintToChat(client, "{red}[VMP] {green}Please renew to continue using VIP benefits");
-        CPrintToChat(client, "{red}[VMP] {green}Subscriber Name : %s ", name);
-        CPrintToChat(client, "{red}[VMP] {green}Subscription Days Left : %d ", subDays);
-        CPrintToChat(client, "{red}[VMP] {green}Visit %s to Renew now", ls_VMP_panelurl);
+        CPrintToChat(client, "{red}[VMP] {green}Subscriber Name : {lightblue}%s ", name);
+        CPrintToChat(client, "{red}[VMP] {green}Subscription Days Left : {darkred}%d ", subDays);
+        CPrintToChat(client, "{red}[VMP] {green}Visit {darkred}%s {green}to Renew now", ls_VMP_panelurl);
       }
     }
   }
