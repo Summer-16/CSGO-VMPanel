@@ -37,7 +37,8 @@ function getPanelAuditLogs(currentPage, recordPerPage) {
     },
     body: JSON.stringify({
       currentPage: currentPage,
-      recordPerPage: recordPerPage
+      recordPerPage: recordPerPage,
+      "apiCall": true
     })
   })
     .then((res) => { return res.json(); })

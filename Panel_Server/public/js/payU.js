@@ -67,6 +67,7 @@ function initPayUpayment(serverData, type) {
           // "userLasrName": $('#payUlastname').val(),
           "userEmail": $('#payUemail').val(),
           "userMobile": $('#payUmobile').val(),
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })

@@ -35,6 +35,7 @@ function profileUrlToDataFetcher(profileUrl) {
       },
       body: JSON.stringify({
         "profileUrl": profileUrl,
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })

@@ -74,7 +74,8 @@ function addNewAdminajax() {
         "name": $('#name_add').val(),
         "flag": flagString,
         "server": serverArray,
-        "submit": "insert"
+        "submit": "insert",
+        "apiCall":true
       })
     })
       .then((res) => { return res.json(); })
@@ -117,18 +118,19 @@ function deleteAdminajax(tableName, primaryKey) {
         },
         body: JSON.stringify({
           "tableName": tableName,
-          "primaryKey": primaryKey
+          "primaryKey": primaryKey,
+          "apiCall": true
         })
       })
-        .then((res) => { return res.json(); })
+        .then((res) => {return res.json(); })
         .then((response) => {
           $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) {
-            if ($("#hiddenServerTableName").val()) {
-              getAdminTableListing(tableName)
-            } else {
+            if ($("#hiddenServerTableName").val() && $('#adminSearchInput').val()) {
               getAdminTableListingSearch()
+            } else {
+              getAdminTableListing(tableName, $("#hiddenServerTableName").val().split(":")[1])
             }
           }
         })
@@ -145,8 +147,10 @@ function deleteAdminajax(tableName, primaryKey) {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function getAdminTableListing(value) {
+function getAdminTableListing(value,name) {
 
+  $("#dropdownMenuButton").text(name);
+  $("#hiddenServerTableName").val(value + ":" + name);
   $("#manageCardTitle").text("View and Manage Admin of " + value.toUpperCase());
 
   if (value) {
@@ -159,11 +163,11 @@ function getAdminTableListing(value) {
       },
       body: JSON.stringify({
         "server": value,
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
       .then((response) => {
-        // $("#divForLoader").html("")
         let dataArray = response.data.res
         let htmlString = ""
         for (let i = 0; i < dataArray.length; i++) {
@@ -208,7 +212,8 @@ function getAdminTableListingSearch() {
       body: JSON.stringify({
         "server": $("#hiddenServerTableName").val().split(":")[0],
         "serverName": $("#hiddenServerTableName").val().split(":")[1],
-        "searchKey": $('#adminSearchInput').val()
+        "searchKey": $('#adminSearchInput').val(),
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })

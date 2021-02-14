@@ -102,7 +102,7 @@ const getVipsDataSingleServerFunc = (reqBody) => {
 
         for (let i = 0; i < data.length; i++) {
           data[i].server = reqBody.server
-          data[i].serverName = reqBody.serverName
+          data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
         }
         resolve(data)
       } else if (!reqBody.server && reqBody.searchKey) {
@@ -163,7 +163,7 @@ const getAdminsDataSingleServerFunc = (reqBody) => {
 
         for (let i = 0; i < data.length; i++) {
           data[i].server = reqBody.server
-          data[i].serverName = reqBody.serverName
+          data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
         }
         resolve(data)
       } else if (!reqBody.server && reqBody.searchKey) {

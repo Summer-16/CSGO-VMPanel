@@ -77,7 +77,8 @@ function addNewVIPajax() {
         "day": $('#day_add').val(),
         "flag": flagString,
         "server": serverArray,
-        "submit": "insert"
+        "submit": "insert",
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -131,7 +132,8 @@ function updateOldVIPajax() {
         "steamId": $('#steamId_update').val(),
         "day": $('#day_update').val(),
         "server": serverArray,
-        "submit": "update"
+        "submit": "update",
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -175,6 +177,7 @@ function deleteVIPajax(tableName, primaryKey) {
         body: JSON.stringify({
           "tableName": tableName,
           "primaryKey": primaryKey,
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })
@@ -182,10 +185,10 @@ function deleteVIPajax(tableName, primaryKey) {
           $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) {
-            if ($("#hiddenServerTableName").val()) {
-              getVIPTableListing(tableName)
-            } else {
+            if ($("#hiddenServerTableName").val() && $('#vipSearchInput').val()) {
               getVIPTableListingSearch()
+            } else {
+              getVIPTableListing(tableName, $("#hiddenServerTableName").val().split(":")[1])
             }
           }
         })
@@ -204,8 +207,6 @@ function deleteVIPajax(tableName, primaryKey) {
 
 function getVIPTableListing(value, name) {
   if (value) {
-    // let loader = `<div class="loading">Loading&#8230;</div>`;
-    // $("#divForLoader").html(loader)
 
     $("#dropdownMenuButton").text(name);
     $("#hiddenServerTableName").val(value + ":" + name);
@@ -219,12 +220,12 @@ function getVIPTableListing(value, name) {
       },
       body: JSON.stringify({
         "server": value,
-        "serverName": name
+        "serverName": name,
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
       .then((response) => {
-        // $("#divForLoader").html("")
         let dataArray = response.data.res
         let htmlString = ""
         for (let i = 0; i < dataArray.length; i++) {
@@ -272,7 +273,8 @@ function getVIPTableListingSearch() {
       body: JSON.stringify({
         "server": $("#hiddenServerTableName").val().split(":")[0],
         "serverName": $("#hiddenServerTableName").val().split(":")[1],
-        "searchKey": $('#vipSearchInput').val()
+        "searchKey": $('#vipSearchInput').val(),
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
