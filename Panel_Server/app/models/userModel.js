@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -19,7 +19,6 @@
 
 'use strict';
 const logger = require('../modules/logger')('User Model');
-
 var db = require('../db/db_bridge');
 const config = require('../config');
 const table = config.usersTable
@@ -89,7 +88,7 @@ var userDataModel = {
   /**
    * get all the user data form the table
    */
-  getuserDataByUsername: function (username) {
+  getUserDataByUsername: function (username) {
     return new Promise(async (resolve, reject) => {
       try {
 

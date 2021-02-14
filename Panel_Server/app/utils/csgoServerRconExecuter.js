@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -44,7 +44,7 @@ const executeRconInServer = (server,commandString) => {
             sq.close()
             var conn = new Rcon(serverDetails.server_ip, serverDetails.server_port, serverDetails.server_rcon_pass);
             conn.on('auth', function () {
-              logger.info("*** Rcon Authed! ***");
+              logger.info("*** Rcon Authorized! ***");
               conn.send(commandString);
               conn.disconnect();
             }).on('response', function (str) {

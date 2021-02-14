@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -63,7 +63,7 @@ const addPanelAdminFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "insert") {
@@ -74,7 +74,7 @@ const addPanelAdminFunc = (reqBody, username) => {
 
           bcrypt.hash(reqBody.password, saltRounds, async function (err, hash) {
             if (err) {
-              return reject("Error in password Encrytion, Try again")
+              return reject("Error in password Encryption, Try again")
             } else {
               reqBody.password = hash
               let insertRes = await userModel.insertNewUser(reqBody)
@@ -92,7 +92,7 @@ const addPanelAdminFunc = (reqBody, username) => {
 
           bcrypt.hash(reqBody.newpassword, saltRounds, async function (err, hash) {
             if (err) {
-              return reject("Error in password Encrytion, Try again")
+              return reject("Error in password Encryption, Try again")
             } else {
               reqBody.newpassword = hash
               let updateRes = await userModel.updateUserpassword({
@@ -205,7 +205,7 @@ const deletePanelAdminFunc = (reqBody, username) => {
         //validations
         if (!reqBody.username) return reject("Operation Fail!, Username Missing");
 
-        let userData = await userModel.getuserDataByUsername(username)
+        let userData = await userModel.getUserDataByUsername(username)
 
         if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
           if (reqBody.submit === "delete") {

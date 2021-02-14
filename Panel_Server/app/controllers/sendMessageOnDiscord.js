@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -24,19 +24,19 @@ const vipModel = require("../models/vipModel.js");
 const { wait } = require('../utils/misc.js');
 const needle = require('needle');
 
-const GAcolor = [1752220, 3066993, 3447003, 10181046, 15105570, 15158332, 9807270, 8359053, 3426654, 1146986, 2067276, 2123412, 7419530, 11027200, 10038562, 9936031, 12370112, 2899536, 16580705, 12320855]
+const GAColor = [1752220, 3066993, 3447003, 10181046, 15105570, 15158332, 9807270, 8359053, 3426654, 1146986, 2067276, 2123412, 7419530, 11027200, 10038562, 9936031, 12370112, 2899536, 16580705, 12320855]
 
 //-----------------------------------------------------------------------------------------------------
 // 
 
 async function sendMessageOnDiscord() {
   try {
-    const color = [...GAcolor];
+    const color = [...GAColor];
     let settingObj = await settingsModal.getAllSettings();
     if (!settingObj.webhook_url) {
       return "Webhook not found"
     }
-    let data = await vipModel.getallServerData();
+    let data = await vipModel.getAllServerData();
 
     let messageString = "", messageArray = [], count = 0, colorArray = []
 
@@ -65,7 +65,7 @@ async function sendMessageOnDiscord() {
               if (data[i].type == "VIPs") {
                 messageString += "- " + data[i].data[j].name.replace("//", "")
                   + "  :- " + data[i].data[j].authId.replace('"', '').replace('"', '')
-                  + "  :- ***(" + EpocToDate(data[i].data[j].expireStamp) + ")***"
+                  + "  :- ***(" + EpochToDate(data[i].data[j].expireStamp) + ")***"
                   + "  :- " + remainingDays(data[i].data[j].expireStamp) + " days left\n"
               } else {
                 messageString += "- " + data[i].data[j].name.replace("//", "")
@@ -186,7 +186,7 @@ module.exports.sendBuyMessageOnDiscord = sendBuyMessageOnDiscord
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function EpocToDate(utcSeconds) {
+function EpochToDate(utcSeconds) {
   let d = new Date(0);
   d.setUTCSeconds(utcSeconds)
   let dd = d.getDate();

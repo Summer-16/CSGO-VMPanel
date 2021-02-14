@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -32,7 +32,7 @@ var vipDataModel = {
   /**
    * get all the data form the table
    */
-  getallServerData: function () {
+  getAllServerData: function () {
     return new Promise(async (resolve, reject) => {
       try {
         let finalResult = []
@@ -74,7 +74,7 @@ var vipDataModel = {
   /**
  * get single server listing
  */
-  getsingleServerData: function (server, search, type) {
+  getSingleServerData: function (server, search, type) {
     return new Promise(async (resolve, reject) => {
       try {
         if (!server) return reject("Server is not Provided");
@@ -92,7 +92,7 @@ var vipDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        logger.error("error in getsingleServerData->", error);
+        logger.error("error in getSingleServerData->", error);
         reject(error)
       }
     });

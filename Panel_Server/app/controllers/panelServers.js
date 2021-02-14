@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -59,7 +59,7 @@ const addPanelServerFunc = (reqBody, username) => {
       if (!reqBody.tablename) return reject("Operation Fail!, Table Name is not provided");
       if (!reqBody.servername) return reject("Operation Fail!, Server Name is not provided");
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "insert") {
@@ -204,7 +204,7 @@ const deletePanelServersFunc = (reqBody, username) => {
       if (!reqBody.tablename) return reject("Operation Fail!, Table Name is not provided");
       if (!reqBody.id) return reject("Operation Fail!, Id is not provided");
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "delete") {

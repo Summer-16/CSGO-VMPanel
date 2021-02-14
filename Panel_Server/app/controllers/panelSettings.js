@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -111,13 +111,13 @@ const updatePanelSettingsFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
 
         let keyArray = Object.keys(reqBody)
         for (let i = 0; i < keyArray.length; i++) {
-          await settingsModal.updatesetting(keyArray[i], reqBody[keyArray[i]])
+          await settingsModal.updateSetting(keyArray[i], reqBody[keyArray[i]])
         }
         resolve(true)
       }

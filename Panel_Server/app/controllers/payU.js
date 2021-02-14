@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -36,7 +36,7 @@ exports.initPayUPayment = async (req, res) => {
       success: true,
       data: {
         "res": result,
-        "message": "Payu initiated",
+        "message": "PayU initiated",
         "notifType": "success"
       }
     });
@@ -56,16 +56,16 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
       const steamId = SteamIDConverter.toSteamID(reqUser.id);
 
       let productData = reqBody.serverData
-      let productinfo = productData.vip_days + " days VIP for " + productData.server_name + (reqBody.type == 'newPurchase' ? " (New Buy)" : reqBody.type == 'renewPurchase' ? " (Renewal)" : "")
+      let productInfo = productData.vip_days + " days VIP for " + productData.server_name + (reqBody.type == 'newPurchase' ? " (New Buy)" : reqBody.type == 'renewPurchase' ? " (Renewal)" : "")
 
       let txnID = createTXNid()
       let successURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnsuccesspayu'
       let errorURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnerrorpayu'
 
-      let cryp = crypto.createHash('sha512');
-      let text = payUConfig.merchantKey + '|' + txnID + '|' + productData.vip_price + '|' + productinfo + '|' + reqBody.userFirstName + '|' + reqBody.userEmail + '|||||' + steamId + '||||||' + payUConfig.merchantSalt;
-      cryp.update(text);
-      let payUHash = cryp.digest('hex');
+      let crypt = crypto.createHash('sha512');
+      let text = payUConfig.merchantKey + '|' + txnID + '|' + productData.vip_price + '|' + productInfo + '|' + reqBody.userFirstName + '|' + reqBody.userEmail + '|||||' + steamId + '||||||' + payUConfig.merchantSalt;
+      crypt.update(text);
+      let payUHash = crypt.digest('hex');
 
       let payuFormData = {
         "key": payUConfig.merchantKey,
@@ -75,7 +75,7 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
         "firstname": reqBody.userFirstName,
         "email": reqBody.userEmail,
         "phone": reqBody.userMobile,
-        "productinfo": productinfo,
+        "productinfo": productInfo,
         "udf5": steamId,
         "surl": successURL,
         "furl": errorURL

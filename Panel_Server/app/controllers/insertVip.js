@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -75,7 +75,7 @@ const insertVipDataFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         reqBody.day = reqBody.day / 1
@@ -98,7 +98,7 @@ const insertVipDataFunc = (reqBody, username) => {
             return reject("Length of given server list is more then max servers added in panel, something is fishy");
           }
 
-          reqBody.day = epoctillExpirey(reqBody.day);
+          reqBody.day = epochTillExpiry(reqBody.day);
           reqBody.name = "//" + reqBody.name;
           reqBody.steamId = '"' + reqBody.steamId + '"';
           reqBody.userType = 0;
@@ -158,8 +158,8 @@ exports.insertVipDataFunc = insertVipDataFunc;
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function epoctillExpirey(days) {
-  let currentEpoc = Math.floor(Date.now() / 1000)
-  let daysinSec = Math.floor(days * 86400)
-  return (currentEpoc + daysinSec)
+function epochTillExpiry(days) {
+  let currentEpoch = Math.floor(Date.now() / 1000)
+  let daysInSec = Math.floor(days * 86400)
+  return (currentEpoch + daysInSec)
 }
