@@ -28,9 +28,14 @@ function addNewAdminajax() {
   let flagString = '"' + ($('#immunity_admin').val() / 1) + ':'
   let serverArray = []
 
-  $("input:checkbox[name=admin_flags]:checked").each(function () {
-    flagString += $(this).val();
-  });
+  if (document.getElementById('admin_flag_manual_entry').checked) {
+    if ($('#admin_group').val())
+     flagString += ("@" + $('#admin_group').val())
+  } else {
+    $("input:checkbox[name=admin_flags]:checked").each(function () {
+      flagString += $(this).val();
+    });
+  }
 
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
@@ -41,10 +46,18 @@ function addNewAdminajax() {
     formError = "Steam Id can not be empty"
   } else if (!$('#name_add').val()) {
     formError = "Name can not be empty"
-  } else if (!flagString.split(":")[1]) {
-    formError = "Flags can not be empty"
-  } else if (serverArray.length == 0) {
+  }else if (serverArray.length == 0) {
     formError = "Select atleast one server"
+  }
+
+  if (document.getElementById('admin_flag_manual_entry').checked) {
+    if (!$('#admin_group').val()) {
+      formError = "You selected to add Admin through admin group either provide a group name or use only flags"
+    }
+  } else {
+    if (!flagString.split(":")[1]) {
+      formError = "Flags can not be empty"
+    }
   }
 
   flagString += '"';
@@ -137,9 +150,6 @@ function getAdminTableListing(value) {
   $("#manageCardTitle").text("View and Manage Admin of " + value.toUpperCase());
 
   if (value) {
-
-    // let loader = `<div class="loading">Loading&#8230;</div>`;
-    // $("#divForLoader").html(loader)
 
     fetch('/getadmindatasingleserver', {
       method: 'POST',
@@ -240,6 +250,19 @@ function resetSearchAndTable() {
 // 
 
 $(document).ready(function () {
+
+  document.getElementById('admin_flag_manual_entry').onchange = () => {
+
+    let checkValue = document.getElementById('admin_flag_manual_entry').checked
+    if (checkValue === true) {
+      $("input[name='admin_flags']:checkbox").prop('checked', false);
+    }
+  };
+
+  $("input[name='admin_flags']:checkbox").change(function () {
+    $("input[name='admin_flag_manual_entry']:checkbox").prop('checked', false);
+  });
+
   $(window).keydown(function (event) {
     if (event.keyCode == 13) {
       event.preventDefault();

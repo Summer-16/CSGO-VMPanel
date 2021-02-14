@@ -29,7 +29,8 @@ function addNewVIPajax() {
   let serverArray = []
 
   if (document.getElementById('vip_flag_manual_entry').checked) {
-    flagString += ("@" + $('#vip_group').val())
+    if ($('#vip_group').val())
+     flagString += ("@" + $('#vip_group').val())
   } else {
     $("input:checkbox[name=vip_flags]:checked").each(function () {
       flagString += $(this).val();
@@ -62,7 +63,6 @@ function addNewVIPajax() {
   }
 
   flagString += '"';
-  // console.log("final flag here==>", flagString)
 
   if (formError == "") {
     fetch('/addvip', {
@@ -350,9 +350,8 @@ $(document).ready(function () {
 
   document.getElementById('vip_flag_manual_entry').onchange = () => {
 
-    let ckeckValue = document.getElementById('vip_flag_manual_entry').checked
-    // console.log("ckeckValue==>", ckeckValue)
-    if (ckeckValue === true) {
+    let checkValue = document.getElementById('vip_flag_manual_entry').checked
+    if (checkValue === true) {
       $("input[name='vip_flags']:checkbox").prop('checked', false);
       let ipHtml = `<label class="">Enter group name</label>
                     <input id="vip_group" type="text" class="form-control" value="" required>`
