@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -50,7 +50,8 @@ function addSourceBansBanajax() {
         "banlength": $('#ban_length').val(),
         "banreason": $('#ban_reason').val() === "OtherReason" ? $('#other_ban_reason').val() : $('#ban_reason').val(),
         "banserver": $('#ban_server_add').val(),
-        "bantype": "serverBan"
+        "bantype": "serverBan",
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -102,7 +103,8 @@ function addSourceBansCommBanajax() {
         "banlength": $('#commban_length').val(),
         "banreason": $('#commban_reason').val() === "OtherReason" ? $('#other_ban_reasoncomm').val() : $('#commban_reason').val(),
         "banserver": $('#commban_server_add').val(),
-        "bantype": "commBan"
+        "bantype": "commBan",
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })

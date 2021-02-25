@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -46,12 +46,12 @@ const dashboardFunc = (reqBody, token) => {
       let data = null, adminStats = null, serverData = null
 
       if (token) {
-        data = await vipModel.getallServerData()
+        data = await vipModel.getAllServerData()
         adminStats = await myDashboardModel.getStatsForAdmin()
       } else {
         let settingObj = await settingsModal.getAllSettings();
         if (settingObj.dash_vip_show) {
-          data = await vipModel.getallServerData()
+          data = await vipModel.getAllServerData()
         }
       }
       serverData = await panelServerModal.getPanelServersList()
@@ -98,11 +98,11 @@ const getVipsDataSingleServerFunc = (reqBody) => {
       //validations
       if (!reqBody.server && !reqBody.searchKey) return reject("Operation Fail!, Server Missing");
       if (reqBody.server) {
-        let data = await vipModel.getsingleServerData(reqBody.server, reqBody.searchKey, "vip")
+        let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "vip")
 
         for (let i = 0; i < data.length; i++) {
           data[i].server = reqBody.server
-          data[i].serverName = reqBody.serverName
+          data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
         }
         resolve(data)
       } else if (!reqBody.server && reqBody.searchKey) {
@@ -110,7 +110,7 @@ const getVipsDataSingleServerFunc = (reqBody) => {
         let finalResult = []
 
         for (let i = 0; i < serverData.length; i++) {
-          let data = await vipModel.getsingleServerData(serverData[i].tbl_name, reqBody.searchKey, "vip")
+          let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "vip")
           for (let j = 0; j < data.length; j++) {
             data[j].server = serverData[i].tbl_name
             data[j].serverName = serverData[i].server_name
@@ -159,11 +159,11 @@ const getAdminsDataSingleServerFunc = (reqBody) => {
       //validations
       if (!reqBody.server && !reqBody.searchKey) return reject("Operation Fail!, Server Missing");
       if (reqBody.server) {
-        let data = await vipModel.getsingleServerData(reqBody.server, reqBody.searchKey, "admin")
+        let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "admin")
 
         for (let i = 0; i < data.length; i++) {
           data[i].server = reqBody.server
-          data[i].serverName = reqBody.serverName
+          data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
         }
         resolve(data)
       } else if (!reqBody.server && reqBody.searchKey) {
@@ -171,7 +171,7 @@ const getAdminsDataSingleServerFunc = (reqBody) => {
         let finalResult = []
 
         for (let i = 0; i < serverData.length; i++) {
-          let data = await vipModel.getsingleServerData(serverData[i].tbl_name, reqBody.searchKey, "admin")
+          let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "admin")
           for (let j = 0; j < data.length; j++) {
             data[j].server = serverData[i].tbl_name
             data[j].serverName = serverData[i].server_name

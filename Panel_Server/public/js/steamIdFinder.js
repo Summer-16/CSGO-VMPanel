@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -35,6 +35,7 @@ function profileUrlToDataFetcher(profileUrl) {
       },
       body: JSON.stringify({
         "profileUrl": profileUrl,
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })

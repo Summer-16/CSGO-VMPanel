@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -85,9 +85,6 @@ const myDashboardFunc = (reqBody, reqUser) => {
           serverArray.push(serverList[i])
 
         }
-        //  else {
-        //   serverArray.push(serverList[i])
-        // }
       }
 
       let bundleList = await getPanelBundlesListFunc()
@@ -146,10 +143,10 @@ exports.afterPaymentProcess = async (req, res) => {
     const secKey = req.session.passport.user.id
     let result = await afterPaymentProcessFunc(req.body, req.user, secKey);
 
-    let userDisplayname = req.user.displayName
-    userDisplayname = cleanString(userDisplayname)
+    let userDisplayName = req.user.displayName
+    userDisplayName = cleanString(userDisplayName)
     let userRealName = req.user._json.realname
-    const finalUserName = userRealName + " - (" + (userDisplayname ? userDisplayname : "-_-") + ")"
+    const finalUserName = userRealName + " - (" + (userDisplayName ? userDisplayName : "-_-") + ")"
 
     logThisActivity({
       "activity": req.body.buyType === 'newPurchase' ? "New VIP Purchased" : "VIP renewed",
@@ -181,10 +178,10 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
     try {
 
       const steamId = SteamIDConverter.toSteamID(reqUser.id);
-      let userDisplayname = reqUser.displayName
-      userDisplayname = cleanString(userDisplayname)
+      let userDisplayName = reqUser.displayName
+      userDisplayName = cleanString(userDisplayName)
       let userRealName = reqUser._json.realname
-      const finalUserName = userRealName + " - (" + (userDisplayname ? userDisplayname : "-_-") + ")"
+      const finalUserName = userRealName + " - (" + (userDisplayName ? userDisplayName : "-_-") + ")"
       const saleType = (reqBody.buyType === 'newPurchase' || reqBody.buyType === "newPurchaseBundle") ? 1 : reqBody.buyType === 'renewPurchase' ? 2 : 0
       const serverTable = reqBody.serverData.tbl_name
       const flag = reqBody.serverData.vip_flag
@@ -212,11 +209,11 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
         let keyArray = keyString.split('|');
         let reverseKeyArray = keyArray.reverse();
         let reverseKeyString = payUConfig.merchantSalt + '|' + reqBody.payuData.status + '|' + reverseKeyArray.join('|');
-        var cryp = crypto.createHash('sha512');
-        cryp.update(reverseKeyString);
-        var calchash = cryp.digest('hex');
+        let crypt = crypto.createHash('sha512');
+        crypt.update(reverseKeyString);
+        let calcHash = crypt.digest('hex');
 
-        if (calchash === reqBody.payuData.hash) {
+        if (calcHash === reqBody.payuData.hash) {
           paymentInsertObj = {
             order_id: paymentData.order_id,
             payer_id: paymentData.payer_id,
@@ -240,7 +237,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
       if (reqBody.buyType === 'newPurchase') {
 
         const newVipInsertObj = {
-          day: epoctillExpirey(subDays),
+          day: epochTillExpiry(subDays),
           name: "//" + finalUserName,
           steamId: '"' + steamId + '"',
           userType: 0,
@@ -294,7 +291,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
             }
           } else {
             const newVipInsertObj = {
-              day: epoctillExpirey(subDays),
+              day: epochTillExpiry(subDays),
               name: "//" + finalUserName,
               steamId: '"' + steamId + '"',
               userType: 0,
@@ -323,10 +320,10 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
 exports.afterPaymentProcessFunc = afterPaymentProcessFunc;
 //-----------------------------------------------------------------------------------------------------
 
-function epoctillExpirey(days) {
-  let currentEpoc = Math.floor(Date.now() / 1000)
-  let daysinSec = Math.floor(days * 86400)
-  return (currentEpoc + daysinSec)
+function epochTillExpiry(days) {
+  let currentEpoch = Math.floor(Date.now() / 1000)
+  let daysInSec = Math.floor(days * 86400)
+  return (currentEpoch + daysInSec)
 }
 
 function cleanString(input) {

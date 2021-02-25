@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -31,12 +31,10 @@ const steamAPIKey = config.steam_api_key;
  * @param {Function} next 
  */
 const checkToken = (req, res, next) => {
-    const token = req.session.token || req.headers['x-access-token'] ||
-        req.headers['authorization']; // Express headers are auto converted to lowercase
+    const token = req.session.token || req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
     let jwtToken = token;
-    const isAdminRoute = req.route.path === "/adminlogin"
-        || req.headers.referer.indexOf("/adminlogin") != -1;
+    const isAdminRoute = req.route.path === "/adminlogin" || req.headers.referer.indexOf("/adminlogin") != -1;
     if (token) {
         if (token.startsWith('Bearer ')) {
             // Remove Bearer from string
@@ -45,23 +43,36 @@ const checkToken = (req, res, next) => {
 
         jwt.verify(jwtToken, jwtSecretKey, (err, decoded) => {
             if (err) {
-                return res.render('Login', {
-                    "steamLogin": (steamAPIKey ? true : false),
-                    "adminRoute": isAdminRoute,
-                    "error": "Unauthorized Access, If you are an Admin try logging in"
-                });
+                if (req.body.apiCall) {
+                    res.json({
+                        success: false,
+                        data: { "error": err, "message": "Unauthorized Access, If you are an Admin try logging in" }
+                    });
+                } else {
+                    return res.render('Login', {
+                        "steamLogin": (steamAPIKey ? true : false),
+                        "adminRoute": isAdminRoute,
+                        "error": "Unauthorized Access, If you are an Admin try logging in"
+                    });
+                }
             } else {
                 req.decoded = decoded;
                 next();
             }
         });
     } else {
+        if (req.body.apiCall) {
+            res.json({
+                success: false,
+                data: { "error": "Token Missing, Looks like Session expired", "message": "Unauthorized Access, If you are an Admin try logging in" }
+            });
+        }else{
         return res.render('Login',
             {
                 "steamLogin": (steamAPIKey ? true : false),
                 "adminRoute": isAdminRoute,
                 "error": "Unauthorized Access, If you are an Admin try logging in"
-            });
+            });}
     }
 };
 

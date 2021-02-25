@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -19,7 +19,6 @@
 
 'use strict';
 const logger = require('../modules/logger')('Sales Model');
-
 var db = require('../db/db_bridge');
 const config = require('../config');
 const table = config.salestable

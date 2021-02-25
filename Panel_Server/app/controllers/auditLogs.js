@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -28,14 +28,14 @@ const auditModal = require("../models/auditLogsModel.js");
 exports.auditRecords = async (req, res) => {
   try {
     if (req.session.user_type == 1) {
-      res.render('PanelAuditlogs');
+      res.render('PanelAuditLogs');
     } else {
       res.redirect('dashboard');
     }
   } catch (error) {
     logger.error("error in auditRecords-->", error);
     if (req.session.user_type == 1) {
-      res.render('PanelAuditlogs');
+      res.render('PanelAuditLogs');
     } else {
       res.redirect('dashboard');
     }
@@ -53,10 +53,10 @@ exports.getAuditRecord = async (req, res) => {
       let result = await getAuditRecordFunc(req.body);
       res.json({
         success: true,
-        data: { "res": result, "message": "Audit Logss Fetched" }
+        data: { "res": result, "message": "Audit Logs Fetched" }
       });
     } else {
-      return reject("You Dont have permissions to access records")
+      return reject("You don't have permissions to access records")
     }
   } catch (error) {
     logger.error("error in getAuditRecord->", error);

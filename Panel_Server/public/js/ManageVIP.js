@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -29,7 +29,8 @@ function addNewVIPajax() {
   let serverArray = []
 
   if (document.getElementById('vip_flag_manual_entry').checked) {
-    flagString += ("@" + $('#vip_group').val())
+    if ($('#vip_group').val())
+     flagString += ("@" + $('#vip_group').val())
   } else {
     $("input:checkbox[name=vip_flags]:checked").each(function () {
       flagString += $(this).val();
@@ -62,7 +63,6 @@ function addNewVIPajax() {
   }
 
   flagString += '"';
-  // console.log("final flag here==>", flagString)
 
   if (formError == "") {
     fetch('/addvip', {
@@ -77,7 +77,8 @@ function addNewVIPajax() {
         "day": $('#day_add').val(),
         "flag": flagString,
         "server": serverArray,
-        "submit": "insert"
+        "submit": "insert",
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -131,7 +132,8 @@ function updateOldVIPajax() {
         "steamId": $('#steamId_update').val(),
         "day": $('#day_update').val(),
         "server": serverArray,
-        "submit": "update"
+        "submit": "update",
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -175,6 +177,7 @@ function deleteVIPajax(tableName, primaryKey) {
         body: JSON.stringify({
           "tableName": tableName,
           "primaryKey": primaryKey,
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })
@@ -182,10 +185,10 @@ function deleteVIPajax(tableName, primaryKey) {
           $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) {
-            if ($("#hiddenServerTableName").val()) {
-              getVIPTableListing(tableName)
-            } else {
+            if ($("#hiddenServerTableName").val() && $('#vipSearchInput').val()) {
               getVIPTableListingSearch()
+            } else {
+              getVIPTableListing(tableName, $("#hiddenServerTableName").val().split(":")[1])
             }
           }
         })
@@ -204,8 +207,6 @@ function deleteVIPajax(tableName, primaryKey) {
 
 function getVIPTableListing(value, name) {
   if (value) {
-    // let loader = `<div class="loading">Loading&#8230;</div>`;
-    // $("#divForLoader").html(loader)
 
     $("#dropdownMenuButton").text(name);
     $("#hiddenServerTableName").val(value + ":" + name);
@@ -219,12 +220,12 @@ function getVIPTableListing(value, name) {
       },
       body: JSON.stringify({
         "server": value,
-        "serverName": name
+        "serverName": name,
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
       .then((response) => {
-        // $("#divForLoader").html("")
         let dataArray = response.data.res
         let htmlString = ""
         for (let i = 0; i < dataArray.length; i++) {
@@ -272,7 +273,8 @@ function getVIPTableListingSearch() {
       body: JSON.stringify({
         "server": $("#hiddenServerTableName").val().split(":")[0],
         "serverName": $("#hiddenServerTableName").val().split(":")[1],
-        "searchKey": $('#vipSearchInput').val()
+        "searchKey": $('#vipSearchInput').val(),
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -350,9 +352,8 @@ $(document).ready(function () {
 
   document.getElementById('vip_flag_manual_entry').onchange = () => {
 
-    let ckeckValue = document.getElementById('vip_flag_manual_entry').checked
-    // console.log("ckeckValue==>", ckeckValue)
-    if (ckeckValue === true) {
+    let checkValue = document.getElementById('vip_flag_manual_entry').checked
+    if (checkValue === true) {
       $("input[name='vip_flags']:checkbox").prop('checked', false);
       let ipHtml = `<label class="">Enter group name</label>
                     <input id="vip_group" type="text" class="form-control" value="" required>`

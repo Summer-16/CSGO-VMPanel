@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -74,7 +74,7 @@ const insertAdminDataFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "insert") {

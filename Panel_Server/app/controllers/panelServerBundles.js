@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -56,14 +56,14 @@ const addPanelServerBundleFunc = (reqBody, username) => {
     try {
 
       // validation
-      if (reqBody.bundleserverarray < 2) return reject("Operation Fail!, Select atleast two servers to create a bundle");
+      if (reqBody.bundleserverarray < 2) return reject("Operation Fail!, Select at-least two servers to create a bundle");
       if (!reqBody.bundlename) return reject("Operation Fail!, Bundle name is Missing");
       if (!reqBody.bundleprice) return reject("Operation Fail!, Bundle Price is Missing");
       if (!reqBody.bundlecurrency) return reject("Operation Fail!, Bundle Currency is Missing");
       if (!reqBody.bundlesubdays) return reject("Operation Fail!, Bundle Subscription days are Missing");
       if (!reqBody.bundlevipflag) return reject("Operation Fail!, Bundle VIP Flag is Missing");
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "insert") {
@@ -161,13 +161,13 @@ const deletePanelBundleFunc = (reqBody, username) => {
       if (!reqBody.bundlename) return reject("Operation Fail!, Bundle Name is not provided");
       if (!reqBody.id) return reject("Operation Fail!, Id is not provided");
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         if (reqBody.submit === "delete") {
-          let deltRes = await bundleModel.deletePanelBundle(reqBody)
-          if (deltRes) {
-            resolve(deltRes)
+          let deleteRes = await bundleModel.deletePanelBundle(reqBody)
+          if (deleteRes) {
+            resolve(deleteRes)
           }
         }
       } else {

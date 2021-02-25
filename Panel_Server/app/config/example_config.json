@@ -19,7 +19,7 @@
   "salestable": "tbl_sales",
   "audittable": "tbl_audit_logs",
   "bundletable": "tbl_bundles",
-  "bundleRELtable": "tbl_rel_bundle_server",
+  "bundleRelTable": "tbl_rel_bundle_server",
   "jwt": {
     "key": "add some random generated string here min 32length"
   },

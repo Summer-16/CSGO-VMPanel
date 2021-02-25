@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -28,9 +28,14 @@ function addNewAdminajax() {
   let flagString = '"' + ($('#immunity_admin').val() / 1) + ':'
   let serverArray = []
 
-  $("input:checkbox[name=admin_flags]:checked").each(function () {
-    flagString += $(this).val();
-  });
+  if (document.getElementById('admin_flag_manual_entry').checked) {
+    if ($('#admin_group').val())
+     flagString += ("@" + $('#admin_group').val())
+  } else {
+    $("input:checkbox[name=admin_flags]:checked").each(function () {
+      flagString += $(this).val();
+    });
+  }
 
   $("input:checkbox[name=server_add]:checked").each(function () {
     serverArray.push($(this).val());
@@ -41,10 +46,18 @@ function addNewAdminajax() {
     formError = "Steam Id can not be empty"
   } else if (!$('#name_add').val()) {
     formError = "Name can not be empty"
-  } else if (!flagString.split(":")[1]) {
-    formError = "Flags can not be empty"
-  } else if (serverArray.length == 0) {
+  }else if (serverArray.length == 0) {
     formError = "Select atleast one server"
+  }
+
+  if (document.getElementById('admin_flag_manual_entry').checked) {
+    if (!$('#admin_group').val()) {
+      formError = "You selected to add Admin through admin group either provide a group name or use only flags"
+    }
+  } else {
+    if (!flagString.split(":")[1]) {
+      formError = "Flags can not be empty"
+    }
   }
 
   flagString += '"';
@@ -61,7 +74,8 @@ function addNewAdminajax() {
         "name": $('#name_add').val(),
         "flag": flagString,
         "server": serverArray,
-        "submit": "insert"
+        "submit": "insert",
+        "apiCall":true
       })
     })
       .then((res) => { return res.json(); })
@@ -104,18 +118,19 @@ function deleteAdminajax(tableName, primaryKey) {
         },
         body: JSON.stringify({
           "tableName": tableName,
-          "primaryKey": primaryKey
+          "primaryKey": primaryKey,
+          "apiCall": true
         })
       })
-        .then((res) => { return res.json(); })
+        .then((res) => {return res.json(); })
         .then((response) => {
           $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) {
-            if ($("#hiddenServerTableName").val()) {
-              getAdminTableListing(tableName)
-            } else {
+            if ($("#hiddenServerTableName").val() && $('#adminSearchInput').val()) {
               getAdminTableListingSearch()
+            } else {
+              getAdminTableListing(tableName, $("#hiddenServerTableName").val().split(":")[1])
             }
           }
         })
@@ -132,14 +147,13 @@ function deleteAdminajax(tableName, primaryKey) {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function getAdminTableListing(value) {
+function getAdminTableListing(value,name) {
 
+  $("#dropdownMenuButton").text(name);
+  $("#hiddenServerTableName").val(value + ":" + name);
   $("#manageCardTitle").text("View and Manage Admin of " + value.toUpperCase());
 
   if (value) {
-
-    // let loader = `<div class="loading">Loading&#8230;</div>`;
-    // $("#divForLoader").html(loader)
 
     fetch('/getadmindatasingleserver', {
       method: 'POST',
@@ -149,11 +163,11 @@ function getAdminTableListing(value) {
       },
       body: JSON.stringify({
         "server": value,
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
       .then((response) => {
-        // $("#divForLoader").html("")
         let dataArray = response.data.res
         let htmlString = ""
         for (let i = 0; i < dataArray.length; i++) {
@@ -198,7 +212,8 @@ function getAdminTableListingSearch() {
       body: JSON.stringify({
         "server": $("#hiddenServerTableName").val().split(":")[0],
         "serverName": $("#hiddenServerTableName").val().split(":")[1],
-        "searchKey": $('#adminSearchInput').val()
+        "searchKey": $('#adminSearchInput').val(),
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -240,6 +255,19 @@ function resetSearchAndTable() {
 // 
 
 $(document).ready(function () {
+
+  document.getElementById('admin_flag_manual_entry').onchange = () => {
+
+    let checkValue = document.getElementById('admin_flag_manual_entry').checked
+    if (checkValue === true) {
+      $("input[name='admin_flags']:checkbox").prop('checked', false);
+    }
+  };
+
+  $("input[name='admin_flags']:checkbox").change(function () {
+    $("input[name='admin_flag_manual_entry']:checkbox").prop('checked', false);
+  });
+
   $(window).keydown(function (event) {
     if (event.keyCode == 13) {
       event.preventDefault();

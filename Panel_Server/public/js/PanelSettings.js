@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -46,7 +46,8 @@ function addNewPAdminajax() {
           "username": $('#username_padd').val(),
           "password": $('#password_padd').val(),
           "admintype": $('#admintype_padd').val(),
-          "submit": "insert"
+          "submit": "insert",
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })
@@ -99,7 +100,8 @@ function updateOldPAdminajax() {
         body: JSON.stringify({
           "username": $('#selected_padmin').val(),
           "newpassword": $('#password_pupdate').val(),
-          "submit": "update"
+          "submit": "update",
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })
@@ -149,7 +151,8 @@ function deletePAdminajax() {
           },
           body: JSON.stringify({
             "username": $('#selected_padmin').val(),
-            "submit": "delete"
+            "submit": "delete",
+            "apiCall": true
           })
         })
           .then((res) => { return res.json(); })
@@ -358,7 +361,8 @@ function addNewPServerajax() {
           "servervipcurrency": $('#servertablecurrency').val() ? $('#servertablecurrency').val() : null,
           "servervipflag": $('#servertableVIPFlag_add').val() ? $('#servertableVIPFlag_add').val() : null,
           "servervipdays": $('#servertableVIPDays_add').val() ? $('#servertableVIPDays_add').val() : null,
-          "submit": "insert"
+          "submit": "insert",
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })
@@ -422,7 +426,8 @@ function updatePServerajax() {
           "servervipcurrency": $('#servertablecurrency').val(),
           "servervipflag": $('#servertableVIPFlag_update').val(),
           "servervipdays": $('#servertableVIPDays_update').val(),
-          "submit": "update"
+          "submit": "update",
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })
@@ -475,7 +480,8 @@ function deletePServerajax(id, tablename) {
           body: JSON.stringify({
             "id": id,
             "tablename": tablename,
-            "submit": "delete"
+            "submit": "delete",
+            "apiCall": true
           })
         })
           .then((res) => { return res.json(); })
@@ -586,7 +592,8 @@ function addNewPanelServerBundle() {
           "bundlecurrency": $('#bundle_currency_add').val(),
           "bundlesubdays": $('#bundle_subdays_add').val(),
           "bundlevipflag": $('#bundle_flags_add').val(),
-          "submit": "insert"
+          "submit": "insert",
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })
@@ -681,7 +688,8 @@ function deletePBundleajax(id, bundlename) {
           body: JSON.stringify({
             "id": id,
             "bundlename": bundlename,
-            "submit": "delete"
+            "submit": "delete",
+            "apiCall": true
           })
         })
           .then((res) => { return res.json(); })
@@ -749,7 +757,8 @@ $(document).ready(function () {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "server": serverVal
+          "server": serverVal,
+          "apiCall": true
         })
       })
         .then((res) => { return res.json(); })

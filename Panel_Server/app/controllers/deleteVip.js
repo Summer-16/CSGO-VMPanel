@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -57,7 +57,7 @@ exports.deleteVipData = async (req, res) => {
 const deleteVipDataFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
         reqBody.primaryKey = '"' + reqBody.primaryKey + '"'
@@ -113,7 +113,7 @@ exports.deleteOldVipData = async (req, res) => {
 const deleteOldVipDataFunc = (username, secKey) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (secKey && secKey === userData.sec_key) {
 

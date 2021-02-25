@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -23,7 +23,7 @@ const logger = require('../modules/logger')('Bundle Model');
 var db = require('../db/db_bridge');
 const config = require('../config');
 const table = config.bundletable
-const reltable = config.bundleRELtable
+const relTable = config.bundleRelTable
 
 /**
  *   bundle Model
@@ -53,7 +53,7 @@ var bundleModel = {
           return reject("Error in creating bundle table");
         }
 
-        query = db.queryFormat(`CREATE TABLE IF NOT EXISTS ${reltable} (
+        query = db.queryFormat(`CREATE TABLE IF NOT EXISTS ${relTable} (
                                 id INT NOT NULL AUTO_INCREMENT,
                                 bundle_id INT(11) NULL,
                                 server_id INT(11) NULL,
@@ -111,7 +111,7 @@ var bundleModel = {
         }
 
         if (insertArray.length) {
-          query = db.queryFormat(`INSERT INTO ${reltable}
+          query = db.queryFormat(`INSERT INTO ${relTable}
                                       (bundle_id,server_id)
                                       VALUES ?`, [insertArray]);
           queryRes = await db.query(query, true);
@@ -151,7 +151,7 @@ var bundleModel = {
                                   tbl_servers.server_ip,
                                   tbl_servers.server_port,
                                   tbl_servers.tbl_name
-                                  FROM ${reltable}
+                                  FROM ${relTable}
                                   left join tbl_servers on tbl_servers.id = server_id 
                                   where bundle_id = ?`, [bundleData[i].id]);
 
@@ -189,7 +189,7 @@ var bundleModel = {
           return reject("Error in delete");
         }
 
-        query = db.queryFormat(`DELETE FROM ${reltable} WHERE bundle_id = ?`, [dataObj.id]);
+        query = db.queryFormat(`DELETE FROM ${relTable} WHERE bundle_id = ?`, [dataObj.id]);
         queryRes = await db.query(query, true);
 
         if (!queryRes) {

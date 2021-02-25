@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -73,7 +73,7 @@ exports.authUserLogin = async (req, res) => {
       const token = jwt.sign({ username: username },
         jwtSecretKey,
         {
-          expiresIn: '1h' // expires in 2 hours
+          expiresIn: '7d' // expires in 7 day
         }
       );
       // return the JWT token for the future API calls

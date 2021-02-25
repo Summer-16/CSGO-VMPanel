@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -110,7 +110,7 @@ var settingsModal = {
   /**
  * Insert a new user
  */
-  updatesetting: function (key, value) {
+  updateSetting: function (key, value) {
     return new Promise(async (resolve, reject) => {
       try {
 

@@ -1,7 +1,7 @@
 <!-- 
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -118,7 +118,7 @@
                     <% if(serverList) {%>
                     <% for(let i=0; i < serverList.length; i++) { %>
                     <a class="dropdown-item" href="javascript:void(0)"
-                      onclick="getAdminTableListing('<%=serverList[i].tbl_name%>')"> <%=serverList[i].server_name%> </a>
+                      onclick="getAdminTableListing('<%=serverList[i].tbl_name%>','<%=serverList[i].server_name%>')"> <%=serverList[i].server_name%> </a>
                     <%}}%>
                   </div>
                 </div>

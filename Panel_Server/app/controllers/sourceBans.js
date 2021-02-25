@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER
+* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -60,7 +60,7 @@ exports.sourceBansAddBan = async (req, res) => {
       success: true,
       data: {
         "res": result,
-        "message": req.body.bantype == "serverBan" ? "Serevr Ban added Successfully" : "Comm Ban added Successfully",
+        "message": req.body.bantype == "serverBan" ? "Server Ban added Successfully" : "Comm Ban added Successfully",
         "notifType": "success"
       }
     });
@@ -77,7 +77,7 @@ const sourceBansAddBanFunc = (reqBody, username) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-      let userData = await userModel.getuserDataByUsername(username)
+      let userData = await userModel.getUserDataByUsername(username)
 
       if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
 
