@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -34,7 +34,8 @@ const valueArray = [["color_theme", "danger"],
 ["community_website", ""],
 ["platform_currency", "USD"],
 ["hiddenadmin_login", "0"],
-["salenotification_discord", "0"]]
+["salenotification_discord", "0"],
+["disable_about", "0"]]
 
 /**
  *   setting Model

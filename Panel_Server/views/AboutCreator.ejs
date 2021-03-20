@@ -1,7 +1,7 @@
 <!-- 
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -51,8 +51,10 @@
         </div>
       </div>
 
+      <%console.log("panelSetting.disable_about==>",panelSetting.disable_about)%>
+      <%if(!(panelSetting.disable_about/1)){%>
       <div class="col-md-6">
-        <h2 class="pb-5 text-center">About the Creator of VMPanel</h2>
+        <h2 class="pb-5 text-center">About the VMPanel</h2>
         <div class="col-md-12">
           <div class="card card-profile">
             <div class="card-avatar">
@@ -62,12 +64,10 @@
             </div>
             <div class="card-body">
               <h6 class="card-category"></h6>
-              <h4 class="card-title">Summer Soldier</h4>
+              <h4 class="card-title">VMPanel Created by Summer Soldier</h4>
               <p class="card-description">
-                Hi, Its Summer.
-                I am a Software Engineer and a Gamer.
-                I Created this Panel as a single solution for managing Admins and VIPs for CSGO Community.
-                Enjoy the panel and follow me for other cool CSGO Plugins and Stuffs.
+                This Panel as a single solution for managing Admins and VIPs for CSGO Community Servers.
+                Enjoy the panel and follow the author for other cool CSGO Plugins and Stuffs.
               </p>
               <a href="https://github.com/Summer-16" target="_blank" rel="noopener noreferrer"
                 class="btn btn-<%=panelSetting.color_theme%> btn-round">Follow</a>
@@ -75,6 +75,7 @@
           </div>
         </div>
       </div>
+      <%}%>
     </div>
   </div>
 </div>

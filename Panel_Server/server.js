@@ -1,6 +1,6 @@
 /*  VMP-by-Summer-Soldier
  *
- *  Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
+ *  Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
  *
  *  This file is part of VMP-by-Summer-Soldier
  *
@@ -28,8 +28,8 @@ const passport = require('passport');
 const SteamStrategy = require('passport-steam');
 const cors = require('cors');
 
-const requestMiddleware = require('./app/middlewares/request');
-const notFoundMiddleware = require('./app/middlewares/not_found');
+const requestMiddleware = require('./app/middleWares/request');
+const notFoundMiddleware = require('./app/middleWares/not_found');
 const vipModel = require("./app/models/vipModel.js");
 const settingsModal = require("./app/models/panelSettingModal.js");
 const dbBootstrap = require('./app/db/bootstrap');

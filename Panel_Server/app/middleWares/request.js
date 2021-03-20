@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -18,23 +18,21 @@
 */
 'use strict';
 
+const { getUUID } = require('../utils/crypto');
+
 /**
- * Not Found middleware
+ * Middleware to add unique request ID to each request object
+ * It can be retrieved by `req.uuid`
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next 
  */
-const notFound = (req, res, next) => {
-    if (req.method === 'GET') {
-        return res.status(404).render('404');
-    }
-    res.status(404).json({
-        id: req.uuid,
-        method: req.method,
-        message: `Route: '${req.originalUrl}' not found`
-    });
+const addRequestUUID = (req, res, next) => {
+    const requestUUID = getUUID();
+    req.uuid = requestUUID;
+    next();
 };
 
 module.exports = {
-    notFound
+    addRequestUUID
 };

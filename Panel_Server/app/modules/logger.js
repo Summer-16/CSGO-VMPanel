@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -42,11 +42,27 @@ log4js.configure({
                     }
                 }
             },
+        },
+        file: {
+            type: 'file',
+            filename: 'VMPanel.log',
+            maxLogSize: 10485760,
+            backups: 3,
+            compress: true,
+            layout: {
+                type: 'pattern',
+                pattern: '%[[%x{uuid}] [%d] [%p] <%c> {%f{2}:%l}%] => %m',
+                tokens: {
+                    uuid: function (logEvent) {
+                        return cryptoCustom.getUUID();
+                    }
+                }
+            },
         }
     },
     categories: {
         default: {
-            appenders: ['stdout'],
+            appenders: ['stdout','file'],
             level: loggerConfig.logLevel,
             enableCallStack: true
         }

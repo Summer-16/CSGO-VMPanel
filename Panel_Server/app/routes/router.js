@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -22,7 +22,7 @@
 module.exports = app => {
 
   // Middleware Import
-  const authMiddleware = require('../middlewares/auth');
+  const authMiddleware = require('../middleWares/auth');
   const passport = require('passport');
 
   // Controllers Import
