@@ -62,7 +62,7 @@ log4js.configure({
     },
     categories: {
         default: {
-            appenders: ['stdout','file'],
+            appenders: ['stdout', 'file'],
             level: loggerConfig.logLevel,
             enableCallStack: true
         }
