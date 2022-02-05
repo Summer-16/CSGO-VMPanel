@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -30,7 +30,7 @@ function addNewVIPajax() {
 
   if (document.getElementById('vip_flag_manual_entry').checked) {
     if ($('#vip_group').val())
-     flagString += ("@" + $('#vip_group').val())
+      flagString += ("@" + $('#vip_group').val())
   } else {
     $("input:checkbox[name=vip_flags]:checked").each(function () {
       flagString += $(this).val();
@@ -65,7 +65,7 @@ function addNewVIPajax() {
   flagString += '"';
 
   if (formError == "") {
-    fetch('/addvip', {
+    fetch('/addVip', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -122,7 +122,7 @@ function updateOldVIPajax() {
   }
 
   if (formError == "") {
-    fetch('/addvip', {
+    fetch('/addVip', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -168,7 +168,7 @@ function deleteVIPajax(tableName, primaryKey) {
       let loader = `<div class="loading">Loading&#8230;</div>`;
       $("#divForLoader").html(loader)
 
-      fetch('/deletevip', {
+      fetch('/deleteVip', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -212,7 +212,7 @@ function getVIPTableListing(value, name) {
     $("#hiddenServerTableName").val(value + ":" + name);
     $("#manageCardTitle").text("View and Manage VIP of " + (name ? name : value.toUpperCase()));
 
-    fetch('/getvipdatasingleserver', {
+    fetch('/getVipDataSingleServer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -264,7 +264,7 @@ function getVIPTableListingSearch() {
   }
 
   if (formError == "") {
-    fetch('/getvipdatasingleserver', {
+    fetch('/getVipDataSingleServer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

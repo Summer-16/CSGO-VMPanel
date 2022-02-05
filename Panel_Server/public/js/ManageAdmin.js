@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -30,7 +30,7 @@ function addNewAdminajax() {
 
   if (document.getElementById('admin_flag_manual_entry').checked) {
     if ($('#admin_group').val())
-     flagString += ("@" + $('#admin_group').val())
+      flagString += ("@" + $('#admin_group').val())
   } else {
     $("input:checkbox[name=admin_flags]:checked").each(function () {
       flagString += $(this).val();
@@ -46,7 +46,7 @@ function addNewAdminajax() {
     formError = "Steam Id can not be empty"
   } else if (!$('#name_add').val()) {
     formError = "Name can not be empty"
-  }else if (serverArray.length == 0) {
+  } else if (serverArray.length == 0) {
     formError = "Select atleast one server"
   }
 
@@ -63,7 +63,7 @@ function addNewAdminajax() {
   flagString += '"';
 
   if (formError == "") {
-    fetch('/addadmin', {
+    fetch('/addAdmin', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -75,7 +75,7 @@ function addNewAdminajax() {
         "flag": flagString,
         "server": serverArray,
         "submit": "insert",
-        "apiCall":true
+        "apiCall": true
       })
     })
       .then((res) => { return res.json(); })
@@ -110,7 +110,7 @@ function deleteAdminajax(tableName, primaryKey) {
       let loader = `<div class="loading">Loading&#8230;</div>`;
       $("#divForLoader").html(loader)
 
-      fetch('/deletevip', {
+      fetch('/deleteVip', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -122,7 +122,7 @@ function deleteAdminajax(tableName, primaryKey) {
           "apiCall": true
         })
       })
-        .then((res) => {return res.json(); })
+        .then((res) => { return res.json(); })
         .then((response) => {
           $("#divForLoader").html("")
           showNotif(response)
@@ -147,7 +147,7 @@ function deleteAdminajax(tableName, primaryKey) {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function getAdminTableListing(value,name) {
+function getAdminTableListing(value, name) {
 
   $("#dropdownMenuButton").text(name);
   $("#hiddenServerTableName").val(value + ":" + name);
@@ -155,7 +155,7 @@ function getAdminTableListing(value,name) {
 
   if (value) {
 
-    fetch('/getadmindatasingleserver', {
+    fetch('/getAdminDataSingleServer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -203,7 +203,7 @@ function getAdminTableListingSearch() {
   }
 
   if (formError == "") {
-    fetch('/getadmindatasingleserver', {
+    fetch('/getAdminDataSingleServer', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

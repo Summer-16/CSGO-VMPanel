@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -23,7 +23,7 @@ const vipModel = require("../models/vipModel.js");
 const userModel = require("../models/userModel.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 const { logThisActivity } = require("../utils/activityLogger.js");
-var rconStatus
+var rconStatus;
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -42,7 +42,7 @@ exports.deleteVipData = async (req, res) => {
       data: {
         "res": result,
         "message": "VIP deleted Successfully" + (rconStatus ? ", RCON Executed" : ", RCON Not Executed"),
-        "notifType": "success"
+        "notificationType": "success"
       }
     });
   } catch (error) {
@@ -98,7 +98,7 @@ exports.deleteOldVipData = async (req, res) => {
       data: {
         "res": result,
         "message": "Operation Successfully Executed",
-        "notifType": "success"
+        "notificationType": "success"
       }
     });
   } catch (error) {

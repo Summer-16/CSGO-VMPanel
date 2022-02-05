@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -22,7 +22,7 @@ const logger = require('../modules/logger')('Panel Server Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
-const table = config.serverTable
+const table = config.dbTables.serverTable
 
 /**
  *   server Model
@@ -132,8 +132,8 @@ var panelServerModal = {
       try {
 
         // validation
-        if (!dataObj.tablename) return reject("Table Name is not provided");
-        if (!dataObj.servername) return reject("Server Name is not provided");
+        if (!dataObj.tableName) return reject("Table Name is not provided");
+        if (!dataObj.serverName) return reject("Server Name is not provided");
 
         let query = db.queryFormat(`show tables`);
         let queryRes = await db.query(query);
@@ -148,7 +148,7 @@ var panelServerModal = {
           tablesArray.push(queryRes[i][temp[0]])
         }
 
-        if (tablesArray.includes(dataObj.tablename)) {
+        if (tablesArray.includes(dataObj.tableName)) {
           query = db.queryFormat(`INSERT INTO ${table} 
                                   (tbl_name, 
                                   server_name,
@@ -161,7 +161,11 @@ var panelServerModal = {
                                   vip_flag,
                                   vip_days,
                                   created_at) VALUES (?, ?, ?, ?, ? ,? ,?, ?, ?, ?, ?)`,
-            [dataObj.tablename, dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip / 1, dataObj.servervipprice / 1, dataObj.servervipcurrency, ('"' + dataObj.servervipflag + '"'), dataObj.servervipdays / 1, new Date()]);
+            [dataObj.tableName, dataObj.serverName,
+            dataObj.serverIp, dataObj.serverPort,
+            dataObj.serverRcon, dataObj.serverTotalVip / 1,
+            dataObj.serverVipPrice / 1, dataObj.serverVipCurrency,
+            ('"' + dataObj.serverVipFlag + '"'), dataObj.serverVipDays / 1, new Date()]);
           queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("Error in insertion");
@@ -186,10 +190,10 @@ var panelServerModal = {
       try {
 
         // validation
-        if (!dataObj.tablename) return reject("Table Name is not provided");
-        if (!dataObj.servername) return reject("Server Name is not provided");
+        if (!dataObj.tableName) return reject("Table Name is not provided");
+        if (!dataObj.serverName) return reject("Server Name is not provided");
 
-        let id = dataObj.tablename.split(":")[0], tableName = dataObj.tablename.split(":")[1]
+        let id = dataObj.tableName.split(":")[0], tableName = dataObj.tableName.split(":")[1]
 
         const query = db.queryFormat(`UPDATE ${table} SET 
                                       server_name = ?,
@@ -202,7 +206,7 @@ var panelServerModal = {
                                       vip_flag = ?,
                                       vip_days = ?
                                       WHERE id = ? AND tbl_name = ?`,
-          [dataObj.servername, dataObj.serverip, dataObj.serverport, dataObj.serverrcon, dataObj.servertotalvip, dataObj.servervipprice, dataObj.servervipcurrency, dataObj.servervipflag, dataObj.servervipdays, id, tableName]);
+          [dataObj.serverName, dataObj.serverIp, dataObj.serverPort, dataObj.serverRcon, dataObj.serverTotalVip, dataObj.serverVipPrice, dataObj.serverVipCurrency, dataObj.serverVipFlag, dataObj.serverVipDays, id, tableName]);
         const queryRes = await db.query(query);
         if (!queryRes) {
           return reject("error in update");
@@ -225,9 +229,9 @@ var panelServerModal = {
 
         // validation
         if (!dataObj.id) return reject("id is not provided");
-        if (!dataObj.tablename) return reject("Table Name is not provided");
+        if (!dataObj.tableName) return reject("Table Name is not provided");
 
-        let query = db.queryFormat(`DELETE FROM ${table} WHERE id = ? AND tbl_name = ?`, [dataObj.id, dataObj.tablename]);
+        let query = db.queryFormat(`DELETE FROM ${table} WHERE id = ? AND tbl_name = ?`, [dataObj.id, dataObj.tableName]);
         let queryRes = await db.query(query, true);
         if (!queryRes) {
           return reject("Error in delete");

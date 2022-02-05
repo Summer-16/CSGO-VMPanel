@@ -1,7 +1,7 @@
 <!-- 
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -65,7 +65,7 @@
             <div class="card-body">
               <div class="tab-content">
                 <div class="tab-pane active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
-                  <form class="col-md-12" method="post" action="/updatepanelsetting">
+                  <form class="col-md-12" method="post" action="/updatePanelSetting">
                     <div class="col-md-12 row">
                       <!-- Theme Setting -->
                       <div class="col-md-2">
@@ -133,12 +133,12 @@
                         </div>
                         <div class="col-md-10 row">
                           <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="normiadmin_settings" value="1"
+                            <input class="form-check-input" type="radio" name="admin_settings" value="1"
                               id="normi_admin_settings1">
                             <label class="form-check-label" for="normi_admin_settings1">Yes</label>
                           </div>
                           <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="normiadmin_settings" value="0"
+                            <input class="form-check-input" type="radio" name="admin_settings" value="0"
                               id="normi_admin_settings0">
                             <label class="form-check-label" for="normi_admin_settings0">No</label>
                           </div>
@@ -147,18 +147,18 @@
                         <!-- Admin login form setting -->
                         <div class="col-md-2">
                           <label class="">Hidden Form for Admin Login</label>
-                          <p><small>Hidden route is /adminlogin</small></p>
+                          <p><small>Hidden route is /adminLogin</small></p>
                         </div>
                         <div class="col-md-10 row">
                           <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="hiddenadmin_login" value="1"
-                              id="hiddenadmin_login1">
-                            <label class="form-check-label" for="hiddenadmin_login1">Yes</label>
+                            <input class="form-check-input" type="radio" name="hiddenAdmin_login" value="1"
+                              id="hiddenAdmin_login1">
+                            <label class="form-check-label" for="hiddenAdmin_login1">Yes</label>
                           </div>
                           <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="hiddenadmin_login" value="0"
-                              id="hiddenadmin_login0">
-                            <label class="form-check-label" for="hiddenadmin_login0">No</label>
+                            <input class="form-check-input" type="radio" name="hiddenAdmin_login" value="0"
+                              id="hiddenAdmin_login0">
+                            <label class="form-check-label" for="hiddenAdmin_login0">No</label>
                           </div>
                         </div>
                         <!-- Admin login form setting -->
@@ -168,14 +168,14 @@
                         </div>
                         <div class="col-md-10 row">
                           <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="salenotification_discord" value="1"
-                              id="salenotification_discord1">
-                            <label class="form-check-label" for="salenotification_discord1">Yes</label>
+                            <input class="form-check-input" type="radio" name="saleNotification_discord" value="1"
+                              id="saleNotification_discord1">
+                            <label class="form-check-label" for="saleNotification_discord1">Yes</label>
                           </div>
                           <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="salenotification_discord" value="0"
-                              id="salenotification_discord0">
-                            <label class="form-check-label" for="salenotification_discord0">No</label>
+                            <input class="form-check-input" type="radio" name="saleNotification_discord" value="0"
+                              id="saleNotification_discord0">
+                            <label class="form-check-label" for="saleNotification_discord0">No</label>
                           </div>
                         </div>
                         <!-- Sales Notif on Discord -->
@@ -287,34 +287,34 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server Name</label>
-                            <input type="text" name="servername" class="form-control" id="servername_add" required>
+                            <input type="text" name="serverName" class="form-control" id="serverName_add" required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
-                            <input type="text" name="servertablename" class="form-control" id="servertablename_add"
+                            <input type="text" name="servertableName" class="form-control" id="servertableName_add"
                               required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server IP</label>
-                            <input type="text" name="servertablename" class="form-control" id="servertableIP_add"
+                            <input type="text" name="servertableName" class="form-control" id="servertableIP_add"
                               required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server Port</label>
-                            <input type="text" name="servertablename" class="form-control" id="servertablePort_add"
+                            <input type="text" name="servertableName" class="form-control" id="servertablePort_add"
                               required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">RCON Password</label>
-                            <input type="password" name="servertablename" class="form-control" id="servertableRCON_add"
+                            <input type="password" name="servertableName" class="form-control" id="servertableRCON_add"
                               required>
                           </div>
                         </div>
@@ -382,7 +382,7 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server Name</label>
-                            <input type="text" name="servername" class="form-control" id="servername_update" required>
+                            <input type="text" name="serverName" class="form-control" id="serverName_update" required>
                           </div>
                         </div>
                         <div class="col-md-12">

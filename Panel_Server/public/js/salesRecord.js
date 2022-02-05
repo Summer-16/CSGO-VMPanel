@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -30,7 +30,7 @@ function getSalesReordListing(currentPage, recordPerPage) {
   let loader = `<div class="loading">Loading&#8230;</div>`;
   $("#divForLoader").html(loader)
 
-  fetch('/fetchsalesrecord', {
+  fetch('/fetchSalesRecord', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -57,7 +57,7 @@ function getSalesReordListing(currentPage, recordPerPage) {
         htmlString += `<tr>
                         <td>${dataArray[i].order_id ? dataArray[i].order_id : 'NA'}</td>
                         <td>${dataArray[i].payer_id ? dataArray[i].payer_id : 'NA'}</td>
-                        <td>${dataArray[i].payer_steamid ? dataArray[i].payer_steamid : 'NA'}</td>
+                        <td>${dataArray[i].payer_steamId ? dataArray[i].payer_steamId : 'NA'}</td>
                         <td>${dataArray[i].payer_name ? dataArray[i].payer_name + " " + dataArray[i].payer_surname : 'NA'}</td>
                         <td>${dataArray[i].payer_email ? dataArray[i].payer_email : 'NA'}</td>
                         <td>${dataArray[i].product_desc ? dataArray[i].product_desc : 'NA'}</td>

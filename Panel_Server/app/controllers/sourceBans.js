@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -19,13 +19,10 @@
 
 'use strict';
 const logger = require('../modules/logger')('Source Bans');
-
 const panelServerModal = require("../models/panelServerModal.js");
 const { executeRconInServer } = require("../utils/csgoServerRconExecuter")
 const { logThisActivity } = require("../utils/activityLogger.js");
 const userModel = require("../models/userModel.js");
-
-var rconStatus = []
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -50,18 +47,18 @@ exports.sourceBansAddBan = async (req, res) => {
     req.body.secKey = req.session.sec_key
     let result = await sourceBansAddBanFunc(req.body, req.session.username);
     logThisActivity({
-      "activity": req.body.bantype == "serverBan" ? "New Server Ban Added" : "New Comm Ban Added",
-      "additional_info": (req.body.bantype == "serverBan" ?
-        `${req.body.username} (${req.body.steamid}) banned for ${req.body.banlength} Minutes` :
-        `${req.body.username} (${req.body.steamid}) Comm Banned for ${req.body.banlength} Minutes`),
+      "activity": req.body.banType == "serverBan" ? "New Server Ban Added" : "New Comm Ban Added",
+      "additional_info": (req.body.banType == "serverBan" ?
+        `${req.body.username} (${req.body.steamId}) banned for ${req.body.banLength} Minutes` :
+        `${req.body.username} (${req.body.steamId}) Comm Banned for ${req.body.banLength} Minutes`),
       "created_by": req.session.username
     })
     res.json({
       success: true,
       data: {
         "res": result,
-        "message": req.body.bantype == "serverBan" ? "Server Ban added Successfully" : "Comm Ban added Successfully",
-        "notifType": "success"
+        "message": req.body.banType == "serverBan" ? "Server Ban added Successfully" : "Comm Ban added Successfully",
+        "notificationType": "success"
       }
     });
   } catch (error) {
@@ -83,27 +80,27 @@ const sourceBansAddBanFunc = (reqBody, username) => {
 
         logger.info("req body in  sourceBansAddBanFunc==> ", reqBody);
 
-        if (reqBody.bantype === "serverBan") {
-          if (reqBody.serverbantype == "steamid") {
-            const banCommand = `sm_addban ${reqBody.banlength} ${reqBody.steamid} [${reqBody.banreason}]`
-            await executeRconInServer(reqBody.banserver, banCommand)
+        if (reqBody.banType === "serverBan") {
+          if (reqBody.serverBanType == "steamId") {
+            const banCommand = `sm_addban ${reqBody.banLength} ${reqBody.steamId} [${reqBody.banReason}]`
+            await executeRconInServer(reqBody.banServer, banCommand)
             resolve("Ban Added")
           } else {
             return reject("Wrong ban type passed in API")
           }
-        } else if (reqBody.bantype === "commBan") {
+        } else if (reqBody.banType === "commBan") {
 
-          if (reqBody.commbantype == "chatonly") {
-            const banCommand = `sm_gag #${reqBody.steamid}|${reqBody.username} ${reqBody.banlength} [${reqBody.banreason}]`
-            await executeRconInServer(reqBody.banserver, banCommand)
+          if (reqBody.commBanType == "chatOnly") {
+            const banCommand = `sm_gag #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`
+            await executeRconInServer(reqBody.banServer, banCommand)
             resolve("Ban Added")
-          } else if (reqBody.commbantype == "voiceonly") {
-            const banCommand = `sm_mute #${reqBody.steamid}|${reqBody.username} ${reqBody.banlength} [${reqBody.banreason}]`
-            await executeRconInServer(reqBody.banserver, banCommand)
+          } else if (reqBody.commBanType == "voiceOnly") {
+            const banCommand = `sm_mute #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`
+            await executeRconInServer(reqBody.banServer, banCommand)
             resolve("Ban Added")
-          } else if (reqBody.commbantype == "chatandvoice") {
-            const banCommand = `sm_unsilence #${reqBody.steamid}|${reqBody.username} ${reqBody.banlength} [${reqBody.banreason}]`
-            await executeRconInServer(reqBody.banserver, banCommand)
+          } else if (reqBody.commBanType == "chatAndVoice") {
+            const banCommand = `sm_unsilence #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`
+            await executeRconInServer(reqBody.banServer, banCommand)
             resolve("Ban Added")
           } else {
             return reject("Wrong ban type passed in API")

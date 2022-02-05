@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -49,7 +49,7 @@ var vipDataModel = {
           if (!queryRes) {
             return reject("No Data Found");
           }
-          finalResult.push({ "servername": serverList[i].server_name, "type": "VIPs", "data": queryRes })
+          finalResult.push({ "serverName": serverList[i].server_name, "type": "VIPs", "data": queryRes })
 
           query = db.queryFormat(`SELECT authId,
                                          name,
@@ -61,7 +61,7 @@ var vipDataModel = {
           if (!queryRes) {
             return reject("No Data Found");
           }
-          finalResult.push({ "servername": serverList[i].server_name, "type": "ADMINs", "data": queryRes })
+          finalResult.push({ "serverName": serverList[i].server_name, "type": "ADMINs", "data": queryRes })
         }
         return resolve(finalResult);
       } catch (error) {
@@ -137,7 +137,7 @@ var vipDataModel = {
     return new Promise(async (resolve, reject) => {
       try {
         // validation
-        if (!dataObj.secKey) return reject("Unauth Access, Key Missing");
+        if (!dataObj.secKey) return reject("UnAuth Access, Key Missing");
         if (dataObj.server.length == 0) return reject("Operation Fail!, No Server was selected");
 
         for (let i = 0; i < dataObj.server.length; i++) {

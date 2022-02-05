@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -37,7 +37,7 @@ exports.initPayUPayment = async (req, res) => {
       data: {
         "res": result,
         "message": "PayU initiated",
-        "notifType": "success"
+        "notificationType": "success"
       }
     });
   } catch (error) {
@@ -49,7 +49,7 @@ exports.initPayUPayment = async (req, res) => {
   }
 }
 
-const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
+const initPayUPaymentFunc = (reqBody, reqUser) => {
   return new Promise(async (resolve, reject) => {
     try {
 
@@ -67,7 +67,7 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
       crypt.update(text);
       let payUHash = crypt.digest('hex');
 
-      let payuFormData = {
+      let payUFormData = {
         "key": payUConfig.merchantKey,
         "txnid": txnID,
         "hash": payUHash,
@@ -81,7 +81,7 @@ const initPayUPaymentFunc = (reqBody, reqUser, secKey) => {
         "furl": errorURL
       }
 
-      resolve(payuFormData)
+      resolve(payUFormData)
     } catch (error) {
       logger.error("error in initPayUPaymentFunc->", error);
       reject(error + ", Please try again")

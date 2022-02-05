@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -34,7 +34,7 @@ const checkToken = (req, res, next) => {
     const token = req.session.token || req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
     let jwtToken = token;
-    const isAdminRoute = req.route.path === "/adminlogin" || req.headers.referer.indexOf("/adminlogin") != -1;
+    const isAdminRoute = req.route.path === "/adminLogin" || req.headers.referer.indexOf("/adminLogin") != -1;
     if (token) {
         if (token.startsWith('Bearer ')) {
             // Remove Bearer from string
@@ -66,13 +66,14 @@ const checkToken = (req, res, next) => {
                 success: false,
                 data: { "error": "Token Missing, Looks like Session expired", "message": "Unauthorized Access, If you are an Admin try logging in" }
             });
-        }else{
-        return res.render('Login',
-            {
-                "steamLogin": (steamAPIKey ? true : false),
-                "adminRoute": isAdminRoute,
-                "error": "Unauthorized Access, If you are an Admin try logging in"
-            });}
+        } else {
+            return res.render('Login',
+                {
+                    "steamLogin": (steamAPIKey ? true : false),
+                    "adminRoute": isAdminRoute,
+                    "error": "Unauthorized Access, If you are an Admin try logging in"
+                });
+        }
     }
 };
 

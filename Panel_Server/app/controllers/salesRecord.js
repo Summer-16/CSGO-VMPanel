@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -55,7 +55,7 @@ exports.getSalesRecord = async (req, res) => {
         data: { "res": result, "message": "Sale Records Fetched" }
       });
     } else {
-      return reject("You don't have permissions to access records")
+      throw new Error("You don't have permissions to access records")
     }
   } catch (error) {
     logger.error("error in getSalesRecord->", error);

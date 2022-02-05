@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -29,7 +29,7 @@ function getPanelAuditLogs(currentPage, recordPerPage) {
   let loader = `<div class="loading">Loading&#8230;</div>`;
   $("#divForLoader").html(loader)
 
-  fetch('/fetchauditlogs', {
+  fetch('/fetchAuditLogs', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

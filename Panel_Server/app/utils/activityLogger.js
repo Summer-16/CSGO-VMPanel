@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -28,8 +28,8 @@ const logThisActivity = (activityObject) => {
   try {
 
     // validation
-    if (!activityObject.activity) return reject("Activity can't be null");
-    if (!activityObject.created_by) return reject("Created by can't be null");
+    if (!activityObject.activity) throw new Error("Activity can't be null");
+    if (!activityObject.created_by) throw new Error("Created by can't be null");
 
     auditModal.insertNewAuditRecord(activityObject)
   } catch (error) {

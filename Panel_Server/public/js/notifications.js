@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -29,7 +29,7 @@ function showNotif(response) {
       icon: "add_alert",
       message: response.data.message
     }, {
-      type: response.data.notifType,
+      type: response.data.notificationType,
       timer: showTime,
       placement: {
         from: "top",

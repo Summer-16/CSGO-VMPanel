@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -19,7 +19,6 @@
 
 'use strict';
 const logger = require('../modules/logger')('User Dashboard');
-
 const SteamIDConverter = require('../utils/steamIdConvertor')
 const myDashboardModel = require("../models/myDashboardModel.js");
 const salesModal = require("../models/salesModel.js");
@@ -54,7 +53,7 @@ const myDashboardFunc = (reqBody, reqUser) => {
       const steamId = SteamIDConverter.toSteamID(reqUser.id);
       const userData = {
         "steamId": steamId,
-        "displayname": reqUser.displayName,
+        "displayName": reqUser.displayName,
         "realName": reqUser._json.realname,
         "avatarUrl": reqUser.photos[2].value
       }
@@ -66,15 +65,15 @@ const myDashboardFunc = (reqBody, reqUser) => {
 
       const userServerArray = []
       // for (let j = 0; j < userDataListing.length; j++) {
-      //   userServerArray.push(userDataListing[j].servername)
+      //   userServerArray.push(userDataListing[j].serverName)
       // }
 
       for (let k = 0; k < userDataListing.length; k++) {
-        userServerArray.push(userDataListing[k].servername)
+        userServerArray.push(userDataListing[k].serverName)
 
         for (let l = 0; l < allServerList.length; l++) {
-          if (userDataListing[k].servername == allServerList[l].server_name) {
-            userDataListing[k].serverdata = allServerList[l]
+          if (userDataListing[k].serverName == allServerList[l].server_name) {
+            userDataListing[k].serverData = allServerList[l]
           }
         }
       }
@@ -83,7 +82,6 @@ const myDashboardFunc = (reqBody, reqUser) => {
       for (let i = 0; i < serverList.length; i++) {
         if (!userServerArray.includes(serverList[i].server_name)) {
           serverArray.push(serverList[i])
-
         }
       }
 
@@ -161,7 +159,7 @@ exports.afterPaymentProcess = async (req, res) => {
       data: {
         "res": result,
         "message": "All Operations Done Successfully, Refreshing page in 5 Seconds",
-        "notifType": "success"
+        "notificationType": "success"
       }
     });
   } catch (error) {
@@ -193,7 +191,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
         paymentInsertObj = {
           order_id: paymentData.id,
           payer_id: paymentData.payer.payer_id,
-          payer_steamid: steamId,
+          payer_steamId: steamId,
           payer_email: paymentData.payer.email_address,
           payer_name: paymentData.payer.name.given_name,
           payer_surname: paymentData.payer.name.surname,
@@ -217,7 +215,7 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
           paymentInsertObj = {
             order_id: paymentData.order_id,
             payer_id: paymentData.payer_id,
-            payer_steamid: steamId,
+            payer_steamId: steamId,
             payer_email: paymentData.payer_email,
             payer_name: paymentData.payer_name,
             payer_surname: paymentData.payer_surname,

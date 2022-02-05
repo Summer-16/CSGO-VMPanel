@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -37,7 +37,7 @@ log4js.configure({
                 type: 'pattern',
                 pattern: '%[[%x{uuid}] [%d] [%p] <%c> {%f{2}:%l}%] => %m',
                 tokens: {
-                    uuid: function (logEvent) {
+                    uuid: function () {
                         return cryptoCustom.getUUID();
                     }
                 }
@@ -53,7 +53,7 @@ log4js.configure({
                 type: 'pattern',
                 pattern: '%[[%x{uuid}] [%d] [%p] <%c> {%f{2}:%l}%] => %m',
                 tokens: {
-                    uuid: function (logEvent) {
+                    uuid: function () {
                         return cryptoCustom.getUUID();
                     }
                 }

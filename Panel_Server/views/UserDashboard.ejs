@@ -1,7 +1,7 @@
 <!-- 
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -18,296 +18,295 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */ -->
 
-<%
-function EpocToDate(utcSeconds) {
-  let d = new Date(0);
-  d.setUTCSeconds(utcSeconds)
-  let dd = d.getDate();
-  let mm = d.getMonth() + 1;
-  let yyyy = d.getFullYear();
-  return dd + '-' + mm + '-' + yyyy;
-}
+<% function EpocToDate(utcSeconds) { let d=new Date(0); d.setUTCSeconds(utcSeconds) let dd=d.getDate(); let
+  mm=d.getMonth() + 1; let yyyy=d.getFullYear(); return dd + '-' + mm + '-' + yyyy; } function dateFormatter(date) { let
+  d=new Date(date); let dd=d.getDate(); let mm=d.getMonth() + 1; let yyyy=d.getFullYear(); return dd + '-' + mm + '-' +
+  yyyy; } function remainingDays(endEpoc){ const date1=new Date(); const date2=new Date(0); date2.setUTCSeconds(endEpoc)
+  const diffTime=Math.abs(date2 - date1); const diffDays=Math.ceil(diffTime / (1000 * 60 * 60 * 24)); return diffDays }
+  %>
 
-function dateFormatter(date) {
-  let d = new Date(date);
-  let dd = d.getDate();
-  let mm = d.getMonth() + 1;
-  let yyyy = d.getFullYear();
-  return dd + '-' + mm + '-' + yyyy;
-}
+  <!-- crypto script needed for payu (sometimes it gives error loading this script from sdk so adding it manually) -->
 
-function remainingDays(endEpoc){
-  const date1 = new Date();
-  const date2 = new Date(0);
-  date2.setUTCSeconds(endEpoc)
-  const diffTime = Math.abs(date2 - date1);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-  return diffDays
-}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
-%>
+  <!-- Paypal SDK Settings start -->
+  <script>
+    var paypalActive = <%=paypalActive%>;
+  </script>
+  <%if(paypalActive){%>
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=<%=paypalClientID%>&disable-funding=card&currency=<%=panelSetting.platform_currency%>"></script>
+    <%}%>
+      <script src="./js/paypalPayment.js"></script>
+      <!-- Paypal SDK Settings end -->
 
-<!-- crypto script needed for payu (sometimes it gives error loading this script from sdk so adding it manually) -->
+      <!-- PayU SDK Settings start -->
+      <script>
+        var payuActive = <%=payuActive%>;
+      </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+      <%if(payuActive && panelSetting.platform_currency==="INR" ){%>
+        <%if(payuEnv=='test'){%>
+          <!-- BOLT Sandbox/test //-->
+          <script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="913f9e"
+            bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
+          <%}else if(payuEnv=='live' )%>
+            <!-- BOLT Sandbox/test //-->
+            <script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="288c6c"
+              bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
+            <%}%>
+              <!-- PayU SDK Settings end -->
 
-<!-- Paypal SDK Settings start -->
-<script>
-  var paypalActive = <%=paypalActive%>;
-</script>
-<%if(paypalActive){%>
-<script
-  src="https://www.paypal.com/sdk/js?client-id=<%=paypalClientID%>&disable-funding=card&currency=<%=panelSetting.platform_currency%>"></script>
-<%}%>
-<script src="./js/paypalPayment.js"></script>
-<!-- Paypal SDK Settings end -->
+              <%- include('Header.ejs') %>
 
-<!-- PayU SDK Settings start -->
-<script>
-  var payuActive = <%=payuActive%>;
-</script>
-
-<%if(payuActive && panelSetting.platform_currency==="INR"){%>
-<%if(payuEnv=='test'){%>
-<!-- BOLT Sandbox/test //-->
-<script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="913f9e"
-  bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
-<%}else if(payuEnv=='live')%>
-<!-- BOLT Sandbox/test //-->
-<script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="288c6c"
-  bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
-<%}%>
-<!-- PayU SDK Settings end -->
-
-<%- include('Header.ejs') %>
-
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <!-- server and bundle card start -->
-      <div class="card">
-        <div class="card-header card-header-<%=panelSetting.color_theme%>">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="serverVip-tab" data-toggle="tab" href="#serverVip" role="tab"
-                aria-controls="serverVip" aria-selected="true"><i class="material-icons">settings</i> Servers with VIP
-                Slots available to buy</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="serverBundles-tab" data-toggle="tab" href="#serverBundles" role="tab"
-                aria-controls="serverBundles" aria-selected="false"><i class="material-icons">build</i>
-                Available Offers/Bundles to buy</a>
-            </li>
-          </ul>
-        </div>
-        <div class="card-body">
-          <div class="tab-content">
-            <div class="tab-pane active" id="serverVip" role="tabpanel" aria-labelledby="serverVip-tab">
-              <div class="col-md-12 row" style="height:330px;overflow:auto;" id="style-4">
-                <%if(serverArray){%>
-                <% for(let i=0; i < serverArray.length;i++){%>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                  <div class="card card-stats">
-                    <div class="card-header card-header-<%= (i==0||i%2==0)?'warning':'success' %> card-header-icon">
-                      <div class="card-icon">
-                        <i class="material-icons">shopping_cart</i>
-                      </div>
-                      <p class="card-category">Buy VIP For
-                        <%=serverArray[i].server_name?serverArray[i].server_name:"NA"%></p>
-                      <h3 class="card-title">
-                        <%=serverArray[i].vip_price? serverArray[i].vip_price+" "+serverArray[i].vip_currency+" for "+serverArray[i].vip_days+" days"  :"NA"%>
-                      </h3>
-                      <%if(serverArray[i].server_ip && serverArray[i].server_port){%>
-                      <a href="<%='steam://connect/'+serverArray[i].server_ip+':'+serverArray[i].server_port%>"
-                        class="card-title text-success">Wanna Test the Server! <i
-                          class="material-icons">settings_input_composite</i></a>
-                      <%}%>
-                    </div>
-                    <div class="card-footer text-primary text-center">
-                    <img src
-                      onerror="setPayPalButton('<%= serverArray[i].tbl_name ? serverArray[i].tbl_name +`buy`: `buy`+i %>',<%= JSON.stringify(serverArray[i]) %>,'newPurchase')"
-                      alt />
-                      <div id="<%=serverArray[i].tbl_name ? serverArray[i].tbl_name+'buy' : 'buy'+i %>"
-                        class="col-md-12 text-center">
-                      </div>
-                    </div>
-                    <%if(payuActive && panelSetting.platform_currency==="INR"){%>
-                    <div class="card-footer text-primary text-center">
-                      <div id="" class="col-md-12 text-center">
-                        <button type="button" class="btn btn-success text-center col-md-12 m-0"
-                          onclick="initPayUpayment(<%= JSON.stringify(serverArray[i]) %>,'newPurchase')">
-                          <img src="./images/payumoney.png" height='20' alt="payu">
-                        </button>
-                      </div>
-                    </div>
-                    <%}%>
-                          </div>
+                <div class="content">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <!-- server and bundle card start -->
+                      <div class="card">
+                        <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                          <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="serverVip-tab" data-toggle="tab" href="#serverVip"
+                                role="tab" aria-controls="serverVip" aria-selected="true"><i
+                                  class="material-icons">settings</i> Servers with VIP
+                                Slots available to buy</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="serverBundles-tab" data-toggle="tab" href="#serverBundles"
+                                role="tab" aria-controls="serverBundles" aria-selected="false"><i
+                                  class="material-icons">build</i>
+                                Available Offers/Bundles to buy</a>
+                            </li>
+                          </ul>
                         </div>
-                        <%}}%>
-                  </div>
-                </div>
-                <div class="tab-pane " id="serverBundles" role="tabpanel" aria-labelledby="serverBundles-tab">
-                  <div class="col-md-12">
-                    <div class="col-md-12 row" id="userDashoardServerBundleListing"
-                      style="max-height:450px;overflow: auto;" id="style-4">
-                      <%if(bundleArray){%>
-                      <% for(let i=0; i < bundleArray.length;i++){%>
-                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                        <div class="card card-stats">
-                          <div
-                            class="card-header card-header-<%= (i==0||i%2==0)?'warning':'success' %> card-header-icon"
-                            style="min-height:250px;">
-                            <div class="card-icon">
-                              <i class="material-icons">shopping_cart</i>
+                        <div class="card-body">
+                          <div class="tab-content">
+                            <div class="tab-pane active" id="serverVip" role="tabpanel" aria-labelledby="serverVip-tab">
+                              <div class="col-md-12 row" style="height:330px;overflow:auto;" id="style-4">
+                                <%if(serverArray){%>
+                                  <% for(let i=0; i < serverArray.length;i++){%>
+                                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                                      <div class="card card-stats">
+                                        <div
+                                          class="card-header card-header-<%= (i==0||i%2==0)?'warning':'success' %> card-header-icon">
+                                          <div class="card-icon">
+                                            <i class="material-icons">shopping_cart</i>
+                                          </div>
+                                          <p class="card-category">Buy VIP For
+                                            <%=serverArray[i].server_name?serverArray[i].server_name:"NA"%>
+                                          </p>
+                                          <h3 class="card-title">
+                                            <%=serverArray[i].vip_price?
+                                              serverArray[i].vip_price+" "+serverArray[i].vip_currency+"
+                                              for "+serverArray[i].vip_days+" days" :"NA"%>
+                                          </h3>
+                                          <%if(serverArray[i].server_ip && serverArray[i].server_port){%>
+                                            <a href="<%='steam://connect/'+serverArray[i].server_ip+':'+serverArray[i].server_port%>"
+                                              class="card-title text-success">Wanna Test the Server! <i
+                                                class="material-icons">settings_input_composite</i></a>
+                                            <%}%>
+                                        </div>
+                                        <div class="card-footer text-primary text-center">
+                                          <img src
+                                            onerror="setPayPalButton('<%= serverArray[i].tbl_name ? serverArray[i].tbl_name +`buy`: `buy`+i %>',<%= JSON.stringify(serverArray[i]) %>,'newPurchase')"
+                                            alt />
+                                          <div
+                                            id="<%=serverArray[i].tbl_name ? serverArray[i].tbl_name+'buy' : 'buy'+i %>"
+                                            class="col-md-12 text-center">
+                                          </div>
+                                        </div>
+                                        <%if(payuActive && panelSetting.platform_currency==="INR" ){%>
+                                          <div class="card-footer text-primary text-center">
+                                            <div id="" class="col-md-12 text-center">
+                                              <button type="button" class="btn btn-success text-center col-md-12 m-0"
+                                                onclick="initPayUpayment(<%= JSON.stringify(serverArray[i]) %>,'newPurchase')">
+                                                <img src="./images/payumoney.png" height='20' alt="payu">
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <%}%>
+                                      </div>
+                                    </div>
+                                    <%}}%>
+                              </div>
                             </div>
-                            <p class="card-category">Buy
-                              <%=bundleArray[i].bundle_name?bundleArray[i].bundle_name:"NA"%></p>
-                            <h3 class="card-title">
-                              <%=bundleArray[i].bundle_price? bundleArray[i].bundle_price+" "+bundleArray[i].bundle_currency+" for "+bundleArray[i].bundle_sub_days+" days"  :"NA"%>
-                            </h3>
-                            <div class="text-center mt-3" style="max-height:250px;overflow: auto;">
-                              <h4>Bundle Includes Following Servers</h4>
-                              <%if(bundleArray[i].bundleServersData){%>
-                              <% for(let j=0; j < bundleArray[i].bundleServersData.length;j++){%>
-                              <a href="<%='steam://connect/'+bundleArray[i].bundleServersData[j].server_ip+':'+bundleArray[i].bundleServersData[j].server_port%>"
-                                class="card-title text-success"><%= bundleArray[i].bundleServersData[j].server_name+" ("+bundleArray[i].bundleServersData[j].server_ip+":"+bundleArray[i].bundleServersData[j].server_port+") " %></a>
+                            <div class="tab-pane " id="serverBundles" role="tabpanel"
+                              aria-labelledby="serverBundles-tab">
+                              <div class="col-md-12">
+                                <div class="col-md-12 row" id="userDashoardServerBundleListing"
+                                  style="max-height:450px;overflow: auto;" id="style-4">
+                                  <%if(bundleArray){%>
+                                    <% for(let i=0; i < bundleArray.length;i++){%>
+                                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                        <div class="card card-stats">
+                                          <div
+                                            class="card-header card-header-<%= (i==0||i%2==0)?'warning':'success' %> card-header-icon"
+                                            style="min-height:250px;">
+                                            <div class="card-icon">
+                                              <i class="material-icons">shopping_cart</i>
+                                            </div>
+                                            <p class="card-category">Buy
+                                              <%=bundleArray[i].bundle_name?bundleArray[i].bundle_name:"NA"%>
+                                            </p>
+                                            <h3 class="card-title">
+                                              <%=bundleArray[i].bundle_price?
+                                                bundleArray[i].bundle_price+" "+bundleArray[i].bundle_currency+"
+                                                for "+bundleArray[i].bundle_sub_days+" days" :"NA"%>
+                                            </h3>
+                                            <div class="text-center mt-3" style="max-height:250px;overflow: auto;">
+                                              <h4>Bundle Includes Following Servers</h4>
+                                              <%if(bundleArray[i].bundleServersData){%>
+                                                <% for(let j=0; j < bundleArray[i].bundleServersData.length;j++){%>
+                                                  <a href="<%='steam://connect/'+bundleArray[i].bundleServersData[j].server_ip+':'+bundleArray[i].bundleServersData[j].server_port%>"
+                                                    class="card-title text-success">
+                                                    <%= bundleArray[i].bundleServersData[j].server_name+"
+                                                      ("+bundleArray[i].bundleServersData[j].server_ip+":"+bundleArray[i].bundleServersData[j].server_port+") " %></a>
                               <br>
                               <%}}%>
                             </div>
                           </div>
-                          <div class="card-footer text-primary text-center">
-                            <img src
-                              onerror="setPayPalButton('<%= bundleArray[i].bundle_name ? bundleArray[i].bundle_name.split(` `).join(``) +`buy`: `buy`+i %>',<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchaseBundle')"
-                              alt />
-                            <div
-                              id="<%=bundleArray[i].bundle_name ? bundleArray[i].bundle_name.split(` `).join(``)+'buy' : 'buy'+i %>"
-                              class="col-md-12 text-center">
+                          <div class=" card-footer text-primary text-center">
+                                                      <img src
+                                                        onerror="setPayPalButton('<%= bundleArray[i].bundle_name ? bundleArray[i].bundle_name.split(` `).join(``) +`buy`: `buy`+i %>',<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchaseBundle')"
+                                                        alt />
+                                                      <div
+                                                        id="<%=bundleArray[i].bundle_name ? bundleArray[i].bundle_name.split(` `).join(``)+'buy' : 'buy'+i %>"
+                                                        class="col-md-12 text-center">
+                                                      </div>
+                                            </div>
+                                            <%if(payuActive && panelSetting.platform_currency==="INR" ){%>
+                                              <div class="card-footer text-primary text-center">
+                                                <div id="" class="col-md-12 text-center">
+                                                  <button type="button"
+                                                    class="btn btn-success text-center col-md-12 m-0"
+                                                    onclick="initPayUpayment(<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchaseBundle')">
+                                                    <img src="./images/payumoney.png" height='20' alt="payu">
+                                                  </button>
+                                                </div>
+                                              </div>
+                                              <%}%>
+                                          </div>
+                                        </div>
+                                        <%}}%>
+
+                                      </div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <%if(payuActive && panelSetting.platform_currency==="INR"){%>
-                          <div class="card-footer text-primary text-center">
-                            <div id="" class="col-md-12 text-center">
-                              <button type="button" class="btn btn-success text-center col-md-12 m-0"
-                                onclick="initPayUpayment(<%= JSON.stringify(bundleArray[i].serverDataObj) %>,'newPurchaseBundle')">
-                                <img src="./images/payumoney.png" height='20' alt="payu">
+                            <div class="col-md-12 text-center" id="arrowButtonDiv">
+                              <button type="button"
+                                class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
+                                onclick="changeDivHeight()">
+                                <i class="material-icons" id="iconForArrow">keyboard_arrow_down</i>
                               </button>
                             </div>
                           </div>
-                          <%}%>
+                        </div>
+                        <!-- server and bundle card end -->
+
+                        <!-- user detail card start -->
+                        <div class="col-md-12">
+                          <div class="card">
+                            <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                              <div class="col-md-12 row">
+                                <div class="col-md-11">
+                                  <h4 class="card-title ">
+                                    <%=((sessionSteamId&&steamName)?steamName:'')+"'s - VIP/Admin Status
+                                      for "+panelSetting.community_name+" Servers"%>
+                                  </h4>
+                                  <p class="card-category">You have Vip/Admin roles in <%=userDataListing.length%>
+                                      Servers
+                                  </p>
+                                </div>
+                                <div class="col-md-1">
+                                  <img src='<%= userData? userData.avatarUrl:"" %>' class="pull-right" height="60px"
+                                    alt='Your Avatar Image' style="border-radius: 5%;" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-body scroller" style="max-height:400px;overflow: auto;" id="style-4">
+                              <div class="table-responsive">
+                                <table class="table">
+                                  <thead class=" text-primary">
+                                    <th>Server Name</th>
+                                    <th>My Steam Id</th>
+                                    <th>My Role</th>
+                                    <th>Sub. Start Date</th>
+                                    <th>Sub. End Date</th>
+                                    <th>Days Left</th>
+                                    <th>Renew VIP</th>
+                                  </thead>
+                                  <tbody>
+                                    <% if(userDataListing) {%>
+                                      <% for(let j=0; j < userDataListing.length; j++) { %>
+                                        <tr>
+                                          <td>
+                                            <%=userDataListing[j].serverName?userDataListing[j].serverName:"NA"%>
+                                          </td>
+                                          <td>
+                                            <%=userDataListing[j].data?((userDataListing[j].data.authId).replace('"','').replace('"','')):"NA"%>
+                                          </td>
+                                          <td>
+                                            <%=(userDataListing[j].data&&userDataListing[j].data.type===0)?"VIP":(userDataListing[j].data&&userDataListing[j].data.type===1)?"ADMIN":"NA"%>
+                                          </td>
+                                          <td class="text-info">
+                                            <%=(userDataListing[j].data&&userDataListing[j].data.created_at)?dateFormatter(userDataListing[j].data.created_at):"NA"%>
+                                          </td>
+                                          <td class="text-danger">
+                                            <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?EpocToDate(userDataListing[j].data.expireStamp):"NA"%>
+                                          </td>
+                                          <td
+                                            class="text-<%= ((remainingDays(userDataListing[j].data.expireStamp)/1)<10)?'warning':((remainingDays(userDataListing[j].data.expireStamp)/1)<5)?'danger':'primary' %>">
+                                            <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?remainingDays(userDataListing[j].data.expireStamp):"NA"%>
+                                          </td>
+                                          <td>
+                                            <% if(userDataListing[j].data && userDataListing[j].data.type==0 &&
+                                              userDataListing[j].serverData){ %>
+                                              <div class="col-md-12 row">
+                                                <!-- class="col-md-6 ml-0 pl-0" -->
+                                                <img src
+                                                  onerror="setPayPalButton('<%= (userDataListing[j].serverData && userDataListing[j].serverData.tbl_name) ? userDataListing[j].serverData.tbl_name + `renew`: `renew`+j %>', <%= JSON.stringify(userDataListing[j].serverData) %>,'renewPurchase')"
+                                                  alt />
+                                                <%if(payuActive && panelSetting.platform_currency==="INR" ){%>
+                                                  <div
+                                                    class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
+                                                    <button type="button"
+                                                      class="btn btn-success text-center col-md-12 m-0"
+                                                      onclick="initPayUpayment(<%= JSON.stringify(userDataListing[j].serverData) %>,'renewPurchase')">
+                                                      <img
+                                                        src="<%= (payuActive&&paypalActive) ? './images/payumini.png' : './images/payumoney.png' %>"
+                                                        height='11' alt="payu" class="pt-0 pb-0">
+                                                    </button>
+                                                  </div>
+                                                  <%}%>
+                                                    <div
+                                                      id="<%=(userDataListing[j].serverData && userDataListing[j].serverData.tbl_name) ? userDataListing[j].serverData.tbl_name+'renew' : 'renew'+j %>"
+                                                      class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
+                                                    </div>
+                                              </div>
+                                              <%}else{%>
+                                                <div class="text-center">
+                                                  <button class="text-warning btn" disabled>Something Wrong</button>
+                                                </div>
+                                                <%}%>
+                                          </td>
+                                        </tr>
+                                        <%}}%>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <%}}%>
-
-                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12 text-center" id="arrowButtonDiv">
-                    <button type="button"
-                      class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
-                      onclick="changeDivHeight()">
-                      <i class="material-icons" id="iconForArrow">keyboard_arrow_down</i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <!-- server and bundle card end -->
-
-              <!-- user detail card start -->
-              <div class="col-md-12">
-                <div class="card">
-                  <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                    <div class="col-md-12 row">
-                      <div class="col-md-11">
-                        <h4 class="card-title ">
-                          <%=((sessionSteamId&&steamName)?steamName:'')+"'s - VIP/Admin Status for "+panelSetting.community_name+" Servers"%>
-                        </h4>
-                        <p class="card-category">You have Vip/Admin roles in <%=userDataListing.length%> Servers
-                        </p>
-                      </div>
-                      <div class="col-md-1">
-                        <img src='<%= userData? userData.avatarUrl:"" %>' class="pull-right" height="60px"
-                          alt='Your Avatar Image' style="border-radius: 5%;" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-body scroller" style="max-height:400px;overflow: auto;" id="style-4">
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead class=" text-primary">
-                          <th>Server Name</th>
-                          <th>My Steam Id</th>
-                          <th>My Role</th>
-                          <th>Sub. Start Date</th>
-                          <th>Sub. End Date</th>
-                          <th>Days Left</th>
-                          <th>Renew VIP</th>
-                        </thead>
-                        <tbody>
-                          <% if(userDataListing) {%>
-                          <% for(let j=0; j < userDataListing.length; j++) { %>
-                          <tr>
-                            <td><%=userDataListing[j].servername?userDataListing[j].servername:"NA"%></td>
-                            <td>
-                              <%=userDataListing[j].data?((userDataListing[j].data.authId).replace('"','').replace('"','')):"NA"%>
-                            </td>
-                            <td>
-                              <%=(userDataListing[j].data&&userDataListing[j].data.type===0)?"VIP":(userDataListing[j].data&&userDataListing[j].data.type===1)?"ADMIN":"NA"%>
-                            </td>
-                            <td class="text-info">
-                              <%=(userDataListing[j].data&&userDataListing[j].data.created_at)?dateFormatter(userDataListing[j].data.created_at):"NA"%>
-                            </td>
-                            <td class="text-danger">
-                              <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?EpocToDate(userDataListing[j].data.expireStamp):"NA"%>
-                            </td>
-                            <td
-                              class="text-<%= ((remainingDays(userDataListing[j].data.expireStamp)/1)<10)?'warning':((remainingDays(userDataListing[j].data.expireStamp)/1)<5)?'danger':'primary' %>">
-                              <%=(userDataListing[j].data&&userDataListing[j].data.expireStamp)?remainingDays(userDataListing[j].data.expireStamp):"NA"%>
-                            </td>
-                            <td>
-                              <% if(userDataListing[j].data && userDataListing[j].data.type==0 && userDataListing[j].serverdata){ %>
-                              <div class="col-md-12 row">
-                                <!-- class="col-md-6 ml-0 pl-0" -->
-                                <img src
-                                  onerror="setPayPalButton('<%= (userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name + `renew`: `renew`+j %>', <%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')"
-                                  alt />
-                                <%if(payuActive && panelSetting.platform_currency==="INR"){%>
-                                <div class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
-                                  <button type="button" class="btn btn-success text-center col-md-12 m-0"
-                                    onclick="initPayUpayment(<%= JSON.stringify(userDataListing[j].serverdata) %>,'renewPurchase')">
-                                    <img
-                                      src="<%= (payuActive&&paypalActive) ? './images/payumini.png' : './images/payumoney.png' %>"
-                                      height='11' alt="payu" class="pt-0 pb-0">
-                                  </button>
-                                </div>
-                                <%}%>
-                            <div
-                              id="<%=(userDataListing[j].serverdata && userDataListing[j].serverdata.tbl_name) ? userDataListing[j].serverdata.tbl_name+'renew' : 'renew'+j %>"
-                                class="<%= (payuActive&&paypalActive) ? 'col-md-6' : 'col-md-12' %>">
-                              </div>
-                    </div>
-                    <%}else{%>
-                    <div class="text-center">
-                      <button class="text-warning btn" disabled>Something Wrong</button>
-                    </div>
-                    <%}%>
-                            </td>
-                          </tr>
-                          <%}}%>
-                    </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
-      <%- include('Footer.ejs') %>
+                  <%- include('Footer.ejs') %>
 
-      <script src="./js/notifications.js"></script>
-      <script src="./js/myDashboard.js"></script>
-      <script src="./js/customConfirm.js"></script>
-      <script src="./js/payU.js"></script>
+                    <script src="./js/notifications.js"></script>
+                    <script src="./js/myDashboard.js"></script>
+                    <script src="./js/customConfirm.js"></script>
+                    <script src="./js/payU.js"></script>

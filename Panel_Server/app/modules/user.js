@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -21,7 +21,7 @@
 
 const { dbPool } = require('../db/db_bridge');
 const config = require('../config');
-const usersTableName = config.usersTable
+const usersTableName = config.dbTables.usersTable;
 
 class User {
   constructor({
@@ -43,13 +43,9 @@ class User {
   async userInfo() {
     let userList = [];
     if (this._id) {
-      [userList] = await dbPool.execute(`
-        SELECT * FROM ${usersTableName}
-        WHERE id = ?`, [this._id]);
+      [userList] = await dbPool.execute(`SELECT * FROM ${usersTableName} WHERE id = ?`, [this._id]);
     } else if (this._username) {
-      [userList] = await dbPool.execute(`
-        SELECT * FROM ${usersTableName}
-        WHERE username = ?`, [this._username]);
+      [userList] = await dbPool.execute(`SELECT * FROM ${usersTableName} WHERE username = ?`, [this._username]);
     } else {
       throw {
         type: "actor",

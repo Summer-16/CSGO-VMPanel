@@ -1,7 +1,7 @@
 <!-- 
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -18,206 +18,178 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */ -->
 
-<%
-function getPageHeading(route){
-  let heading=""
-switch (route) {
-  case "/dashboard":
-    heading = "Dashboard - "+panelSetting.community_name;
-    break;
-  case "/mydashboard":
-    heading = "My Dashboard - "+panelSetting.community_name;
-    break;
-  case "/managevip":
-    heading = "Manage Server VIPs (Add , Update or Delete) - "+panelSetting.community_name;
-    break;
-  case "/manageadmin":
-    heading = "Manage Server Admins (Add or Delete) - "+panelSetting.community_name;
-    break;
-  case "/panelsetting":
-    heading = "Setup/Settings for the VMPanel - "+panelSetting.community_name;
-    break;
-  case "/salesrecord":
-    heading = "VIP Sales Records";
-    break;
-  case "/auditlogs":
-    heading = "VMPanel - Audit Logs";
-    break;
-  case "/sourcebans":
-    heading = "VMPanel SourceBans Integration";
-    break;
-  case "/aboutcreator":
-    heading = "About";
-    break;
-  case "/login":
-    heading = "Login - "+panelSetting.community_name;
-    break;
-  default:
-    heading = "VMPanel - "+panelSetting.community_name;
-}
-return heading
-}
-%>
+<% function getPageHeading(route){ let heading="" switch (route) { case "/dashboard" : heading="Dashboard - "
+  +panelSetting.community_name; break; case "/myDashboard" : heading="My Dashboard - " +panelSetting.community_name;
+  break; case "/manageVip" : heading="Manage Server VIPs (Add , Update or Delete) - " +panelSetting.community_name;
+  break; case "/manageAdmin" : heading="Manage Server Admins (Add or Delete) - " +panelSetting.community_name; break;
+  case "/panelSetting" : heading="Setup/Settings for the VMPanel - " +panelSetting.community_name; break;
+  case "/salesRecord" : heading="VIP Sales Records" ; break; case "/auditLogs" : heading="VMPanel - Audit Logs" ; break;
+  case "/sourceBans" : heading="VMPanel SourceBans Integration" ; break; case "/aboutCreator" : heading="About" ; break;
+  case "/login" : heading="Login - " +panelSetting.community_name; break; default: heading="VMPanel - "
+  +panelSetting.community_name; } return heading } %>
 
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
-  <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="./images/icon.png">
-  <link rel="icon" type="image/png" href="./images/favicon.ico">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>VMP-SS</title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-    name='viewport' />
-  <link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <link href="./css/material-dashboard.css" rel="stylesheet" />
+  <head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="./images/icon.png">
+    <link rel="icon" type="image/png" href="./images/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>VMP-SS</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+      name='viewport' />
+    <link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link href="./css/material-dashboard.css" rel="stylesheet" />
 
-  <script src="./js/theme/jquery.min.js"></script>
-  <script src="./js/theme/popper.min.js"></script>
-  <script src="./js/theme/bootstrap-material-design.min.js"></script>
-  <script src="./js/theme/bootstrap-notify.js"></script>
-  <script src="./js/theme/perfect-scrollbar.jquery.min.js"></script>
-  <script src="./js/theme/material-dashboard.js"></script>
+    <script src="./js/theme/jquery.min.js"></script>
+    <script src="./js/theme/popper.min.js"></script>
+    <script src="./js/theme/bootstrap-material-design.min.js"></script>
+    <script src="./js/theme/bootstrap-notify.js"></script>
+    <script src="./js/theme/perfect-scrollbar.jquery.min.js"></script>
+    <script src="./js/theme/material-dashboard.js"></script>
 
-</head>
+  </head>
 
-<body class="dark-edition">
-  <div class="wrapper ">
-    <div class="sidebar"
-      data-color="<%=panelSetting.color_theme=='primary'?'purple':panelSetting.color_theme=='danger'?'danger':panelSetting.color_theme=='success'?'green':panelSetting.color_theme=='warning'?'orange':panelSetting.color_theme=='info'?'azure':''%>"
-      data-background-color="black"
-      data-image="<%= (currentURL=='/panelsetting'?'./images/sidebar-2.jpg':currentURL=='/aboutcreator'?'./images/sidebar-3.jpg':'./images/sidebar-1.jpg') %>">
-      <div class="logo">
-        <a href="/" class="simple-text logo-normal">
-          <span>
-            <img class="img" height="50px" src="./images/icon.png" alt="Logo" id="icon_logo_id">
-          </span>
-          <span id="text_logo_id">
-            VMPanel
-          </span>
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li class="nav-item <%= (currentURL=='/dashboard' || currentURL=='/' ?'active':'') %>">
-            <a class="nav-link" href="/dashboard">
-              <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <%if(sessionSteamId){%>
-          <li class="nav-item <%= (currentURL=='/mydashboard' || currentURL=='/' ?'active':'') %>">
-            <a class="nav-link" href="/mydashboard">
-              <i class="material-icons">account_box</i>
-              <p>My Dashboard</p>
-            </a>
-          </li>
-          <%}%>
-          <%if(sessionToken){%>
-          <li class="nav-item <%= (currentURL=='/managevip'?'active':'') %>">
-            <a class="nav-link" href="/managevip">
-              <i class="material-icons">people</i>
-              <p>Manage VIP</p>
-            </a>
-          </li>
-          <li class="nav-item <%= (currentURL=='/manageadmin'?'active':'') %>">
-            <a class="nav-link" href="/manageadmin">
-              <i class="material-icons">people</i>
-              <p>Manage Admin</p>
-            </a>
-          </li>
-          <li class="nav-item <%= (currentURL=='/sourcebans'?'active':'') %>">
-            <a class="nav-link" href="/sourcebans">
-              <i class="material-icons">anchor</i>
-              <p>SourceBans</p>
-            </a>
-          </li>
-          <%if(adminType===1){%>
-          <li class="nav-item <%= (currentURL=='/salesrecord'?'active':'') %>">
-            <a class="nav-link" href="/salesrecord">
-              <i class="material-icons">account_balance_wallet</i>
-              <p>Sales Record</p>
-            </a>
-          </li>
-          <li class="nav-item <%= (currentURL=='/auditlogs'?'active':'') %>">
-            <a class="nav-link" href="/auditlogs">
-              <i class="material-icons">analytics</i>
-              <p>Audit Logs</p>
-            </a>
-          </li>
-          <%}%>
-          <%if((adminType===1)||(panelSetting.normiadmin_settings==1 && adminType===0)){%>
-          <li class="nav-item <%= (currentURL=='/panelsetting'?'active':'') %>">
-            <a class="nav-link" href="/panelsetting">
-              <i class="material-icons">settings</i>
-              <p>Panel Settings</p>
-            </a>
-          </li>
-          <%}}%>
-          <li class="nav-item <%= (currentURL=='/aboutcreator'?'active':'') %>">
-            <a class="nav-link" href="/aboutcreator">
-              <i class="material-icons">person</i>
-              <p>About</p>
-            </a>
-          </li>
-          <%if(sessionToken||sessionSteamId){%>
-          <li class="nav-item <%= (currentURL=='/logout'?'active':'') %>">
-            <a class="nav-link" href="/logout">
-              <i class="material-icons">power_settings_new</i>
-              <p>Logout</p>
-            </a>
-          </li>
-          <%}else{%>
-          <li class="nav-item <%= (currentURL=='/login'?'active':'') %>">
-            <a class="nav-link" href="/login">
-              <i class="material-icons">fingerprint</i>
-              <p>Login</p>
-            </a>
-          </li>
-          <%}%>
-        </ul>
-      </div>
-    </div>
-
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)"><%= getPageHeading(currentURL) %></a>
-      </div>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
-        aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="navbar-toggler-icon icon-bar"></span>
-        <span class="navbar-toggler-icon icon-bar"></span>
-        <span class="navbar-toggler-icon icon-bar"></span>
-      </button>
-
-      <div class="collapse navbar-collapse justify-content-end">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="<%= sessionToken?'dashboard':sessionSteamId?'mydashboard':'javascript:void(0)'%>">
-              <i class="material-icons">face</i>
-              <p class="d-lg d-md-block">
+  <body class="dark-edition">
+    <div class="wrapper ">
+      <div class="sidebar"
+        data-color="<%=panelSetting.color_theme=='primary'?'purple':panelSetting.color_theme=='danger'?'danger':panelSetting.color_theme=='success'?'green':panelSetting.color_theme=='warning'?'orange':panelSetting.color_theme=='info'?'azure':''%>"
+        data-background-color="black"
+        data-image="<%= (currentURL=='/panelSetting'?'./images/sidebar-2.jpg':currentURL=='/aboutCreator'?'./images/sidebar-3.jpg':'./images/sidebar-1.jpg') %>">
+        <div class="logo">
+          <a href="/" class="simple-text logo-normal">
+            <span>
+              <img class="img" height="50px" src="./images/icon.png" alt="Logo" id="icon_logo_id">
+            </span>
+            <span id="text_logo_id">
+              VMPanel
+            </span>
+          </a>
+        </div>
+        <div class="sidebar-wrapper">
+          <ul class="nav">
+            <li class="nav-item <%= (currentURL=='/dashboard' || currentURL=='/' ?'active':'') %>">
+              <a class="nav-link" href="/dashboard">
+                <i class="material-icons">dashboard</i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+            <%if(sessionSteamId){%>
+              <li class="nav-item <%= (currentURL=='/myDashboard' || currentURL=='/' ?'active':'') %>">
+                <a class="nav-link" href="/myDashboard">
+                  <i class="material-icons">account_box</i>
+                  <p>My Dashboard</p>
+                </a>
+              </li>
+              <%}%>
                 <%if(sessionToken){%>
-                <%="Admin-("+adminName+")"%>
-                <%}else if (sessionSteamId){%>
-                <%="User-("+steamName+")"%>
-                <%}else{%>
-                Guest
-                <%}%>
-              </p>
-            </a>
-          </li>
-        </ul>
+                  <li class="nav-item <%= (currentURL=='/manageVip'?'active':'') %>">
+                    <a class="nav-link" href="/manageVip">
+                      <i class="material-icons">people</i>
+                      <p>Manage VIP</p>
+                    </a>
+                  </li>
+                  <li class="nav-item <%= (currentURL=='/manageAdmin'?'active':'') %>">
+                    <a class="nav-link" href="/manageAdmin">
+                      <i class="material-icons">people</i>
+                      <p>Manage Admin</p>
+                    </a>
+                  </li>
+                  <li class="nav-item <%= (currentURL=='/sourceBans'?'active':'') %>">
+                    <a class="nav-link" href="/sourceBans">
+                      <i class="material-icons">anchor</i>
+                      <p>SourceBans</p>
+                    </a>
+                  </li>
+                  <%if(adminType===1){%>
+                    <li class="nav-item <%= (currentURL=='/salesRecord'?'active':'') %>">
+                      <a class="nav-link" href="/salesRecord">
+                        <i class="material-icons">account_balance_wallet</i>
+                        <p>Sales Record</p>
+                      </a>
+                    </li>
+                    <li class="nav-item <%= (currentURL=='/auditLogs'?'active':'') %>">
+                      <a class="nav-link" href="/auditLogs">
+                        <i class="material-icons">analytics</i>
+                        <p>Audit Logs</p>
+                      </a>
+                    </li>
+                    <%}%>
+                      <%if((adminType===1)||(panelSetting.admin_settings==1 && adminType===0)){%>
+                        <li class="nav-item <%= (currentURL=='/panelSetting'?'active':'') %>">
+                          <a class="nav-link" href="/panelSetting">
+                            <i class="material-icons">settings</i>
+                            <p>Panel Settings</p>
+                          </a>
+                        </li>
+                        <%}}%>
+                          <li class="nav-item <%= (currentURL=='/aboutCreator'?'active':'') %>">
+                            <a class="nav-link" href="/aboutCreator">
+                              <i class="material-icons">person</i>
+                              <p>About</p>
+                            </a>
+                          </li>
+                          <%if(sessionToken||sessionSteamId){%>
+                            <li class="nav-item <%= (currentURL=='/logout'?'active':'') %>">
+                              <a class="nav-link" href="/logout">
+                                <i class="material-icons">power_settings_new</i>
+                                <p>Logout</p>
+                              </a>
+                            </li>
+                            <%}else{%>
+                              <li class="nav-item <%= (currentURL=='/login'?'active':'') %>">
+                                <a class="nav-link" href="/login">
+                                  <i class="material-icons">fingerprint</i>
+                                  <p>Login</p>
+                                </a>
+                              </li>
+                              <%}%>
+          </ul>
+        </div>
       </div>
-    </div>
-    </nav>
-    <!-- End Navbar -->
 
-<script src="./js/utils.js"></script>
+      <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+          <div class="container-fluid">
+            <div class="navbar-wrapper">
+              <a class="navbar-brand" href="javascript:void(0)">
+                <%= getPageHeading(currentURL) %>
+              </a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+              aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link"
+                    href="<%= sessionToken?'dashboard':sessionSteamId?'myDashboard':'javascript:void(0)'%>">
+                    <i class="material-icons">face</i>
+                    <p class="d-lg d-md-block">
+                      <%if(sessionToken){%>
+                        <%="Admin-("+adminName+")"%>
+                          <%}else if (sessionSteamId){%>
+                            <%="User-("+steamName+")"%>
+                              <%}else{%>
+                                Guest
+                                <%}%>
+                    </p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- End Navbar -->
+
+        <script src="./js/utils.js"></script>

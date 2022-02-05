@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -24,7 +24,7 @@ const userModel = require("../models/userModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 const { logThisActivity } = require("../utils/activityLogger.js");
-var rconStatus = []
+var rconStatus = [];
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -59,7 +59,7 @@ exports.insertVipData = async (req, res) => {
         "res": result,
         "message": req.body.submit == "insert" ? "New VIP added Successfully" + (rconStatus.includes(0) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers") :
           "VIP Updated Successfully" + (rconStatus.includes(0) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
-        "notifType": "success"
+        "notificationType": "success"
       }
     });
   } catch (error) {

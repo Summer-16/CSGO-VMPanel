@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -22,7 +22,7 @@ const logger = require('../modules/logger')('Audit Logs Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
-const table = config.audittable
+const table = config.dbTables.auditTable
 
 /**
  *   sales Model

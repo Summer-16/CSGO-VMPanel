@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -37,20 +37,20 @@ function addSourceBansBanajax() {
   }
 
   if (formError == "") {
-    fetch('/sourcebansaddban', {
+    fetch('/sourceBansAddBan', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "serverbantype": $('#ban_type').val(),
-        "steamid": $('#steamId_add').val(),
+        "serverBanType": $('#ban_type').val(),
+        "steamId": $('#steamId_add').val(),
         "username": $('#name_add').val(),
-        "banlength": $('#ban_length').val(),
-        "banreason": $('#ban_reason').val() === "OtherReason" ? $('#other_ban_reason').val() : $('#ban_reason').val(),
-        "banserver": $('#ban_server_add').val(),
-        "bantype": "serverBan",
+        "banLength": $('#ban_length').val(),
+        "banReason": $('#ban_reason').val() === "OtherReason" ? $('#other_ban_reason').val() : $('#ban_reason').val(),
+        "banServer": $('#ban_server_add').val(),
+        "banType": "serverBan",
         "apiCall": true
       })
     })
@@ -90,20 +90,20 @@ function addSourceBansCommBanajax() {
   }
 
   if (formError == "") {
-    fetch('/sourcebansaddban', {
+    fetch('/sourceBansAddBan', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "commbantype": $('#commban_type').val(),
-        "steamid": $('#steamId_update').val(),
+        "commBanType": $('#commban_type').val(),
+        "steamId": $('#steamId_update').val(),
         "username": $('#name_comm').val(),
-        "banlength": $('#commban_length').val(),
-        "banreason": $('#commban_reason').val() === "OtherReason" ? $('#other_ban_reasoncomm').val() : $('#commban_reason').val(),
-        "banserver": $('#commban_server_add').val(),
-        "bantype": "commBan",
+        "banLength": $('#commban_length').val(),
+        "banReason": $('#commban_reason').val() === "OtherReason" ? $('#other_ban_reasoncomm').val() : $('#commban_reason').val(),
+        "banServer": $('#commban_server_add').val(),
+        "banType": "commBan",
         "apiCall": true
       })
     })
