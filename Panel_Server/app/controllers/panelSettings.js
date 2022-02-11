@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -33,7 +33,7 @@ exports.PanelSettings = async (req, res) => {
       res.render('PanelSetting');
     } else {
       let settings = await settingsModal.getAllSettings();
-      if (settings.normiadmin_settings == 1) {
+      if (settings.admin_settings == 1) {
         res.render('PanelSetting');
       } else {
         res.redirect('dashboard');

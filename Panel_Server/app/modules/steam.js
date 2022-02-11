@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -19,10 +19,9 @@
 
 'use strict';
 const needle = require('needle');
-
+const logger = require('./logger');
 class Steam {
   constructor() {
-
   }
 
   /**

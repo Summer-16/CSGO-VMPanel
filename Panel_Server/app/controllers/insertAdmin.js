@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -19,13 +19,12 @@
 
 'use strict';
 const logger = require('../modules/logger')('Insert Admin Controller');
-
 const userModel = require("../models/userModel.js");
 const vipModel = require("../models/vipModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
 const { refreshAdminsInServer } = require("../utils/refreshCFGInServer")
 const { logThisActivity } = require("../utils/activityLogger.js");
-var rconStatus = []
+var rconStatus = [];
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -58,7 +57,7 @@ exports.insertAdminData = async (req, res) => {
       data: {
         "res": result,
         "message": "New Admin added Successfully" + (rconStatus.includes(0) ? ", RCON Not Executed for all Servers" : ", RCON Executed for all Servers"),
-        "notifType": "success"
+        "notificationType": "success"
       }
     });
   } catch (error) {

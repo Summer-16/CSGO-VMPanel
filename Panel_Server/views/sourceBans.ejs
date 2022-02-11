@@ -1,7 +1,7 @@
 <!-- 
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -21,214 +21,219 @@
 
 <%- include('Header.ejs') %>
 
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
 
-      <%- include('SteamDataFetchTool.ejs') %>
+        <%- include('SteamDataFetchTool.ejs') %>
 
 
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header card-header-<%=panelSetting.color_theme%>">
-            <h4 class="card-title">Add BAN</h4>
-            <p class="card-category">Form to add a new Ban</p>
-          </div>
-          <div class="card-body">
-            <form id="myForm_addVIP">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Ban Type</label>
-                    <select class="form-control" id="ban_type" name="banType" required>
-                      <option value="steamid" selected>Steam ID</option>
-                      <!-- <option value="ipaddress">IP Address</option> -->
-                    </select>
-                  </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                <h4 class="card-title">Add BAN</h4>
+                <p class="card-category">Form to add a new Ban</p>
+              </div>
+              <div class="card-body">
+                <form id="myForm_addVIP">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Ban Type</label>
+                        <select class="form-control" id="ban_type" name="banType" required>
+                          <option value="steamId" selected>Steam ID</option>
+                          <!-- <option value="ipaddress">IP Address</option> -->
+                        </select>
+                      </div>
 
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter User Name</label>
-                    <input id="name_add" type="text" class="form-control" required>
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Enter User Name</label>
+                        <input id="name_add" type="text" class="form-control" required>
+                      </div>
 
-                  <div class="form-group bmd-form-group"">
+                      <div class="form-group bmd-form-group"">
                     <label class=" bmd-label-floating">Enter Steam ID</label>
-                    <input id="steamId_add" type="text" class="form-control" value="STEAM_X:Y:Z" required>
-                  </div>
+                        <input id="steamId_add" type="text" class="form-control" value="STEAM_X:Y:Z" required>
+                      </div>
 
-                  <!-- <div class="form-group bmd-form-group" id="ban_ip_input">
+                      <!-- <div class="form-group bmd-form-group" id="ban_ip_input">
                   </div> -->
 
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Ban Reason</label>
-                    <select class="form-control" id="ban_reason" name="banReason" required>
-                      <option value="" selected> -- Select Reason -- </option>
-                      <optgroup label="Hacking">
-                        <option value="Aimbot">Aimbot</option>
-                        <option value="Antirecoil">Antirecoil</option>
-                        <option value="Wallhack">Wallhack</option>
-                        <option value="Spinhack">Spinhack</option>
-                        <option value="Multi-Hack">Multi-Hack</option>
-                        <option value="No Smoke">No Smoke</option>
-                        <option value="No Flash">No Flash</option>
-                      </optgroup>
-                      <optgroup label="Behavior">
-                        <option value="Team Killing">Team Killing</option>
-                        <option value="Team Flashing">Team Flashing</option>
-                        <option value="Spamming Mic/Chat">Spamming Mic/Chat</option>
-                        <option value="Inappropriate Spray">Inappropriate Spray</option>
-                        <option value="Inappropriate Language">Inappropriate Language</option>
-                        <option value="Inappropriate Name">Inappropriate Name</option>
-                        <option value="Ignoring Admins">Ignoring Admins</option>
-                        <option value="Team Stacking">Team Stacking</option>
-                      </optgroup>
-                      <option value="OtherReason">Other Reasons</option>
-                    </select>
-                  </div>
-                  <div class="form-group bmd-form-group" id="other_reason_input">
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Ban Reason</label>
+                        <select class="form-control" id="ban_reason" name="banReason" required>
+                          <option value="" selected> -- Select Reason -- </option>
+                          <optgroup label="Hacking">
+                            <option value="Aimbot">Aimbot</option>
+                            <option value="Antirecoil">Antirecoil</option>
+                            <option value="Wallhack">Wallhack</option>
+                            <option value="Spinhack">Spinhack</option>
+                            <option value="Multi-Hack">Multi-Hack</option>
+                            <option value="No Smoke">No Smoke</option>
+                            <option value="No Flash">No Flash</option>
+                          </optgroup>
+                          <optgroup label="Behavior">
+                            <option value="Team Killing">Team Killing</option>
+                            <option value="Team Flashing">Team Flashing</option>
+                            <option value="Spamming Mic/Chat">Spamming Mic/Chat</option>
+                            <option value="Inappropriate Spray">Inappropriate Spray</option>
+                            <option value="Inappropriate Language">Inappropriate Language</option>
+                            <option value="Inappropriate Name">Inappropriate Name</option>
+                            <option value="Ignoring Admins">Ignoring Admins</option>
+                            <option value="Team Stacking">Team Stacking</option>
+                          </optgroup>
+                          <option value="OtherReason">Other Reasons</option>
+                        </select>
+                      </div>
+                      <div class="form-group bmd-form-group" id="other_reason_input">
+                      </div>
 
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Ban Length</label>
-                    <select class="form-control" id="ban_length" name="banReason" required>
-                      <option value="" selected>Select Ban Length</option>
-                      <option value="30">30 Minute</option>
-                      <option value="60">1 Hour</option>
-                      <option value="120">2 Hour</option>
-                      <option value="240">4 Hour</option>
-                      <option value="360">6 Hour</option>
-                      <option value="1440">1 Day</option>
-                      <option value="2880">2 Days</option>
-                      <option value="5760">4 Days</option>
-                      <option value="8640">6 Days</option>
-                      <option value="60480">1 week</option>
-                      <option value="262800">1 Month</option>
-                      <option value="0">Permanent</option>
-                    </select>
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Ban Length</label>
+                        <select class="form-control" id="ban_length" name="banReason" required>
+                          <option value="" selected>Select Ban Length</option>
+                          <option value="30">30 Minute</option>
+                          <option value="60">1 Hour</option>
+                          <option value="120">2 Hour</option>
+                          <option value="240">4 Hour</option>
+                          <option value="360">6 Hour</option>
+                          <option value="1440">1 Day</option>
+                          <option value="2880">2 Days</option>
+                          <option value="5760">4 Days</option>
+                          <option value="8640">6 Days</option>
+                          <option value="60480">1 week</option>
+                          <option value="262800">1 Month</option>
+                          <option value="0">Permanent</option>
+                        </select>
+                      </div>
 
-                  <div class="form-group bmd-form-group">
-                    <label class="">Select any Live Server to use for Adding Ban (Ban will be added through Rcon, It
-                      will go directly in Sourceban Database)</label>
-                    <select class="form-control" id="ban_server_add" name="ban_server_add" required>
-                      <option value="" selected>Select Server</option>
-                      <% if(serverList) {%>
-                      <% for(let i=0; i < serverList.length; i++) { %>
-                      <option value="<%=serverList[i].tbl_name%>"><%=serverList[i].server_name%></option>
-                      <%}}%>
-                    </select>
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="">Select any Live Server to use for Adding Ban (Ban will be added through Rcon, It
+                          will go directly in Sourceban Database)</label>
+                        <select class="form-control" id="ban_server_add" name="ban_server_add" required>
+                          <option value="" selected>Select Server</option>
+                          <% if(serverList) {%>
+                            <% for(let i=0; i < serverList.length; i++) { %>
+                              <option value="<%=serverList[i].tbl_name%>">
+                                <%=serverList[i].server_name%>
+                              </option>
+                              <%}}%>
+                        </select>
+                      </div>
 
-                </div>
+                    </div>
+                  </div>
+                  <button type="button" onclick="addSourceBansBanajax()" class="btn btn-success pull-right">ADD
+                    Ban</button>
+                  <div class="clearfix"></div>
+                </form>
               </div>
-              <button type="button" onclick="addSourceBansBanajax()" class="btn btn-success pull-right">ADD Ban</button>
-              <div class="clearfix"></div>
-            </form>
+            </div>
           </div>
-        </div>
-      </div>
 
 
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header card-header-<%=panelSetting.color_theme%>">
-            <h4 class="card-title">Add Communication BAN</h4>
-            <p class="card-category">Form to add a new Communication Ban</p>
-          </div>
-          <div class="card-body">
-            <form id="myForm_addVIP">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Comm Ban Type</label>
-                    <select class="form-control" id="commban_type" name="banType" required>
-                      <option value="voiceonly" selected>Voice Only</option>
-                      <option value="chatonly">Chat Only</option>
-                      <option value="chatandvoice">Voice and Chat Both</option>
-                    </select>
-                  </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                <h4 class="card-title">Add Communication BAN</h4>
+                <p class="card-category">Form to add a new Communication Ban</p>
+              </div>
+              <div class="card-body">
+                <form id="myForm_addVIP">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Comm Ban Type</label>
+                        <select class="form-control" id="commban_type" name="banType" required>
+                          <option value="voiceOnly" selected>Voice Only</option>
+                          <option value="chatOnly">Chat Only</option>
+                          <option value="chatAndVoice">Voice and Chat Both</option>
+                        </select>
+                      </div>
 
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter User Name</label>
-                    <input id="name_comm" type="text" class="form-control" required>
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Enter User Name</label>
+                        <input id="name_comm" type="text" class="form-control" required>
+                      </div>
 
-                  <div class="form-group bmd-form-group"">
+                      <div class="form-group bmd-form-group"">
                                 <label class=" bmd-label-floating">Enter Steam ID</label>
-                    <input id="steamId_update" type="text" class="form-control" value="STEAM_X:Y:Z" required>
-                  </div>
+                        <input id="steamId_update" type="text" class="form-control" value="STEAM_X:Y:Z" required>
+                      </div>
 
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Ban Reason</label>
-                    <select class="form-control" id="commban_reason" name="banReason" required>
-                      <option value="" selected> -- Select Reason -- </option>
-                      <optgroup label="Violation">
-                        <option value="Obscene language">Obscene language</option>
-                        <option value="Insult players">Insult players</option>
-                        <option value="Admin disrespect">Admin disrespect</option>
-                        <option value="Inappropriate Language">Inappropriate Language</option>
-                        <option value="Trading">Trading</option>
-                        <option value="Spam in chat/voice">Spam</option>
-                        <option value="Advertisement">Advertisement</option>
-                      </optgroup>
-                      <option value="OtherReason">Other Reasons</option>
-                    </select>
-                  </div>
-                  <div class="form-group bmd-form-group" id="other_reason_inputcomm">
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Ban Reason</label>
+                        <select class="form-control" id="commban_reason" name="banReason" required>
+                          <option value="" selected> -- Select Reason -- </option>
+                          <optgroup label="Violation">
+                            <option value="Obscene language">Obscene language</option>
+                            <option value="Insult players">Insult players</option>
+                            <option value="Admin disrespect">Admin disrespect</option>
+                            <option value="Inappropriate Language">Inappropriate Language</option>
+                            <option value="Trading">Trading</option>
+                            <option value="Spam in chat/voice">Spam</option>
+                            <option value="Advertisement">Advertisement</option>
+                          </optgroup>
+                          <option value="OtherReason">Other Reasons</option>
+                        </select>
+                      </div>
+                      <div class="form-group bmd-form-group" id="other_reason_inputcomm">
+                      </div>
 
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Ban Length</label>
-                    <select class="form-control" id="commban_length" name="banReason" required>\
-                      <option value="" selected>Select Ban Length</option>
-                      <option value="30">30 Minute</option>
-                      <option value="60">1 Hour</option>
-                      <option value="120">2 Hour</option>
-                      <option value="240">4 Hour</option>
-                      <option value="360">6 Hour</option>
-                      <option value="1440">1 Day</option>
-                      <option value="2880">2 Days</option>
-                      <option value="5760">4 Days</option>
-                      <option value="8640">6 Days</option>
-                      <option value="60480">1 week</option>
-                      <option value="262800">1 Month</option>
-                      <option value="0">Permanent</option>
-                    </select>
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Ban Length</label>
+                        <select class="form-control" id="commban_length" name="banReason" required>\
+                          <option value="" selected>Select Ban Length</option>
+                          <option value="30">30 Minute</option>
+                          <option value="60">1 Hour</option>
+                          <option value="120">2 Hour</option>
+                          <option value="240">4 Hour</option>
+                          <option value="360">6 Hour</option>
+                          <option value="1440">1 Day</option>
+                          <option value="2880">2 Days</option>
+                          <option value="5760">4 Days</option>
+                          <option value="8640">6 Days</option>
+                          <option value="60480">1 week</option>
+                          <option value="262800">1 Month</option>
+                          <option value="0">Permanent</option>
+                        </select>
+                      </div>
 
-                  <div class="form-group bmd-form-group">
-                    <label class="">Select Server (Ban will be added through Rcon, It
-                      will work if client is in the server)</label>
-                    <select class="form-control" id="commban_server_add" name="ban_server_add" required>
-                      <option value="" selected>Select Server</option>
-                      <% if(serverList) {%>
-                      <% for(let i=0; i < serverList.length; i++) { %>
-                      <option value="<%=serverList[i].tbl_name%>"><%=serverList[i].server_name%></option>
-                      <%}}%>
-                    </select>
-                  </div>
+                      <div class="form-group bmd-form-group">
+                        <label class="">Select Server (Ban will be added through Rcon, It
+                          will work if client is in the server)</label>
+                        <select class="form-control" id="commban_server_add" name="ban_server_add" required>
+                          <option value="" selected>Select Server</option>
+                          <% if(serverList) {%>
+                            <% for(let i=0; i < serverList.length; i++) { %>
+                              <option value="<%=serverList[i].tbl_name%>">
+                                <%=serverList[i].server_name%>
+                              </option>
+                              <%}}%>
+                        </select>
+                      </div>
 
-                </div>
+                    </div>
+                  </div>
+                  <button type="button" onclick="addSourceBansCommBanajax()" class="btn btn-success pull-right">ADD COMM
+                    Ban</button>
+                  <div class="clearfix"></div>
+                </form>
               </div>
-              <button type="button" onclick="addSourceBansCommBanajax()" class="btn btn-success pull-right">ADD COMM
-                Ban</button>
-              <div class="clearfix"></div>
-            </form>
+            </div>
           </div>
-        </div>
+
+
       </div>
-
-
     </div>
   </div>
-</div>
 
 
-<%- include('Footer.ejs') %>
+  <%- include('Footer.ejs') %>
 
-<script src="./js/sourceBans.js"></script>
-<script src="./js/customConfirm.js"></script>
-<script src="./js/notifications.js"></script>
-<script src="./js/steamIdFinder.js"></script>
-<script src="./js/steamIdOperations/BigInteger.min.js"></script>
-<script src="./js/steamIdOperations/steamIDconverter.js"></script>
+    <script src="./js/sourceBans.js"></script>
+    <script src="./js/customConfirm.js"></script>
+    <script src="./js/notifications.js"></script>
+    <script src="./js/steamIdFinder.js"></script>
+    <script src="./js/steamIdOperations/BigInteger.min.js"></script>
+    <script src="./js/steamIdOperations/steamIDconverter.js"></script>

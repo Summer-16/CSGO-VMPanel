@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -36,7 +36,7 @@ function addNewPAdminajax() {
     }
 
     if (formError == "") {
-      fetch('/addpaneladmin', {
+      fetch('/addPanelAdmin', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -91,7 +91,7 @@ function updateOldPAdminajax() {
     }
 
     if (formError == "") {
-      fetch('/updatepaneladmin', {
+      fetch('/updatePanelAdmin', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -99,7 +99,7 @@ function updateOldPAdminajax() {
         },
         body: JSON.stringify({
           "username": $('#selected_padmin').val(),
-          "newpassword": $('#password_pupdate').val(),
+          "newPassword": $('#password_pupdate').val(),
           "submit": "update",
           "apiCall": true
         })
@@ -143,7 +143,7 @@ function deletePAdminajax() {
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)
 
-        fetch('/deletepaneladmin', {
+        fetch('/deletePanelAdmin', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -182,7 +182,7 @@ function deletePAdminajax() {
 
 function fetchPAdminajax() {
   if (curentAdminType === 1) {
-    fetch('/getpaneladminslist', {
+    fetch('/getPanelAdminsList', {
       method: 'get',
       headers: {
         'Accept': 'application/json',
@@ -223,7 +223,7 @@ function fetchPAdminajax() {
 
 function fetchPSettingajax() {
 
-  fetch('/fetchpanelsetting', {
+  fetch('/fetchPanelSetting', {
     method: 'get',
     headers: {
       'Accept': 'application/json',
@@ -235,9 +235,9 @@ function fetchPSettingajax() {
       if (response.success == true) {
         let settingObj = response.data.res
         if (curentAdminType === 1) {
-          $("input[name=normiadmin_settings][value=" + settingObj.normiadmin_settings + "]").prop('checked', true);
-          $("input[name=hiddenadmin_login][value=" + settingObj.hiddenadmin_login + "]").prop('checked', true);
-          $("input[name=salenotification_discord][value=" + settingObj.salenotification_discord + "]").prop('checked', true);
+          $("input[name=admin_settings][value=" + settingObj.admin_settings + "]").prop('checked', true);
+          $("input[name=hiddenAdmin_login][value=" + settingObj.hiddenAdmin_login + "]").prop('checked', true);
+          $("input[name=saleNotification_discord][value=" + settingObj.saleNotification_discord + "]").prop('checked', true);
           $("input[name=disable_about][value=" + settingObj.disable_about + "]").prop('checked', true);
           $('#webhook_url').val(settingObj.webhook_url);
           $('#community_logo_url').val(settingObj.community_logo_url);
@@ -261,7 +261,7 @@ function fetchPSettingajax() {
 // 
 function fetchPServerListajax() {
 
-  fetch('/getpanelserverlist', {
+  fetch('/getPanelServerList', {
     method: 'get',
     headers: {
       'Accept': 'application/json',
@@ -338,30 +338,30 @@ function addNewPServerajax() {
     $("#divForLoader").html(loader)
 
     let formError = ""
-    if (!$('#servertablename_add').val()) {
+    if (!$('#servertableName_add').val()) {
       formError = "Server Table name is mandatory"
-    } else if (!$('#servername_add').val()) {
+    } else if (!$('#serverName_add').val()) {
       formError = "Server Name is mandatory"
     }
 
     if (formError == "") {
-      fetch('/addpanelserver', {
+      fetch('/addPanelServer', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "tablename": $('#servertablename_add').val(),
-          "servername": $('#servername_add').val(),
-          "serverip": $('#servertableIP_add').val() ? $('#servertableIP_add').val() : null,
-          "serverport": $('#servertablePort_add').val() ? $('#servertablePort_add').val() : null,
-          "serverrcon": $('#servertableRCON_add').val() ? $('#servertableRCON_add').val() : null,
-          "servertotalvip": $('#servertableTotalVIPSlots_add').val() ? $('#servertableTotalVIPSlots_add').val() : null,
-          "servervipprice": $('#servertableVIPPrice_add').val() ? $('#servertableVIPPrice_add').val() : null,
-          "servervipcurrency": $('#servertablecurrency').val() ? $('#servertablecurrency').val() : null,
-          "servervipflag": $('#servertableVIPFlag_add').val() ? $('#servertableVIPFlag_add').val() : null,
-          "servervipdays": $('#servertableVIPDays_add').val() ? $('#servertableVIPDays_add').val() : null,
+          "tableName": $('#servertableName_add').val(),
+          "serverName": $('#serverName_add').val(),
+          "serverIp": $('#servertableIP_add').val() ? $('#servertableIP_add').val() : null,
+          "serverPort": $('#servertablePort_add').val() ? $('#servertablePort_add').val() : null,
+          "serverRcon": $('#servertableRCON_add').val() ? $('#servertableRCON_add').val() : null,
+          "serverTotalVip": $('#servertableTotalVIPSlots_add').val() ? $('#servertableTotalVIPSlots_add').val() : null,
+          "serverVipPrice": $('#servertableVIPPrice_add').val() ? $('#servertableVIPPrice_add').val() : null,
+          "serverVipCurrency": $('#servertablecurrency').val() ? $('#servertablecurrency').val() : null,
+          "serverVipFlag": $('#servertableVIPFlag_add').val() ? $('#servertableVIPFlag_add').val() : null,
+          "serverVipDays": $('#servertableVIPDays_add').val() ? $('#servertableVIPDays_add').val() : null,
           "submit": "insert",
           "apiCall": true
         })
@@ -405,28 +405,28 @@ function updatePServerajax() {
     let formError = ""
     if (!$('#selected_pserver').val()) {
       formError = "Select a server to update"
-    } else if (!$('#servername_update').val()) {
+    } else if (!$('#serverName_update').val()) {
       formError = "Server Name can not be empty"
     }
 
     if (formError == "") {
-      fetch('/addpanelserver', {
+      fetch('/addPanelServer', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "tablename": $('#selected_pserver').val(),
-          "servername": $('#servername_update').val(),
-          "serverip": $('#servertableIP_update').val(),
-          "serverport": $('#servertablePort_update').val(),
-          "serverrcon": $('#servertableRCON_update').val(),
-          "servertotalvip": $('#servertableTotalVIPSlots_update').val(),
-          "servervipprice": $('#servertableVIPPrice_update').val(),
-          "servervipcurrency": $('#servertablecurrency').val(),
-          "servervipflag": $('#servertableVIPFlag_update').val(),
-          "servervipdays": $('#servertableVIPDays_update').val(),
+          "tableName": $('#selected_pserver').val(),
+          "serverName": $('#serverName_update').val(),
+          "serverIp": $('#servertableIP_update').val(),
+          "serverPort": $('#servertablePort_update').val(),
+          "serverRcon": $('#servertableRCON_update').val(),
+          "serverTotalVip": $('#servertableTotalVIPSlots_update').val(),
+          "serverVipPrice": $('#servertableVIPPrice_update').val(),
+          "serverVipCurrency": $('#servertablecurrency').val(),
+          "serverVipFlag": $('#servertableVIPFlag_update').val(),
+          "serverVipDays": $('#servertableVIPDays_update').val(),
           "submit": "update",
           "apiCall": true
         })
@@ -460,11 +460,11 @@ function updatePServerajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function deletePServerajax(id, tablename) {
+function deletePServerajax(id, tableName) {
 
   if (curentAdminType === 1) {
 
-    let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Server: ${tablename}</p>`
+    let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Server: ${tableName}</p>`
 
     custom_confirm(htmlString, (Mresponse) => {
       if (Mresponse == true) {
@@ -472,7 +472,7 @@ function deletePServerajax(id, tablename) {
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)
 
-        fetch('/deletepanelserver', {
+        fetch('/deletePanelServer', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -480,7 +480,7 @@ function deletePServerajax(id, tablename) {
           },
           body: JSON.stringify({
             "id": id,
-            "tablename": tablename,
+            "tableName": tableName,
             "submit": "delete",
             "apiCall": true
           })
@@ -522,7 +522,7 @@ function manuallyRefreshAllServerajax() {
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)
 
-        fetch('/performmanualrefresh', {
+        fetch('/performManualRefresh', {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -580,19 +580,19 @@ function addNewPanelServerBundle() {
     }
 
     if (formError == "") {
-      fetch('/addpanelserverbundle', {
+      fetch('/addPanelServerBundle', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "bundlename": $('#bundle_name_add').val(),
-          "bundleserverarray": serverArray,
-          "bundleprice": $('#bundle_price_add').val(),
-          "bundlecurrency": $('#bundle_currency_add').val(),
-          "bundlesubdays": $('#bundle_subdays_add').val(),
-          "bundlevipflag": $('#bundle_flags_add').val(),
+          "bundleName": $('#bundle_name_add').val(),
+          "bundleServerArray": serverArray,
+          "bundlePrice": $('#bundle_price_add').val(),
+          "bundleCurrency": $('#bundle_currency_add').val(),
+          "bundleSubDays": $('#bundle_subdays_add').val(),
+          "bundleVipFlag": $('#bundle_flags_add').val(),
           "submit": "insert",
           "apiCall": true
         })
@@ -628,7 +628,7 @@ function addNewPanelServerBundle() {
 // 
 function fetchPBundleListajax() {
 
-  fetch('/getpanelbundleslist', {
+  fetch('/getPanelBundlesList', {
     method: 'get',
     headers: {
       'Accept': 'application/json',
@@ -643,13 +643,13 @@ function fetchPBundleListajax() {
         let htmlString = "";
 
         for (let i = 0; i < dataArray.length; i++) {
-          let servername = dataArray[i].bundleServersData.map((data) => {
+          let serverName = dataArray[i].bundleServersData.map((data) => {
             return (data.server_name + " ( " + data.server_ip + ":" + data.server_port + " ) ")
           })
-          servername = servername.join("\n")
+          serverName = serverName.join("\n")
           htmlString += `<tr>
                         <td>${dataArray[i].bundle_name ? dataArray[i].bundle_name : 'NA'}</td>
-                        <td><pre class="my-pre">${servername ? servername : 'NA'}</pre></td>
+                        <td><pre class="my-pre">${serverName ? serverName : 'NA'}</pre></td>
                         <td>${dataArray[i].bundle_price ? dataArray[i].bundle_price + " " + dataArray[i].bundle_currency : 'NA'}</td>
                         <td>${dataArray[i].bundle_sub_days ? dataArray[i].bundle_sub_days : 'NA'}</td>
                         <td>${dataArray[i].bundle_flags ? dataArray[i].bundle_flags : 'NA'}</td>
@@ -668,11 +668,11 @@ function fetchPBundleListajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function deletePBundleajax(id, bundlename) {
+function deletePBundleajax(id, bundleName) {
 
   if (curentAdminType === 1) {
 
-    let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Bundle: ${bundlename}</p>`
+    let htmlString = `<p>You Sure !</p><p>Please Confirm delete Operation for Bundle: ${bundleName}</p>`
 
     custom_confirm(htmlString, (Mresponse) => {
       if (Mresponse == true) {
@@ -680,7 +680,7 @@ function deletePBundleajax(id, bundlename) {
         let loader = `<div class="loading">Loading&#8230;</div>`;
         $("#divForLoader").html(loader)
 
-        fetch('/deletepanelbundle', {
+        fetch('/deletePanelBundle', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -688,7 +688,7 @@ function deletePBundleajax(id, bundlename) {
           },
           body: JSON.stringify({
             "id": id,
-            "bundlename": bundlename,
+            "bundleName": bundleName,
             "submit": "delete",
             "apiCall": true
           })
@@ -751,7 +751,7 @@ $(document).ready(function () {
       let loader = `<div class="loading">Loading&#8230;</div>`;
       $("#divForLoader").html(loader)
 
-      fetch('/getpanelserversingle', {
+      fetch('/getPanelServerSingle', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -767,7 +767,7 @@ $(document).ready(function () {
           $("#divForLoader").html("")
 
           let serverData = response.data.res
-          $('#servername_update').val(serverData.server_name)
+          $('#serverName_update').val(serverData.server_name)
           $('#servertableIP_update').val(serverData.server_ip)
           $('#servertablePort_update').val(serverData.server_port)
           $('#servertableRCON_update').val(serverData.server_rcon_pass)
@@ -776,7 +776,7 @@ $(document).ready(function () {
           // $('#servertableCurrency_update').val(serverData.vip_currency)
           $('#servertableVIPFlag_update').val(serverData.vip_flag)
           $('#servertableVIPDays_update').val(serverData.vip_days)
-          $('#servername_update').focus()
+          $('#serverName_update').focus()
         })
         .catch(error => {
           $("#divForLoader").html("")

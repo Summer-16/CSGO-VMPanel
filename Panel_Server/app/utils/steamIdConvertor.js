@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -31,18 +31,18 @@ var SteamIDConverter = {
   /**
    * Generate a SteamID64 from a SteamID or SteamID3
    */
-  toSteamID64: function (steamid) {
-    if (!steamid || typeof steamid !== "string") {
+  toSteamID64: function (steamId) {
+    if (!steamId || typeof steamId !== "string") {
       return false;
     }
-    else if (this.isSteamID3(steamid)) {
-      steamid = this.fromSteamID3(steamid);
+    else if (this.isSteamID3(steamId)) {
+      steamId = this.fromSteamID3(steamId);
     }
-    else if (!this.isSteamID(steamid)) {
+    else if (!this.isSteamID(steamId)) {
       throw new TypeError("Parameter must be a SteamID (e.g. STEAM_0:1:912783)");
     }
 
-    var split = steamid.split(":"),
+    var split = steamId.split(":"),
       v = this.BASE_NUM,
       z = split[2],
       y = split[1];
@@ -56,19 +56,19 @@ var SteamIDConverter = {
   /**
    * Generate a SteamID from a SteamID64 or SteamID3
    */
-  toSteamID: function (steamid64) {
-    if (!steamid64 || typeof steamid64 !== "string") {
+  toSteamID: function (steamId64) {
+    if (!steamId64 || typeof steamId64 !== "string") {
       return false;
     }
-    else if (this.isSteamID3(steamid64)) {
-      return this.fromSteamID3(steamid64);
+    else if (this.isSteamID3(steamId64)) {
+      return this.fromSteamID3(steamId64);
     }
-    else if (!this.isSteamID64(steamid64)) {
+    else if (!this.isSteamID64(steamId64)) {
       throw new TypeError("Parameter must be a SteamID64 (e.g. 76561190000000000)");
     }
 
     var v = this.BASE_NUM,
-      w = bigInt(steamid64),
+      w = bigInt(steamId64),
       y = w.mod(2).toString();
 
     w = w.minus(y).minus(v);
@@ -82,15 +82,15 @@ var SteamIDConverter = {
   /**
    * Generate a SteamID3 from a SteamID or SteamID64
    */
-  toSteamID3: function (steamid) {
-    if (!steamid || typeof steamid !== "string") {
+  toSteamID3: function (steamId) {
+    if (!steamId || typeof steamId !== "string") {
       return false;
     }
-    else if (!this.isSteamID(steamid)) {
-      steamid = this.toSteamID(steamid);
+    else if (!this.isSteamID(steamId)) {
+      steamId = this.toSteamID(steamId);
     }
 
-    var split = steamid.split(":");
+    var split = steamId.split(":");
 
     return "[U:1:" + (parseInt(split[1]) + parseInt(split[2]) * 2) + "]";
   },
@@ -98,8 +98,8 @@ var SteamIDConverter = {
   /**
    * Generate a SteamID from a SteamID3.
    */
-  fromSteamID3: function (steamid3) {
-    var split = steamid3.split(":");
+  fromSteamID3: function (steamId3) {
+    var split = steamId3.split(":");
     var last = split[2].substring(0, split[2].length - 1);
 
     return "STEAM_0:" + (last % 2) + ":" + Math.floor(last / 2);
@@ -130,11 +130,11 @@ var SteamIDConverter = {
 
   // ------------------------------------------------------------------------------
 
-  profileURL: function (steamid64) {
-    if (!this.isSteamID64(steamid64)) {
-      steamid64 = this.toSteamID64(steamid64);
+  profileURL: function (steamId64) {
+    if (!this.isSteamID64(steamId64)) {
+      steamId64 = this.toSteamID64(steamId64);
     }
-    return "http://steamcommunity.com/profiles/" + steamid64;
+    return "http://steamcommunity.com/profiles/" + steamId64;
   }
 };
 

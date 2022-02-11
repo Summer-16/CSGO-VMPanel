@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -22,7 +22,7 @@
 
 function afterPaymentajax(formData) {
 
-  fetch('/execafterpaymentprocess', {
+  fetch('/execAfterPaymentProcess', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -50,7 +50,7 @@ function afterPaymentajax(formData) {
 // 
 function fetchPBundleListajax() {
 
-  fetch('/getpanelbundleslistud', {
+  fetch('/getPanelBundlesList', {
     method: 'get',
     headers: {
       'Accept': 'application/json',

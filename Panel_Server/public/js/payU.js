@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -54,7 +54,7 @@ function initPayUpayment(serverData, type) {
       let loader = `<div class="loading">Loading&#8230;</div>`;
       $("#divForLoader").html(loader)
 
-      fetch('/initpayupayment', {
+      fetch('/initPayUPayment', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

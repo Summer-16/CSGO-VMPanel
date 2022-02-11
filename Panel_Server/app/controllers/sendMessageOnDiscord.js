@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -49,9 +49,9 @@ async function sendMessageOnDiscord() {
         let currentColor = roll[0];
 
         if (data[i].type == "VIPs") {
-          messageString = "**" + data[i].type + " of " + data[i].servername + " Server**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
+          messageString = "**" + data[i].type + " of " + data[i].serverName + " Server**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
         } else {
-          messageString = "**" + data[i].type + " of " + data[i].servername + " Server**\n**- Name  , Steam Id**\n";
+          messageString = "**" + data[i].type + " of " + data[i].serverName + " Server**\n**- Name  , Steam Id**\n";
         }
 
         if (data[i].data.length) {
@@ -80,16 +80,15 @@ async function sendMessageOnDiscord() {
               count = 0;
 
               if (data[i].type == "VIPs") {
-                messageString = "**" + data[i].type + " of " + data[i].servername + " Server Continue**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
+                messageString = "**" + data[i].type + " of " + data[i].serverName + " Server Continue**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
               } else {
-                messageString = "**" + data[i].type + " of " + data[i].servername + " Server Continue**\n**- Name  , Steam Id**\n";
+                messageString = "**" + data[i].type + " of " + data[i].serverName + " Server Continue**\n**- Name  , Steam Id**\n";
               }
 
             }
           }
           messageArray.push(messageString)
           colorArray.push(currentColor)
-
         }
         messageString = ""
       }
@@ -108,7 +107,7 @@ async function sendBuyMessageOnDiscord(data, finalUserName) {
     if (!settingObj.webhook_url) {
       return "Webhook not found"
     }
-    if (settingObj.salenotification_discord / 1) {
+    if (settingObj.saleNotification_discord / 1) {
       let saleType = (data.buyType === 'newPurchase') ? "VIP Purchased" : "VIP Renewed"
       let paymentId = (data.gateway === 'paypal') ? data.paymentData.id : (data.gateway === 'payu') ? data.paymentData.order_id : "NA"
       let serverName = data.serverData.server_name
@@ -127,7 +126,7 @@ async function sendBuyMessageOnDiscord(data, finalUserName) {
                           Product Desc: ${productDesc}
                           Paid Amount: ${amount}
                           Order/Txn Id: ${paymentId}
-                          Paymnet Through: ${data.gateway.toUpperCase()}
+                          Payment Through: ${data.gateway.toUpperCase()}
                           `
 
       sendMessage([messageString], [(data.buyType === 'newPurchase') ? 3066993 : 3447003], settingObj.webhook_url)

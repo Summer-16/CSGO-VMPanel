@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -26,7 +26,7 @@ const panelServerModal = require("../models/panelServerModal.js");
 //-----------------------------------------------------------------------------------------------------
 // 
 
-const executeRconInServer = (server,commandString) => {
+const executeRconInServer = (server, commandString) => {
   return new Promise(async (resolve, reject) => {
     try {
 

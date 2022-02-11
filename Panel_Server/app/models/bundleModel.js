@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -22,8 +22,8 @@ const logger = require('../modules/logger')('Bundle Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
-const table = config.bundletable
-const relTable = config.bundleRelTable
+const table = config.dbTables.bundleTable
+const relTable = config.dbTables.bundleRelTable
 
 /**
  *   bundle Model
@@ -80,12 +80,12 @@ var bundleModel = {
       try {
 
         // validation
-        if (dataObj.bundleserverarray < 2) return reject("Operation Fail!, Select atleast two servers to create a bundle");
-        if (!dataObj.bundlename) return reject("Operation Fail!, Bundle name is Missing");
-        if (!dataObj.bundleprice) return reject("Operation Fail!, Bundle Price is Missing");
-        if (!dataObj.bundlecurrency) return reject("Operation Fail!, Bundle Currency is Missing");
-        if (!dataObj.bundlesubdays) return reject("Operation Fail!, Bundle Subscription days are Missing");
-        if (!dataObj.bundlevipflag) return reject("Operation Fail!, Bundle VIP Flag is Missing");
+        if (dataObj.bundleServerArray < 2) return reject("Operation Fail!, Select atleast two servers to create a bundle");
+        if (!dataObj.bundleName) return reject("Operation Fail!, Bundle name is Missing");
+        if (!dataObj.bundlePrice) return reject("Operation Fail!, Bundle Price is Missing");
+        if (!dataObj.bundleCurrency) return reject("Operation Fail!, Bundle Currency is Missing");
+        if (!dataObj.bundleSubDays) return reject("Operation Fail!, Bundle Subscription days are Missing");
+        if (!dataObj.bundleVipFlag) return reject("Operation Fail!, Bundle VIP Flag is Missing");
 
         let query = db.queryFormat(`INSERT INTO ${table} 
                                     (bundle_name, 
@@ -95,7 +95,7 @@ var bundleModel = {
                                     bundle_sub_days,
                                     bundle_flags,
                                     created_at) VALUES (?, ?, ?, ?, ? ,?,?)`,
-          [dataObj.bundlename, dataObj.bundleprice, dataObj.bundlecurrency, dataObj.bundlename, dataObj.bundlesubdays, ('"' + dataObj.bundlevipflag + '"'), new Date()]);
+          [dataObj.bundleName, dataObj.bundlePrice, dataObj.bundleCurrency, dataObj.bundleName, dataObj.bundleSubDays, ('"' + dataObj.bundleVipFlag + '"'), new Date()]);
         let queryRes = await db.query(query, true);
         if (!queryRes) {
           return reject("Error in insertion bundle");
@@ -104,7 +104,7 @@ var bundleModel = {
 
         let bundleInsertId = queryRes.insertId
         let insertArray = []
-        let serverArray = dataObj.bundleserverarray
+        let serverArray = dataObj.bundleServerArray
 
         for (let i = 0; i < serverArray.length; i++) {
           insertArray.push([bundleInsertId, serverArray[i].split(':')[1]])
@@ -180,9 +180,9 @@ var bundleModel = {
 
         // validation
         if (!dataObj.id) return reject("id is not provided");
-        if (!dataObj.bundlename) return reject("Table Name is not provided");
+        if (!dataObj.bundleName) return reject("Table Name is not provided");
 
-        let query = db.queryFormat(`DELETE FROM ${table} WHERE id = ? AND bundle_name = ?`, [dataObj.id, dataObj.bundlename]);
+        let query = db.queryFormat(`DELETE FROM ${table} WHERE id = ? AND bundle_name = ?`, [dataObj.id, dataObj.bundleName]);
         let queryRes = await db.query(query, true);
 
         if (!queryRes) {

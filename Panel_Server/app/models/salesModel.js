@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -21,7 +21,7 @@
 const logger = require('../modules/logger')('Sales Model');
 var db = require('../db/db_bridge');
 const config = require('../config');
-const table = config.salestable
+const table = config.dbTables.salesTable
 
 /**
  *   sales Model
@@ -40,7 +40,7 @@ var salesModel = {
                                       payment_gateway VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       order_id varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_id varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                      payer_steamid varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                      payer_steamId varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_email varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_name varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
                                       payer_surname varchar(150) COLLATE utf8mb4_unicode_ci NULL,
@@ -74,7 +74,7 @@ var salesModel = {
         // validation
         if (!dataObj.order_id) return reject("Order Id Missing");
         if (!dataObj.payer_id) return reject("Payer Id Missing");
-        if (!dataObj.payer_steamid) return reject("Payer Steam Id Missing");
+        if (!dataObj.payer_steamId) return reject("Payer Steam Id Missing");
         if (!dataObj.payer_email) return reject("Payer Email Missing");
         if (!dataObj.payer_name) return reject("Payer Name Missing");
         if (!dataObj.payer_surname) return reject("Payer Surname Missing");
@@ -91,7 +91,7 @@ var salesModel = {
                                         (payment_gateway,
                                         order_id,
                                         payer_id,
-                                        payer_steamid,
+                                        payer_steamId,
                                         payer_email,
                                         payer_name,
                                         payer_surname,
@@ -101,7 +101,7 @@ var salesModel = {
                                         status,
                                         sale_type,
                                         created_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [paymentGate, dataObj.order_id, dataObj.payer_id, dataObj.payer_steamid, dataObj.payer_email, dataObj.payer_name, dataObj.payer_surname, dataObj.product_desc, dataObj.amount_paid, dataObj.amount_currency, dataObj.status, dataObj.sale_type, currentDateTime]);
+          [paymentGate, dataObj.order_id, dataObj.payer_id, dataObj.payer_steamId, dataObj.payer_email, dataObj.payer_name, dataObj.payer_surname, dataObj.product_desc, dataObj.amount_paid, dataObj.amount_currency, dataObj.status, dataObj.sale_type, currentDateTime]);
 
         const queryRes = await db.query(query);
         if (!queryRes) {

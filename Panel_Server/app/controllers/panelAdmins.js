@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -22,7 +22,8 @@ const logger = require('../modules/logger')('Panel Admins Controller');
 const userModel = require("../models/userModel.js");
 const { logThisActivity } = require("../utils/activityLogger.js");
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const config = require('../config');
+const saltRounds = config.saltRounds;
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -48,7 +49,7 @@ exports.addPanelAdmin = async (req, res) => {
     })
     res.json({
       success: true,
-      data: { "res": result, "message": req.body.submit == "insert" ? "New Admin added Successfully" : "Admin Updated Successfully", "notifType": "success" }
+      data: { "res": result, "message": req.body.submit == "insert" ? "New Admin added Successfully" : "Admin Updated Successfully", "notificationType": "success" }
     });
   } catch (error) {
     logger.error("error in addPanelAdmin->", error);
@@ -88,17 +89,17 @@ const addPanelAdminFunc = (reqBody, username) => {
 
           //validations
           if (!reqBody.username) return reject("Operation Fail!, Username Missing");
-          if (!reqBody.newpassword) return reject("Operation Fail!, Password Missing");
+          if (!reqBody.newPassword) return reject("Operation Fail!, Password Missing");
 
-          bcrypt.hash(reqBody.newpassword, saltRounds, async function (err, hash) {
+          bcrypt.hash(reqBody.newPassword, saltRounds, async function (err, hash) {
             if (err) {
               return reject("Error in password Encryption, Try again")
             } else {
-              reqBody.newpassword = hash
-              let updateRes = await userModel.updateUserpassword({
+              reqBody.newPassword = hash
+              let updateRes = await userModel.updateUserPassword({
                 "id": reqBody.username.split(':')[0],
                 "username": reqBody.username.split(':')[1],
-                "password": reqBody.newpassword
+                "password": reqBody.newPassword
               })
               if (updateRes) {
                 resolve(updateRes)
@@ -141,7 +142,7 @@ exports.getPanelAdminsList = async (req, res) => {
   }
 }
 
-const getPanelAdminsListFunc = (reqBody) => {
+const getPanelAdminsListFunc = () => {
   return new Promise(async (resolve, reject) => {
     try {
 
@@ -184,7 +185,7 @@ exports.deletePanelAdmin = async (req, res) => {
     })
     res.json({
       success: true,
-      data: { "res": result, "message": "Admin Deleted Successfully", "notifType": "success" }
+      data: { "res": result, "message": "Admin Deleted Successfully", "notificationType": "success" }
     });
   } catch (error) {
     logger.error("error in deletePanelAdmin->", error);

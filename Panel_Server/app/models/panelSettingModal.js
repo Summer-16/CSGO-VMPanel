@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -22,19 +22,19 @@ const logger = require('../modules/logger')('Panel Setting Model');
 
 var db = require('../db/db_bridge');
 const config = require('../config');
-const table = config.settingTable
+const table = config.dbTables.settingTable
 const valueArray = [["color_theme", "danger"],
 ["dash_vip_show", "1"],
 ["dash_admin_show", "1"],
 ["webhook_url", ""],
 ["community_name", "VMPanel"],
-["normiadmin_settings", "1"],
+["admin_settings", "1"],
 ["community_logo_url", ""],
 ["community_info", ""],
 ["community_website", ""],
 ["platform_currency", "USD"],
-["hiddenadmin_login", "0"],
-["salenotification_discord", "0"],
+["hiddenAdmin_login", "0"],
+["saleNotification_discord", "0"],
 ["disable_about", "0"]]
 
 /**

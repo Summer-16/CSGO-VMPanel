@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -19,7 +19,6 @@
 
 'use strict';
 const logger = require('../modules/logger')('VIP Controller');
-
 const vipModel = require("../models/vipModel.js");
 const myDashboardModel = require("../models/myDashboardModel.js");
 const panelServerModal = require("../models/panelServerModal.js");
@@ -80,7 +79,7 @@ exports.getVipsDataSingleServer = async (req, res) => {
     let result = await getVipsDataSingleServerFunc(req.body);
     res.json({
       success: true,
-      data: { "res": result, "message": "VIP Listing loaded for " + req.body.server.toUpperCase(), "notifType": "info" }
+      data: { "res": result, "message": "VIP Listing loaded for " + req.body.server.toUpperCase(), "notificationType": "info" }
     });
   } catch (error) {
     logger.error("error in getVipsDataSingleServer->", error);
@@ -141,7 +140,7 @@ exports.getAdminsDataSingleServer = async (req, res) => {
     let result = await getAdminsDataSingleServerFunc(req.body);
     res.json({
       success: true,
-      data: { "res": result, "message": "Admins Listing loaded for " + req.body.server.toUpperCase(), "notifType": "info" }
+      data: { "res": result, "message": "Admins Listing loaded for " + req.body.server.toUpperCase(), "notificationType": "info" }
     });
   } catch (error) {
     logger.error("error in getAdminsDataSingleServerFunc->", error);

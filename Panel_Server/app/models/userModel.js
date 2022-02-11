@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -21,9 +21,9 @@
 const logger = require('../modules/logger')('User Model');
 var db = require('../db/db_bridge');
 const config = require('../config');
-const table = config.usersTable
+const table = config.dbTables.usersTable;
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const saltRounds = config.saltRounds;
 
 /**
  *   User Model
@@ -156,7 +156,7 @@ var userDataModel = {
   /**
  * Insert a new user
  */
-  updateUserpassword: function (dataObj) {
+  updateUserPassword: function (dataObj) {
     return new Promise(async (resolve, reject) => {
       try {
 
@@ -173,7 +173,7 @@ var userDataModel = {
         }
         return resolve(queryRes);
       } catch (error) {
-        logger.error("error in updateUserpassword->", error);
+        logger.error("error in updateUserPassword->", error);
         reject(error)
       }
     });

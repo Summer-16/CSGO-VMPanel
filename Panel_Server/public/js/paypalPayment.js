@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -54,7 +54,7 @@ function setPayPalButton(id, serverData, type) {
 
         showNotif({
           success: true,
-          data: { "message": "Payment Sucess! , Order Id:" + data.orderID + ". Processing furture steps to activate your VIP Subscription.", "notifType": "success" }
+          data: { "message": "Payment Sucess! , Order Id:" + data.orderID + ". Processing furture steps to activate your VIP Subscription.", "notificationType": "success" }
         })
 
         const order = await actions.order.capture();

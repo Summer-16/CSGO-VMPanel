@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -30,7 +30,7 @@ exports.fetchProfileData = async (req, res) => {
     const result = await steam.getProfile(req.body.profileUrl);
     res.json({
       success: true,
-      data: { "res": result, "message": "Data fetched", "notifType": "success" }
+      data: { "res": result, "message": "Data fetched", "notificationType": "success" }
     });
   } catch (error) {
     logger.error("Error fetching user data->", error);

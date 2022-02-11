@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -34,7 +34,7 @@ exports.addPanelServer = async (req, res) => {
 
     logThisActivity({
       "activity": req.body.submit === "insert" ? "New Server added in Panel" : "Panel Server Updated",
-      "additional_info": req.body.servername,
+      "additional_info": req.body.serverName,
       "created_by": req.session.username
     })
 
@@ -56,8 +56,8 @@ const addPanelServerFunc = (reqBody, username) => {
     try {
 
       // validation
-      if (!reqBody.tablename) return reject("Operation Fail!, Table Name is not provided");
-      if (!reqBody.servername) return reject("Operation Fail!, Server Name is not provided");
+      if (!reqBody.tableName) return reject("Operation Fail!, Table Name is not provided");
+      if (!reqBody.serverName) return reject("Operation Fail!, Server Name is not provided");
 
       let userData = await userModel.getUserDataByUsername(username)
 
@@ -108,7 +108,7 @@ exports.getPanelServersList = async (req, res) => {
   }
 }
 
-const getPanelServersListFunc = (reqBody) => {
+const getPanelServersListFunc = () => {
   return new Promise(async (resolve, reject) => {
     try {
 
@@ -179,7 +179,7 @@ exports.deletePanelServers = async (req, res) => {
 
     logThisActivity({
       "activity": "Panel Server Deleted",
-      "additional_info": req.body.tablename,
+      "additional_info": req.body.tableName,
       "created_by": req.session.username
     })
 
@@ -201,7 +201,7 @@ const deletePanelServersFunc = (reqBody, username) => {
     try {
 
       // validation
-      if (!reqBody.tablename) return reject("Operation Fail!, Table Name is not provided");
+      if (!reqBody.tableName) return reject("Operation Fail!, Table Name is not provided");
       if (!reqBody.id) return reject("Operation Fail!, Id is not provided");
 
       let userData = await userModel.getUserDataByUsername(username)

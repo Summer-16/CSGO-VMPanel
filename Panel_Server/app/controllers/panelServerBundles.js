@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -34,7 +34,7 @@ exports.addPanelServerBundle = async (req, res) => {
 
     logThisActivity({
       "activity": "New Server Bundle added in Panel",
-      "additional_info": req.body.bundlename,
+      "additional_info": req.body.bundleName,
       "created_by": req.session.username
     })
 
@@ -56,12 +56,12 @@ const addPanelServerBundleFunc = (reqBody, username) => {
     try {
 
       // validation
-      if (reqBody.bundleserverarray < 2) return reject("Operation Fail!, Select at-least two servers to create a bundle");
-      if (!reqBody.bundlename) return reject("Operation Fail!, Bundle name is Missing");
-      if (!reqBody.bundleprice) return reject("Operation Fail!, Bundle Price is Missing");
-      if (!reqBody.bundlecurrency) return reject("Operation Fail!, Bundle Currency is Missing");
-      if (!reqBody.bundlesubdays) return reject("Operation Fail!, Bundle Subscription days are Missing");
-      if (!reqBody.bundlevipflag) return reject("Operation Fail!, Bundle VIP Flag is Missing");
+      if (reqBody.bundleServerArray < 2) return reject("Operation Fail!, Select at-least two servers to create a bundle");
+      if (!reqBody.bundleName) return reject("Operation Fail!, Bundle name is Missing");
+      if (!reqBody.bundlePrice) return reject("Operation Fail!, Bundle Price is Missing");
+      if (!reqBody.bundleCurrency) return reject("Operation Fail!, Bundle Currency is Missing");
+      if (!reqBody.bundleSubDays) return reject("Operation Fail!, Bundle Subscription days are Missing");
+      if (!reqBody.bundleVipFlag) return reject("Operation Fail!, Bundle VIP Flag is Missing");
 
       let userData = await userModel.getUserDataByUsername(username)
 
@@ -107,7 +107,7 @@ exports.getPanelBundlesList = async (req, res) => {
   }
 }
 
-const getPanelBundlesListFunc = (reqBody) => {
+const getPanelBundlesListFunc = () => {
   return new Promise(async (resolve, reject) => {
     try {
 
@@ -136,7 +136,7 @@ exports.deletePanelBundle = async (req, res) => {
 
     logThisActivity({
       "activity": "Panel Bundle Deleted",
-      "additional_info": req.body.bundlename,
+      "additional_info": req.body.bundleName,
       "created_by": req.session.username
     })
 
@@ -158,7 +158,7 @@ const deletePanelBundleFunc = (reqBody, username) => {
     try {
 
       // validation
-      if (!reqBody.bundlename) return reject("Operation Fail!, Bundle Name is not provided");
+      if (!reqBody.bundleName) return reject("Operation Fail!, Bundle Name is not provided");
       if (!reqBody.id) return reject("Operation Fail!, Id is not provided");
 
       let userData = await userModel.getUserDataByUsername(username)

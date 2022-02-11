@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -23,12 +23,12 @@ const bcrypt = require('bcrypt');
 const config = require('../config');
 const logger = require('../modules/logger')('Login Controller');
 const User = require('../modules/user');
-
 const jwtSecretKey = config.jwt.key;
 const steamApi = config.steam_api_key;
+const jwtExpiry = '1d';
 
 exports.loginPage = async (req, res) => {
-  const isAdminRoute = (req.route.path === "/adminlogin") || (req.headers.referer && req.headers.referer.indexOf("/adminlogin") != -1);
+  const isAdminRoute = (req.route.path === "/adminLogin") || (req.headers.referer && req.headers.referer.indexOf("/adminLogin") != -1);
   try {
     if (req.session.token || req.session.passport) return res.redirect('/');
     res.render('Login', {
@@ -47,7 +47,7 @@ exports.loginPage = async (req, res) => {
 }
 
 exports.authUserLogin = async (req, res) => {
-  const isAdminRoute = req.headers.referer.indexOf("/adminlogin") != -1;
+  const isAdminRoute = req.headers.referer.indexOf("/adminLogin") != -1;
   try {
     let username = req.body.username;
     let password = req.body.password;
@@ -73,7 +73,7 @@ exports.authUserLogin = async (req, res) => {
       const token = jwt.sign({ username: username },
         jwtSecretKey,
         {
-          expiresIn: '7d' // expires in 7 day
+          expiresIn: jwtExpiry
         }
       );
       // return the JWT token for the future API calls
@@ -81,7 +81,7 @@ exports.authUserLogin = async (req, res) => {
       req.session.username = userData.username;
       req.session.sec_key = userData.sec_key;
       req.session.user_type = userData.user_type;
-      return res.redirect('/managevip');
+      return res.redirect('/manageVip');
     });
   } catch (error) {
     logger.error("error in authUserLogin-->", error);

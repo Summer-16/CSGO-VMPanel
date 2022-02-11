@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2022 - Shivam Parashar
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -23,8 +23,8 @@ const logger = require('../modules/logger')('My Dashboard Model');
 var db = require('../db/db_bridge');
 const panelServerModal = require("./panelServerModal.js");
 const config = require('../config');
-const salestable = config.salestable
-const serverTable = config.serverTable
+const salesTable = config.dbTables.salesTable
+const serverTable = config.dbTables.serverTable
 
 
 /**
@@ -53,7 +53,7 @@ var myDashboardModel = {
             return reject("No Data Found");
           }
           if (queryRes.length)
-            finalResult.push({ "servername": serverList[i].server_name, "data": queryRes[0] })
+            finalResult.push({ "serverName": serverList[i].server_name, "data": queryRes[0] })
         }
         return resolve(finalResult);
       } catch (error) {
@@ -76,34 +76,34 @@ var myDashboardModel = {
         let serverList = await panelServerModal.getPanelServersDisplayList();
 
         for (let i = 0; i < serverList.length; i++) {
-          let query = db.queryFormat(`SELECT COUNT(authId) AS usercount FROM ${serverList[i].tbl_name}`);
+          let query = db.queryFormat(`SELECT COUNT(authId) AS userCount FROM ${serverList[i].tbl_name}`);
           let queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("No Data Found");
           }
-          userCount = userCount + (queryRes.usercount / 1)
+          userCount = userCount + (queryRes.userCount / 1)
         }
 
-        let query = db.queryFormat(`SELECT COUNT(id) AS totalservers FROM ${serverTable}`);
+        let query = db.queryFormat(`SELECT COUNT(id) AS totalServers FROM ${serverTable}`);
         let queryRes = await db.query(query, true);
         if (!queryRes) {
           return reject("No Data Found");
         }
-        const totalservers = queryRes.totalservers
+        const totalServers = queryRes.totalServers
 
-        query = db.queryFormat(`SELECT (SELECT COUNT(id) FROM ${salestable} WHERE sale_type=1) as buycount, (SELECT COUNT(id) FROM ${salestable} WHERE sale_type=2) as renewcount `);
+        query = db.queryFormat(`SELECT (SELECT COUNT(id) FROM ${salesTable} WHERE sale_type=1) as buyCount, (SELECT COUNT(id) FROM ${salesTable} WHERE sale_type=2) as renewCount `);
         queryRes = await db.query(query, true);
         if (!queryRes) {
           return reject("No Data Found");
         }
-        const totalbuy = queryRes.buycount
-        const totalrenew = queryRes.renewcount
+        const totalBuy = queryRes.buyCount
+        const totalRenew = queryRes.renewCount
 
         finalResult = {
-          "serverCount": totalservers,
+          "serverCount": totalServers,
           "userCount": userCount,
-          "saleCount": totalbuy,
-          "renewSaleCount": totalrenew
+          "saleCount": totalBuy,
+          "renewSaleCount": totalRenew
         }
 
         return resolve(finalResult);
@@ -126,13 +126,13 @@ var myDashboardModel = {
         let serverList = await panelServerModal.getPanelServersList();
 
         for (let i = 0; i < serverList.length; i++) {
-          let query = db.queryFormat(`SELECT COUNT(authId) AS usercount FROM ${serverList[i].tbl_name} WHERE type = 0`);
+          let query = db.queryFormat(`SELECT COUNT(authId) AS userCount FROM ${serverList[i].tbl_name} WHERE type = 0`);
           let queryRes = await db.query(query, true);
           if (!queryRes) {
             return reject("No Data Found");
           }
 
-          if (queryRes.usercount < serverList[i].vip_slots) {
+          if (queryRes.userCount < serverList[i].vip_slots) {
             delete serverList[i].server_rcon_pass
             serverArray.push(serverList[i])
           }
@@ -144,8 +144,6 @@ var myDashboardModel = {
       }
     });
   },
-
-
 }
 
 module.exports = myDashboardModel;
