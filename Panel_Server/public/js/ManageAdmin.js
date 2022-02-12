@@ -20,7 +20,7 @@
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function addNewAdminajax() {
+function addNewAdminAjax() {
 
   let loader = `<div class="loading">Loading&#8230;</div>`;
   $("#divForLoader").html(loader)

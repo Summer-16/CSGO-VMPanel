@@ -21,182 +21,168 @@
 
 <%- include('Header.ejs') %>
 
-  <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-<%=panelSetting.color_theme%>">
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link active" id="setting-tab" data-toggle="tab" href="#setting" role="tab"
-                    aria-controls="setting" aria-selected="true"><i class="material-icons">settings</i> Panel
-                    Settings</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="manageserver-tab" data-toggle="tab" href="#manageserver" role="tab"
-                    aria-controls="manageserver" aria-selected="false"><i class="material-icons">build</i> Manage
-                    Servers</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="listserver-tab" data-toggle="tab" href="#listserver" role="tab"
-                    aria-controls="listserver" aria-selected="false"><i class="material-icons">dns</i> Servers
-                    Listing</a>
-                </li>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="setting-tab" data-toggle="tab" href="#setting" role="tab" aria-controls="setting" aria-selected="true"><i class="material-icons">settings</i> Panel
+                  Settings</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="manageserver-tab" data-toggle="tab" href="#manageserver" role="tab" aria-controls="manageserver" aria-selected="false"><i class="material-icons">build</i> Manage
+                  Servers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="listserver-tab" data-toggle="tab" href="#listserver" role="tab" aria-controls="listserver" aria-selected="false"><i class="material-icons">dns</i> Servers
+                  Listing</a>
+              </li>
 
-                <li class="nav-item">
-                  <a class="nav-link" id="manageserveroffer-tab" data-toggle="tab" href="#manageserveroffer" role="tab"
-                    aria-controls="manageserveroffer" aria-selected="false"><i class="material-icons">build</i> Manage
-                    Server Offers</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="listserveroffer-tab" data-toggle="tab" href="#listserveroffer" role="tab"
-                    aria-controls="listserveroffer" aria-selected="false"><i class="material-icons">dns</i> Servers
-                    Offer's Listing</a>
-                </li>
+              <li class="nav-item">
+                <a class="nav-link" id="manageserveroffer-tab" data-toggle="tab" href="#manageserveroffer" role="tab" aria-controls="manageserveroffer" aria-selected="false"><i class="material-icons">build</i> Manage
+                  Server Offers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="listserveroffer-tab" data-toggle="tab" href="#listserveroffer" role="tab" aria-controls="listserveroffer" aria-selected="false"><i class="material-icons">dns</i> Servers
+                  Offer's Listing</a>
+              </li>
 
-                <li class="nav-item">
-                  <a class="nav-link" id="manualoperations-tab" data-toggle="tab" href="#manualoperations" role="tab"
-                    aria-controls="manualoperations" aria-selected="false"><i class="material-icons">cached</i> Manual
-                    Refresh</a>
-                </li>
-              </ul>
-            </div>
-            <div class="card-body">
-              <div class="tab-content">
-                <div class="tab-pane active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
-                  <form class="col-md-12" method="post" action="/updatePanelSetting">
-                    <div class="col-md-12 row">
-                      <!-- Theme Setting -->
+              <li class="nav-item">
+                <a class="nav-link" id="manualoperations-tab" data-toggle="tab" href="#manualoperations" role="tab" aria-controls="manualoperations" aria-selected="false"><i class="material-icons">cached</i> Manual
+                  Refresh</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+                <form class="col-md-12" method="post" action="/updatePanelSetting">
+                  <div class="col-md-12 row">
+                    <!-- Theme Setting -->
+                    <div class="col-md-2">
+                      <label class="">Panel Theme</label>
+                    </div>
+                    <div class="col-md-10 row">
                       <div class="col-md-2">
-                        <label class="">Panel Theme</label>
+                        <input class="form-check-input" type="radio" name="color_theme" value="danger" id="danger">
+                        <label class="form-check-label" for="danger">Red</label>
                       </div>
-                      <div class="col-md-10 row">
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="color_theme" value="danger" id="danger">
-                          <label class="form-check-label" for="danger">Red</label>
-                        </div>
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="color_theme" value="primary" id="primary">
-                          <label class="form-check-label" for="primary">Purple</label>
-                        </div>
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="color_theme" value="warning" id="warning">
-                          <label class="form-check-label" for="warning">Orange</label>
-                        </div>
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="color_theme" value="success" id="success">
-                          <label class="form-check-label" for="success">Green</label>
-                        </div>
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="color_theme" value="info" id="info">
-                          <label class="form-check-label" for="info">Blue</label>
-                        </div>
-                      </div>
-                      <!-- Theme Setting -->
-                      <!-- VIP in dash Setting -->
                       <div class="col-md-2">
-                        <label class="">Show VIPS in Public Dashboard</label>
-                        <p><small>This setting only apply to public.</small></p>
+                        <input class="form-check-input" type="radio" name="color_theme" value="primary" id="primary">
+                        <label class="form-check-label" for="primary">Purple</label>
                       </div>
-                      <div class="col-md-10 row">
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="dash_vip_show" value="1" id="vipTrue">
-                          <label class="form-check-label" for="vipTrue">Yes</label>
-                        </div>
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="dash_vip_show" value="0" id="vipFalse">
-                          <label class="form-check-label" for="vipFalse">No</label>
-                        </div>
-                      </div>
-                      <!-- VIP in dash Setting -->
-                      <!-- Admin in dash Setting -->
                       <div class="col-md-2">
-                        <label class="">Show Admins in Dashboard</label>
-                        <p><small>This setting apply to public & admin both.</small></p>
+                        <input class="form-check-input" type="radio" name="color_theme" value="warning" id="warning">
+                        <label class="form-check-label" for="warning">Orange</label>
                       </div>
-                      <div class="col-md-10 row">
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="dash_admin_show" value="1" id="adminTrue">
-                          <label class="form-check-label" for="adminTrue">Yes</label>
-                        </div>
-                        <div class="col-md-2">
-                          <input class="form-check-input" type="radio" name="dash_admin_show" value="0" id="adminFalse">
-                          <label class="form-check-label" for="adminFalse">No</label>
-                        </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="color_theme" value="success" id="success">
+                        <label class="form-check-label" for="success">Green</label>
                       </div>
-                      <!-- Admin in dash Setting -->
-                      <!-- Normi admin setting -->
-                      <%if(adminType===1){%>
-                        <div class="col-md-2">
-                          <label class="">Normi Admin Basic Settings Access</label>
-                        </div>
-                        <div class="col-md-10 row">
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="admin_settings" value="1"
-                              id="normi_admin_settings1">
-                            <label class="form-check-label" for="normi_admin_settings1">Yes</label>
-                          </div>
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="admin_settings" value="0"
-                              id="normi_admin_settings0">
-                            <label class="form-check-label" for="normi_admin_settings0">No</label>
-                          </div>
-                        </div>
-                        <!-- Normi admin setting -->
-                        <!-- Admin login form setting -->
-                        <div class="col-md-2">
-                          <label class="">Hidden Form for Admin Login</label>
-                          <p><small>Hidden route is /adminLogin</small></p>
-                        </div>
-                        <div class="col-md-10 row">
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="hiddenAdmin_login" value="1"
-                              id="hiddenAdmin_login1">
-                            <label class="form-check-label" for="hiddenAdmin_login1">Yes</label>
-                          </div>
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="hiddenAdmin_login" value="0"
-                              id="hiddenAdmin_login0">
-                            <label class="form-check-label" for="hiddenAdmin_login0">No</label>
-                          </div>
-                        </div>
-                        <!-- Admin login form setting -->
-                        <!-- Sales Notif on Discord-->
-                        <div class="col-md-2">
-                          <label class="">Send VIP Sale Notif on Discord</label>
-                        </div>
-                        <div class="col-md-10 row">
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="saleNotification_discord" value="1"
-                              id="saleNotification_discord1">
-                            <label class="form-check-label" for="saleNotification_discord1">Yes</label>
-                          </div>
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="saleNotification_discord" value="0"
-                              id="saleNotification_discord0">
-                            <label class="form-check-label" for="saleNotification_discord0">No</label>
-                          </div>
-                        </div>
-                        <!-- Sales Notif on Discord -->
-                        <!-- panel about-->
-                        <div class="col-md-2">
-                          <label class="">Show Panel/Author Card in About</label>
-                        </div>
-                        <div class="col-md-10 row">
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="disable_about" value="0"
-                              id="disable_about">
-                            <label class="form-check-label" for="disable_about">Yes</label>
-                          </div>
-                          <div class="col-md-2">
-                            <input class="form-check-input" type="radio" name="disable_about" value="1"
-                              id="disable_about1">
-                            <label class="form-check-label" for="disable_about1">No</label>
-                          </div>
-                        </div>
-                        <!-- panel about -->
-                        <%}%>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="color_theme" value="info" id="info">
+                        <label class="form-check-label" for="info">Blue</label>
+                      </div>
+                    </div>
+                    <!-- Theme Setting -->
+                    <!-- VIP in dash Setting -->
+                    <div class="col-md-2">
+                      <label class="">Show VIPS in Public Dashboard</label>
+                      <p><small>This setting only apply to public.</small></p>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="dash_vip_show" value="1" id="vipTrue">
+                        <label class="form-check-label" for="vipTrue">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="dash_vip_show" value="0" id="vipFalse">
+                        <label class="form-check-label" for="vipFalse">No</label>
+                      </div>
+                    </div>
+                    <!-- VIP in dash Setting -->
+                    <!-- Admin in dash Setting -->
+                    <div class="col-md-2">
+                      <label class="">Show Admins in Dashboard</label>
+                      <p><small>This setting apply to public & admin both.</small></p>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="dash_admin_show" value="1" id="adminTrue">
+                        <label class="form-check-label" for="adminTrue">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="dash_admin_show" value="0" id="adminFalse">
+                        <label class="form-check-label" for="adminFalse">No</label>
+                      </div>
+                    </div>
+                    <!-- Admin in dash Setting -->
+                    <!-- Normal admin setting -->
+                    <%if(adminType===1){%>
+                    <div class="col-md-2">
+                      <label class="">Normal Admin Basic Settings Access</label>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="admin_settings" value="1" id="normi_admin_settings1">
+                        <label class="form-check-label" for="normi_admin_settings1">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="admin_settings" value="0" id="normi_admin_settings0">
+                        <label class="form-check-label" for="normi_admin_settings0">No</label>
+                      </div>
+                    </div>
+                    <!-- Normal admin setting -->
+                    <!-- Admin login form setting -->
+                    <div class="col-md-2">
+                      <label class="">Hidden Form for Admin Login</label>
+                      <p><small>Hidden route is /adminLogin</small></p>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="hiddenAdmin_login" value="1" id="hiddenAdmin_login1">
+                        <label class="form-check-label" for="hiddenAdmin_login1">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="hiddenAdmin_login" value="0" id="hiddenAdmin_login0">
+                        <label class="form-check-label" for="hiddenAdmin_login0">No</label>
+                      </div>
+                    </div>
+                    <!-- Admin login form setting -->
+                    <!-- Sales Notification on Discord-->
+                    <div class="col-md-2">
+                      <label class="">Send VIP Sale Notification on Discord</label>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="saleNotification_discord" value="1" id="saleNotification_discord1">
+                        <label class="form-check-label" for="saleNotification_discord1">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="saleNotification_discord" value="0" id="saleNotification_discord0">
+                        <label class="form-check-label" for="saleNotification_discord0">No</label>
+                      </div>
+                    </div>
+                    <!-- Sales Notification on Discord -->
+                    <!-- panel about-->
+                    <div class="col-md-2">
+                      <label class="">Show Panel/Author Card in About</label>
+                    </div>
+                    <div class="col-md-10 row">
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="disable_about" value="0" id="disable_about">
+                        <label class="form-check-label" for="disable_about">Yes</label>
+                      </div>
+                      <div class="col-md-2">
+                        <input class="form-check-input" type="radio" name="disable_about" value="1" id="disable_about1">
+                        <label class="form-check-label" for="disable_about1">No</label>
+                      </div>
+                    </div>
+                    <!-- panel about -->
+                    <%}%>
                           <!-- Community name -->
                           <div class="col-md-2 mt-3">
                             <label class="">Community Name</label>
@@ -209,66 +195,64 @@
                           </div>
                           <!-- Community name  -->
                           <%if(adminType===1){%>
-                            <!-- Community logo -->
-                            <div class="col-md-2 mt-3">
-                              <label class="">Community Logo URL</label>
-                            </div>
-                            <div class="col-md-10">
-                              <div class="form-group bmd-form-group">
-                                <input type="url" name="community_logo_url" class="form-control"
-                                  id="community_logo_url">
-                              </div>
-                            </div>
-                            <!-- Community logo  -->
-                            <!-- Community info -->
-                            <div class="col-md-2 mt-3">
-                              <label class="">Community Info</label>
-                            </div>
-                            <div class="col-md-10">
-                              <div class="form-group bmd-form-group">
-                                <textarea rows="2" cols="40" maxlength="255" name="community_info" class="form-control"
-                                  id="community_info">
-                          Enter One line Info or Greating here.....
+                    <!-- Community logo -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Community Logo URL</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <input type="url" name="community_logo_url" class="form-control" id="community_logo_url">
+                      </div>
+                    </div>
+                    <!-- Community logo  -->
+                    <!-- Community info -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Community Info</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <textarea rows="2" cols="40" maxlength="255" name="community_info" class="form-control" id="community_info">
+                          Enter One line Info or Greeting here.....
                         </textarea>
-                              </div>
-                            </div>
-                            <!-- Community info  -->
-                            <!-- Community website -->
-                            <div class="col-md-2 mt-3">
-                              <label class="">Community Website</label>
-                            </div>
-                            <div class="col-md-10">
-                              <div class="form-group bmd-form-group">
-                                <input type="url" name="community_website" class="form-control" id="community_website">
-                              </div>
-                            </div>
-                            <!-- Community website  -->
-                            <!-- webhook Setting -->
-                            <div class="col-md-2 mt-3">
-                              <label class="">Discord Webhook URL</label>
-                            </div>
-                            <div class="col-md-10">
-                              <div class="form-group bmd-form-group">
-                                <input type="url" name="webhook_url" class="form-control" id="webhook_url">
-                              </div>
-                            </div>
-                            <!-- webhook Setting -->
-                            <!-- currency Setting -->
-                            <div class="col-md-2 mt-3">
-                              <label class="">Platform Currency</label>
-                              <p><small>This setting defines the currency used in server VIP Payments</small></p>
-                            </div>
-                            <div class="col-md-10">
-                              <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Currency</label>
-                                <select class="form-control" id="platform_currency" name="platform_currency" required>
-                                  <option value="" selected>Select Server</option>
-                                  <option value="USD">USD</option>
-                                  <option value="INR">INR</option>
-                                </select>
-                              </div>
-                            </div>
-                            <%}%>
+                      </div>
+                    </div>
+                    <!-- Community info  -->
+                    <!-- Community website -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Community Website</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <input type="url" name="community_website" class="form-control" id="community_website">
+                      </div>
+                    </div>
+                    <!-- Community website  -->
+                    <!-- webhook Setting -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Discord Webhook URL</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <input type="url" name="webhook_url" class="form-control" id="webhook_url">
+                      </div>
+                    </div>
+                    <!-- webhook Setting -->
+                    <!-- currency Setting -->
+                    <div class="col-md-2 mt-3">
+                      <label class="">Platform Currency</label>
+                      <p><small>This setting defines the currency used in server VIP Payments</small></p>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Currency</label>
+                        <select class="form-control" id="platform_currency" name="platform_currency" required>
+                          <option value="" selected>Select Server</option>
+                          <option value="USD">USD</option>
+                          <option value="INR">INR</option>
+                        </select>
+                      </div>
+                    </div>
+                    <%}%>
                               <!-- currency Setting -->
                     </div>
                     <hr>
@@ -293,29 +277,25 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server table name (Defined in plugin's cfg)</label>
-                            <input type="text" name="servertableName" class="form-control" id="servertableName_add"
-                              required>
+                            <input type="text" name="serverTableName" class="form-control" id="serverTableName_add" required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server IP</label>
-                            <input type="text" name="servertableName" class="form-control" id="servertableIP_add"
-                              required>
+                            <input type="text" name="serverTableIP" class="form-control" id="servertableIP_add" required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server Port</label>
-                            <input type="text" name="servertableName" class="form-control" id="servertablePort_add"
-                              required>
+                            <input type="text" name="serverTablePort" class="form-control" id="servertablePort_add" required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">RCON Password</label>
-                            <input type="password" name="servertableName" class="form-control" id="servertableRCON_add"
-                              required>
+                            <input type="password" name="serverTableRcon" class="form-control" id="servertableRCON_add" required>
                           </div>
                         </div>
                         <div class="col-md-12 pb-2">
@@ -324,23 +304,20 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Total VIP Slots in Server</label>
-                            <input type="text" name="servertablevipslots" class="form-control"
-                              id="servertableTotalVIPSlots_add">
+                            <input type="text" name="serverTableVipSlots" class="form-control" id="servertableTotalVIPSlots_add">
                           </div>
                         </div>
                         <div class="col-md-12 row">
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Server VIP Price (Monthly)</label>
-                              <input type="number" name="servertablevipprice" class="form-control"
-                                id="servertableVIPPrice_add">
+                              <input type="number" name="serverTableVipPrice" class="form-control" id="servertableVIPPrice_add">
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Currency</label>
-                              <input type="text" name="servertablecurrency" class="form-control"
-                                id="servertablecurrency" value="<%=panelSetting.platform_currency%>" disabled>
+                              <input type="text" name="serverTableCurrency" class="form-control" id="serverTableCurrency" value="<%=panelSetting.platform_currency%>" disabled>
                             </div>
                           </div>
                         </div>
@@ -348,21 +325,19 @@
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Subscription Days</label>
-                              <input type="number" name="servertabledefaultdays" value="30" class="form-control"
-                                id="servertableVIPDays_add">
+                              <input type="number" name="serverTableDefaultDays" value="30" class="form-control" id="servertableVIPDays_add">
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Default VIP Flag</label>
-                              <input type="text" name="servertabledefaultflag" value="0:a" class="form-control"
-                                id="servertableVIPFlag_add">
+                              <input type="text" name="serverTableDefaultFlag" value="0:a" class="form-control" id="servertableVIPFlag_add">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
-                            <button type="button" onclick="addNewPServerajax()" class="btn btn-success pull-right">Add
+                            <button type="button" onclick="addNewPServerAjax()" class="btn btn-success pull-right">Add
                               Server</button>
                           </div>
                         </div>
@@ -388,21 +363,19 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server IP</label>
-                            <input type="text" name="servertableip" class="form-control" id="servertableIP_update">
+                            <input type="text" name="serverTableIp" class="form-control" id="servertableIP_update">
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Server Port</label>
-                            <input type="text" name="servertableport" class="form-control" id="servertablePort_update"
-                              required>
+                            <input type="text" name="serverTablePort" class="form-control" id="servertablePort_update" required>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">RCON Password</label>
-                            <input type="password" name="servertablercon" class="form-control"
-                              id="servertableRCON_update" required>
+                            <input type="password" name="serverTableRcon" class="form-control" id="servertableRCON_update" required>
                           </div>
                         </div>
                         <div class="col-md-12 pb-2">
@@ -411,23 +384,20 @@
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
                             <label class="bmd-label-floating">Total VIP Slots in Server</label>
-                            <input type="text" name="servertablevipslots" class="form-control"
-                              id="servertableTotalVIPSlots_update">
+                            <input type="text" name="serverTableVipSlots" class="form-control" id="servertableTotalVIPSlots_update">
                           </div>
                         </div>
                         <div class="col-md-12 row">
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Server VIP Price (Monthly)</label>
-                              <input type="number" name="servertablevipprice" class="form-control"
-                                id="servertableVIPPrice_update">
+                              <input type="number" name="serverTableVipPrice" class="form-control" id="servertableVIPPrice_update">
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Currency</label>
-                              <input type="text" name="servertablecurrency" class="form-control"
-                                id="servertablecurrency" value="<%=panelSetting.platform_currency%>" disabled>
+                              <input type="text" name="serverTableCurrency" class="form-control" id="serverTableCurrency" value="<%=panelSetting.platform_currency%>" disabled>
                             </div>
                           </div>
                         </div>
@@ -435,30 +405,27 @@
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Subscription Days</label>
-                              <input type="text" name="servertabledefaultdays" class="form-control"
-                                id="servertableVIPDays_update">
+                              <input type="text" name="serverTableDefaultDays" class="form-control" id="servertableVIPDays_update">
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group bmd-form-group">
                               <label class="bmd-label-floating">Default VIP Flag</label>
-                              <input type="text" name="servertabledefaultflag" class="form-control"
-                                id="servertableVIPFlag_update">
+                              <input type="text" name="serverTableDefaultFlag" class="form-control" id="servertableVIPFlag_update">
                             </div>
                           </div>
                         </div>
                         <div class="col-md-12">
                           <div class="form-group bmd-form-group">
-                            <button type="button" onclick="updatePServerajax()"
-                              class="btn btn-success pull-right">Update
+                            <button type="button" onclick="updatePServerAjax()" class="btn btn-success pull-right">Update
                               Server</button>
                           </div>
                         </div>
                       </form>
                     </div>
                     <%}else{%>
-                      <h4 class="card-title">You dont have permissions to execute this operation</h4>
-                      <%}%>
+                    <h4 class="card-title">You don't have permissions to execute this operation</h4>
+                    <%}%>
                 </div>
                 <div class="tab-pane " id="listserver" role="tabpanel" aria-labelledby="listserver-tab">
                   <div class="table-responsive scroller" style="max-height:400px;overflow: auto;" id="style-4">
@@ -485,62 +452,60 @@
                 <div class="tab-pane " id="manageserveroffer" role="tabpanel" aria-labelledby="manageserveroffer-tab">
                   <div class="table-responsive scroller" style="max-height:400px;overflow: auto;" id="style-4">
                     <%if(adminType===1){%>
-                      <form id="myForm_addBundle">
-                        <div class="col-md-12 row">
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                              <label class="">Select Servers to add in Bundle Offer</label>
-                              <div class="col-md-12 row" id="bundleOfferServerListingInput">
-                                <!-- dynamic inputs added here -->
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Enter Bundle Name</label>
-                              <input id="bundle_name_add" type="text" class="form-control" required>
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Enter Bundle Price</label>
-                              <input id="bundle_price_add" type="text" class="form-control" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Currency</label>
-                              <input type="text" name="servertablecurrency" class="form-control"
-                                id="bundle_currency_add" value="<%=panelSetting.platform_currency%>" disabled>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Subscription Days (Each Server)</label>
-                              <input id="bundle_subdays_add" type="number" value="30" class="form-control" required>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group bmd-form-group">
-                              <label class="bmd-label-floating">Flags to give</label>
-                              <input id="bundle_flags_add" type="text" value="0:a" class="form-control" required>
-                            </div>
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                              <button type="button" onclick="addNewPanelServerBundle()"
-                                class="btn btn-success pull-right">Add
-                                Bundle</button>
+                    <form id="myForm_addBundle">
+                      <div class="col-md-12 row">
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="">Select Servers to add in Bundle Offer</label>
+                            <div class="col-md-12 row" id="bundleOfferServerListingInput">
+                              <!-- dynamic inputs added here -->
                             </div>
                           </div>
                         </div>
-                      </form>
 
-                      <%}else{%>
-                        <h4 class="card-title">You dont have permissions to execute this operation</h4>
-                        <%}%>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Enter Bundle Name</label>
+                            <input id="bundle_name_add" type="text" class="form-control" required>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Enter Bundle Price</label>
+                            <input id="bundle_price_add" type="text" class="form-control" required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Currency</label>
+                            <input type="text" name="serverTableCurrency" class="form-control" id="bundle_currency_add" value="<%=panelSetting.platform_currency%>" disabled>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Subscription Days (Each Server)</label>
+                            <input id="bundle_subdays_add" type="number" value="30" class="form-control" required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Flags to give</label>
+                            <input id="bundle_flags_add" type="text" value="0:a" class="form-control" required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group bmd-form-group">
+                            <button type="button" onclick="addNewPanelServerBundle()" class="btn btn-success pull-right">Add
+                              Bundle</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+
+                    <%}else{%>
+                    <h4 class="card-title">You don't have permissions to execute this operation</h4>
+                    <%}%>
                   </div>
                 </div>
 
@@ -550,7 +515,7 @@
                       <thead class=" text-primary">
                         <th>Bundle Name</th>
                         <th>Server Included</th>
-                        <th>Budle Price</th>
+                        <th>Bundle Price</th>
                         <th>Subscription Days (Each Server)</th>
                         <th>Default Flag</th>
                         <th>Added on</th>
@@ -566,88 +531,86 @@
                 <div class="tab-pane " id="manualoperations" role="tabpanel" aria-labelledby="manualoperations-tab">
                   <%if(adminType===1){%>
                     <div class="col-md-12 pt-5 pb-5  text-center">
-                      <button type="button" onclick="manuallyRefreshAllServerajax()" class="btn btn-danger"><i
-                          class="material-icons">cached</i> Execute Manual Refresh in All Servers</button>
+                      <button type="button" onclick="manuallyRefreshAllServerAjax()" class="btn btn-danger"><i class="material-icons">cached</i> Execute Manual Refresh in All Servers</button>
                     </div>
                     <%}else{%>
-                      <h4 class="card-title">You dont have permissions to execute this operation</h4>
-                      <%}%>
+                    <h4 class="card-title">You don't have permissions to execute this operation</h4>
+                    <%}%>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <%if(adminType===1){%>
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                <h4 class="card-title">Add Panel Admin</h4>
-                <p class="card-category">Form to add a new Admins in VMPanel</p>
-              </div>
-              <div class="card-body">
-                <form>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Enter Username</label>
-                        <input id="username_padd" type="text" class="form-control" required>
-                      </div>
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Enter Password</label>
-                        <input id="password_padd" type="password" class="form-control" required>
-                      </div>
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Select Admin Type</label>
-                        <select class="form-control" id="admintype_padd" required>
-                          <option value="" selected>Select Admin Type</option>
-                          <option value="1">Super Admin</option>
-                          <option value="0">Normal Admin</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <button type="button" onclick="addNewPAdminajax()" class="btn btn-success pull-right">ADD
-                    ADMIN</button>
-                  <div class="clearfix"></div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                <h4 class="card-title">Update Panel Admin</h4>
-                <p class="card-category">Form to Change Password or Delete Panel Admin</p>
-              </div>
-              <div class="card-body">
-                <form>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Select Admin</label>
-                        <select class="form-control" id="selected_padmin" required>
-                          <option value="" selected>Select Admin</option>
-                        </select>
-                      </div>
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Enter New Password</label>
-                        <input id="password_pupdate" type="password" class="form-control" required>
-                      </div>
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating"></label>
-                        <input type="text" class="form-control" disabled>
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                          <h4 class="card-title">Add Panel Admin</h4>
+                          <p class="card-category">Form to add a new Admins in VMPanel</p>
+                        </div>
+                        <div class="card-body">
+                          <form>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Enter Username</label>
+                                  <input id="username_padd" type="text" class="form-control" required>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Enter Password</label>
+                                  <input id="password_padd" type="password" class="form-control" required>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Select Admin Type</label>
+                                  <select class="form-control" id="admintype_padd" required>
+                                    <option value="" selected>Select Admin Type</option>
+                                    <option value="1">Super Admin</option>
+                                    <option value="0">Normal Admin</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <button type="button" onclick="addNewPAdminAjax()" class="btn btn-success pull-right">ADD
+                              ADMIN</button>
+                            <div class="clearfix"></div>
+                          </form>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <button type="button" onclick="deletePAdminajax()" class="btn btn-danger pull-left">DELETE</button>
-                  <button type="button" onclick="updateOldPAdminajax()"
-                    class="btn btn-success pull-right">UPDATE</button>
-                  <div class="clearfix"></div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <%}%>
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header card-header-<%=panelSetting.color_theme%>">
+                          <h4 class="card-title">Update Panel Admin</h4>
+                          <p class="card-category">Form to Change Password or Delete Panel Admin</p>
+                        </div>
+                        <div class="card-body">
+                          <form>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Select Admin</label>
+                                  <select class="form-control" id="selected_padmin" required>
+                                    <option value="" selected>Select Admin</option>
+                                  </select>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating">Enter New Password</label>
+                                  <input id="password_pupdate" type="password" class="form-control" required>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                  <label class="bmd-label-floating"></label>
+                                  <input type="text" class="form-control" disabled>
+                                </div>
+                              </div>
+                            </div>
+                            <button type="button" onclick="deletePAdminAjax()" class="btn btn-danger pull-left">DELETE</button>
+                            <button type="button" onclick="updateOldPAdminAjax()" class="btn btn-success pull-right">UPDATE</button>
+                            <div class="clearfix"></div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <%}%>
       </div>
     </div>
   </div>
@@ -655,9 +618,9 @@
 
   <%- include('Footer.ejs') %>
 
-    <script>
-      const curentAdminType =<%=adminType%>
-    </script>
-    <script src="./js/PanelSettings.js"></script>
-    <script src="./js/customConfirm.js"></script>
-    <script src="./js/notifications.js"></script>
+                    <script>
+                      const curentAdminType = <%=adminType%>
+                    </script>
+                    <script src="./js/PanelSettings.js"></script>
+                    <script src="./js/customConfirm.js"></script>
+                    <script src="./js/notifications.js"></script>

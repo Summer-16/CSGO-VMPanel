@@ -15,22 +15,22 @@
   "author": "Shivam Parashar (Summer Soldier)",
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "big-integer": "^1.6.48",
+    "big-integer": "^1.6.51",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
-    "log4js": "^6.3.0",
-    "mysql2": "^2.3.0",
-    "needle": "^2.8.0",
+    "log4js": "^6.4.1",
+    "mysql2": "^2.3.3",
+    "needle": "^3.0.0",
     "node-cron": "^3.0.0",
-    "passport": "^0.4.1",
-    "passport-steam": "^1.0.15",
-    "rcon": "^1.0.3",
+    "passport": "^0.5.2",
+    "passport-steam": "^1.0.17",
+    "rcon": "^1.1.0",
     "sourcequery": "0.0.2"
   },
   "devDependencies": {
-    "eslint": "^7.15.0"
+    "eslint": "^8.8.0"
   }
 }

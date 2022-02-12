@@ -18,7 +18,7 @@
 */
 
 
-function addSourceBansBanajax() {
+function addSourceBansBanAjax() {
 
   let loader = `<div class="loading">Loading&#8230;</div>`;
   $("#divForLoader").html(loader)
@@ -71,7 +71,7 @@ function addSourceBansBanajax() {
 }
 
 
-function addSourceBansCommBanajax() {
+function addSourceBansCommBanAjax() {
 
   let loader = `<div class="loading">Loading&#8230;</div>`;
   $("#divForLoader").html(loader)

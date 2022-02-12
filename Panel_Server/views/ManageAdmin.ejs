@@ -20,160 +20,152 @@
 
 <%- include('Header.ejs') %>
 
-  <div class="content">
-    <div class="container-fluid">
-      <div class="row">
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
 
-        <%- include('SteamDataFetchTool.ejs') %>
+      <%- include('SteamDataFetchTool.ejs') %>
 
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                <h4 class="card-title">Add Admin</h4>
-                <p class="card-category">Form to add a new Admin in Server</p>
-              </div>
-              <div class="card-body" style="min-height:360px;" id="addAdminDiv">
-                <form id="myForm_addAdmin">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Enter Steam ID</label>
-                        <input id="steamId_add" type="text" class="form-control" required>
-                      </div>
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Enter User Name</label>
-                        <input id="name_add" type="text" class="form-control" required>
-                      </div>
-                      <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Enter Immunity level for Admin</label>
-                        <input id="immunity_admin" type="number" class="form-control" value="0" required>
-                      </div>
-                      <div class="form-group bmd-form-group">
-                        <label class="">Select Servers to add in</label>
-                        <div class="col-md-12 row">
-                          <% if(serverList) {%>
-                            <% for(let i=0; i < serverList.length; i++) { %>
-                              <div class="col-md-3">
-                                <div class="form-check">
-                                  <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" name="server_add"
-                                      value="<%=serverList[i].tbl_name%>">
-                                    <%=serverList[i].server_name%>
-                                      <span class="form-check-sign">
-                                        <span class="check"></span>
-                                      </span>
-                                  </label>
-                                </div>
-                              </div>
-                              <%}}%>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
+            <h4 class="card-title">Add Admin</h4>
+            <p class="card-category">Form to add a new Admin in Server</p>
+          </div>
+          <div class="card-body" style="min-height:360px;" id="addAdminDiv">
+            <form id="myForm_addAdmin">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Steam ID</label>
+                    <input id="steamId_add" type="text" class="form-control" required>
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter User Name</label>
+                    <input id="name_add" type="text" class="form-control" required>
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">Enter Immunity level for Admin</label>
+                    <input id="immunity_admin" type="number" class="form-control" value="0" required>
+                  </div>
+                  <div class="form-group bmd-form-group">
+                    <label class="">Select Servers to add in</label>
+                    <div class="col-md-12 row">
+                      <% if(serverList) {%>
+                      <% for(let i=0; i < serverList.length; i++) { %>
+                      <div class="col-md-3">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="server_add" value="<%=serverList[i].tbl_name%>">
+                            <%=serverList[i].server_name%>
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
                         </div>
                       </div>
+                      <%}}%>
                     </div>
                   </div>
-                  <button type="button" onclick="addNewAdminajax()" class="btn btn-success pull-right">ADD
-                    ADMIN</button>
-                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <button type="button" onclick="addNewAdminAjax()" class="btn btn-success pull-right">ADD
+                ADMIN</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
+            <h4 class="card-title">Admin Access Define</h4>
+            <p class="card-category">Select flags to give access for</p>
+          </div>
+          <div class="card-body row scroller" style="height:360px;overflow: auto;" id="style-4">
+            <div class="col-md-12">
+              <label class="">Admin Levels</label>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-primary">
+                    <th>Check</th>
+                    <th>Name</th>
+                    <th>Flag</th>
+                    <th>Purpose</th>
+                  </thead>
+                  <%- include('TbodyAdminFlags.ejs') %>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-<%=panelSetting.color_theme%>">
+            <h4 class="card-title" id="manageCardTitle">View and Manage Admin</h4>
+            <p class="card-category">Select a server to view the list</p>
+          </div>
+          <div class="card-body">
+            <div class="col-md-12 row">
+              <div class="col-md-4">
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select Server
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <% if(serverList) {%>
+                    <% for(let i=0; i < serverList.length; i++) { %>
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="getAdminTableListing('<%=serverList[i].tbl_name%>','<%=serverList[i].server_name%>')">
+                      <%=serverList[i].server_name%>
+                    </a>
+                    <%}}%>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <input type="hidden" id="hiddenServerTableName" name="hiddenServerTableName" value="" autocomplete="off">
+              </div>
+              <div class="col-md-4">
+                <form class="form-inline col-md-12">
+                  <div class="form-group has-<%=panelSetting.color_theme%>">
+                    <input type="text" class="form-control" placeholder="Search" id="adminSearchInput">
+                  </div>
+                  <button type="button" class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round" onclick="getAdminTableListingSearch()">
+                    <i class="material-icons">search</i>
+                    <button type="button" class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round" onclick="resetSearchAndTable()">
+                      <i class="material-icons">clear</i>
+                    </button>
                 </form>
               </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                <h4 class="card-title">Admin Access Define</h4>
-                <p class="card-category">Select flags to give access for</p>
-              </div>
-              <div class="card-body row scroller" style="height:360px;overflow: auto;" id="style-4">
-                <div class="col-md-12">
-                  <label class="">Admin Levels</label>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <th>Check</th>
-                        <th>Name</th>
-                        <th>Flag</th>
-                        <th>Purpose</th>
-                      </thead>
-                      <%- include('TbodyAdminFlags.ejs') %>
-                    </table>
-                  </div>
-                </div>
-              </div>
+            <hr />
+            <div class="table-responsive scroller" style="max-height:400px;overflow: auto;" id="style-4">
+              <table class="table " id="manageVipTable">
+                <thead class=" text-primary">
+                  <th>Steam ID</th>
+                  <th>Name</th>
+                  <th>Flags</th>
+                  <th>Server</th>
+                  <th>Actions</th>
+                </thead>
+                <tbody id="manageVipTableBody">
+                </tbody>
+              </table>
             </div>
           </div>
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header card-header-<%=panelSetting.color_theme%>">
-                <h4 class="card-title" id="manageCardTitle">View and Manage Admin</h4>
-                <p class="card-category">Select a server to view the list</p>
-              </div>
-              <div class="card-body">
-                <div class="col-md-12 row">
-                  <div class="col-md-4">
-                    <div class="dropdown">
-                      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Server
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <% if(serverList) {%>
-                          <% for(let i=0; i < serverList.length; i++) { %>
-                            <a class="dropdown-item" href="javascript:void(0)"
-                              onclick="getAdminTableListing('<%=serverList[i].tbl_name%>','<%=serverList[i].server_name%>')">
-                              <%=serverList[i].server_name%>
-                            </a>
-                            <%}}%>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <input type="hidden" id="hiddenServerTableName" name="hiddenServerTableName" value=""
-                      autocomplete="off">
-                  </div>
-                  <div class="col-md-4">
-                    <form class="form-inline col-md-12">
-                      <div class="form-group has-<%=panelSetting.color_theme%>">
-                        <input type="text" class="form-control" placeholder="Search" id="adminSearchInput">
-                      </div>
-                      <button type="button"
-                        class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
-                        onclick="getAdminTableListingSearch()">
-                        <i class="material-icons">search</i>
-                        <button type="button"
-                          class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round"
-                          onclick="resetSearchAndTable()">
-                          <i class="material-icons">clear</i>
-                        </button>
-                    </form>
-                  </div>
-                </div>
-                <hr />
-                <div class="table-responsive scroller" style="max-height:400px;overflow: auto;" id="style-4">
-                  <table class="table " id="manageVipTable">
-                    <thead class=" text-primary">
-                      <th>Steam ID</th>
-                      <th>Name</th>
-                      <th>Flags</th>
-                      <th>Server</th>
-                      <th>Actions</th>
-                    </thead>
-                    <tbody id="manageVipTableBody">
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
 
-  <%- include('Footer.ejs') %>
+<%- include('Footer.ejs') %>
 
-    <script src="./js/ManageAdmin.js"></script>
-    <script src="./js/customConfirm.js"></script>
-    <script src="./js/notifications.js"></script>
-    <script src="./js/steamIdFinder.js"></script>
-    <script src="./js/steamIdOperations/BigInteger.min.js"></script>
-    <script src="./js/steamIdOperations/steamIDconverter.js"></script>
+<script src="./js/ManageAdmin.js"></script>
+<script src="./js/customConfirm.js"></script>
+<script src="./js/notifications.js"></script>
+<script src="./js/steamIdFinder.js"></script>
+<script src="./js/steamIdOperations/BigInteger.min.js"></script>
+<script src="./js/steamIdOperations/steamIDconverter.js"></script>

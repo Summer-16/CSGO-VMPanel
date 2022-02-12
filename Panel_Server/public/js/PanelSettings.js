@@ -20,7 +20,7 @@
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function addNewPAdminajax() {
+function addNewPAdminAjax() {
   if (curentAdminType === 1) {
 
     let loader = `<div class="loading">Loading&#8230;</div>`;
@@ -77,7 +77,7 @@ function addNewPAdminajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function updateOldPAdminajax() {
+function updateOldPAdminAjax() {
   if (curentAdminType === 1) {
 
     let loader = `<div class="loading">Loading&#8230;</div>`;
@@ -131,7 +131,7 @@ function updateOldPAdminajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function deletePAdminajax() {
+function deletePAdminAjax() {
 
   if (curentAdminType === 1) {
 
@@ -331,14 +331,14 @@ function fetchPServerListajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function addNewPServerajax() {
+function addNewPServerAjax() {
   if (curentAdminType === 1) {
 
     let loader = `<div class="loading">Loading&#8230;</div>`;
     $("#divForLoader").html(loader)
 
     let formError = ""
-    if (!$('#servertableName_add').val()) {
+    if (!$('#serverTableName_add').val()) {
       formError = "Server Table name is mandatory"
     } else if (!$('#serverName_add').val()) {
       formError = "Server Name is mandatory"
@@ -352,14 +352,14 @@ function addNewPServerajax() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "tableName": $('#servertableName_add').val(),
+          "tableName": $('#serverTableName_add').val(),
           "serverName": $('#serverName_add').val(),
           "serverIp": $('#servertableIP_add').val() ? $('#servertableIP_add').val() : null,
           "serverPort": $('#servertablePort_add').val() ? $('#servertablePort_add').val() : null,
           "serverRcon": $('#servertableRCON_add').val() ? $('#servertableRCON_add').val() : null,
           "serverTotalVip": $('#servertableTotalVIPSlots_add').val() ? $('#servertableTotalVIPSlots_add').val() : null,
           "serverVipPrice": $('#servertableVIPPrice_add').val() ? $('#servertableVIPPrice_add').val() : null,
-          "serverVipCurrency": $('#servertablecurrency').val() ? $('#servertablecurrency').val() : null,
+          "serverVipCurrency": $('#serverTableCurrency').val() ? $('#serverTableCurrency').val() : null,
           "serverVipFlag": $('#servertableVIPFlag_add').val() ? $('#servertableVIPFlag_add').val() : null,
           "serverVipDays": $('#servertableVIPDays_add').val() ? $('#servertableVIPDays_add').val() : null,
           "submit": "insert",
@@ -396,7 +396,7 @@ function addNewPServerajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function updatePServerajax() {
+function updatePServerAjax() {
   if (curentAdminType === 1) {
 
     let loader = `<div class="loading">Loading&#8230;</div>`;
@@ -424,7 +424,7 @@ function updatePServerajax() {
           "serverRcon": $('#servertableRCON_update').val(),
           "serverTotalVip": $('#servertableTotalVIPSlots_update').val(),
           "serverVipPrice": $('#servertableVIPPrice_update').val(),
-          "serverVipCurrency": $('#servertablecurrency').val(),
+          "serverVipCurrency": $('#serverTableCurrency').val(),
           "serverVipFlag": $('#servertableVIPFlag_update').val(),
           "serverVipDays": $('#servertableVIPDays_update').val(),
           "submit": "update",
@@ -510,7 +510,7 @@ function deletePServerajax(id, tableName) {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function manuallyRefreshAllServerajax() {
+function manuallyRefreshAllServerAjax() {
 
   if (curentAdminType === 1) {
 

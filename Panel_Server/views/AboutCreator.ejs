@@ -23,60 +23,53 @@
 
 <%- include('Header.ejs') %>
 
-  <div class="content">
-    <div class="container-fluid">
-      <div class="row">
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
 
-        <div class="col-md-6">
-          <h2 class="pb-5 text-center">About the <%=panelSetting.community_name?panelSetting.community_name:""%>
-              Communnity</h2>
-          <div class="col-md-12">
-            <div class="card card-profile">
-              <div class="card-avatar">
-                <img class="img"
-                  src="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"
-                  alt="Communnity" style="width:130px;height:130px;">
-              </div>
-              <div class="card-body">
-                <h6 class="card-category"></h6>
-                <h4 class="card-title">
-                  <%=panelSetting.community_name?panelSetting.community_name:"NA" %>
-                </h4>
-                <p class="card-description">
-                  <%= panelSetting.community_info?panelSetting.community_info:""%>
-                </p>
-                <a href="<%=panelSetting.community_website?panelSetting.community_website:'javascript:void(0)' %>"
-                  target="_blank" rel="noopener noreferrer"
-                  class="btn btn-<%=panelSetting.color_theme%> btn-round">Follow</a>
-              </div>
+      <div class="col-md-6">
+        <h2 class="pb-5 text-center">About the <%=panelSetting.community_name?panelSetting.community_name:""%>
+          Community</h2>
+        <div class="col-md-12">
+          <div class="card card-profile">
+            <div class="card-avatar">
+              <img class="img" src="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>" alt="Community" style="width:130px;height:130px;">
+            </div>
+            <div class="card-body">
+              <h6 class="card-category"></h6>
+              <h4 class="card-title">
+                <%=panelSetting.community_name?panelSetting.community_name:"NA" %>
+              </h4>
+              <p class="card-description">
+                <%= panelSetting.community_info?panelSetting.community_info:""%>
+              </p>
+              <a href="<%=panelSetting.community_website?panelSetting.community_website:'javascript:void(0)' %>" target="_blank" rel="noopener noreferrer" class="btn btn-<%=panelSetting.color_theme%> btn-round">Follow</a>
             </div>
           </div>
         </div>
+      </div>
 
-        <%if(!(panelSetting.disable_about /1)){%>
-          <div class="col-md-6">
-            <h2 class="pb-5 text-center">About the VMPanel</h2>
-            <div class="col-md-12">
-              <div class="card card-profile">
-                <div class="card-avatar">
-                  <img class="img"
-                    src="https://avatars0.githubusercontent.com/u/23084341?s=460&u=81ecd55c581074d6561d6250a2daa52cb7152089&v=4"
-                    alt="Summer Soldier" style="width:130px;height:130px;">
-                </div>
-                <div class="card-body">
-                  <h6 class="card-category"></h6>
-                  <h4 class="card-title">VMPanel Created by Summer Soldier</h4>
-                  <p class="card-description">
-                    This Panel as a single solution for managing Admins and VIPs for CSGO Community Servers.
-                    Enjoy the panel and follow the author for other cool CSGO Plugins and Stuffs.
-                  </p>
-                  <a href="https://github.com/Summer-16" target="_blank" rel="noopener noreferrer"
-                    class="btn btn-<%=panelSetting.color_theme%> btn-round">Follow</a>
-                </div>
-              </div>
+      <%if(!(panelSetting.disable_about /1)){%>
+      <div class="col-md-6">
+        <h2 class="pb-5 text-center">About the VMPanel</h2>
+        <div class="col-md-12">
+          <div class="card card-profile">
+            <div class="card-avatar">
+              <img class="img" src="https://avatars0.githubusercontent.com/u/23084341?s=460&u=81ecd55c581074d6561d6250a2daa52cb7152089&v=4" alt="Summer Soldier" style="width:130px;height:130px;">
+            </div>
+            <div class="card-body">
+              <h6 class="card-category"></h6>
+              <h4 class="card-title">VMPanel Created by Summer Soldier</h4>
+              <p class="card-description">
+                This Panel as a single solution for managing Admins and VIPs for CSGO Community Servers.
+                Enjoy the panel and follow the author for other cool CSGO Plugins and Stuffs.
+              </p>
+              <a href="https://github.com/Summer-16" target="_blank" rel="noopener noreferrer" class="btn btn-<%=panelSetting.color_theme%> btn-round">Follow</a>
             </div>
           </div>
-          <%}%>
+        </div>
+      </div>
+      <%}%>
       </div>
     </div>
   </div>

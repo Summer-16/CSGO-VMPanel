@@ -235,7 +235,7 @@ function getVIPTableListing(value, name) {
                         <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
                         <td class="text-primary">${dataArray[i].serverName ? dataArray[i].serverName : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
-                        <td>${dataArray[i].expireStamp ? EpocToDate(dataArray[i].expireStamp) : 'NA'}</td>
+                        <td>${dataArray[i].expireStamp ? epochToDate(dataArray[i].expireStamp) : 'NA'}</td>
                         <td>${dataArray[i].expireStamp ? remainingDays(dataArray[i].expireStamp) : 'NA'}</td>
                         <td> <button class="btn btn-danger" onclick="deleteVIPajax('${dataArray[i].server}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
@@ -289,7 +289,7 @@ function getVIPTableListingSearch() {
                         <td>${dataArray[i].flag ? dataArray[i].flag.replace('"', '').replace('"', '') : 'NA'}</td>
                         <td class="text-primary">${dataArray[i].serverName ? dataArray[i].serverName : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
-                        <td>${dataArray[i].expireStamp ? EpocToDate(dataArray[i].expireStamp) : 'NA'}</td>
+                        <td>${dataArray[i].expireStamp ? epochToDate(dataArray[i].expireStamp) : 'NA'}</td>
                         <td>${dataArray[i].expireStamp ? remainingDays(dataArray[i].expireStamp) : 'NA'}</td>
                         <td> <button class="btn btn-danger" onclick="deleteVIPajax('${dataArray[i].server}','${dataArray[i].authId.replace('"', '').replace('"', '')}')"><i class="material-icons" >delete_forever</i></button></td>
                         </tr>`
@@ -322,7 +322,7 @@ function resetSearchAndTable() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function EpocToDate(utcSeconds) {
+function epochToDate(utcSeconds) {
   let d = new Date(0);
   d.setUTCSeconds(utcSeconds)
   let dd = d.getDate();

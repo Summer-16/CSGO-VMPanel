@@ -54,27 +54,19 @@ exports.deleteVipData = async (req, res) => {
   }
 }
 
-const deleteVipDataFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let userData = await userModel.getUserDataByUsername(username)
+const deleteVipDataFunc = async (reqBody, username) => {
+  let userData = await userModel.getUserDataByUsername(username)
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        reqBody.primaryKey = '"' + reqBody.primaryKey + '"'
-        let deleteRes = await vipModel.deleteVipByAdmin(reqBody)
-        if (deleteRes) {
-          rconStatus = await refreshAdminsInServer(reqBody.tableName);
-          resolve(deleteRes)
-        }
-      } else {
-        reject("Unauthorized Access, Key Missing")
-      }
-
-    } catch (error) {
-      logger.error("error in deleteVipDataFunc->", error);
-      reject(error + ", Please try again")
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+    reqBody.primaryKey = '"' + reqBody.primaryKey + '"'
+    let deleteRes = await vipModel.deleteVipByAdmin(reqBody)
+    if (deleteRes) {
+      rconStatus = await refreshAdminsInServer(reqBody.tableName);
+      return (deleteRes)
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing")
+  }
 }
 
 exports.deleteVipDataFunc = deleteVipDataFunc;
@@ -110,25 +102,17 @@ exports.deleteOldVipData = async (req, res) => {
   }
 }
 
-const deleteOldVipDataFunc = (username, secKey) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let userData = await userModel.getUserDataByUsername(username)
+const deleteOldVipDataFunc = async (username, secKey) => {
+  let userData = await userModel.getUserDataByUsername(username)
 
-      if (secKey && secKey === userData.sec_key) {
-
-        let deleteRes = await vipModel.deleteOldVip()
-        if (deleteRes) {
-          resolve(deleteRes)
-        }
-      } else {
-        reject("Unauthorized Access, Key Missing")
-      }
-    } catch (error) {
-      logger.error("error in deleteOldVipDataFunc->", error);
-      reject(error + ", Please try again")
+  if (secKey && secKey === userData.sec_key) {
+    let deleteRes = await vipModel.deleteOldVip()
+    if (deleteRes) {
+      return (deleteRes)
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing")
+  }
 }
 
 exports.deleteOldVipDataFunc = deleteOldVipDataFunc;

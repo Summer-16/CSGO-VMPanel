@@ -38,33 +38,26 @@ exports.dashboard = async (req, res) => {
   }
 }
 
-const dashboardFunc = (reqBody, token) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const dashboardFunc = async (reqBody, token) => {
+  let data = null, adminStats = null, serverData = null
 
-      let data = null, adminStats = null, serverData = null
-
-      if (token) {
-        data = await vipModel.getAllServerData()
-        adminStats = await myDashboardModel.getStatsForAdmin()
-      } else {
-        let settingObj = await settingsModal.getAllSettings();
-        if (settingObj.dash_vip_show) {
-          data = await vipModel.getAllServerData()
-        }
-      }
-      serverData = await panelServerModal.getPanelServersList()
-      if (serverData) {
-        for (let i = 0; i < serverData.length; i++) {
-          serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA"
-        }
-      }
-      resolve({ "vipData": data, "adminStats": adminStats, "serverData": serverData })
-    } catch (error) {
-      logger.error("error in dashboardFunc->", error);
-      reject(error)
+  if (token) {
+    data = await vipModel.getAllServerData()
+    adminStats = await myDashboardModel.getStatsForAdmin()
+  } else {
+    let settingObj = await settingsModal.getAllSettings();
+    if (Number(settingObj.dash_vip_show)) {
+      data = await vipModel.getAllServerData()
     }
-  });
+  }
+  serverData = await panelServerModal.getPanelServersList()
+  if (serverData) {
+    for (let i = 0; i < serverData.length; i++) {
+      serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA"
+    }
+  }
+  return ({ "vipData": data, "adminStats": adminStats, "serverData": serverData })
+
 }
 
 exports.dashboardFunc = dashboardFunc;
@@ -90,42 +83,33 @@ exports.getVipsDataSingleServer = async (req, res) => {
   }
 }
 
-const getVipsDataSingleServerFunc = (reqBody) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const getVipsDataSingleServerFunc = async (reqBody) => {
+  //validations
+  if (!reqBody.server && !reqBody.searchKey) throw new Error("Operation Fail!, Server Missing");
+  if (reqBody.server) {
+    let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "vip")
 
-      //validations
-      if (!reqBody.server && !reqBody.searchKey) return reject("Operation Fail!, Server Missing");
-      if (reqBody.server) {
-        let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "vip")
-
-        for (let i = 0; i < data.length; i++) {
-          data[i].server = reqBody.server
-          data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
-        }
-        resolve(data)
-      } else if (!reqBody.server && reqBody.searchKey) {
-        let serverData = await panelServerModal.getPanelServersList()
-        let finalResult = []
-
-        for (let i = 0; i < serverData.length; i++) {
-          let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "vip")
-          for (let j = 0; j < data.length; j++) {
-            data[j].server = serverData[i].tbl_name
-            data[j].serverName = serverData[i].server_name
-          }
-          finalResult = [...finalResult, ...data]
-        }
-        resolve(finalResult)
-      } else {
-        return reject("Something went wrong")
-      }
-
-    } catch (error) {
-      logger.error("error in getVipsDataSingleServerFunc->", error);
-      reject(error)
+    for (let i = 0; i < data.length; i++) {
+      data[i].server = reqBody.server
+      data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
     }
-  });
+    return (data)
+  } else if (!reqBody.server && reqBody.searchKey) {
+    let serverData = await panelServerModal.getPanelServersList()
+    let finalResult = []
+
+    for (let i = 0; i < serverData.length; i++) {
+      let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "vip")
+      for (let j = 0; j < data.length; j++) {
+        data[j].server = serverData[i].tbl_name
+        data[j].serverName = serverData[i].server_name
+      }
+      finalResult = [...finalResult, ...data]
+    }
+    return (finalResult)
+  } else {
+    throw new Error("Something went wrong");
+  }
 }
 
 exports.getVipsDataSingleServerFunc = getVipsDataSingleServerFunc;
@@ -151,41 +135,33 @@ exports.getAdminsDataSingleServer = async (req, res) => {
   }
 }
 
-const getAdminsDataSingleServerFunc = (reqBody) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const getAdminsDataSingleServerFunc = async (reqBody) => {
+  //validations
+  if (!reqBody.server && !reqBody.searchKey) throw new Error("Operation Fail!, Server Missing");
+  if (reqBody.server) {
+    let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "admin")
 
-      //validations
-      if (!reqBody.server && !reqBody.searchKey) return reject("Operation Fail!, Server Missing");
-      if (reqBody.server) {
-        let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "admin")
-
-        for (let i = 0; i < data.length; i++) {
-          data[i].server = reqBody.server
-          data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
-        }
-        resolve(data)
-      } else if (!reqBody.server && reqBody.searchKey) {
-        let serverData = await panelServerModal.getPanelServersList()
-        let finalResult = []
-
-        for (let i = 0; i < serverData.length; i++) {
-          let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "admin")
-          for (let j = 0; j < data.length; j++) {
-            data[j].server = serverData[i].tbl_name
-            data[j].serverName = serverData[i].server_name
-          }
-          finalResult = [...finalResult, ...data]
-        }
-        resolve(finalResult)
-      } else {
-        return reject("Something went wrong")
-      }
-    } catch (error) {
-      logger.error("error in getAdminsDataSingleServerFunc->", error);
-      reject(error)
+    for (let i = 0; i < data.length; i++) {
+      data[i].server = reqBody.server
+      data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
     }
-  });
+    return (data)
+  } else if (!reqBody.server && reqBody.searchKey) {
+    let serverData = await panelServerModal.getPanelServersList()
+    let finalResult = []
+
+    for (let i = 0; i < serverData.length; i++) {
+      let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "admin")
+      for (let j = 0; j < data.length; j++) {
+        data[j].server = serverData[i].tbl_name
+        data[j].serverName = serverData[i].server_name
+      }
+      finalResult = [...finalResult, ...data]
+    }
+    return (finalResult)
+  } else {
+    throw new Error("Something went wrong")
+  }
 }
 
 exports.getAdminsDataSingleServerFunc = getAdminsDataSingleServerFunc;
