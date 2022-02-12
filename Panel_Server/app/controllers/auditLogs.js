@@ -62,7 +62,7 @@ exports.getAuditRecord = async (req, res) => {
     logger.error("error in getAuditRecord->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }

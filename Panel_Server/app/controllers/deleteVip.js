@@ -49,7 +49,7 @@ exports.deleteVipData = async (req, res) => {
     logger.error("error in delete vip->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
@@ -97,7 +97,7 @@ exports.deleteOldVipData = async (req, res) => {
     logger.error("error in delete vip->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }

@@ -66,7 +66,7 @@ exports.insertVipData = async (req, res) => {
     logger.error("error in add/update vip->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }

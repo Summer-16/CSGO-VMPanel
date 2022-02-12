@@ -28,15 +28,21 @@ function epochToDate(utcSeconds) {
   return dd + '-' + mm + '-' + yyyy;
 }
 
-  <%- include('Header.ejs') %>
+function dateFormatter(date) {
+  let d = new Date(date);
+  let dd = d.getDate();
+  let mm = d.getMonth() + 1;
+  let yyyy = d.getFullYear();
+  return dd + '-' + mm + '-' + yyyy;
+}
 
 function remainingDays(endEpoch){
-const date1 = new Date();
-const date2 = new Date(0);
-date2.setUTCSeconds(endEpoch);
-const diffTime = Math.abs(date2 - date1);
-const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-return diffDays;
+  const date1 = new Date();
+  const date2 = new Date(0);
+  date2.setUTCSeconds(endEpoch);
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  return diffDays;
 }
 %>
 
