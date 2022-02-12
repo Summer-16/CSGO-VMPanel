@@ -68,13 +68,8 @@ exports.getAuditRecord = async (req, res) => {
 }
 
 const getAuditRecordFunc = async (reqBody) => {
-  try {
-    let salesRecord = await auditModal.getAllAuditRecords(reqBody)
-    return (salesRecord)
-  } catch (error) {
-    logger.error("error in getAuditRecordFunc->", error);
-    throw new Error(error + ", Please try again")
-  }
+  let salesRecord = await auditModal.getAllAuditRecords(reqBody);
+  return (salesRecord);
 }
 
 exports.getAuditRecordFunc = getAuditRecordFunc;

@@ -29,7 +29,7 @@ const payUConfig = config.payment_gateways.payU
 
 exports.initPayUPayment = async (req, res) => {
   try {
-    const secKey = req.session.passport.user.id
+    const secKey = req.session.passport.user.id;
     let result = await initPayUPaymentFunc(req.body, req.user, secKey);
 
     res.json({
@@ -44,61 +44,54 @@ exports.initPayUPayment = async (req, res) => {
     logger.error("error in add/update vip->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const initPayUPaymentFunc = (reqBody, reqUser) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const initPayUPaymentFunc = async (reqBody, reqUser) => {
 
-      const steamId = SteamIDConverter.toSteamID(reqUser.id);
+  const steamId = SteamIDConverter.toSteamID(reqUser.id);
 
-      let productData = reqBody.serverData
-      let productInfo = productData.vip_days + " days VIP for " + productData.server_name + (reqBody.type == 'newPurchase' ? " (New Buy)" : reqBody.type == 'renewPurchase' ? " (Renewal)" : "")
+  let productData = reqBody.serverData;
+  let productInfo = productData.vip_days + " days VIP for " + productData.server_name + (reqBody.type == 'newPurchase' ? " (New Buy)" : reqBody.type == 'renewPurchase' ? " (Renewal)" : "");
 
-      let txnID = createTXNid()
-      let successURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnsuccesspayu'
-      let errorURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnerrorpayu'
+  let txnID = createTXNid();
+  let successURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnsuccesspayu';
+  let errorURL = ((config.apacheProxy) ? ('http://' + config.hostname) : ('http://' + config.hostname + ':' + config.serverPort)) + '/txnerrorpayu';
 
-      let crypt = crypto.createHash('sha512');
-      let text = payUConfig.merchantKey + '|' + txnID + '|' + productData.vip_price + '|' + productInfo + '|' + reqBody.userFirstName + '|' + reqBody.userEmail + '|||||' + steamId + '||||||' + payUConfig.merchantSalt;
-      crypt.update(text);
-      let payUHash = crypt.digest('hex');
+  let crypt = crypto.createHash('sha512');
+  let text = payUConfig.merchantKey + '|' + txnID + '|' + productData.vip_price + '|' + productInfo + '|' + reqBody.userFirstName + '|' + reqBody.userEmail + '|||||' + steamId + '||||||' + payUConfig.merchantSalt;
+  crypt.update(text);
+  let payUHash = crypt.digest('hex');
 
-      let payUFormData = {
-        "key": payUConfig.merchantKey,
-        "txnid": txnID,
-        "hash": payUHash,
-        "amount": productData.vip_price,
-        "firstname": reqBody.userFirstName,
-        "email": reqBody.userEmail,
-        "phone": reqBody.userMobile,
-        "productinfo": productInfo,
-        "udf5": steamId,
-        "surl": successURL,
-        "furl": errorURL
-      }
+  let payUFormData = {
+    "key": payUConfig.merchantKey,
+    "txnid": txnID,
+    "hash": payUHash,
+    "amount": productData.vip_price,
+    "firstname": reqBody.userFirstName,
+    "email": reqBody.userEmail,
+    "phone": reqBody.userMobile,
+    "productinfo": productInfo,
+    "udf5": steamId,
+    "surl": successURL,
+    "furl": errorURL
+  }
 
-      resolve(payUFormData)
-    } catch (error) {
-      logger.error("error in initPayUPaymentFunc->", error);
-      reject(error + ", Please try again")
-    }
-  });
+  return (payUFormData);
 }
 
 exports.initPayUPaymentFunc = initPayUPaymentFunc;
 //-----------------------------------------------------------------------------------------------------
 
 function createTXNid() {
-  let txID = 'PAYUORD-'
-  txID += randomString(2)
-  const now = new Date()
-  const secondsSinceEpoch = Math.round(now.getTime() / 1000)
-  txID += secondsSinceEpoch
-  return txID
+  let txID = 'PAYUORD-';
+  txID += randomString(2);
+  const now = new Date();
+  const secondsSinceEpoch = Math.round(now.getTime() / 1000);
+  txID += secondsSinceEpoch;
+  return txID;
 }
 
 function randomString(length) {

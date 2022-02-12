@@ -55,28 +55,20 @@ exports.getSalesRecord = async (req, res) => {
         data: { "res": result, "message": "Sale Records Fetched" }
       });
     } else {
-      throw new Error("You don't have permissions to access records")
+      throw new Error("You don't have permissions to access records");
     }
   } catch (error) {
     logger.error("error in getSalesRecord->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const getSalesRecordFunc = (reqBody) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-
-      let salesRecord = await salesModal.getAllSalesRecords(reqBody)
-      resolve(salesRecord)
-    } catch (error) {
-      logger.error("error in getSalesRecordFunc->", error);
-      reject(error + ", Please try again")
-    }
-  });
+const getSalesRecordFunc = async (reqBody) => {
+  let salesRecord = await salesModal.getAllSalesRecords(reqBody);
+  return (salesRecord);
 }
 
 exports.getSalesRecordFunc = getSalesRecordFunc;

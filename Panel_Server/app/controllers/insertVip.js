@@ -46,7 +46,7 @@ exports.formVIP = async (req, res) => {
 
 exports.insertVipData = async (req, res) => {
   try {
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await insertVipDataFunc(req.body, req.session.username);
     logThisActivity({
       "activity": req.body.submit == "insert" ? "New VIP added" : "VIP Updated",
@@ -71,85 +71,78 @@ exports.insertVipData = async (req, res) => {
   }
 }
 
-const insertVipDataFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const insertVipDataFunc = async (reqBody, username) => {
 
-      let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        reqBody.day = reqBody.day / 1
-        if (reqBody.submit === "insert") {
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+    reqBody.day = reqBody.day / 1;
+    if (reqBody.submit === "insert") {
 
-          //validations
-          if (!reqBody.steamId) return reject("Operation Fail!, Steam Id Missing");
-          if (!reqBody.name) return reject("Operation Fail!, Name Missing");
-          if (!reqBody.flag) return reject("Operation Fail!, Flags Missing");
-          if (!reqBody.day) return reject("Operation Fail!, No of Days Missing");
-          if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
+      //validations
+      if (!reqBody.steamId) throw new Error("Operation Fail!, Steam Id Missing");
+      if (!reqBody.name) throw new Error("Operation Fail!, Name Missing");
+      if (!reqBody.flag) throw new Error("Operation Fail!, Flags Missing");
+      if (!reqBody.day) throw new Error("Operation Fail!, No of Days Missing");
+      if (!reqBody.server) throw new Error("Operation Fail!, Server list Missing");
 
-          let serverList = reqBody.server
-          if (!Array.isArray(serverList)) return reject("Operation Fail!, Server list is not an Array");
-          let allServersList = await panelServerModal.getPanelServersDisplayList();
-          let serverListLength
-          if (serverList.length <= allServersList.length) {
-            serverListLength = serverList.length
-          } else {
-            return reject("Length of given server list is more then max servers added in panel, something is fishy");
-          }
-
-          reqBody.day = epochTillExpiry(reqBody.day);
-          reqBody.name = "//" + reqBody.name;
-          reqBody.steamId = '"' + reqBody.steamId + '"';
-          reqBody.userType = 0;
-
-          let insertRes = await vipModel.insertVIPData(reqBody)
-          if (insertRes) {
-            for (let i = 0; i < serverListLength; i++) {
-              let result = await refreshAdminsInServer(serverList[i]);
-              rconStatus.push(result)
-            }
-            resolve(insertRes)
-          }
-        } else if (reqBody.submit === "update") {
-
-          //validations
-          if (!reqBody.steamId) return reject("Operation Fail!, Steam Id Missing");
-          if (!reqBody.day) return reject("Operation Fail!, No of Days Missing");
-          if (!reqBody.server) return reject("Operation Fail!, Server list Missing");
-
-          let serverList = reqBody.server
-          if (!Array.isArray(serverList)) return reject("Operation Fail!, Server list is not an Array");
-          let allServersList = await panelServerModal.getPanelServersDisplayList();
-          let serverListLength
-          if (serverList.length <= allServersList.length) {
-            serverListLength = serverList.length
-          } else {
-            return reject("Length of given server list is more then max servers added in panel, something is fishy");
-          }
-
-          reqBody.day = Math.floor(reqBody.day * 86400);
-          reqBody.steamId = '"' + reqBody.steamId + '"';
-
-          let updateRes = await vipModel.updateVIPData(reqBody)
-          if (updateRes) {
-            for (let i = 0; i < serverListLength; i++) {
-              let result = await refreshAdminsInServer(serverList[i]);
-              rconStatus.push(result)
-            }
-            resolve(updateRes)
-          }
-        } else {
-          reject("Something Went Wrong")
-        }
+      let serverList = reqBody.server;
+      if (!Array.isArray(serverList)) throw new Error("Operation Fail!, Server list is not an Array");
+      let allServersList = await panelServerModal.getPanelServersDisplayList();
+      let serverListLength;
+      if (serverList.length <= allServersList.length) {
+        serverListLength = serverList.length;
       } else {
-        reject("Unauthorized Access, Key Missing")
+        throw new Error("Length of given server list is more then max servers added in panel, something is fishy");
       }
-    } catch (error) {
-      logger.error("error in insertVipDataFunc->", error);
-      reject(error + ", Please try again")
+
+      reqBody.day = epochTillExpiry(reqBody.day);
+      reqBody.name = "//" + reqBody.name;
+      reqBody.steamId = '"' + reqBody.steamId + '"';
+      reqBody.userType = 0;
+
+      let insertRes = await vipModel.insertVIPData(reqBody);
+      if (insertRes) {
+        for (let i = 0; i < serverListLength; i++) {
+          let result = await refreshAdminsInServer(serverList[i]);
+          rconStatus.push(result);
+        }
+        return (insertRes);
+      }
+    } else if (reqBody.submit === "update") {
+
+      //validations
+      if (!reqBody.steamId) throw new Error("Operation Fail!, Steam Id Missing");
+      if (!reqBody.day) throw new Error("Operation Fail!, No of Days Missing");
+      if (!reqBody.server) throw new Error("Operation Fail!, Server list Missing");
+
+      let serverList = reqBody.server;
+      if (!Array.isArray(serverList)) throw new Error("Operation Fail!, Server list is not an Array");
+      let allServersList = await panelServerModal.getPanelServersDisplayList();
+      let serverListLength;
+      if (serverList.length <= allServersList.length) {
+        serverListLength = serverList.length;
+      } else {
+        throw new Error("Length of given server list is more then max servers added in panel, something is fishy");
+      }
+
+      reqBody.day = Math.floor(reqBody.day * 86400);
+      reqBody.steamId = '"' + reqBody.steamId + '"';
+
+      let updateRes = await vipModel.updateVIPData(reqBody);
+      if (updateRes) {
+        for (let i = 0; i < serverListLength; i++) {
+          let result = await refreshAdminsInServer(serverList[i]);
+          rconStatus.push(result);
+        }
+        return (updateRes);
+      }
+    } else {
+      throw new Error("Something Went Wrong");
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing");
+  }
 }
 
 exports.insertVipDataFunc = insertVipDataFunc;
@@ -159,7 +152,7 @@ exports.insertVipDataFunc = insertVipDataFunc;
 // 
 
 function epochTillExpiry(days) {
-  let currentEpoch = Math.floor(Date.now() / 1000)
-  let daysInSec = Math.floor(days * 86400)
-  return (currentEpoch + daysInSec)
+  let currentEpoch = Math.floor(Date.now() / 1000);
+  let daysInSec = Math.floor(days * 86400);
+  return (currentEpoch + daysInSec);
 }

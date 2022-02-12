@@ -29,7 +29,7 @@ const settingsModal = require("../models/panelSettingModal.js");
 
 exports.dashboard = async (req, res) => {
   try {
-    const token = req.session.token
+    const token = req.session.token;
     let result = await dashboardFunc(req.body, token);
     res.render('Dashboard', result);
   } catch (error) {
@@ -39,25 +39,24 @@ exports.dashboard = async (req, res) => {
 }
 
 const dashboardFunc = async (reqBody, token) => {
-  let data = null, adminStats = null, serverData = null
+  let data = null, adminStats = null, serverData = null;
 
   if (token) {
-    data = await vipModel.getAllServerData()
-    adminStats = await myDashboardModel.getStatsForAdmin()
+    data = await vipModel.getAllServerData();
+    adminStats = await myDashboardModel.getStatsForAdmin();
   } else {
     let settingObj = await settingsModal.getAllSettings();
     if (Number(settingObj.dash_vip_show)) {
-      data = await vipModel.getAllServerData()
+      data = await vipModel.getAllServerData();
     }
   }
-  serverData = await panelServerModal.getPanelServersList()
+  serverData = await panelServerModal.getPanelServersList();
   if (serverData) {
     for (let i = 0; i < serverData.length; i++) {
-      serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA"
+      serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA";
     }
   }
-  return ({ "vipData": data, "adminStats": adminStats, "serverData": serverData })
-
+  return ({ "vipData": data, "adminStats": adminStats, "serverData": serverData });
 }
 
 exports.dashboardFunc = dashboardFunc;
@@ -78,7 +77,7 @@ exports.getVipsDataSingleServer = async (req, res) => {
     logger.error("error in getVipsDataSingleServer->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
@@ -87,26 +86,26 @@ const getVipsDataSingleServerFunc = async (reqBody) => {
   //validations
   if (!reqBody.server && !reqBody.searchKey) throw new Error("Operation Fail!, Server Missing");
   if (reqBody.server) {
-    let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "vip")
+    let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "vip");
 
     for (let i = 0; i < data.length; i++) {
       data[i].server = reqBody.server
       data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
     }
-    return (data)
+    return (data);
   } else if (!reqBody.server && reqBody.searchKey) {
-    let serverData = await panelServerModal.getPanelServersList()
-    let finalResult = []
+    let serverData = await panelServerModal.getPanelServersList(),
+      finalResult = [];
 
     for (let i = 0; i < serverData.length; i++) {
-      let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "vip")
+      let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "vip");
       for (let j = 0; j < data.length; j++) {
-        data[j].server = serverData[i].tbl_name
-        data[j].serverName = serverData[i].server_name
+        data[j].server = serverData[i].tbl_name;
+        data[j].serverName = serverData[i].server_name;
       }
-      finalResult = [...finalResult, ...data]
+      finalResult = [...finalResult, ...data];
     }
-    return (finalResult)
+    return (finalResult);
   } else {
     throw new Error("Something went wrong");
   }
@@ -130,7 +129,7 @@ exports.getAdminsDataSingleServer = async (req, res) => {
     logger.error("error in getAdminsDataSingleServerFunc->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
@@ -139,28 +138,28 @@ const getAdminsDataSingleServerFunc = async (reqBody) => {
   //validations
   if (!reqBody.server && !reqBody.searchKey) throw new Error("Operation Fail!, Server Missing");
   if (reqBody.server) {
-    let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "admin")
+    let data = await vipModel.getSingleServerData(reqBody.server, reqBody.searchKey, "admin");
 
     for (let i = 0; i < data.length; i++) {
-      data[i].server = reqBody.server
-      data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server
+      data[i].server = reqBody.server;
+      data[i].serverName = reqBody.serverName ? reqBody.serverName : reqBody.server;
     }
     return (data)
   } else if (!reqBody.server && reqBody.searchKey) {
-    let serverData = await panelServerModal.getPanelServersList()
-    let finalResult = []
+    let serverData = await panelServerModal.getPanelServersList(),
+      finalResult = [];
 
     for (let i = 0; i < serverData.length; i++) {
-      let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "admin")
+      let data = await vipModel.getSingleServerData(serverData[i].tbl_name, reqBody.searchKey, "admin");
       for (let j = 0; j < data.length; j++) {
-        data[j].server = serverData[i].tbl_name
-        data[j].serverName = serverData[i].server_name
+        data[j].server = serverData[i].tbl_name;
+        data[j].serverName = serverData[i].server_name;
       }
-      finalResult = [...finalResult, ...data]
+      finalResult = [...finalResult, ...data];
     }
-    return (finalResult)
+    return (finalResult);
   } else {
-    throw new Error("Something went wrong")
+    throw new Error("Something went wrong");
   }
 }
 

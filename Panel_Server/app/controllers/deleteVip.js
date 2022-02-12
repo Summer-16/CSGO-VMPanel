@@ -30,7 +30,7 @@ var rconStatus;
 
 exports.deleteVipData = async (req, res) => {
   try {
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await deleteVipDataFunc(req.body, req.session.username);
     logThisActivity({
       "activity": "VIP deleted",
@@ -55,17 +55,17 @@ exports.deleteVipData = async (req, res) => {
 }
 
 const deleteVipDataFunc = async (reqBody, username) => {
-  let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
   if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-    reqBody.primaryKey = '"' + reqBody.primaryKey + '"'
-    let deleteRes = await vipModel.deleteVipByAdmin(reqBody)
+    reqBody.primaryKey = '"' + reqBody.primaryKey + '"';
+    let deleteRes = await vipModel.deleteVipByAdmin(reqBody);
     if (deleteRes) {
       rconStatus = await refreshAdminsInServer(reqBody.tableName);
-      return (deleteRes)
+      return (deleteRes);
     }
   } else {
-    throw new Error("Unauthorized Access, Key Missing")
+    throw new Error("Unauthorized Access, Key Missing");
   }
 }
 
@@ -103,15 +103,15 @@ exports.deleteOldVipData = async (req, res) => {
 }
 
 const deleteOldVipDataFunc = async (username, secKey) => {
-  let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
   if (secKey && secKey === userData.sec_key) {
-    let deleteRes = await vipModel.deleteOldVip()
+    let deleteRes = await vipModel.deleteOldVip();
     if (deleteRes) {
-      return (deleteRes)
+      return (deleteRes);
     }
   } else {
-    throw new Error("Unauthorized Access, Key Missing")
+    throw new Error("Unauthorized Access, Key Missing");
   }
 }
 

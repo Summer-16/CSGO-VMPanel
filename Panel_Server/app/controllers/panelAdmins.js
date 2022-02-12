@@ -39,7 +39,7 @@ exports.addPanelAdmin = async (req, res) => {
       throw "Unauthorized Access, You are not a Super Admin"
     }
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await addPanelAdminFunc(req.body, req.session.username);
 
     logThisActivity({
@@ -55,66 +55,60 @@ exports.addPanelAdmin = async (req, res) => {
     logger.error("error in addPanelAdmin->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const addPanelAdminFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const addPanelAdminFunc = async (reqBody, username) => {
 
-      let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        if (reqBody.submit === "insert") {
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+    if (reqBody.submit === "insert") {
 
-          //validations
-          if (!reqBody.username) return reject("Operation Fail!, Username Missing");
-          if (!reqBody.password) return reject("Operation Fail!, Password Missing");
+      //validations
+      if (!reqBody.username) throw new Error("Operation Fail!, Username Missing");
+      if (!reqBody.password) throw new Error("Operation Fail!, Password Missing");
 
-          bcrypt.hash(reqBody.password, saltRounds, async function (err, hash) {
-            if (err) {
-              return reject("Error in password Encryption, Try again")
-            } else {
-              reqBody.password = hash
-              let insertRes = await userModel.insertNewUser(reqBody)
-              if (insertRes) {
-                resolve(insertRes)
-              }
-            }
-          });
-
-        } else if (reqBody.submit === "update") {
-
-          //validations
-          if (!reqBody.username) return reject("Operation Fail!, Username Missing");
-          if (!reqBody.newPassword) return reject("Operation Fail!, Password Missing");
-
-          bcrypt.hash(reqBody.newPassword, saltRounds, async function (err, hash) {
-            if (err) {
-              return reject("Error in password Encryption, Try again")
-            } else {
-              reqBody.newPassword = hash
-              let updateRes = await userModel.updateUserPassword({
-                "id": reqBody.username.split(':')[0],
-                "username": reqBody.username.split(':')[1],
-                "password": reqBody.newPassword
-              })
-              if (updateRes) {
-                resolve(updateRes)
-              }
-            }
-          });
+      bcrypt.hash(reqBody.password, saltRounds, async function (err, hash) {
+        if (err) {
+          throw new Error("Error in password Encryption, Try again");
+        } else {
+          reqBody.password = hash;
+          let insertRes = await userModel.insertNewUser(reqBody);
+          if (insertRes) {
+            return (insertRes);
+          }
         }
-      } else {
-        reject("Unauthorized Access, Key Missing")
-      }
-    } catch (error) {
-      logger.error("error in addPanelAdminFunc->", error);
-      reject(error + ", Please try again")
+      });
+
+    } else if (reqBody.submit === "update") {
+
+      //validations
+      if (!reqBody.username) throw new Error("Operation Fail!, Username Missing");
+      if (!reqBody.newPassword) throw new Error("Operation Fail!, Password Missing");
+
+      bcrypt.hash(reqBody.newPassword, saltRounds, async function (err, hash) {
+        if (err) {
+          throw new Error("Error in password Encryption, Try again");
+        } else {
+          reqBody.newPassword = hash;
+          let updateRes = await userModel.updateUserPassword({
+            "id": reqBody.username.split(':')[0],
+            "username": reqBody.username.split(':')[1],
+            "password": reqBody.newPassword
+          })
+          if (updateRes) {
+            return (updateRes);
+          }
+        }
+      });
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing");
+  }
+
 }
 
 exports.addPanelAdminFunc = addPanelAdminFunc;
@@ -137,24 +131,14 @@ exports.getPanelAdminsList = async (req, res) => {
     logger.error("error in getPanelAdminsList->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const getPanelAdminsListFunc = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-
-      let userData = await userModel.getListOfAdmins()
-      if (userData) {
-        resolve(userData)
-      }
-    } catch (error) {
-      logger.error("error in getPanelAdminsListFunc->", error);
-      reject(error + ", Please try again")
-    }
-  });
+const getPanelAdminsListFunc = async () => {
+  let userData = await userModel.getListOfAdmins();
+  return (userData);
 }
 
 exports.getPanelAdminsListFunc = getPanelAdminsListFunc;
@@ -191,42 +175,36 @@ exports.deletePanelAdmin = async (req, res) => {
     logger.error("error in deletePanelAdmin->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const deletePanelAdminFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      if (reqBody.username.split(':')[1] == username) {
-        reject("Did u really tried to delete yourself ?");
-      } else {
+const deletePanelAdminFunc = async (reqBody, username) => {
 
-        //validations
-        if (!reqBody.username) return reject("Operation Fail!, Username Missing");
+  if (reqBody.username.split(':')[1] == username) {
+    throw new Error("Did u really tried to delete yourself ?");
+  } else {
 
-        let userData = await userModel.getUserDataByUsername(username)
+    //validations
+    if (!reqBody.username) throw new Error("Operation Fail!, Username Missing");
 
-        if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-          if (reqBody.submit === "delete") {
-            let insertRes = await userModel.deleteUser({
-              "id": reqBody.username.split(':')[0],
-              "username": reqBody.username.split(':')[1],
-            })
-            if (insertRes) {
-              resolve(insertRes)
-            }
-          }
-        } else {
-          reject("Unauthorized Access, Key Missing")
+    let userData = await userModel.getUserDataByUsername(username)
+
+    if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+      if (reqBody.submit === "delete") {
+        let insertRes = await userModel.deleteUser({
+          "id": reqBody.username.split(':')[0],
+          "username": reqBody.username.split(':')[1],
+        })
+        if (insertRes) {
+          return (insertRes)
         }
       }
-    } catch (error) {
-      logger.error("error in deletePanelAdminFunc->", error);
-      reject(error + ", Please try again")
+    } else {
+      throw new Error("Unauthorized Access, Key Missing")
     }
-  });
+  }
 }
 
 exports.deletePanelAdminFunc = deletePanelAdminFunc;

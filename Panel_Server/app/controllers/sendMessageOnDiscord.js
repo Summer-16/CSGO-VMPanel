@@ -34,19 +34,18 @@ async function sendMessageOnDiscord() {
     const color = [...GAColor];
     let settingObj = await settingsModal.getAllSettings();
     if (!settingObj.webhook_url) {
-      return "Webhook not found"
+      return "Webhook not found";
     }
     let data = await vipModel.getAllServerData();
-
-    let messageString = "", messageArray = [], count = 0, colorArray = []
+    let messageString = "", messageArray = [], count = 0, colorArray = [];
 
     for (let i = 0; i < data.length; i++) {
 
       if (data[i].type == "VIPs" || (data[i].type == "ADMINs" && settingObj.dash_admin_show == 1)) {
 
-        let ranNum = getRandomInt(19);
-        let roll = color.splice(ranNum, 1);
-        let currentColor = roll[0];
+        let ranNum = getRandomInt(19),
+          roll = color.splice(ranNum, 1),
+          currentColor = roll[0];
 
         if (data[i].type == "VIPs") {
           messageString = "**" + data[i].type + " of " + data[i].serverName + " Server**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
@@ -55,45 +54,37 @@ async function sendMessageOnDiscord() {
         }
 
         if (data[i].data.length) {
-
           count = 0;
-
           for (let j = 0; j < data[i].data.length; j++) {
-
             if (count <= 10) {
-
               if (data[i].type == "VIPs") {
                 messageString += "- " + data[i].data[j].name.replace("//", "")
                   + "  :- " + data[i].data[j].authId.replace('"', '').replace('"', '')
                   + "  :- ***(" + EpochToDate(data[i].data[j].expireStamp) + ")***"
-                  + "  :- " + remainingDays(data[i].data[j].expireStamp) + " days left\n"
+                  + "  :- " + remainingDays(data[i].data[j].expireStamp) + " days left\n";
               } else {
                 messageString += "- " + data[i].data[j].name.replace("//", "")
-                  + "  :- " + data[i].data[j].authId.replace('"', '').replace('"', '') + "\n"
+                  + "  :- " + data[i].data[j].authId.replace('"', '').replace('"', '') + "\n";
               }
-
-              count++
+              count++;
             } else {
-
-              messageArray.push(messageString);
-              colorArray.push(currentColor)
               count = 0;
-
+              messageArray.push(messageString);
+              colorArray.push(currentColor);
               if (data[i].type == "VIPs") {
                 messageString = "**" + data[i].type + " of " + data[i].serverName + " Server Continue**\n**- Name  , Steam Id  , Sub. End Date , Days left**\n";
               } else {
                 messageString = "**" + data[i].type + " of " + data[i].serverName + " Server Continue**\n**- Name  , Steam Id**\n";
               }
-
             }
           }
-          messageArray.push(messageString)
-          colorArray.push(currentColor)
+          messageArray.push(messageString);
+          colorArray.push(currentColor);
         }
-        messageString = ""
+        messageString = "";
       }
     }
-    sendMessage(messageArray, colorArray, settingObj.webhook_url)
+    sendMessage(messageArray, colorArray, settingObj.webhook_url);
   } catch (error) {
     logger.error("error in sendMessageOnDiscord->", error);
   }
@@ -105,19 +96,19 @@ async function sendBuyMessageOnDiscord(data, finalUserName) {
   try {
     let settingObj = await settingsModal.getAllSettings();
     if (!settingObj.webhook_url) {
-      return "Webhook not found"
+      return "Webhook not found";
     }
     if (settingObj.saleNotification_discord / 1) {
-      let saleType = (data.buyType === 'newPurchase') ? "VIP Purchased" : "VIP Renewed"
-      let paymentId = (data.gateway === 'paypal') ? data.paymentData.id : (data.gateway === 'payu') ? data.paymentData.order_id : "NA"
-      let serverName = data.serverData.server_name
-      let productDesc = data.paymentData.product_desc
-      let amount
+      let saleType = (data.buyType === 'newPurchase') ? "VIP Purchased" : "VIP Renewed",
+        paymentId = (data.gateway === 'paypal') ? data.paymentData.id : (data.gateway === 'payu') ? data.paymentData.order_id : "NA",
+        serverName = data.serverData.server_name,
+        productDesc = data.paymentData.product_desc,
+        amount;
 
       if (data.gateway === 'paypal') {
-        amount = data.paymentData.purchase_units[0].amount.value
+        amount = data.paymentData.purchase_units[0].amount.value;
       } else if (data.gateway === 'payu') {
-        amount = data.payuData.amount
+        amount = data.payuData.amount;
       }
 
       let messageString = `**New ${saleType}**
@@ -127,11 +118,10 @@ async function sendBuyMessageOnDiscord(data, finalUserName) {
                           Paid Amount: ${amount}
                           Order/Txn Id: ${paymentId}
                           Payment Through: ${data.gateway.toUpperCase()}
-                          `
+                          `;
 
-      sendMessage([messageString], [(data.buyType === 'newPurchase') ? 3066993 : 3447003], settingObj.webhook_url)
+      sendMessage([messageString], [(data.buyType === 'newPurchase') ? 3066993 : 3447003], settingObj.webhook_url);
     }
-
   } catch (error) {
     logger.error("error in sendBuyMessageOnDiscord->", error);
   }
@@ -177,8 +167,8 @@ async function sendMessage(message, color, webhook) {
   }
 }
 
-module.exports.sendMessageOnDiscord = sendMessageOnDiscord
-module.exports.sendBuyMessageOnDiscord = sendBuyMessageOnDiscord
+module.exports.sendMessageOnDiscord = sendMessageOnDiscord;
+module.exports.sendBuyMessageOnDiscord = sendBuyMessageOnDiscord;
 //-----------------------------------------------------------------------------------------------------
 
 
@@ -194,10 +184,10 @@ function EpochToDate(utcSeconds) {
   return dd + '-' + mm + '-' + yyyy;
 }
 
-function remainingDays(endEpoc) {
+function remainingDays(endEpoch) {
   const date1 = new Date();
   const date2 = new Date(0);
-  date2.setUTCSeconds(endEpoc)
+  date2.setUTCSeconds(endEpoch)
   const diffTime = Math.abs(date2 - date1);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays

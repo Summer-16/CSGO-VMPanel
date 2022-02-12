@@ -29,7 +29,7 @@ const { logThisActivity } = require("../utils/activityLogger.js");
 exports.addPanelServerBundle = async (req, res) => {
   try {
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await addPanelServerBundleFunc(req.body, req.session.username);
 
     logThisActivity({
@@ -46,40 +46,33 @@ exports.addPanelServerBundle = async (req, res) => {
     logger.error("error in addPanelServerBundle->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const addPanelServerBundleFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const addPanelServerBundleFunc = async (reqBody, username) => {
 
-      // validation
-      if (reqBody.bundleServerArray < 2) return reject("Operation Fail!, Select at-least two servers to create a bundle");
-      if (!reqBody.bundleName) return reject("Operation Fail!, Bundle name is Missing");
-      if (!reqBody.bundlePrice) return reject("Operation Fail!, Bundle Price is Missing");
-      if (!reqBody.bundleCurrency) return reject("Operation Fail!, Bundle Currency is Missing");
-      if (!reqBody.bundleSubDays) return reject("Operation Fail!, Bundle Subscription days are Missing");
-      if (!reqBody.bundleVipFlag) return reject("Operation Fail!, Bundle VIP Flag is Missing");
+  // validation
+  if (reqBody.bundleServerArray < 2) throw new Error("Operation Fail!, Select at-least two servers to create a bundle");
+  if (!reqBody.bundleName) throw new Error("Operation Fail!, Bundle name is Missing");
+  if (!reqBody.bundlePrice) throw new Error("Operation Fail!, Bundle Price is Missing");
+  if (!reqBody.bundleCurrency) throw new Error("Operation Fail!, Bundle Currency is Missing");
+  if (!reqBody.bundleSubDays) throw new Error("Operation Fail!, Bundle Subscription days are Missing");
+  if (!reqBody.bundleVipFlag) throw new Error("Operation Fail!, Bundle VIP Flag is Missing");
 
-      let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        if (reqBody.submit === "insert") {
-          let insertRes = await bundleModel.insertNewPanelBundle(reqBody)
-          if (insertRes) {
-            resolve(insertRes)
-          }
-        }
-      } else {
-        reject("Unauthorized Access, Key Missing")
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+    if (reqBody.submit === "insert") {
+      let insertRes = await bundleModel.insertNewPanelBundle(reqBody);
+      if (insertRes) {
+        throw new Error(insertRes);
       }
-    } catch (error) {
-      logger.error("error in addPanelServerBundleFunc->", error);
-      reject(error + ", Please try again")
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing");
+  }
 }
 
 exports.addPanelServerBundleFunc = addPanelServerBundleFunc;
@@ -92,7 +85,7 @@ exports.addPanelServerBundleFunc = addPanelServerBundleFunc;
 exports.getPanelBundlesList = async (req, res) => {
   try {
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await getPanelBundlesListFunc(req.body);
     res.json({
       success: true,
@@ -102,23 +95,14 @@ exports.getPanelBundlesList = async (req, res) => {
     logger.error("error in getPanelBundlesList->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const getPanelBundlesListFunc = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-
-      let serverData = await bundleModel.getAllBundles()
-      resolve(serverData)
-
-    } catch (error) {
-      logger.error("error in getPanelBundlesListFunc->", error);
-      reject(error + ", Please try again")
-    }
-  });
+const getPanelBundlesListFunc = async () => {
+  let serverData = await bundleModel.getAllBundles();
+  return (serverData);
 }
 
 exports.getPanelBundlesListFunc = getPanelBundlesListFunc;
@@ -131,7 +115,7 @@ exports.getPanelBundlesListFunc = getPanelBundlesListFunc;
 exports.deletePanelBundle = async (req, res) => {
   try {
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await deletePanelBundleFunc(req.body, req.session.username);
 
     logThisActivity({
@@ -148,36 +132,28 @@ exports.deletePanelBundle = async (req, res) => {
     logger.error("error in deletePanelBundle->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const deletePanelBundleFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const deletePanelBundleFunc = async (reqBody, username) => {
+  // validation
+  if (!reqBody.bundleName) throw new Error("Operation Fail!, Bundle Name is not provided");
+  if (!reqBody.id) throw new Error("Operation Fail!, Id is not provided");
 
-      // validation
-      if (!reqBody.bundleName) return reject("Operation Fail!, Bundle Name is not provided");
-      if (!reqBody.id) return reject("Operation Fail!, Id is not provided");
+  let userData = await userModel.getUserDataByUsername(username);
 
-      let userData = await userModel.getUserDataByUsername(username)
-
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        if (reqBody.submit === "delete") {
-          let deleteRes = await bundleModel.deletePanelBundle(reqBody)
-          if (deleteRes) {
-            resolve(deleteRes)
-          }
-        }
-      } else {
-        reject("Unauthorized Access, Key Missing")
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+    if (reqBody.submit === "delete") {
+      let deleteRes = await bundleModel.deletePanelBundle(reqBody);
+      if (deleteRes) {
+        return (deleteRes);
       }
-    } catch (error) {
-      logger.error("error in deletePanelBundleFunc->", error);
-      reject(error + ", Please try again")
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing");
+  }
 }
 
 exports.deletePanelBundleFunc = deletePanelBundleFunc;

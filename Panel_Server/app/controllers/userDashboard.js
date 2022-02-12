@@ -46,88 +46,78 @@ exports.myDashboard = async (req, res) => {
   }
 }
 
-const myDashboardFunc = (reqBody, reqUser) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const myDashboardFunc = async (reqBody, reqUser) => {
 
-      const steamId = SteamIDConverter.toSteamID(reqUser.id);
-      const userData = {
-        "steamId": steamId,
-        "displayName": reqUser.displayName,
-        "realName": reqUser._json.realname,
-        "avatarUrl": reqUser.photos[2].value
+  const steamId = SteamIDConverter.toSteamID(reqUser.id);
+  const userData = {
+    "steamId": steamId,
+    "displayName": reqUser.displayName,
+    "realName": reqUser._json.realname,
+    "avatarUrl": reqUser.photos[2].value
+  }
+
+  let userDataListing = await myDashboardModel.getUserDataFromAllServers('"' + steamId + '"');
+  let serverList = await myDashboardModel.getSaleServerListing();
+  let allServerList = await panelServerModal.getPanelServersList();
+
+  const userServerArray = []
+  // for (let j = 0; j < userDataListing.length; j++) {
+  //   userServerArray.push(userDataListing[j].serverName)
+  // }
+
+  for (let k = 0; k < userDataListing.length; k++) {
+    userServerArray.push(userDataListing[k].serverName);
+
+    for (let l = 0; l < allServerList.length; l++) {
+      if (userDataListing[k].serverName == allServerList[l].server_name) {
+        userDataListing[k].serverData = allServerList[l];
       }
-
-      let userDataListing = await myDashboardModel.getUserDataFromAllServers('"' + steamId + '"')
-
-      let serverList = await myDashboardModel.getSaleServerListing()
-      let allServerList = await panelServerModal.getPanelServersList();
-
-      const userServerArray = []
-      // for (let j = 0; j < userDataListing.length; j++) {
-      //   userServerArray.push(userDataListing[j].serverName)
-      // }
-
-      for (let k = 0; k < userDataListing.length; k++) {
-        userServerArray.push(userDataListing[k].serverName)
-
-        for (let l = 0; l < allServerList.length; l++) {
-          if (userDataListing[k].serverName == allServerList[l].server_name) {
-            userDataListing[k].serverData = allServerList[l]
-          }
-        }
-      }
-
-      const serverArray = []
-      for (let i = 0; i < serverList.length; i++) {
-        if (!userServerArray.includes(serverList[i].server_name)) {
-          serverArray.push(serverList[i])
-        }
-      }
-
-      let bundleList = await getPanelBundlesListFunc()
-
-      const bundleArray = []
-      for (let i = 0; i < bundleList.length; i++) {
-
-        let serversTblNames = []
-        for (let j = 0; j < bundleList[i].bundleServersData.length; j++) {
-          serversTblNames.push(bundleList[i].bundleServersData[j].tbl_name)
-        }
-
-        let serverDataObj = {
-          "id": bundleList[i].id,
-          "server_ip": "-",
-          "server_port": "-",
-          "server_name": bundleList[i].bundle_name,
-          "vip_price": bundleList[i].bundle_price,
-          "vip_currency": bundleList[i].bundle_currency,
-          "vip_days": bundleList[i].bundle_sub_days,
-          "tbl_name": serversTblNames.join(','),
-          "vip_flag": bundleList[i].bundle_flags
-        }
-
-        bundleList[i]["serverDataObj"] = serverDataObj
-        bundleArray.push(bundleList[i])
-
-      }
-
-      resolve({
-        "userDataListing": userDataListing,
-        "userData": userData,
-        "serverArray": serverArray,
-        "bundleArray": bundleArray,
-        "paypalActive": paypalClientID ? true : false,
-        "paypalClientID": paypalClientID,
-        "payuActive": (payUConfig.enabled == true || payUConfig.enabled == "true") ? true : false,
-        "payuEnv": payUConfig.environment
-      })
-
-    } catch (error) {
-      logger.error("error in myDashboardFunc->", error);
-      reject(error)
     }
-  });
+  }
+
+  const serverArray = [];
+  for (let i = 0; i < serverList.length; i++) {
+    if (!userServerArray.includes(serverList[i].server_name)) {
+      serverArray.push(serverList[i]);
+    }
+  }
+
+  let bundleList = await getPanelBundlesListFunc();
+  const bundleArray = [];
+
+  for (let i = 0; i < bundleList.length; i++) {
+
+    let serversTblNames = [];
+    for (let j = 0; j < bundleList[i].bundleServersData.length; j++) {
+      serversTblNames.push(bundleList[i].bundleServersData[j].tbl_name);
+    }
+
+    let serverDataObj = {
+      "id": bundleList[i].id,
+      "server_ip": "-",
+      "server_port": "-",
+      "server_name": bundleList[i].bundle_name,
+      "vip_price": bundleList[i].bundle_price,
+      "vip_currency": bundleList[i].bundle_currency,
+      "vip_days": bundleList[i].bundle_sub_days,
+      "tbl_name": serversTblNames.join(','),
+      "vip_flag": bundleList[i].bundle_flags
+    }
+
+    bundleList[i]["serverDataObj"] = serverDataObj;
+    bundleArray.push(bundleList[i]);
+  }
+
+  return ({
+    "userDataListing": userDataListing,
+    "userData": userData,
+    "serverArray": serverArray,
+    "bundleArray": bundleArray,
+    "paypalActive": paypalClientID ? true : false,
+    "paypalClientID": paypalClientID,
+    "payuActive": (payUConfig.enabled == true || payUConfig.enabled == "true") ? true : false,
+    "payuEnv": payUConfig.environment
+  })
 }
 
 exports.myDashboardFunc = myDashboardFunc;
@@ -138,13 +128,13 @@ exports.myDashboardFunc = myDashboardFunc;
 
 exports.afterPaymentProcess = async (req, res) => {
   try {
-    const secKey = req.session.passport.user.id
+    const secKey = req.session.passport.user.id;
     let result = await afterPaymentProcessFunc(req.body, req.user, secKey);
 
-    let userDisplayName = req.user.displayName
-    userDisplayName = cleanString(userDisplayName)
-    let userRealName = req.user._json.realname
-    const finalUserName = userRealName + " - (" + (userDisplayName ? userDisplayName : "-_-") + ")"
+    let userDisplayName = req.user.displayName,
+      userRealName = req.user._json.realname;
+    userDisplayName = cleanString(userDisplayName);
+    const finalUserName = userRealName + " - (" + (userDisplayName ? userDisplayName : "-_-") + ")";
 
     logThisActivity({
       "activity": req.body.buyType === 'newPurchase' ? "New VIP Purchased" : "VIP renewed",
@@ -152,7 +142,7 @@ exports.afterPaymentProcess = async (req, res) => {
       "created_by": finalUserName + " (Steam Login)"
     })
 
-    sendBuyMessageOnDiscord(req.body, finalUserName)
+    sendBuyMessageOnDiscord(req.body, finalUserName);
 
     res.json({
       success: true,
@@ -166,162 +156,155 @@ exports.afterPaymentProcess = async (req, res) => {
     logger.error("error in afterPaymentProcess->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const afterPaymentProcessFunc = async (reqBody, reqUser, secKey) => {
 
-      const steamId = SteamIDConverter.toSteamID(reqUser.id);
-      let userDisplayName = reqUser.displayName
-      userDisplayName = cleanString(userDisplayName)
-      let userRealName = reqUser._json.realname
-      const finalUserName = userRealName + " - (" + (userDisplayName ? userDisplayName : "-_-") + ")"
-      const saleType = (reqBody.buyType === 'newPurchase' || reqBody.buyType === "newPurchaseBundle") ? 1 : reqBody.buyType === 'renewPurchase' ? 2 : 0
-      const serverTable = reqBody.serverData.tbl_name
-      const flag = reqBody.serverData.vip_flag
-      const subDays = (reqBody.serverData.vip_days / 1)
-      const paymentData = reqBody.paymentData
-      let paymentInsertObj
+  const steamId = SteamIDConverter.toSteamID(reqUser.id);
+  let userDisplayName = reqUser.displayName,
+    userRealName = reqUser._json.realname,
+    paymentInsertObj;
+  userDisplayName = cleanString(userDisplayName);
+  const finalUserName = userRealName + " - (" + (userDisplayName ? userDisplayName : "-_-") + ")",
+    saleType = (reqBody.buyType === 'newPurchase' || reqBody.buyType === "newPurchaseBundle") ? 1 : reqBody.buyType === 'renewPurchase' ? 2 : 0,
+    serverTable = reqBody.serverData.tbl_name,
+    flag = reqBody.serverData.vip_flag,
+    subDays = (reqBody.serverData.vip_days / 1),
+    paymentData = reqBody.paymentData;
 
-      if (reqBody.gateway === 'paypal') {
-        paymentInsertObj = {
-          order_id: paymentData.id,
-          payer_id: paymentData.payer.payer_id,
-          payer_steamId: steamId,
-          payer_email: paymentData.payer.email_address,
-          payer_name: paymentData.payer.name.given_name,
-          payer_surname: paymentData.payer.name.surname,
-          product_desc: paymentData.purchase_units[0].description,
-          amount_paid: paymentData.purchase_units[0].amount.value,
-          amount_currency: paymentData.purchase_units[0].amount.currency_code,
-          status: paymentData.status,
-          sale_type: saleType
-        }
-      } else if (reqBody.gateway === 'payu') {
+  if (reqBody.gateway === 'paypal') {
+    paymentInsertObj = {
+      order_id: paymentData.id,
+      payer_id: paymentData.payer.payer_id,
+      payer_steamId: steamId,
+      payer_email: paymentData.payer.email_address,
+      payer_name: paymentData.payer.name.given_name,
+      payer_surname: paymentData.payer.name.surname,
+      product_desc: paymentData.purchase_units[0].description,
+      amount_paid: paymentData.purchase_units[0].amount.value,
+      amount_currency: paymentData.purchase_units[0].amount.currency_code,
+      status: paymentData.status,
+      sale_type: saleType
+    }
+  } else if (reqBody.gateway === 'payu') {
 
-        let keyString = payUConfig.merchantKey + '|' + reqBody.payuData.txnid + '|' + reqBody.payuData.amount + '|' + reqBody.payuData.productinfo + '|' + reqBody.payuData.firstname + '|' + reqBody.payuData.email + '|||||' + reqBody.payuData.udf5 + '|||||';
-        let keyArray = keyString.split('|');
-        let reverseKeyArray = keyArray.reverse();
-        let reverseKeyString = payUConfig.merchantSalt + '|' + reqBody.payuData.status + '|' + reverseKeyArray.join('|');
-        let crypt = crypto.createHash('sha512');
-        crypt.update(reverseKeyString);
-        let calcHash = crypt.digest('hex');
+    let keyString = payUConfig.merchantKey + '|' + reqBody.payuData.txnid + '|' + reqBody.payuData.amount + '|' + reqBody.payuData.productinfo + '|' + reqBody.payuData.firstname + '|' + reqBody.payuData.email + '|||||' + reqBody.payuData.udf5 + '|||||';
+    let keyArray = keyString.split('|');
+    let reverseKeyArray = keyArray.reverse();
+    let reverseKeyString = payUConfig.merchantSalt + '|' + reqBody.payuData.status + '|' + reverseKeyArray.join('|');
+    let crypt = crypto.createHash('sha512');
+    crypt.update(reverseKeyString);
+    let calcHash = crypt.digest('hex');
 
-        if (calcHash === reqBody.payuData.hash) {
-          paymentInsertObj = {
-            order_id: paymentData.order_id,
-            payer_id: paymentData.payer_id,
-            payer_steamId: steamId,
-            payer_email: paymentData.payer_email,
-            payer_name: paymentData.payer_name,
-            payer_surname: paymentData.payer_surname,
-            product_desc: paymentData.product_desc,
-            amount_paid: paymentData.amount_paid,
-            amount_currency: paymentData.amount_currency,
-            status: paymentData.status,
-            sale_type: saleType
-          }
-        } else {
-          return reject("Payment Tempered!, Response HASH does not matches with payment HASH therefore payment failed, Contact Support")
-        }
+    if (calcHash === reqBody.payuData.hash) {
+      paymentInsertObj = {
+        order_id: paymentData.order_id,
+        payer_id: paymentData.payer_id,
+        payer_steamId: steamId,
+        payer_email: paymentData.payer_email,
+        payer_name: paymentData.payer_name,
+        payer_surname: paymentData.payer_surname,
+        product_desc: paymentData.product_desc,
+        amount_paid: paymentData.amount_paid,
+        amount_currency: paymentData.amount_currency,
+        status: paymentData.status,
+        sale_type: saleType
       }
+    } else {
+      throw new Error("Payment Tempered!, Response HASH does not matches with payment HASH therefore payment failed, Contact Support");
+    }
+  }
 
-      await salesModal.insertNewSaleRecord(paymentInsertObj, reqBody.gateway)
+  await salesModal.insertNewSaleRecord(paymentInsertObj, reqBody.gateway);
 
-      if (reqBody.buyType === 'newPurchase') {
+  if (reqBody.buyType === 'newPurchase') {
 
+    const newVipInsertObj = {
+      day: epochTillExpiry(subDays),
+      name: "//" + finalUserName,
+      steamId: '"' + steamId + '"',
+      userType: 0,
+      flag: flag,
+      server: serverTable.split(','),
+      secKey: secKey
+    }
+
+    let insertRes = await vipModel.insertVIPData(newVipInsertObj);
+    if (insertRes) {
+      for (let i = 0; i < newVipInsertObj.server.length; i++) {
+        await refreshAdminsInServer(newVipInsertObj.server[i]);
+      }
+      return (insertRes);
+    }
+  } else if (reqBody.buyType === 'renewPurchase') {
+
+    const updateVipObj = {
+      day: Math.floor(subDays * 86400),
+      steamId: '"' + steamId + '"',
+      server: [serverTable],
+      secKey: secKey
+    }
+
+    let updateRes = await vipModel.updateVIPData(updateVipObj);
+    if (updateRes) {
+      for (let i = 0; i < updateVipObj.server.length; i++) {
+        refreshAdminsInServer(updateVipObj.server[i]);
+      }
+      return (updateRes);
+    }
+  } else if (reqBody.buyType === 'newPurchaseBundle') {
+
+    const bundleServerArray = serverTable.split(',');
+
+    for (let i = 0; i < bundleServerArray.length; i++) {
+
+      let checkRes = await vipModel.checkVipExists({ server: bundleServerArray[i], steamId: '"' + steamId + '"' });
+
+      if (checkRes && checkRes.name) {
+        const updateVipObj = {
+          day: Math.floor(subDays * 86400),
+          steamId: '"' + steamId + '"',
+          server: [bundleServerArray[i]],
+          secKey: secKey
+        }
+
+        let updateRes = await vipModel.updateVIPData(updateVipObj);
+        if (updateRes) {
+          refreshAdminsInServer(bundleServerArray[i]);
+        }
+      } else {
         const newVipInsertObj = {
           day: epochTillExpiry(subDays),
           name: "//" + finalUserName,
           steamId: '"' + steamId + '"',
           userType: 0,
           flag: flag,
-          server: serverTable.split(','),
+          server: [bundleServerArray[i]],
           secKey: secKey
         }
 
-        let insertRes = await vipModel.insertVIPData(newVipInsertObj)
+        let insertRes = await vipModel.insertVIPData(newVipInsertObj);
         if (insertRes) {
-          for (let i = 0; i < newVipInsertObj.server.length; i++) {
-            await refreshAdminsInServer(newVipInsertObj.server[i]);
-          }
-          resolve(insertRes)
+          await refreshAdminsInServer(bundleServerArray[i]);
         }
-      } else if (reqBody.buyType === 'renewPurchase') {
-
-        const updateVipObj = {
-          day: Math.floor(subDays * 86400),
-          steamId: '"' + steamId + '"',
-          server: [serverTable],
-          secKey: secKey
-        }
-
-        let updateRes = await vipModel.updateVIPData(updateVipObj)
-        if (updateRes) {
-          for (let i = 0; i < updateVipObj.server.length; i++) {
-            refreshAdminsInServer(updateVipObj.server[i]);
-          }
-          resolve(updateRes)
-        }
-      } else if (reqBody.buyType === 'newPurchaseBundle') {
-
-        const bundleServerArray = serverTable.split(',')
-
-        for (let i = 0; i < bundleServerArray.length; i++) {
-
-          let checkRes = await vipModel.checkVipExists({ server: bundleServerArray[i], steamId: '"' + steamId + '"' })
-
-          if (checkRes && checkRes.name) {
-            const updateVipObj = {
-              day: Math.floor(subDays * 86400),
-              steamId: '"' + steamId + '"',
-              server: [bundleServerArray[i]],
-              secKey: secKey
-            }
-
-            let updateRes = await vipModel.updateVIPData(updateVipObj)
-            if (updateRes) {
-              refreshAdminsInServer(bundleServerArray[i]);
-            }
-          } else {
-            const newVipInsertObj = {
-              day: epochTillExpiry(subDays),
-              name: "//" + finalUserName,
-              steamId: '"' + steamId + '"',
-              userType: 0,
-              flag: flag,
-              server: [bundleServerArray[i]],
-              secKey: secKey
-            }
-
-            let insertRes = await vipModel.insertVIPData(newVipInsertObj)
-            if (insertRes) {
-              await refreshAdminsInServer(bundleServerArray[i]);
-            }
-          }
-        }
-        resolve(true)
-      } else {
-        reject("Something Went Wrong")
       }
-    } catch (error) {
-      logger.error("error in afterPaymentProcessFunc->", error);
-      reject(error + ", Please try again")
     }
-  });
+    return (true);
+  } else {
+    throw new Error("Something Went Wrong");
+  }
 }
 
 exports.afterPaymentProcessFunc = afterPaymentProcessFunc;
 //-----------------------------------------------------------------------------------------------------
 
 function epochTillExpiry(days) {
-  let currentEpoch = Math.floor(Date.now() / 1000)
-  let daysInSec = Math.floor(days * 86400)
-  return (currentEpoch + daysInSec)
+  let currentEpoch = Math.floor(Date.now() / 1000);
+  let daysInSec = Math.floor(days * 86400);
+  return (currentEpoch + daysInSec);
 }
 
 function cleanString(input) {

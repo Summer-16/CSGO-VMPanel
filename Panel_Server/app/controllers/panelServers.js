@@ -29,7 +29,7 @@ const { logThisActivity } = require("../utils/activityLogger.js");
 exports.addPanelServer = async (req, res) => {
   try {
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await addPanelServerFunc(req.body, req.session.username);
 
     logThisActivity({
@@ -46,41 +46,34 @@ exports.addPanelServer = async (req, res) => {
     logger.error("error in addPanelServer->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const addPanelServerFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const addPanelServerFunc = async (reqBody, username) => {
 
-      // validation
-      if (!reqBody.tableName) return reject("Operation Fail!, Table Name is not provided");
-      if (!reqBody.serverName) return reject("Operation Fail!, Server Name is not provided");
+  // validation
+  if (!reqBody.tableName) throw new Error("Operation Fail!, Table Name is not provided");
+  if (!reqBody.serverName) throw new Error("Operation Fail!, Server Name is not provided");
 
-      let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        if (reqBody.submit === "insert") {
-          let insertRes = await panelServerModal.insertNewPanelServer(reqBody)
-          if (insertRes) {
-            resolve(insertRes)
-          }
-        } else if (reqBody.submit === "update") {
-          let updateRes = await panelServerModal.updatePanelServer(reqBody)
-          if (updateRes) {
-            resolve(updateRes)
-          }
-        }
-      } else {
-        reject("Unauthorized Access, Key Missing")
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+    if (reqBody.submit === "insert") {
+      let insertRes = await panelServerModal.insertNewPanelServer(reqBody);
+      if (insertRes) {
+        return (insertRes);
       }
-    } catch (error) {
-      logger.error("error in addPanelServerFunc->", error);
-      reject(error + ", Please try again")
+    } else if (reqBody.submit === "update") {
+      let updateRes = await panelServerModal.updatePanelServer(reqBody);
+      if (updateRes) {
+        return (updateRes);
+      }
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing");
+  }
 }
 
 exports.addPanelServerFunc = addPanelServerFunc;
@@ -93,7 +86,7 @@ exports.addPanelServerFunc = addPanelServerFunc;
 exports.getPanelServersList = async (req, res) => {
   try {
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await getPanelServersListFunc(req.body);
     res.json({
       success: true,
@@ -103,27 +96,19 @@ exports.getPanelServersList = async (req, res) => {
     logger.error("error in getPanelServersList->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const getPanelServersListFunc = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-
-      let serverData = await panelServerModal.getPanelServersList()
-      if (serverData) {
-        for (let i = 0; i < serverData.length; i++) {
-          serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA"
-        }
-        resolve(serverData)
-      }
-    } catch (error) {
-      logger.error("error in getPanelServersListFunc->", error);
-      reject(error + ", Please try again")
+const getPanelServersListFunc = async () => {
+  let serverData = await panelServerModal.getPanelServersList();
+  if (serverData) {
+    for (let i = 0; i < serverData.length; i++) {
+      serverData[i].server_rcon_pass = serverData[i].server_rcon_pass ? "Available" : "NA";
     }
-  });
+  }
+  return (serverData);
 }
 
 exports.getPanelServersListFunc = getPanelServersListFunc;
@@ -136,7 +121,7 @@ exports.getPanelServersListFunc = getPanelServersListFunc;
 exports.getPanelServerSingle = async (req, res) => {
   try {
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await getPanelServerSingleFunc(req.body);
     res.json({
       success: true,
@@ -146,22 +131,14 @@ exports.getPanelServerSingle = async (req, res) => {
     logger.error("error in getPanelServerSingle->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const getPanelServerSingleFunc = (reqBody) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-
-      let serverData = await panelServerModal.getPanelServerDetails(reqBody.server)
-      resolve(serverData)
-    } catch (error) {
-      logger.error("error in getPanelServerSingleFunc->", error);
-      reject(error + ", Please try again")
-    }
-  });
+const getPanelServerSingleFunc = async (reqBody) => {
+  let serverData = await panelServerModal.getPanelServerDetails(reqBody.server);
+  return (serverData);
 }
 
 exports.getPanelServerSingleFunc = getPanelServerSingleFunc;
@@ -174,7 +151,7 @@ exports.getPanelServerSingleFunc = getPanelServerSingleFunc;
 exports.deletePanelServers = async (req, res) => {
   try {
 
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await deletePanelServersFunc(req.body, req.session.username);
 
     logThisActivity({
@@ -191,36 +168,29 @@ exports.deletePanelServers = async (req, res) => {
     logger.error("error in deletePanelServers->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const deletePanelServersFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const deletePanelServersFunc = async (reqBody, username) => {
 
-      // validation
-      if (!reqBody.tableName) return reject("Operation Fail!, Table Name is not provided");
-      if (!reqBody.id) return reject("Operation Fail!, Id is not provided");
+  // validation
+  if (!reqBody.tableName) throw new Error("Operation Fail!, Table Name is not provided");
+  if (!reqBody.id) throw new Error("Operation Fail!, Id is not provided");
 
-      let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
-        if (reqBody.submit === "delete") {
-          let insertRes = await panelServerModal.deletePanelServer(reqBody)
-          if (insertRes) {
-            resolve(insertRes)
-          }
-        }
-      } else {
-        reject("Unauthorized Access, Key Missing")
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+    if (reqBody.submit === "delete") {
+      let insertRes = await panelServerModal.deletePanelServer(reqBody);
+      if (insertRes) {
+        return (insertRes);
       }
-    } catch (error) {
-      logger.error("error in deletePanelServersFunc->", error);
-      reject(error + ", Please try again")
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing");
+  }
 }
 
 exports.deletePanelServersFunc = deletePanelServersFunc;

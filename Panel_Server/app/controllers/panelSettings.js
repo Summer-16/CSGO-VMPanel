@@ -70,16 +70,9 @@ exports.fetchPanelSettings = async (req, res) => {
   }
 }
 
-const fetchPanelSettingsFunc = (reqBody) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let data = await settingsModal.getAllSettings()
-      resolve(data)
-    } catch (error) {
-      logger.error("error in fetchPanelSettingsFunc->", error);
-      reject(error)
-    }
-  });
+const fetchPanelSettingsFunc = async () => {
+  let data = await settingsModal.getAllSettings();
+  return (data);
 }
 
 exports.fetchPanelSettingsFunc = fetchPanelSettingsFunc;
@@ -91,7 +84,7 @@ exports.fetchPanelSettingsFunc = fetchPanelSettingsFunc;
 
 exports.updatePanelSettings = async (req, res) => {
   try {
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     await updatePanelSettingsFunc(req.body, req.session.username);
 
     logThisActivity({
@@ -107,23 +100,18 @@ exports.updatePanelSettings = async (req, res) => {
   }
 }
 
-const updatePanelSettingsFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const updatePanelSettingsFunc = async (reqBody, username) => {
 
-      let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
 
-        let keyArray = Object.keys(reqBody)
-        for (let i = 0; i < keyArray.length; i++) {
-          await settingsModal.updateSetting(keyArray[i], reqBody[keyArray[i]])
-        }
-        resolve(true)
-      }
-    } catch (error) {
-      logger.error("error in updatePanelSettingsFunc->", error);
-      reject(error + ", Please try again")
+    let keyArray = Object.keys(reqBody);
+    for (let i = 0; i < keyArray.length; i++) {
+      await settingsModal.updateSetting(keyArray[i], reqBody[keyArray[i]]);
     }
-  });
+    return (true);
+  } else {
+    return (false);
+  }
 }

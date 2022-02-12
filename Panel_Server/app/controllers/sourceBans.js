@@ -44,7 +44,7 @@ exports.sourceBans = async (req, res) => {
 
 exports.sourceBansAddBan = async (req, res) => {
   try {
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await sourceBansAddBanFunc(req.body, req.session.username);
     logThisActivity({
       "activity": req.body.banType == "serverBan" ? "New Server Ban Added" : "New Comm Ban Added",
@@ -65,57 +65,48 @@ exports.sourceBansAddBan = async (req, res) => {
     logger.error("error in adding ban in sourceBansAddBan->", error);
     res.json({
       success: false,
-      data: { "error": error }
+      data: { "error": error.message || error }
     });
   }
 }
 
-const sourceBansAddBanFunc = (reqBody, username) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+const sourceBansAddBanFunc = async (reqBody, username) => {
 
-      let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
-      if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
+  if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
 
-        logger.info("req body in  sourceBansAddBanFunc==> ", reqBody);
-
-        if (reqBody.banType === "serverBan") {
-          if (reqBody.serverBanType == "steamId") {
-            const banCommand = `sm_addban ${reqBody.banLength} ${reqBody.steamId} [${reqBody.banReason}]`
-            await executeRconInServer(reqBody.banServer, banCommand)
-            resolve("Ban Added")
-          } else {
-            return reject("Wrong ban type passed in API")
-          }
-        } else if (reqBody.banType === "commBan") {
-
-          if (reqBody.commBanType == "chatOnly") {
-            const banCommand = `sm_gag #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`
-            await executeRconInServer(reqBody.banServer, banCommand)
-            resolve("Ban Added")
-          } else if (reqBody.commBanType == "voiceOnly") {
-            const banCommand = `sm_mute #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`
-            await executeRconInServer(reqBody.banServer, banCommand)
-            resolve("Ban Added")
-          } else if (reqBody.commBanType == "chatAndVoice") {
-            const banCommand = `sm_unsilence #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`
-            await executeRconInServer(reqBody.banServer, banCommand)
-            resolve("Ban Added")
-          } else {
-            return reject("Wrong ban type passed in API")
-          }
-        } else {
-          return reject("Wrong ban type passed in API")
-        }
+    if (reqBody.banType === "serverBan") {
+      if (reqBody.serverBanType == "steamId") {
+        const banCommand = `sm_addban ${reqBody.banLength} ${reqBody.steamId} [${reqBody.banReason}]`;
+        await executeRconInServer(reqBody.banServer, banCommand);
+        return ("Ban Added");
       } else {
-        reject("Unauthorized Access, Key Missing")
+        throw new Error("Wrong ban type passed in API");
       }
-    } catch (error) {
-      logger.error("error in sourceBansAddBanFunc->", error);
-      reject(error + ", Please try again")
+    } else if (reqBody.banType === "commBan") {
+
+      if (reqBody.commBanType == "chatOnly") {
+        const banCommand = `sm_gag #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`;
+        await executeRconInServer(reqBody.banServer, banCommand);
+        return ("Ban Added");
+      } else if (reqBody.commBanType == "voiceOnly") {
+        const banCommand = `sm_mute #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`;
+        await executeRconInServer(reqBody.banServer, banCommand);
+        return ("Ban Added");
+      } else if (reqBody.commBanType == "chatAndVoice") {
+        const banCommand = `sm_unsilence #${reqBody.steamId}|${reqBody.username} ${reqBody.banLength} [${reqBody.banReason}]`;
+        await executeRconInServer(reqBody.banServer, banCommand);
+        return ("Ban Added");
+      } else {
+        throw new Error("Wrong ban type passed in API");
+      }
+    } else {
+      throw new Error("Wrong ban type passed in API");
     }
-  });
+  } else {
+    throw new Error("Unauthorized Access, Key Missing");
+  }
 }
 
 exports.sourceBansAddBanFunc = sourceBansAddBanFunc;

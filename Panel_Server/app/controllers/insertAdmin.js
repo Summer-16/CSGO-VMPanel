@@ -45,7 +45,7 @@ exports.formAdmin = async (req, res) => {
 
 exports.insertAdminData = async (req, res) => {
   try {
-    req.body.secKey = req.session.sec_key
+    req.body.secKey = req.session.sec_key;
     let result = await insertAdminDataFunc(req.body, req.session.username);
     logThisActivity({
       "activity": "New Admin added",
@@ -70,7 +70,7 @@ exports.insertAdminData = async (req, res) => {
 }
 
 const insertAdminDataFunc = async (reqBody, username) => {
-  let userData = await userModel.getUserDataByUsername(username)
+  let userData = await userModel.getUserDataByUsername(username);
 
   if (reqBody.secKey && reqBody.secKey === userData.sec_key) {
     if (reqBody.submit === "insert") {
@@ -81,12 +81,12 @@ const insertAdminDataFunc = async (reqBody, username) => {
       if (!reqBody.flag) throw new Error("Operation Fail!, Flags Missing");
       if (!reqBody.server) throw new Error("Operation Fail!, Server list Missing");
 
-      let serverList = reqBody.server
+      let serverList = reqBody.server;
       if (!Array.isArray(serverList)) throw new Error("Operation Fail!, Server list is not an Array");
       let allServersList = await panelServerModal.getPanelServersDisplayList();
-      let serverListLength
+      let serverListLength;
       if (serverList.length <= allServersList.length) {
-        serverListLength = serverList.length
+        serverListLength = serverList.length;
       } else {
         throw new Error("Length of given server list is more then max servers added in panel, something is fishy");
       }
@@ -96,13 +96,13 @@ const insertAdminDataFunc = async (reqBody, username) => {
       reqBody.day = 0;
       reqBody.userType = 1;
 
-      let insertRes = await vipModel.insertVIPData(reqBody)
+      let insertRes = await vipModel.insertVIPData(reqBody);
       if (insertRes) {
         for (let i = 0; i < serverListLength; i++) {
           let result = await refreshAdminsInServer(serverList[i]);
-          rconStatus.push(result)
+          rconStatus.push(result);
         }
-        return (insertRes)
+        return (insertRes);
       }
     }
   } else {
