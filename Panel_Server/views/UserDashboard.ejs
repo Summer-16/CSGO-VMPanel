@@ -18,38 +18,41 @@
 * VMP-by-Summer-Soldier. If not, see http://www.gnu.org/licenses/.
 */ -->
 
-<%
-function EpocToDate(utcSeconds) {
-  let d = new Date(0);
-  d.setUTCSeconds(utcSeconds)
-  let dd = d.getDate();
-  let mm = d.getMonth() + 1;
-  let yyyy = d.getFullYear();
-  return dd + '-' + mm + '-' + yyyy;
-}
-
-function dateFormatter(date) {
-  let d = new Date(date);
-  let dd = d.getDate();
-  let mm = d.getMonth() + 1;
-  let yyyy = d.getFullYear();
-  return dd + '-' + mm + '-' + yyyy;
-}
-
-function remainingDays(endEpoc){
-  const date1 = new Date();
-  const date2 = new Date(0);
-  date2.setUTCSeconds(endEpoc)
-  const diffTime = Math.abs(date2 - date1);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-  return diffDays
-}
-
-%>
+<% function EpocToDate(utcSeconds) { let d=new Date(0); d.setUTCSeconds(utcSeconds) let dd=d.getDate(); let
+  mm=d.getMonth() + 1; let yyyy=d.getFullYear(); return dd + '-' + mm + '-' + yyyy; } function dateFormatter(date) { let
+  d=new Date(date); let dd=d.getDate(); let mm=d.getMonth() + 1; let yyyy=d.getFullYear(); return dd + '-' + mm + '-' +
+  yyyy; } function remainingDays(endEpoc){ const date1=new Date(); const date2=new Date(0); date2.setUTCSeconds(endEpoc)
+  const diffTime=Math.abs(date2 - date1); const diffDays=Math.ceil(diffTime / (1000 * 60 * 60 * 24)); return diffDays }
+  %>
 
 <!-- crypto script needed for payu (sometimes it gives error loading this script from sdk so adding it manually) -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
+<!-- Paypal SDK Settings start -->
+<script>
+  var paypalActive = <%=paypalActive%>;
+</script>
+<%if(paypalActive){%>
+<script src="https://www.paypal.com/sdk/js?client-id=<%=paypalClientID%>&disable-funding=card&currency=<%=panelSetting.platform_currency%>"></script>
+<%}%>
+      <script src="./js/paypalPayment.js"></script>
+      <!-- Paypal SDK Settings end -->
+
+      <!-- PayU SDK Settings start -->
+      <script>
+        var payuActive = <%=payuActive%>;
+</script>
+
+<%if(payuActive && panelSetting.platform_currency==="INR" ){%>
+<%if(payuEnv=='test'){%>
+<!-- BOLT Sandbox/test //-->
+<script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="913f9e" bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
+<%}else if(payuEnv=='live' )%>
+<!-- BOLT Sandbox/test //-->
+<script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="288c6c" bolt-logo="<%= panelSetting.community_logo_url?panelSetting.community_logo_url:'./images/vmp.png'%>"></script>
+<%}%>
+              <!-- PayU SDK Settings end -->
 
 <!-- Paypal SDK Settings start -->
 <script>

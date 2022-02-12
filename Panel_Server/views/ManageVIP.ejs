@@ -162,26 +162,223 @@
                   <div class="form-group bmd-form-group">
                     <label class="">Select Servers to add in</label>
                     <div class="col-md-12 row">
-                      <% if(serverList) {%>
-                      <% for(let i=0; i < serverList.length; i++) { %>
-                      <div class="col-md-3">
+                      <div class="col-md-3 pl-0">
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="server_add" value="<%=serverList[i].tbl_name%>">
-                            <%=serverList[i].server_name%>
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="a" checked>
+                            a (reservation)
                             <span class="form-check-sign">
                               <span class="check"></span>
                             </span>
                           </label>
                         </div>
                       </div>
-                      <%}}%>
+                      <div class="col-md-3 pl-0">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="o">
+                            o (custom1)
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-3 pl-0">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="p">
+                            p (custom2)
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-3 pl-0">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="q">
+                            q (custom3)
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-3 pl-0">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="r">
+                            r (custom4)
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-3 pl-0">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="s">
+                            s (custom5)
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-3 pl-0">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="vip_flags" value="t">
+                            t (custom6)
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-3 pl-0">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="vip_flag_manual_entry" value="manual_entry" id="vip_flag_manual_entry">
+                            Use Group
+                            <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <button type="button" onclick="addNewVIPajax()" class="btn btn-success pull-right">ADD VIP</button>
-              <div class="clearfix"></div>
+              <p><small>* Select only 'Use Group' in case you wanna add vip through admin group instead of flag
+                  and
+                  then
+                  enter the name of group.</small></p>
+              <div class="form-group bmd-form-group" id="vip-group-div">
+              </div>
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating">Enter Days to ADD</label>
+                <input id="day_add" type="number" class="form-control" value="30" required>
+              </div>
+              <div class="form-group bmd-form-group">
+                <label class="">Select Servers to add in</label>
+                <div class="col-md-12 row">
+                  <% if(serverList) {%>
+                  <% for(let i=0; i < serverList.length; i++) { %>
+                  <div class="col-md-3">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" name="server_add" value="<%=serverList[i].tbl_name%>">
+                        <%=serverList[i].server_name%>
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                  <%}}%>
+                </div>
+              </div>
+          </div>
+        </div>
+        <button type="button" onclick="addNewVIPajax()" class="btn btn-success pull-right">ADD VIP</button>
+        <div class="clearfix"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header card-header-<%=panelSetting.color_theme%>">
+        <h4 class="card-title">Update VIP</h4>
+        <p class="card-category">Form to Extend days for an old VIP</p>
+      </div>
+      <div class="card-body">
+        <form id="myForm_updateVIP">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating">Enter Steam ID</label>
+                <input id="steamId_update" type="text" class="form-control" value="STEAM_X:Y:Z" required>
+              </div>
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating">Enter Days to Extend</label>
+                <input id="day_update" type="number" class="form-control" required>
+              </div>
+              <div class="form-group bmd-form-group">
+                <label class="">Select Servers to update in</label>
+                <div class="col-md-12 row">
+                  <% if(serverList) {%>
+                  <% for(let i=0; i < serverList.length; i++) { %>
+                  <div class="col-md-3">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" name="server_update" value="<%=serverList[i].tbl_name%>">
+                        <%=serverList[i].server_name%>
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                  <%}}%>
+                </div>
+              </div>
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating"></label>
+                <input type="text" class="form-control" disabled>
+              </div>
+            </div>
+          </div>
+          <button type="button" onclick="updateOldVIPajax()" class="btn btn-success pull-right">UPDATE
+            VIP</button>
+          <div class="clearfix"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-<%=panelSetting.color_theme%>">
+        <h4 class="card-title" id="manageCardTitle">View and Manage VIP</h4>
+        <p class="card-category">Select a server to view the list</p>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12 row">
+          <div class="col-md-4">
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select Server
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <% if(serverList) {%>
+                <% for(let i=0; i < serverList.length; i++) { %>
+                <a class="dropdown-item" href="javascript:void(0)" onclick="getVIPTableListing('<%=serverList[i].tbl_name%>','<%=serverList[i].server_name%>')">
+                  <%=serverList[i].server_name%>
+                </a>
+                <%}}%>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <input type="hidden" id="hiddenServerTableName" name="hiddenServerTableName" value="" autocomplete="off">
+          </div>
+          <div class="col-md-4">
+            <form class="form-inline col-md-12">
+              <div class="form-group has-<%=panelSetting.color_theme%>">
+                <input type="text" class="form-control" placeholder="Search" id="vipSearchInput">
+              </div>
+              <button type="button" class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round" onclick="getVIPTableListingSearch()">
+                <i class="material-icons">search</i>
+              </button>
+              <button type="button" class="btn btn-<%=panelSetting.color_theme%> btn-raised btn-fab btn-fab-mini btn-round" onclick="resetSearchAndTable()">
+                <i class="material-icons">clear</i>
+              </button>
             </form>
           </div>
         </div>

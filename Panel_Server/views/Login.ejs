@@ -59,21 +59,47 @@
             <form class="col-md-12" method="post" action="/adminLogin">
               <div class="row">
                 <div class="col-md-12">
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter Username</label>
-                    <input type="text" name="username" class="form-control" required>
-                  </div>
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">Enter Password</label>
-                    <input type="password" name="password" class="form-control" required>
-                  </div>
+                  <h3 class="text-secondary">User Can login through Steam to check their VIP status in detail or
+                    Buy/Renew
+                    VIP
+                  </h3>
+                  <button type="button" class="btn btn-link pull-right" onClick='callSteamLogin()'><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" width="180" height="35" border="0" alt="Steam Login"></button>
                 </div>
               </div>
-              <button type="submit" class="btn btn-success pull-right">Login</button>
-              <div class="clearfix"></div>
-            </form>
           </div>
         </div>
+        <%}%>
+            <%if((panelSetting.hiddenAdmin_login /1==0) || (panelSetting.hiddenAdmin_login/1==1 && adminRoute==true)){%>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-<%=panelSetting.color_theme%> card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">fingerprint</i>
+              </div>
+              <p class="card-category">Id-Pass Login for</p>
+              <h3 class="card-title">Admin</h3>
+            </div>
+            <div class="card-footer">
+              <form class="col-md-12" method="post" action="/adminLogin">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group bmd-form-group">
+                      <label class="bmd-label-floating">Enter Username</label>
+                      <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="form-group bmd-form-group">
+                      <label class="bmd-label-floating">Enter Password</label>
+                      <input type="password" name="password" class="form-control" required>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-success pull-right">Login</button>
+                <div class="clearfix"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <%}%>
       </div>
       <%}%>
       </div>
@@ -82,27 +108,27 @@
 
   <%- include('Footer.ejs') %>
 
-      <script>
-        let errorMsg = "<%=error%>"
+  <script>
+    let errorMsg = "<%=error%>"
 
-        $(document).ready(function() {
-          if (errorMsg) {
-            $.notify({
-              icon: "add_alert",
-              message: errorMsg
+    $(document).ready(function() {
+      if (errorMsg) {
+        $.notify({
+          icon: "add_alert",
+          message: errorMsg
 
-            }, {
-              type: "warning",
-              timer: 3000,
-              placement: {
-                from: "top",
-                align: "right"
-              }
-            });
+        }, {
+          type: "warning",
+          timer: 3000,
+          placement: {
+            from: "top",
+            align: "right"
           }
         });
+      }
+    });
 
-        function callSteamLogin() {
-          window.location = '/auth/steam';
-        }
-      </script>
+    function callSteamLogin() {
+      window.location = '/auth/steam';
+    }
+  </script>
