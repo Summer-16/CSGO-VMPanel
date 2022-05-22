@@ -1,6 +1,6 @@
 /* VMP-by-Summer-Soldier
 *
-* Copyright (C) 2020 SUMMER SOLDIER - (SHIVAM PARASHAR)
+* Copyright (C) 2021 SUMMER SOLDIER - (SHIVAM PARASHAR)
 *
 * This file is part of VMP-by-Summer-Soldier
 *
@@ -238,6 +238,7 @@ function fetchPSettingajax() {
           $("input[name=normiadmin_settings][value=" + settingObj.normiadmin_settings + "]").prop('checked', true);
           $("input[name=hiddenadmin_login][value=" + settingObj.hiddenadmin_login + "]").prop('checked', true);
           $("input[name=salenotification_discord][value=" + settingObj.salenotification_discord + "]").prop('checked', true);
+          $("input[name=disable_about][value=" + settingObj.disable_about + "]").prop('checked', true);
           $('#webhook_url').val(settingObj.webhook_url);
           $('#community_logo_url').val(settingObj.community_logo_url);
           $('#community_info').val(settingObj.community_info);

@@ -1,3 +1,5 @@
 config.json
 node_modules
 .vscode
+VMPanel.log
+package-lock.json

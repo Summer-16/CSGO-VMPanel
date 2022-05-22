@@ -15,26 +15,25 @@
 ## System Requirements
 
 ### Web Server (Panel_Server)
-- MySQL Server : 5.6 or higher (8.0 or higher is recommended)
-- NodeJS       : 10.x or higher
+- MySQL Server: 5.6 or higher (8.0 or higher is recommended)
+- NodeJS: 10.x or higher
 
 ## CS-GO server (Plugin)
-- Sourcemod    : 1.9 or higher
+- Sourcemod: 1.9 or higher
 
-## Panel Features 1.9 (Changelogs)
-- Various UI fixes.
-- Sourceban page steam profile data fetch tool fixed.
-- Fixed an error in the user dashboard where the renew button doesn't work if 10/10 slots are sold.
-- Added Feature to hide admin login form from the public display;
-- Added Feature to enable discord notifications for VIP sales.
-- Updated MySQL client library from MySQL to mysql2 in Panel_Server application for better compatibility with MySQL 8.x servers (Mainly new authentication method)
-- Updated Bundle buy functions with various checks to detect pre-own VIP to update the VIP
-- Code Optimizations and Performance improvements
-- Plugin Updated Following features added:
-    -Added types of VIP expiry alert (you can choose between Menu alert and Chat alert).
-    -Added feature to auto add the server in panel.
+-------------------------------------------------------------
 
-## Panel Features v1.8
+## Panel Changelogs 1.10 - Beta
+- Added Support for Admin groups in VIP and Admin.
+- Fixed an Error with the login Page when trying to access the route directly.
+- Updated pagination calculation function.
+- Loader stuck after admin delete fixed
+- Token missing error handling updated to display a proper error to the user
+- Added option to disable Panel/Author card in about section
+- Added file logging
+- Upgraded few dependencies 
+
+## Panel Features (Latest Stable release - v1.9)
 - Add VIP or Admin to servers.
 - While adding VIP subscription days are entered and once subscription days finished panel will automatically delete that VIP and remove it from the CSGO server too.
 - You can also manually delete the VIP and Admins from the panel.
@@ -43,34 +42,39 @@
 - Daily notification on your discord server with the latest Listing for all servers.
 - A handy dashboard to see all at a glance
 - You can create, delete sub-users, and super users in panel handy in case you want multiple admins for panel multiple admins.
-- Don't like the default red, don't worry I got you covered, you can change theme color in panel settings.
+- Don't like the default red, don't worry I got you covered, you can change the theme color in panel settings.
 - CSGO server plugin is available which syncs all the entries from your panel database to the CSGO server.
-- A shell script is also available. (used to do plugin work in old versions, but it still works so it's there)
-- Note (I recommend using plugin until and unless u r trying to do custom solutions with a shell script. If you are using shell script you will have to manually create server tables in the database.)
-- Added RCON feature therefore now as soon as you add any admin or VIP it gets updated in the respective CSGO server through RCON by the panel's plugin
-- Added Steam login for Users
-- Added Paypal for VIP buy and renew feature
+- RCON feature to instantly sync changes in server.
+- Steam login for Users
+- PayPal for VIP buy and renew feature
 - User can log in through steam and then he can see the status of his VIP subscription in all servers, can buy new VIP, and Renew old VIP through PayPal
 - Sales record for Admin
-- New Features at Dashboard like (Server list with connecting feature and other stats for Admin)
+- Features at Dashboard like (Server list with connecting feature and other stats for Admin)
 - PayU Money payment gateway (PayU Payment gateway is for Indian Users only as it does transactions in rupee)
 - Panel audit logs
 - Server bundles for selling and buying multiple server VIP at once 
-- New setting option added to enable disable VIP listing on a public dashboard
 - Sourceban integration (You can add Bans and Comm Bans)
+- Feature to hide admin login form from the public display;
+- Feature to enable discord notifications for VIP sales.
 - Plugin Updated Following features added:
     -Optimized database connection
     -Added a Command to check VIP Subscription status
     -Added Alert about expiring VIP Subscription
     -Added an Admin command to add VIP through Console
     -Commands updated for better nomenclature (!vipRefresh, !vipStatus, !addVip) . 
+    -Types of VIP expiry alerts (you can choose between Menu alert and Chat alert).
+    -Feature to auto add the server in the panel.
     -Note, Commands are case sensitive and the status command will not work for old entries, it will work for entries made with v1.8 and higher.
 
 ### I recommend using PayU for INR transactions (Indian payment gateway) and PayPal for USD transactions, Note: don't enable both with USD as PayU does not support USD.
 
+-------------------------------------------------------------
+
 ## Web panel Screenshots
 ![ScreenShot](https://github.com/Summer-16/CSGO-VMP/blob/master/Screen_Shots/VMP_SS.jpg)
 [View All ScreenShots](https://github.com/Summer-16/CSGO-VMPanel/tree/master/Screen_Shots)
+
+-------------------------------------------------------------
 
 ## Step-by-Step install Instructions for New Installation 
 ### Setting Up the node server
@@ -89,19 +93,19 @@ vim config.json
 - Now inside the config file add your database details in the DB object
 - Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
 - and a secure key for jwt (remember to add a strong key)
-- and a secret key for app (remember to add a strong key)
-- Your Paypal client Id for automatic VIP buy and renewal to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
+- and a secret key for the app (remember to add a strong key)
+- Your PayPal client Id for automatic VIP buy and renewal to work (instructions to get key here https://developer.paypal.com/docs/archive/checkout/integrate/#5-go-live)
 - Like same, you can enable PayU payment gateway (set enabled: true, environment 'live' for live payments 'test' for testing)
 - and you PayU Merchant Key and Salt which is available in your PayU Dashboard.
-- save the file and get back to Panel_Server directory
+- save the file and get back to the Panel_Server directory
 ```bash
 cd ..
 cd ..
 node server.js
 ```
 - At this point, your server will be running  on the default port mentioned in config or the port you defined (updated in config)
-- To access the server type in your machine or VM instance URL/public IP in the browser along with port (example: localhost:3535, 127.0.0.1:3535) and you can use the panel but it will stop if u terminate the server or system restart so we need to add it into the service
-- to add your server into the service run the following commands in Panel_Server directory
+- To access the server type in your machine or VM instance URL/public IP in the browser along with port (example: localhost:3534, 127.0.0.1:3535) and you can use the panel but it will stop if u terminate the server or system restart so we need to add it into the service
+- to add your server into the service run the following commands in the Panel_Server directory
 ```bash
 npm install pm2 -g
 pm2 start server.js
@@ -141,7 +145,7 @@ pm2 stop 0
 ```
 
 ### Install plugin in CSGO server
-- go to Server_Plugin folder, copy the addon and cfg folder
+- go to the Server_Plugin folder, copy the addon and cfg folder
 - paste into your CSGO server's CSGO folder now go to cfg/sourcemod/vmpanel.cfg
 - open the cfg file add a table name for your server something like sv_servername
 - now add an entry named vmpanel in your sourcemod database.cfg and add the database cred for the same database used for panel
@@ -161,22 +165,13 @@ pm2 stop 0
 - Command for plugin (!vipRefresh, !vipStatus, !addVip)
 - After installing the plugin, if you are not getting any error then (plugin will automatically create a table to store players entry and gonna add the server in panel too, you can update the server name and other stuff in panel->settings->manage servers->update server details)
 
-### Adding bash file in servers (old method) (not needed if you using the plugin)
-- Copy the script from serverScript folder add to your CSGO server 
-- Update your DB cred and admins_simple.ini path in the script and add the script into cron
+-------------------------------------------------------------
 
-## Updating from v1.8 to 1.9
+## Updating from v1.9 to 1.10 - Beta
 - Stop your panel service while updating
-- Add files from the latest source code to yours installed directory
-- Add the following code in your config, see example config for reference 
-```
-  "app": {
-    "secret": "add some randomly generated string here min 32length"
-  },
-```
+- Add files from the latest source code to your installed directory
 - execute the below queries in your database
 ```mysql
-INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('hiddenadmin_login', '0');
-INSERT INTO `tbl_settings` (`setting_key`, `setting_value`) VALUES ('salenotification_discord', '0');
+INSERT INTO `tbl_settings` (`id`, `setting_key`, `setting_value`) VALUES (NULL, 'disable_about', '0');
 ```
 - Now restart your server and you are good to go
