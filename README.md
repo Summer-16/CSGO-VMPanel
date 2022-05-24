@@ -88,7 +88,7 @@ cd CSGO-VMP/Panel_Server/
 npm i
 cd app/config/
 mv example_config.json config.json
-vim config.json
+nano config.json
 ```
 - Now inside the config file add your database details in the DB object
 - Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
