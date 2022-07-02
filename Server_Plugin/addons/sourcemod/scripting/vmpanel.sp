@@ -39,6 +39,8 @@ public void OnPluginStart() {
 
   // Execute the config file, create if not present
   AutoExecConfig(true, "VMPanel");
+  
+  CSetPrefix("{lightred}[VIP] ");
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -99,9 +101,9 @@ public void Nothing_Callback_addVip(Database db, DBResultSet result, char[] erro
 
   if (result == null) {
     LogError("[VMP] Error: %s", error);
-    CPrintToChat(client, "{red}[VMP] {green}Operation Failed , Error: %s", error);
+    CPrintToChat(client, "{green}Operation Failed , Error: %s", error);
   } else {
-    CPrintToChat(client, "{red}[VMP] {green}VIP Successfully added , Refreshing Cahche in Admin File and In Server");
+    CPrintToChat(client, "{green}VIP Successfully added , Refreshing Cahche in Admin File and In Server");
     refreshVipAndAdmins();
 
     char clientName[50], ls_VMP_addAuditQuery[4096];
@@ -121,12 +123,12 @@ public Action handler_RefreshVipAndAdmins(int client, int args) {
 
   if ((client == 0) || (CheckCommandAccess(client, "", ADMFLAG_GENERIC))) {
     if (client > 0) {
-      CPrintToChat(client, "{red}[VMP] {green}Updating the VIP/Admin in Server");
+      CPrintToChat(client, "{green}Updating the VIP/Admin in Server");
     }
     PrintToServer("***[VMP] Requesting user is an Admin/Console, Executing the command");
     refreshVipAndAdmins();
   } else {
-    CPrintToChat(client, "{red}[VMP] {green}You need admin rights to access this command");
+    CPrintToChat(client, "{green}You need admin rights to access this command");
   }
 }
 
@@ -139,7 +141,7 @@ public Action handler_getUserVIPStatus(int client, int type) {
     if (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) {
 
       if (type != 2) {
-        CPrintToChat(client, "{red}[VMP] {green}Hold On Getting your Data now.");
+        CPrintToChat(client, "{green}Hold On Getting your Data now.");
       }
 
       char ls_VMP_sqltable[512];
@@ -160,7 +162,7 @@ public Action handler_getUserVIPStatus(int client, int type) {
     } else {
       char ls_VMP_panelurl[512];
       gC_VMP_panelurl.GetString(ls_VMP_panelurl, sizeof(ls_VMP_panelurl));
-      CPrintToChat(client, "{red}[VMP] {green}You are not a VIP, Visit {darkred}%s {green}to purcahse now", ls_VMP_panelurl);
+      CPrintToChat(client, "{green}You are not a VIP, Visit {darkred}%s {green}to purcahse now", ls_VMP_panelurl);
     }
   }
 }
@@ -170,7 +172,7 @@ public Action handler_addVIP(int client, int args) {
 
   if (args < 3) {
     if (client != 0)
-      CPrintToChat(client, "{red}[VMP] {green}Invalid Params Usage: sm_addVip \"<SteamID>\" <Duration in days> <Name>");
+      CPrintToChat(client, "{green}Invalid Params Usage: sm_addVip \"<SteamID>\" <Duration in days> <Name>");
     else
       PrintToServer("***[VMP] Invalid Params Usage:  sm_addVip \"<SteamID>\" <Duration in days> <Name>");
     return Plugin_Handled;
@@ -182,7 +184,7 @@ public Action handler_addVIP(int client, int args) {
   GetCmdArg(1, tempArgument, sizeof(tempArgument));
   if (StrContains(tempArgument, "STEAM_1:1:", true) == -1) {
     if (client != 0)
-      CPrintToChat(client, "{red}[VMP] {green}Invalid Steam Id format use STEAM_1:1:xxxxxx");
+      CPrintToChat(client, "{green}Invalid Steam Id format use STEAM_1:1:xxxxxx");
     else
       PrintToServer("***[VMP] Invalid Steam Id format use STEAM_1:1:xxxxxx");
     return Plugin_Handled;
@@ -196,7 +198,7 @@ public Action handler_addVIP(int client, int args) {
 
   GetCmdArg(3, userName, sizeof(userName));
 
-  // CPrintToChat(client, "{red}[VMP] {green}Here are the final args Steam: %s, Epoc: %d, Name: %s",steamId,subDays,userName);
+  // CPrintToChat(client, "{green}Here are the final args Steam: %s, Epoc: %d, Name: %s",steamId,subDays,userName);
 
   char ls_VMP_sqltable[512];
   gC_VMP_servertable.GetString(ls_VMP_sqltable, sizeof(ls_VMP_sqltable));
@@ -325,7 +327,7 @@ public void getUserVIPStatus_callback(Database db, DBResultSet result, char[] er
   if (result == null) {
     PrintToServer("***[VMP] Query Fail: %s", error);
     LogError("[VMP] Query Fail: %s", error);
-    CPrintToChat(client, "{red}[VMP] {green}Your VIP is active but could not find your status in Database");
+    CPrintToChat(client, "{green}Your VIP is active but could not find your status in Database");
     return;
   }
 
@@ -357,7 +359,7 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
   if (result == null) {
     PrintToServer("***[VMP] Query Fail: %s", error);
     LogError("[VMP] Query Fail: %s", error);
-    CPrintToChat(client, "{red}[VMP] {green}Your VIP is active but could not find your status in Database");
+    CPrintToChat(client, "{green}Your VIP is active but could not find your status in Database");
     return;
   }
 
@@ -368,7 +370,12 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
     int expireEpoc = result.FetchInt(1);
     int currentEpoc = GetTime();
     int subDays = ((expireEpoc - currentEpoc) / 86400);
-
+	
+	if(subDays < 0){
+		CPrintToChat(client, "{green}You have unlimited days in your subscription");
+		return;
+	}
+	
     if (subDays <= GetConVarInt(gC_VMP_alertdays)) {
       char ls_VMP_panelurl[512];
       gC_VMP_panelurl.GetString(ls_VMP_panelurl, sizeof(ls_VMP_panelurl));
@@ -387,11 +394,11 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
         menu.ExitButton = true;
         menu.Display(client, 10);
       } else if ((GetConVarInt(gC_VMP_alertdisplaytype) == 2)) {
-        CPrintToChat(client, "{red}[VMP] {green}Your VIP Subscription is about to expire");
-        CPrintToChat(client, "{red}[VMP] {green}Please renew to continue using VIP benefits");
-        CPrintToChat(client, "{red}[VMP] {green}Subscriber Name : {lightblue}%s ", name);
-        CPrintToChat(client, "{red}[VMP] {green}Subscription Days Left : {darkred}%d ", subDays);
-        CPrintToChat(client, "{red}[VMP] {green}Visit {darkred}%s {green}to Renew now", ls_VMP_panelurl);
+        CPrintToChat(client, "{green}Your VIP Subscription is about to expire");
+        CPrintToChat(client, "{green}Please renew to continue using VIP benefits");
+        CPrintToChat(client, "{green}Subscriber Name : {lightblue}%s ", name);
+        CPrintToChat(client, "{green}Subscription Days Left : {darkred}%d ", subDays);
+        CPrintToChat(client, "{green}Visit {darkred}%s {green}to Renew now", ls_VMP_panelurl);
       }
     }
   }
