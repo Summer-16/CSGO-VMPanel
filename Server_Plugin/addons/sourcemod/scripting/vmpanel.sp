@@ -225,6 +225,9 @@ public Action handler_CheckServerExistsInPanel() {
 
 // timer handler for timer executed in OnClientConnect
 public Action: handler_onclientconnecttimer(Handle: timer, any: client) {
+  if(!IsClientInGame(client))
+  	return;
+	
   if ((GetConVarInt(gC_VMP_alertenable) == 1) && (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) && !IsFakeClient(client)) {
     CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
   }
@@ -232,6 +235,10 @@ public Action: handler_onclientconnecttimer(Handle: timer, any: client) {
 
 // timer handler for timer to check and show sub alert to user
 public Action: handler_checkUserSubForAlert(Handle: timer, any: client) {
+  
+  if(!IsClientInGame(client))
+  	return;
+  
   handler_getUserVIPStatus(client, 2);
 }
 
