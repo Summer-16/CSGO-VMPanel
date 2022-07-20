@@ -182,11 +182,11 @@ public Action handler_addVIP(int client, int args) {
   int subDays = 0;
 
   GetCmdArg(1, tempArgument, sizeof(tempArgument));
-  if (StrContains(tempArgument, "STEAM_1:1:", true) == -1) {
+  if (StrContains(tempArgument, "STEAM_", true) == -1) {
     if (client != 0)
-      CPrintToChat(client, "{green}Invalid Steam Id format use STEAM_1:1:xxxxxx");
+      CPrintToChat(client, "{green}Invalid Steam Id format use STEAM_X:X:XXXXXXX");
     else
-      PrintToServer("***[VMP] Invalid Steam Id format use STEAM_1:1:xxxxxx");
+      PrintToServer("***[VMP] Invalid Steam Id format use STEAM_X:X:XXXXXXX");
     return Plugin_Handled;
   } else {
     strcopy(steamId, sizeof(steamId), tempArgument);
@@ -209,7 +209,11 @@ public Action handler_addVIP(int client, int args) {
   Format(ls_VMP_addVipQuery, sizeof(ls_VMP_addVipQuery), "INSERT INTO %s (authid, flag, name, expireStamp, created_at ,type) values ('\"%s\"', '\"%s\"', '//%s', %d, NOW(), 0);", ls_VMP_sqltable, steamId, ls_VMP_vipFlag, userName, subDays);
 
   gH_VMP_dbhandler.Query(Nothing_Callback_addVip, ls_VMP_addVipQuery, client);
-
+	
+  ReplyToCommand(client, "----------------------");
+  ReplyToCommand(client, "%s with steamid %s is added to vip with access flags %s for %i days", userName, steamId, ls_VMP_vipFlag, subDays);
+  ReplyToCommand(client, "----------------------");
+  
   return Plugin_Handled;
 }
 
