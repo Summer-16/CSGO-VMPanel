@@ -40,7 +40,7 @@ public void OnPluginStart() {
   // Execute the config file, create if not present
   AutoExecConfig(true, "VMPanel");
   
-  CSetPrefix("{lightred}[VIP] ");
+  CSetPrefix("{lightred}[VMP] ");
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ public void OnConfigsExecuted() {
 
 // Function called for all clients once on entring in server
 public OnClientPostAdminCheck(client) {
-  CreateTimer(GetConVarInt(gC_VMP_alerttimer), handler_onclientconnecttimer, client);
+  CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_onclientconnecttimer, client);
 }
 
 // Function to make sql connection
@@ -130,11 +130,16 @@ public Action handler_RefreshVipAndAdmins(int client, int args) {
   } else {
     CPrintToChat(client, "{green}You need admin rights to access this command");
   }
+  
+  return Plugin_Handled;
 }
 
 // handler for vmpstatus command 
 public Action handler_getUserVIPStatus(int client, int type) {
 
+  if(!IsClientInGame(client))
+	return Plugin_Handled;
+	
   PrintToServer("***[VMP] User requested for VIP status");
 
   if (!IsFakeClient(client)) {
@@ -165,6 +170,8 @@ public Action handler_getUserVIPStatus(int client, int type) {
       CPrintToChat(client, "{green}You are not a VIP, Visit {darkred}%s {green}to purcahse now", ls_VMP_panelurl);
     }
   }
+  
+  return Plugin_Handled;
 }
 
 // handler for add vip command
@@ -229,21 +236,13 @@ public Action handler_CheckServerExistsInPanel() {
 
 // timer handler for timer executed in OnClientConnect
 public Action: handler_onclientconnecttimer(Handle: timer, any: client) {
-  if(!IsClientInGame(client))
-  	return;
-	
+	if(!IsClientInGame(client))
+		return;
+		
   if ((GetConVarInt(gC_VMP_alertenable) == 1) && (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) && !IsFakeClient(client)) {
-    CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
+    //CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
+	handler_getUserVIPStatus(client, 2);
   }
-}
-
-// timer handler for timer to check and show sub alert to user
-public Action: handler_checkUserSubForAlert(Handle: timer, any: client) {
-  
-  if(!IsClientInGame(client))
-  	return;
-  
-  handler_getUserVIPStatus(client, 2);
 }
 
 // handler for menu
@@ -255,7 +254,7 @@ public int subStatus_menu_Handler(Menu menu, MenuAction action, int param1, int 
   }
   /* Close the menu in case of any selection */
   else if (action == MenuAction_Cancel) {
-    PrintToServer("Client %d's menu was cancelled.  Reason: %d", param1, param2);
+    //PrintToServer("Client %d's menu was cancelled.  Reason: %d", param1, param2);
   }
   /* If the menu has ended, destroy it */
   else if (action == MenuAction_End) {
@@ -354,12 +353,13 @@ public void getUserVIPStatus_callback(Database db, DBResultSet result, char[] er
     char menuItem[500];
     Menu menu = new Menu(subStatus_menu_Handler);
     menu.SetTitle("Here is your VIP Subscription details, For this Server");
-    menu.AddItem("", "Subscription Status : Active");
+    menu.AddItem("", "Subscription Status : Active", ITEMDRAW_DISABLED);
     Format(menuItem, sizeof(menuItem), "Subscriber Name : %s", name);
-    menu.AddItem("", menuItem);
+    menu.AddItem("", menuItem, ITEMDRAW_DISABLED);
     Format(menuItem, sizeof(menuItem), "Subscription Days Left : %d", subDays);
-    menu.AddItem("", menuItem);
-    menu.ExitButton = true;
+    menu.AddItem("", menuItem, ITEMDRAW_DISABLED);
+    
+	menu.ExitButton = true;
     menu.Display(client, 10);
   }
 }
@@ -395,14 +395,15 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
         char menuItem[500];
         Menu menu = new Menu(subStatus_menu_Handler);
         menu.SetTitle("Your VIP Subscription is about to expire, \nPlease renew to continue using VIP benefits");
-        menu.AddItem("", "Subscription Status : About to Expire");
+        menu.AddItem("", "Subscription Status : About to Expire", ITEMDRAW_DISABLED);
         Format(menuItem, sizeof(menuItem), "Subscriber Name : %s", name);
-        menu.AddItem("", menuItem);
+        menu.AddItem("", menuItem,ITEMDRAW_DISABLED);
         Format(menuItem, sizeof(menuItem), "Subscription Days Left : %d", subDays);
-        menu.AddItem("", menuItem);
+        menu.AddItem("", menuItem, ITEMDRAW_DISABLED);
         Format(menuItem, sizeof(menuItem), "Visit %s to Renew now", ls_VMP_panelurl);
-        menu.AddItem("", menuItem);
-        menu.ExitButton = true;
+        menu.AddItem("", menuItem, ITEMDRAW_DISABLED);
+        
+		menu.ExitButton = true;
         menu.Display(client, 10);
       } else if ((GetConVarInt(gC_VMP_alertdisplaytype) == 2)) {
         CPrintToChat(client, "{green}Your VIP Subscription is about to expire");
