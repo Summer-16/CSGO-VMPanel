@@ -1,0 +1,127 @@
+"Phrases"
+{
+
+	"Not a Admin"
+	{
+		"en"			"{darkred}[VMP] {green}You need admin rights to access this command."
+	}
+
+	"VIP Status Query Command"
+	{
+		"en"			"{darkred}[VMP] {green}Hold On Getting your Data now."
+	}
+
+	"VIP Status Query Failed"
+	{
+		"en"			"{darkred}[VMP] {green}Your VIP is active but could not find your status in Database."
+	}
+
+	"Not a VIP"
+	{
+		"#format"		"{1:s}"
+		"en"			"{darkred}[VMP] {green}You are not a VIP, Visit {darkred}{1} {green}to purcahse now."
+	}
+
+	"VIP Add Fail"
+	{
+		"#format"		"{1:s}"
+		"en"			"{darkred}[VMP] {green}Operation Failed , Error: {darkred}{1}"
+	}
+
+	"VIP Add Success"
+	{
+		"en"			"{darkred}[VMP] {green}VIP Successfully added , Refreshing Cahche in Admin File and In Server."
+	}
+
+	"VIP Refresh"
+	{
+		"en"			"{darkred}[VMP] {green}Updating the VIP/Admin in Server."
+	}
+
+	"VIP Add Command Helper Chat"
+	{
+		"en"			"{darkred}[VMP] {green}Invalid Params Usage: sm_addvip \"<SteamID>\" <Duration in days> <Name>"
+	}
+
+	"VIP Add Command Helper Console"
+	{
+		"en"			"[VMP] Invalid Params Usage: sm_addvip \"<SteamID>\" <Duration in days> <Name>"
+	}
+
+	"Invalid Steam ID Chat"
+	{
+		"en"			"{darkred}[VMP] {green}Invalid Steam Id format use STEAM_1:0:xxxxxx"
+	}
+
+	"Invalid Steam ID Console"
+	{
+		"en"			"[VMP] Invalid Steam Id format use STEAM_1:0:xxxxxx"
+	}
+
+	"Expire Alert Line One Chat"
+	{
+		"en"			"{darkred}[VMP] {green}Your VIP Subscription is about to expire"
+	}
+
+	"Expire Alert Line Two Chat"
+	{
+		"en"			"{darkred}[VMP] {green}Please renew to continue using VIP benefits"
+	}
+
+	"Subscriber Name"
+	{
+		"#format"		"{1:s}"
+		"en"			"{darkred}[VMP] {green}Subscriber Name : {lightblue}{1} "
+	}
+
+	"Subscription Days Left"
+	{
+		"#format"		"{1:d}"
+		"en"			"{red}[VMP] {green}Subscription Days Left : {darkred}{1} "
+	}
+
+	"Renew Link"
+	{
+		"#format"		"{1:s}"
+		"en"			"{red}[VMP] {green}Visit {darkred}{1} {green}to Renew now "
+	}
+
+    "Menu Title Alert"
+    {
+        "en"    "Your VIP Subscription is about to expire, \nPlease renew to continue using VIP benefits"
+    }
+
+	"Menu Subscription Status Alert"
+	{
+		"en"			"Subscription Status : About to Expire"
+	}
+
+	"Menu Renew Link"
+	{
+		"#format"		"{1:s}"
+		"en"			"Visit {1} to Renew now"
+	}
+
+	"Menu Title VIP Check"
+	{
+		"en"			"Here is your VIP Subscription details, For this Server"
+	}
+
+	"Menu Subscription Status"
+	{
+		"en"			"Subscription Status : Active"
+	}
+
+	"Menu Subscriber Name"
+	{
+		"#format"		"{1:s}"
+		"en"			"Subscriber Name : {1}"
+	}
+
+    "Menu Subscription Days Left"
+    {
+        "#format" "{1:d}"
+        "en"    "Subscription Days Left : {1}"
+    }
+
+}
