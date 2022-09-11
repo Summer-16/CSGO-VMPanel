@@ -54,7 +54,7 @@ function addNewPAdminAjax() {
         .then((response) => {
           $("#divForLoader").html("")
           showNotif(response)
-          if (response.success == true) { fetchPAdminajax() }
+          if (response.success == true) { fetchPAdminAjax() }
         })
         .catch(error => {
           $("#divForLoader").html("")
@@ -108,7 +108,7 @@ function updateOldPAdminAjax() {
         .then((response) => {
           $("#divForLoader").html("")
           showNotif(response)
-          if (response.success == true) { fetchPAdminajax() }
+          if (response.success == true) { fetchPAdminAjax() }
         })
         .catch(error => {
           $("#divForLoader").html("")
@@ -159,7 +159,7 @@ function deletePAdminAjax() {
           .then((response) => {
             $("#divForLoader").html("")
             showNotif(response)
-            if (response.success == true) { fetchPAdminajax() }
+            if (response.success == true) { fetchPAdminAjax() }
           })
           .catch(error => {
             $("#divForLoader").html("")
@@ -180,7 +180,7 @@ function deletePAdminAjax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function fetchPAdminajax() {
+function fetchPAdminAjax() {
   if (curentAdminType === 1) {
     fetch('/getPanelAdminsList', {
       method: 'get',
@@ -207,7 +207,10 @@ function fetchPAdminajax() {
           }
         }
       })
-      .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+      .catch(error => {
+        console.error("fetchPAdminAjax:", error);
+        showNotif({ success: false, data: { "error": error } })
+      });
   } else {
     showNotif({
       success: false,
@@ -221,7 +224,7 @@ function fetchPAdminajax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function fetchPSettingajax() {
+function fetchPSettingAjax() {
 
   fetch('/fetchPanelSetting', {
     method: 'get',
@@ -252,14 +255,17 @@ function fetchPSettingajax() {
         // $('#webhook_url').focus();
       }
     })
-    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+    .catch(error => {
+      console.error("fetchPSettingAjax:", error);
+      showNotif({ success: false, data: { "error": error } })
+    });
 }
 //-----------------------------------------------------------------------------------------------------
 
 
 //-----------------------------------------------------------------------------------------------------
 // 
-function fetchPServerListajax() {
+function fetchPServerListAjax() {
 
   fetch('/getPanelServerList', {
     method: 'get',
@@ -295,7 +301,7 @@ function fetchPServerListajax() {
                         <td>${dataArray[i].vip_price ? dataArray[i].vip_price + " " + dataArray[i].vip_currency : 'NA'}</td>
                         <td>${dataArray[i].vip_flag ? dataArray[i].vip_flag : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
-                        <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePServerajax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
+                        <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePServerAjax('${dataArray[i].id}','${dataArray[i].tbl_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
                         </tr>`
 
           htmlString2 += ` <div class="col-md-3">
@@ -371,7 +377,7 @@ function addNewPServerAjax() {
           $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) {
-            fetchPServerListajax();
+            fetchPServerListAjax();
             $('#myForm_addPServer').trigger("reset");
           }
         })
@@ -436,7 +442,7 @@ function updatePServerAjax() {
           $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) {
-            fetchPServerListajax();
+            fetchPServerListAjax();
             $('#myForm_updatePServer').trigger("reset");
           }
         })
@@ -460,7 +466,7 @@ function updatePServerAjax() {
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function deletePServerajax(id, tableName) {
+function deletePServerAjax(id, tableName) {
 
   if (curentAdminType === 1) {
 
@@ -488,7 +494,7 @@ function deletePServerajax(id, tableName) {
           .then((res) => { return res.json(); })
           .then((response) => {
             $("#divForLoader").html("")
-            if (response.success == true) { fetchPServerListajax() }
+            if (response.success == true) { fetchPServerListAjax() }
             showNotif(response)
           })
           .catch(error => {
@@ -602,7 +608,7 @@ function addNewPanelServerBundle() {
           $("#divForLoader").html("")
           showNotif(response)
           if (response.success == true) {
-            fetchPBundleListajax();
+            fetchPBundleListAjax();
             $('#myForm_addBundle').trigger("reset");
           }
         })
@@ -626,9 +632,9 @@ function addNewPanelServerBundle() {
 
 //-----------------------------------------------------------------------------------------------------
 // 
-function fetchPBundleListajax() {
+function fetchPBundleListAjax() {
 
-  fetch('/getPanelBundlesList', {
+  fetch('/getPanelBundlesListAdmin', {
     method: 'get',
     headers: {
       'Accept': 'application/json',
@@ -654,21 +660,24 @@ function fetchPBundleListajax() {
                         <td>${dataArray[i].bundle_sub_days ? dataArray[i].bundle_sub_days : 'NA'}</td>
                         <td>${dataArray[i].bundle_flags ? dataArray[i].bundle_flags : 'NA'}</td>
                         <td>${dataArray[i].created_at ? dateFormatter(dataArray[i].created_at) : 'NA'}</td>
-                        <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePBundleajax('${dataArray[i].id}','${dataArray[i].bundle_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
+                        <td>${(curentAdminType === 1) ? `<button class="btn btn-danger" onclick="deletePBundleAjax('${dataArray[i].id}','${dataArray[i].bundle_name}')"><i class="material-icons" >delete_forever</i></button>` : ''}</td>
                         </tr>`
 
         }
         document.getElementById("manageServerOffersTableBody").innerHTML = htmlString
       }
     })
-    .catch(error => { showNotif({ success: false, data: { "error": error } }) });
+    .catch(error => {
+      console.error("fetchPBundleListAjax:", error);
+      showNotif({ success: false, data: { "error": error } })
+    });
 }
 //-----------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------------------
 // 
 
-function deletePBundleajax(id, bundleName) {
+function deletePBundleAjax(id, bundleName) {
 
   if (curentAdminType === 1) {
 
@@ -696,7 +705,7 @@ function deletePBundleajax(id, bundleName) {
           .then((res) => { return res.json(); })
           .then((response) => {
             $("#divForLoader").html("")
-            if (response.success == true) { fetchPBundleListajax() }
+            if (response.success == true) { fetchPBundleListAjax() }
             showNotif(response)
           })
           .catch(error => {
@@ -713,7 +722,6 @@ function deletePBundleajax(id, bundleName) {
   }
 }
 //-----------------------------------------------------------------------------------------------------
-
 
 
 //-----------------------------------------------------------------------------------------------------
@@ -736,13 +744,13 @@ function dateFormatter(date) {
 
 $(document).ready(function () {
 
-  fetchPSettingajax();
-  fetchPServerListajax();
-  fetchPBundleListajax();
+  fetchPSettingAjax();
+  fetchPServerListAjax();
+  fetchPBundleListAjax();
 
   if (curentAdminType === 1) {
 
-    fetchPAdminajax();
+    fetchPAdminAjax();
 
     document.getElementById('selected_pserver').onchange = () => {
 

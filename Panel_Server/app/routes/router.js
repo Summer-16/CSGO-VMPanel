@@ -76,7 +76,7 @@ module.exports = app => {
   app.get('/myDashboard', authMiddleware.checkSteamAuthenticated, myDashboard);
   app.post('/execAfterPaymentProcess', authMiddleware.checkSteamAuthenticated, afterPaymentProcess);
   app.post('/initPayUPayment', authMiddleware.checkSteamAuthenticated, initPayUPayment);
-  app.get('/getPanelBundlesList', authMiddleware.checkSteamAuthenticated, getPanelBundlesList);
+  app.get('/getPanelBundlesListUser', authMiddleware.checkSteamAuthenticated, getPanelBundlesList);
 
 
   //Private Router only for Panel Admins (Local Authorized)
@@ -103,7 +103,7 @@ module.exports = app => {
   app.post("/deletePanelServer", authMiddleware.checkToken, deletePanelServers);
 
   //Panel server bundle mange routes
-  app.get("/getPanelBundlesList", authMiddleware.checkToken, getPanelBundlesList);
+  app.get("/getPanelBundlesListAdmin", authMiddleware.checkToken, getPanelBundlesList);
   app.post("/addPanelServerBundle", authMiddleware.checkToken, addPanelServerBundle);
   app.post("/deletePanelBundle", authMiddleware.checkToken, deletePanelBundle);
 

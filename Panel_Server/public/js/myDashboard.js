@@ -48,9 +48,9 @@ function afterPaymentajax(formData) {
 
 //-----------------------------------------------------------------------------------------------------
 // 
-function fetchPBundleListajax() {
+function fetchPBundleListAjax() {
 
-  fetch('/getPanelBundlesList', {
+  fetch('/getPanelBundlesListUser', {
     method: 'get',
     headers: {
       'Accept': 'application/json',
@@ -150,5 +150,5 @@ function changeDivHeight() {
 
 $(document).ready(function () {
 
-  // fetchPBundleListajax();
+  // fetchPBundleListAjax();
 });
