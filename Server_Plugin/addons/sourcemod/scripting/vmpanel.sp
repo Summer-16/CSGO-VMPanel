@@ -32,7 +32,7 @@ public void OnPluginStart() {
   //Plugin Cvars
   AutoExecConfig_SetCreateFile(true);
   AutoExecConfig_SetFile("VMPanel");
-  gc_VMP_dbconfig = AutoExecConfig_CreateConVar("sm_vmpServerTable", "vmpanel", "Name of the entry for VMPanel in configs/databases.cfg");
+  gc_VMP_dbconfig = AutoExecConfig_CreateConVar("sm_vmpDatabaseEntry", "vmpanel", "Name of the entry for VMPanel in configs/databases.cfg");
   gC_VMP_servertable = AutoExecConfig_CreateConVar("sm_vmpServerTable", "sv_table", "PLEASE READ !, Enter Name for the table of current server , a table in vmpanel db will be created with this name automatically, make sure to give a unique name(name should not match with any other server connected in vmpanel), this name will be used in table name when you gonna add this server in panel");
   gC_VMP_panelurl = AutoExecConfig_CreateConVar("sm_vmpPanelURL", "vmpanel.example", "Enter the URL of Your panel");
   gC_VMP_defaultvipflag = AutoExecConfig_CreateConVar("sm_vmpDefaultVIPFlag", "0:a", "default vip flag and immunity to be used in add vip command");
