@@ -2,10 +2,11 @@
 #pragma newdecls required
 
 #include <sourcemod>
+#include <autoexecconfig>
 #include <multicolors>
 
 //Global variables
-char gS_VMP_dbconfig[] = "vmpanel";
+ConVar gc_VMP_dbconfig;
 ConVar gC_VMP_servertable;
 ConVar gC_VMP_alertenable;
 ConVar gC_VMP_alerttimer;
@@ -29,21 +30,25 @@ public void OnPluginStart() {
   LoadTranslations("vmpanel.phrases");
 
   //Plugin Cvars
-  gC_VMP_servertable = CreateConVar("sm_vmpServerTable", "sv_table", "PLEASE READ !, Enter Name for the table of current server , a table in vmpanel db will be created with this name automatically, make sure to give a unique name(name should not match with any other server connected in vmpanel), this name will be used in table name when you gonna add this server in panel");
-  gC_VMP_panelurl = CreateConVar("sm_vmpPanelURL", "vmpanel.example", "Enter the URL of Your panel");
-  gC_VMP_defaultvipflag = CreateConVar("sm_vmpDefaultVIPFlag", "0:a", "default vip flag and immunity to be used in add vip command");
-  gC_VMP_alertenable = CreateConVar("sm_vmpAlertEnable", "1", "Should plugin display subsciption expiring alert to clients");
-  gC_VMP_alerttimer = CreateConVar("sm_vmpAlertTimer", "20.0", "When the Subscribtion Expiring alert should be displayed after the player join in the server (in seconds)");
-  gC_VMP_alertdays = CreateConVar("sm_vmpAlertdays", "2", "At how many days left user should be notified");
-  gC_VMP_alertdisplaytype = CreateConVar("sm_vmpAlertDisplayType", "1", "1-> Menu, 2-> Chat Text (in what format should plugin show vip expiry alert)");
+  AutoExecConfig_SetCreateFile(true);
+  AutoExecConfig_SetFile("VMPanel");
+  gc_VMP_dbconfig = AutoExecConfig_CreateConVar("sm_vmpServerTable", "vmpanel", "Name of the entry for VMPanel in configs/databases.cfg");
+  gC_VMP_servertable = AutoExecConfig_CreateConVar("sm_vmpServerTable", "sv_table", "PLEASE READ !, Enter Name for the table of current server , a table in vmpanel db will be created with this name automatically, make sure to give a unique name(name should not match with any other server connected in vmpanel), this name will be used in table name when you gonna add this server in panel");
+  gC_VMP_panelurl = AutoExecConfig_CreateConVar("sm_vmpPanelURL", "vmpanel.example", "Enter the URL of Your panel");
+  gC_VMP_defaultvipflag = AutoExecConfig_CreateConVar("sm_vmpDefaultVIPFlag", "0:a", "default vip flag and immunity to be used in add vip command");
+  gC_VMP_alertenable = AutoExecConfig_CreateConVar("sm_vmpAlertEnable", "1", "Should plugin display subsciption expiring alert to clients");
+  gC_VMP_alerttimer = AutoExecConfig_CreateConVar("sm_vmpAlertTimer", "20.0", "When the Subscribtion Expiring alert should be displayed after the player join in the server (in seconds)");
+  gC_VMP_alertdays = AutoExecConfig_CreateConVar("sm_vmpAlertdays", "2", "At how many days left user should be notified");
+  gC_VMP_alertdisplaytype = AutoExecConfig_CreateConVar("sm_vmpAlertDisplayType", "1", "1-> Menu, 2-> Chat Text (in what format should plugin show vip expiry alert)");
+
+  // Execute the config file, create if not present
+  AutoExecConfig_ExecuteFile();
+  AutoExecConfig_CleanFile();
 
   //Plugin Commands
   RegConsoleCmd("sm_viprefresh", handler_RefreshVipAndAdmins);
   RegConsoleCmd("sm_vipstatus", handler_getUserVIPStatus);
   RegAdminCmd("sm_addvip", handler_addVIP, ADMFLAG_ROOT, "Adds a VIP Usage: sm_addvip \"<SteamID>\" <Duration in days> <Name>");
-
-  // Execute the config file, create if not present
-  AutoExecConfig(true, "VMPanel");
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,9 +76,12 @@ void SQL_DBConnect() {
 
   if (gH_VMP_dbhandler != null)
     delete gH_VMP_dbhandler;
+  
+  char sEntry[64];
+  gc_VMP_dbconfig.GetString(sEntry, sizeof(sEntry));
 
-  if (SQL_CheckConfig(gS_VMP_dbconfig)) {
-    Database.Connect(SQLConnect_Callback, gS_VMP_dbconfig);
+  if (SQL_CheckConfig(sEntry)) {
+    Database.Connect(SQLConnect_Callback, sEntry);
   } else {
     PrintToServer("***[VMP] Error Whike Making a Database Connection, Plugin config missing from databases.cfg file ");
     LogError("[VMP] Startup failed. Error: %s", "\"vmpanel\" is not a specified entry in databases.cfg.");
