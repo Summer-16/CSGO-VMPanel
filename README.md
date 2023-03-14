@@ -88,7 +88,7 @@ cd CSGO-VMP/Panel_Server/
 npm i
 cd app/config/
 mv example_config.json config.json
-vim config.json
+nano config.json
 ```
 - Now inside the config file add your database details in the DB object
 - Your Steam API key for Steam login to work (get key here https://steamcommunity.com/dev)
@@ -104,7 +104,7 @@ cd ..
 node server.js
 ```
 - At this point, your server will be running  on the default port mentioned in config or the port you defined (updated in config)
-- To access the server type in your machine or VM instance URL/public IP in the browser along with port (example: localhost:3534, 127.0.0.1:3535) and you can use the panel but it will stop if u terminate the server or system restart so we need to add it into the service
+- To access the server type in your machine or VM instance URL/public IP in the browser along with port (example: localhost:3535, 127.0.0.1:3535) and you can use the panel but it will stop if u terminate the server or system restart so we need to add it into the service
 - to add your server into the service run the following commands in the Panel_Server directory
 ```bash
 npm install pm2 -g
