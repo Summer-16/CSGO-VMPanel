@@ -42,7 +42,7 @@ var panelServerModal = {
                                     server_name varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
                                     server_ip varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                     server_port varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                    server_rcon_pass varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                    server_rcon_pass varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                     vip_slots int(20) DEFAULT NULL,
                                     vip_price int(20) DEFAULT NULL,
                                     vip_currency varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
