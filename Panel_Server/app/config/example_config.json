@@ -36,6 +36,12 @@
       "environment": "write test to run payu in test environment, live to make payu work with live payments",
       "merchantKey": "your payu merchant key (test key for test, live key for live)",
       "merchantSalt": "your payu merchant salt (test salt for test, live salt for live)"
+    },
+    "razorPay": {
+      "enabled": "write true to enable razorPay and false to disable razorPay, make sure to write true or false without double codes as it is boolean value",
+      "environment": "write test to run razorPay in test environment, live to make razorPay work with live payments",
+      "keyId": "your razorPay key_id (test key for test, live key for live)",
+      "keySecret": "your razorPay key_secret (test key_secret for test, live key_secret for live)"
     }
   },
   "logging": {

@@ -39,6 +39,7 @@ module.exports = app => {
   const { saleRecords, getSalesRecord } = require("../controllers/salesRecord.js")
   const { auditRecords, getAuditRecord } = require("../controllers/auditLogs.js")
   const { initPayUPayment } = require("../controllers/payU.js")
+  const { initRazorpayPayment } = require('../controllers/razorPay');
   const { addPanelServerBundle, getPanelBundlesList, deletePanelBundle } = require("../controllers/panelServerBundles.js")
   const { sourceBans, sourceBansAddBan } = require("../controllers/sourceBans.js")
 
@@ -52,7 +53,7 @@ module.exports = app => {
   app.get('/adminlogin', loginPage);
   app.post('/adminlogin', authUserLogin);
   app.get('/logout', function (req, res) {
-    req.logout();
+    req.logout((err) => next(err));
     req.session.destroy();
     res.redirect('/');
   });
@@ -78,6 +79,8 @@ module.exports = app => {
   app.post('/initpayupayment', authMiddleware.checkSteamAuthenticated, initPayUPayment);
   app.get('/getpanelbundleslistud', authMiddleware.checkSteamAuthenticated, getPanelBundlesList);
 
+  // RazorPay routes
+  app.post('/initrazorpaypayment', authMiddleware.checkSteamAuthenticated, initRazorpayPayment);
 
   //Private Router only for Panel Admins (Local Authorized)
   //Vip routes

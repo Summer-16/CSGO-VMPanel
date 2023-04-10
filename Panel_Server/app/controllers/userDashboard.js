@@ -29,10 +29,13 @@ const { logThisActivity } = require("../utils/activityLogger.js");
 const config = require('../config');
 const paypalClientID = config.payment_gateways.paypal.paypal_client_id
 const payUConfig = config.payment_gateways.payU
+const razorpayConfig = config.payment_gateways.razorPay;
 const crypto = require('crypto');
 const { getPanelBundlesListFunc } = require('./panelServerBundles.js')
 const { sendBuyMessageOnDiscord } = require('./sendMessageOnDiscord.js')
 const panelServerModal = require("../models/panelServerModal.js");
+const paymentTamperedMessage =
+  "Payment Tempered!, Response HASH does not matches with payment HASH therefore payment failed, Contact Support";
 
 //-----------------------------------------------------------------------------------------------------
 // 
@@ -114,15 +117,23 @@ const myDashboardFunc = (reqBody, reqUser) => {
 
       }
 
+      const paypalActive = !!paypalClientID;
+      const payuActive = (payUConfig.enabled == true || payUConfig.enabled == "true");
+      const razorpayActive = (razorpayConfig.enabled == true || razorpayConfig.enabled == "true");
+
+      const colSpan = (arr) => (12 / (arr instanceof Array && arr.filter(i => !!i).length) || 1);
+
       resolve({
         "userDataListing": userDataListing,
         "userData": userData,
         "serverArray": serverArray,
         "bundleArray": bundleArray,
-        "paypalActive": paypalClientID ? true : false,
+        "paypalActive": paypalActive,
         "paypalClientID": paypalClientID,
-        "payuActive": (payUConfig.enabled == true || payUConfig.enabled == "true") ? true : false,
-        "payuEnv": payUConfig.environment
+        "payuActive": payuActive,
+        "payuEnv": payUConfig.environment,
+        "razorpayActive": razorpayActive,
+        "colSpan": `${colSpan([paypalActive, payuActive, razorpayActive])}`
       })
 
     } catch (error) {
@@ -228,7 +239,27 @@ const afterPaymentProcessFunc = (reqBody, reqUser, secKey) => {
             sale_type: saleType
           }
         } else {
-          return reject("Payment Tempered!, Response HASH does not matches with payment HASH therefore payment failed, Contact Support")
+          return reject(paymentTamperedMessage);
+        }
+      } else if (reqBody.gateway === 'razorpay') {
+        const crypt = crypto.createHmac("sha256", razorpayConfig.keySecret);
+        const keyString = `${paymentData.order_id}|${paymentData.payer_id}`;
+        const calculatedHash = crypt.update(keyString).digest("hex");
+
+        if (reqBody.razorpayData.razorpay_signature !==  calculatedHash) return reject(paymentTamperedMessage);
+
+        paymentInsertObj = {
+          order_id: paymentData.order_id,
+          payer_id: paymentData.payer_id,
+          payer_steamid: steamId,
+          payer_email: paymentData.payer_email,
+          payer_name: paymentData.payer_name,
+          payer_surname: paymentData.payer_surname,
+          product_desc: paymentData.product_desc,
+          amount_paid: paymentData.amount_paid,
+          amount_currency: paymentData.amount_currency,
+          status: paymentData.status,
+          sale_type: saleType
         }
       }
 

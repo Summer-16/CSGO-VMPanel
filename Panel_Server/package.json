@@ -25,8 +25,9 @@
     "mysql2": "^2.3.0",
     "needle": "^2.8.0",
     "node-cron": "^3.0.0",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-steam": "^1.0.15",
+    "razorpay": "^2.8.6",
     "rcon": "^1.0.3",
     "sourcequery": "0.0.2"
   },
