@@ -110,23 +110,15 @@ async function sendBuyMessageOnDiscord(data, finalUserName) {
     }
     if (settingObj.salenotification_discord / 1) {
       let saleType = (data.buyType === 'newPurchase') ? "VIP Purchased" : "VIP Renewed"
-      let paymentId = (data.gateway === 'paypal') ? data.paymentData.id : (data.gateway === 'payu') ? data.paymentData.order_id : "NA"
       let serverName = data.serverData.server_name
       let productDesc = data.paymentData.product_desc
-      let amount
-
-      if (data.gateway === 'paypal') {
-        amount = data.paymentData.purchase_units[0].amount.value
-      } else if (data.gateway === 'payu') {
-        amount = data.payuData.amount
-      }
 
       let messageString = `**New ${saleType}**
                           Buyer Name: ${finalUserName}
                           Server Name: ${serverName}
                           Product Desc: ${productDesc}
-                          Paid Amount: ${amount}
-                          Order/Txn Id: ${paymentId}
+                          Paid Amount: ${await paymentAmount(data)}
+                          Order/Txn Id: ${await paymentId(data)}
                           Paymnet Through: ${data.gateway.toUpperCase()}
                           `
 
@@ -139,6 +131,18 @@ async function sendBuyMessageOnDiscord(data, finalUserName) {
 }
 //-----------------------------------------------------------------------------------------------------
 
+const paymentId = async (data) => {
+  if (data.gateway === 'paypal') return data.paymentData.id;
+  else if (data.gateway === 'payu') return data.paymentData.order_id;
+  else if (data.gateway === 'razorpay') return data.paymentData.payer_id;
+  else return "NA"
+};
+
+const paymentAmount = async (data) => {
+  if (data.gateway === 'paypal') return data.paymentData.purchase_units[0].amount.value;
+  else if (data.gateway === 'payu') return data.payuData.amount;
+  else if (data.gateway === 'razorpay') return data.paymentData.amount_paid;
+}
 
 //-----------------------------------------------------------------------------------------------------
 

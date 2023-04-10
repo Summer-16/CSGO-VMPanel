@@ -21,33 +21,9 @@
 // 
 
 function initPayUpayment(serverData, type) {
+  const gateway = "payU";
 
-  let htmlString = `<p>Enter following details and proceed</p>
-                    <br>
-                    <form class="col-md-12">
-                      <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                                <label class="">Enter Name</label>
-                                <input type="text" name="firstname" id="payUfirstname" class="form-control" required>
-                            </div>
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                                <label class="">Enter Mobile No</label>
-                                <input type="number" name="mobile" id="payUmobile" class="form-control" required>
-                            </div>
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group bmd-form-group">
-                                <label class="">Enter email</label>
-                                <input type="email" name="email" id="payUemail" class="form-control" required>
-                            </div>
-                          </div>
-                      </div>
-                    </form>`
-
-  custom_confirm(htmlString, (Mresponse) => {
+  custom_confirm(paymentForm(gateway), (Mresponse) => {
 
     if (Mresponse == true) {
 
@@ -63,10 +39,10 @@ function initPayUpayment(serverData, type) {
         body: JSON.stringify({
           "serverData": serverData,
           "type": type,
-          "userFirstName": cleanString($('#payUfirstname').val()),
+          "userFirstName": cleanString($(`#${gateway}firstname`).val()),
           // "userLasrName": $('#payUlastname').val(),
-          "userEmail": $('#payUemail').val(),
-          "userMobile": $('#payUmobile').val(),
+          "userEmail": $(`#${gateway}email`).val(),
+          "userMobile": $(`#${gateway}mobile`).val(),
           "apiCall": true
         })
       })
