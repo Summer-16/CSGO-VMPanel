@@ -42,6 +42,8 @@ public void OnPluginStart() {
 
   // Execute the config file, create if not present
   AutoExecConfig(true, "VMPanel");
+  
+  CSetPrefix("{lightred}[VMP] ");
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -105,6 +107,7 @@ public void Nothing_Callback_addVip(Database db, DBResultSet result, char[] erro
     CPrintToChat(client, "%t", "VIP Add Fail", error);
   } else {
     CPrintToChat(client, "%t", "VIP Add Success");
+    
     refreshVipAndAdmins();
 
     char clientName[50], ls_VMP_addAuditQuery[4096];
@@ -125,17 +128,25 @@ public Action handler_RefreshVipAndAdmins(int client, int args) {
   if ((client == 0) || (CheckCommandAccess(client, "", ADMFLAG_GENERIC))) {
     if (client > 0) {
       CPrintToChat(client, "%t", "VIP Refresh");
+
     }
     PrintToServer("***[VMP] Requesting user is an Admin/Console, Executing the command");
     refreshVipAndAdmins();
   } else {
+
     CPrintToChat(client, "%t", "Not a Admin");
+
   }
+  
+  return Plugin_Handled;
 }
 
 // handler for vmpstatus command 
 public Action handler_getUserVIPStatus(int client, int type) {
 
+  if(!IsClientInGame(client))
+	return Plugin_Handled;
+	
   PrintToServer("***[VMP] User requested for VIP status");
 
   if (!IsFakeClient(client)) {
@@ -143,6 +154,7 @@ public Action handler_getUserVIPStatus(int client, int type) {
 
       if (type != 2) {
         CPrintToChat(client, "%t", "VIP Status Query Command");
+
       }
 
       char ls_VMP_sqltable[512];
@@ -163,9 +175,13 @@ public Action handler_getUserVIPStatus(int client, int type) {
     } else {
       char ls_VMP_panelurl[512];
       gC_VMP_panelurl.GetString(ls_VMP_panelurl, sizeof(ls_VMP_panelurl));
+
       CPrintToChat(client, "%t", "Not a VIP", ls_VMP_panelurl);
+
     }
   }
+  
+  return Plugin_Handled;
 }
 
 // handler for add vip command
@@ -173,7 +189,9 @@ public Action handler_addVIP(int client, int args) {
 
   if (args < 3) {
     if (client != 0)
+
       CPrintToChat(client, "%t", "VIP Add Command Helper Chat");
+
     else
       PrintToServer("%t", "VIP Add Command Helper Console", client);
     return Plugin_Handled;
@@ -183,11 +201,13 @@ public Action handler_addVIP(int client, int args) {
   int subDays = 0;
 
   GetCmdArg(1, tempArgument, sizeof(tempArgument));
+
   if (StrContains(tempArgument, "STEAM_1:0:", true) == -1) {
     if (client != 0)
       CPrintToChat(client, "%t", "Invalid Steam ID Chat");
     else
       PrintToServer("%t", "Invalid Steam ID Console", client);
+
     return Plugin_Handled;
   } else {
     strcopy(steamId, sizeof(steamId), tempArgument);
@@ -199,7 +219,7 @@ public Action handler_addVIP(int client, int args) {
 
   GetCmdArg(3, userName, sizeof(userName));
 
-  // CPrintToChat(client, "{red}[VMP] {green}Here are the final args Steam: %s, Epoc: %d, Name: %s",steamId,subDays,userName);
+  // CPrintToChat(client, "{green}Here are the final args Steam: %s, Epoc: %d, Name: %s",steamId,subDays,userName);
 
   char ls_VMP_sqltable[512];
   gC_VMP_servertable.GetString(ls_VMP_sqltable, sizeof(ls_VMP_sqltable));
@@ -210,7 +230,11 @@ public Action handler_addVIP(int client, int args) {
   Format(ls_VMP_addVipQuery, sizeof(ls_VMP_addVipQuery), "INSERT INTO %s (authid, flag, name, expireStamp, created_at ,type) values ('\"%s\"', '\"%s\"', '//%s', %d, NOW(), 0);", ls_VMP_sqltable, steamId, ls_VMP_vipFlag, userName, subDays);
 
   gH_VMP_dbhandler.Query(Nothing_Callback_addVip, ls_VMP_addVipQuery, client);
-
+	
+  ReplyToCommand(client, "----------------------");
+  ReplyToCommand(client, "%s with steamid %s is added to vip with access flags %s for %i days", userName, steamId, ls_VMP_vipFlag, subDays);
+  ReplyToCommand(client, "----------------------");
+  
   return Plugin_Handled;
 }
 
@@ -226,14 +250,13 @@ public Action handler_CheckServerExistsInPanel() {
 
 // timer handler for timer executed in OnClientConnect
 public Action: handler_onclientconnecttimer(Handle: timer, any: client) {
+	if(!IsClientInGame(client))
+		return;
+		
   if ((GetConVarInt(gC_VMP_alertenable) == 1) && (CheckCommandAccess(client, "", ADMFLAG_RESERVATION)) && !IsFakeClient(client)) {
-    CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
+    //CreateTimer(GetConVarFloat(gC_VMP_alerttimer), handler_checkUserSubForAlert, client);
+	handler_getUserVIPStatus(client, 2);
   }
-}
-
-// timer handler for timer to check and show sub alert to user
-public Action: handler_checkUserSubForAlert(Handle: timer, any: client) {
-  handler_getUserVIPStatus(client, 2);
 }
 
 // handler for menu
@@ -245,7 +268,7 @@ public int subStatus_menu_Handler(Menu menu, MenuAction action, int param1, int 
   }
   /* Close the menu in case of any selection */
   else if (action == MenuAction_Cancel) {
-    PrintToServer("Client %d's menu was cancelled.  Reason: %d", param1, param2);
+    //PrintToServer("Client %d's menu was cancelled.  Reason: %d", param1, param2);
   }
   /* If the menu has ended, destroy it */
   else if (action == MenuAction_End) {
@@ -329,6 +352,7 @@ public void getUserVIPStatus_callback(Database db, DBResultSet result, char[] er
     PrintToServer("***[VMP] Query Fail: %s", error);
     LogError("[VMP] Query Fail: %s", error);
     CPrintToChat(client, "%t", "VIP Status Query Failed");
+
     return;
   }
 
@@ -343,6 +367,7 @@ public void getUserVIPStatus_callback(Database db, DBResultSet result, char[] er
 
     char menuItem[500];
     Menu menu = new Menu(subStatus_menu_Handler);
+
     //
     menu.SetTitle("%T", "Menu Title VIP Check", client);
     Format(menuItem, sizeof(menuItem), "%T", "Menu Subscription Status", client);
@@ -352,6 +377,7 @@ public void getUserVIPStatus_callback(Database db, DBResultSet result, char[] er
     Format(menuItem, sizeof(menuItem), "%T", "Menu Subscription Days Left", client, subDays);
     menu.AddItem("", menuItem);
     menu.ExitButton = true;
+
     menu.Display(client, 10);
   }
 }
@@ -362,7 +388,9 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
   if (result == null) {
     PrintToServer("***[VMP] Query Fail: %s", error);
     LogError("[VMP] Query Fail: %s", error);
+
     CPrintToChat(client, "%t", "VIP Status Query Failed");
+
     return;
   }
 
@@ -373,7 +401,12 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
     int expireEpoc = result.FetchInt(1);
     int currentEpoc = GetTime();
     int subDays = ((expireEpoc - currentEpoc) / 86400);
-
+	
+	if(subDays < 0){
+		CPrintToChat(client, "{green}You have unlimited days in your subscription");
+		return;
+	}
+	
     if (subDays <= GetConVarInt(gC_VMP_alertdays)) {
       char ls_VMP_panelurl[512];
       gC_VMP_panelurl.GetString(ls_VMP_panelurl, sizeof(ls_VMP_panelurl));
@@ -381,6 +414,7 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
       if ((GetConVarInt(gC_VMP_alertdisplaytype) == 1)) {
         char menuItem[500];
         Menu menu = new Menu(subStatus_menu_Handler);
+
         menu.SetTitle("%T", "Menu Title Alert", client);
         Format(menuItem, sizeof(menuItem), "%T", "Menu Subscription Status Alert", client);
         menu.AddItem("", menuItem);
@@ -398,6 +432,7 @@ public void getUserVIPStatusAlert_callback(Database db, DBResultSet result, char
         CPrintToChat(client, "%t", "Subscriber Name",  name);
         CPrintToChat(client, "%t", "Subscription Days Left",  subDays);
         CPrintToChat(client, "%t", "Renew Link",  ls_VMP_panelurl);
+
       }
     }
   }
